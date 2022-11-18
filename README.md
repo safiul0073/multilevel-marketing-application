@@ -31,11 +31,10 @@ Run the database migrations (**Set the database connection in .env before migrat
 
     php artisan migrate
 
-    react install also Dependencies for command use 
+ 
 
-    npm install 
-    npm run dev
-    
+    npm install && npm run dev
+
 Start the local development server
 
     php artisan serve
