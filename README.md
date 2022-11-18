@@ -34,6 +34,10 @@ Run the database migrations (**Set the database connection in .env before migrat
 Start the local development server
 
     php artisan serve
+    &&
+    npm run dev
+    
+    with two terminal
 
 You can now access the server at http://localhost:8000
 
