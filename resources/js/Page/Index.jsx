@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 
 function Index() {
     return (
-        <div className="container">
-            <h1 className="text-gray-400">hello world</h1>
+        <div className="w-full">
+            <h1 className="text-gray-400 text-center">hello world</h1>
         </div>
     );
 }
