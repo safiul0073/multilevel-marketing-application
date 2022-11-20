@@ -70,7 +70,7 @@ return [
         ],
         'staffs' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Staff::class,
+            'model' => App\Models\User::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

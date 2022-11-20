@@ -2,11 +2,17 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\API\Formatter;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use Formatter;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -46,5 +52,57 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Convert an authentication exception into a response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->shouldReturnJson($request, $exception)
+            ? $this->unauthenticatedError($exception->getMessage())
+            : redirect()->guest($exception->redirectTo() ?? route('login'));
+    }
+
+    /**
+     * Convert a validation exception into a JSON response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return $this->validationErrorResponse($exception);
+    }
+
+    /**
+     * Prepare a response for the given exception.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function prepareResponse($request, Throwable $e)
+    {
+        if (! $this->isHttpException($e) && config('app.debug')) {
+            return $this->toIlluminateResponse($this->convertExceptionToResponse($e), $e);
+        }
+
+        if (! $this->isHttpException($e)) {
+            $e = new HttpException(500, $e->getMessage());
+        }
+
+        if (! config('app.debug')) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+
+        return $this->toIlluminateResponse(
+            $this->renderHttpException($e), $e
+        );
     }
 }
