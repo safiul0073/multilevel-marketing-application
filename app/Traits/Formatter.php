@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\API;
+namespace App\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;

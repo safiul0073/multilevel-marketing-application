@@ -12,6 +12,9 @@
 */
 
 use App\Http\Controllers\Frontend\HomeCotroller;
+use App\Http\Controllers\Staff\DashboardController;
 use Illuminate\Support\Facades\Route;
 
+// dashboard
+Route::get('/staff', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/', [HomeCotroller::class, 'index'])->name('home');
