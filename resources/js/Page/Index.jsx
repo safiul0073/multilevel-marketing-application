@@ -1,11 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Login } from '../components/Auth/Login';
+import Layout from '../components/Layouts/Default';
+import {
+    QueryClient,
+    QueryClientProvider,
+  } from 'react-query'
 
 function Index() {
+
+    const queryClient = new QueryClient()
     return (
-        <div className="w-full">
-            <h1 className="text-gray-400 text-center">hello world</h1>
-        </div>
+        <>
+            <QueryClientProvider client={queryClient}>
+                <Layout>
+                    <Login/>
+                </Layout>
+            </QueryClientProvider>
+        </>
     );
 }
 
