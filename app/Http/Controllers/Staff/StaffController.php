@@ -39,4 +39,9 @@ class StaffController extends Controller
 
         return $this->withSuccess($user);
     }
+
+    public function logout()
+    {
+        Auth::guard('staff')->logout();
+    }
 }

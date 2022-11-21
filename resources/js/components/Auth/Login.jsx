@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from 'react-query';
 import { LoginWithPasswordFunc } from '../../hooks/queries/auth';
 import { updateAxiosToken } from '../../config/axios.config';
+import { setToken } from '../../helper/functions';
+import { useAuth } from '../../context/AuthContext';
 export const Login = () => {
+
+    const {setAuth} = useAuth()
+    const [backendError, setBackendError] = useState()
+    setAuth(true)
     const schema = yup
     .object({
       username: yup.string().min(4, "Too Short!")
@@ -14,14 +20,12 @@ export const Login = () => {
     })
     .required();
 
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
 
-
-
     const {
-        mutate: LoginOtpMutate,
+        mutate: LoginMutate,
         isLoading: loading,
         reset,
         isError,
@@ -31,12 +35,13 @@ export const Login = () => {
 
           if (data?.token) {
             updateAxiosToken(data?.token)
+            setToken(data?.token)
+
             // setTimeout(() => {
             //   router.push({
             //     pathname: '/dashboard',
             //   });
             // }, 1500);
-            alert("yes token stored")
           }
         },
         onError: (err) => {
@@ -59,7 +64,7 @@ export const Login = () => {
         },
       });
       const onSubmit = (data) => {
-        LoginOtpMutate(data)
+        LoginMutate(data)
       };
   return (
     <>
