@@ -13,5 +13,9 @@
     </head>
     <body>
         <div id="root" ></div>
+        <script>
+            System.config({ baseURL: '/staff' });
+        </script>
+
     </body>
 </html>

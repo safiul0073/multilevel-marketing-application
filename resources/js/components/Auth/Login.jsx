@@ -6,12 +6,10 @@ import { useMutation } from 'react-query';
 import { LoginWithPasswordFunc } from '../../hooks/queries/auth';
 import { updateAxiosToken } from '../../config/axios.config';
 import { setToken } from '../../helper/functions';
-import { useAuth } from '../../context/AuthContext';
-export const Login = () => {
-
-    const {setAuth} = useAuth()
+import { useNavigate } from "react-router-dom";
+const Login = () => {
+    let navigate = useNavigate();
     const [backendError, setBackendError] = useState()
-    setAuth(true)
     const schema = yup
     .object({
       username: yup.string().min(4, "Too Short!")
@@ -23,7 +21,6 @@ export const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
-
     const {
         mutate: LoginMutate,
         isLoading: loading,
@@ -36,12 +33,9 @@ export const Login = () => {
           if (data?.token) {
             updateAxiosToken(data?.token)
             setToken(data?.token)
-
-            // setTimeout(() => {
-            //   router.push({
-            //     pathname: '/dashboard',
-            //   });
-            // }, 1500);
+            setTimeout(() => {
+                navigate("/staff/dashboard");
+            }, 1500);
           }
         },
         onError: (err) => {
@@ -71,6 +65,7 @@ export const Login = () => {
         <div className='w-1/2 mx-auto mt-[100px]'>
             <div className='text-center'>
                 <h1 className=' text-blue-600'>Login</h1>
+
             </div>
 
             <div>
@@ -98,3 +93,5 @@ export const Login = () => {
     </>
   )
 }
+
+export default Login;

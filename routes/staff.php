@@ -8,4 +8,5 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [StaffController::class, 'login'])->name('login');
 Route::middleware('auth:staff')->group(function () {
     Route::get('/me', [StaffController::class, 'me'])->name('me');
+    Route::post('/logout', [StaffController::class, 'logout'])->name('logout');
 });

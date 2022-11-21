@@ -22,5 +22,5 @@ export const getLoggedOut = async () => {
     `${URL}/staff/logout`
   );
 
-  return res?.data?.data?.json_array;
+  return res?.data?.data?.string_data;
 };

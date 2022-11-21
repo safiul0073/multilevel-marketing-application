@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Login } from '../components/Auth/Login';
-import Layout from '../components/Layouts/Default';
+import  Login  from '../components/Auth/Login';
 import {
     QueryClient,
     QueryClientProvider,
   } from 'react-query'
 import AuthProvider from '../context/AuthContext';
-
+import Layout from '../components/Layouts/Default';
 function Index() {
+
     const queryClient = new QueryClient()
     return (
         <>
             <AuthProvider>
                 <QueryClientProvider client={queryClient}>
-                    <Layout>
-                        <Login/>
-                    </Layout>
+                    <Layout/>
                 </QueryClientProvider>
             </AuthProvider>
         </>
