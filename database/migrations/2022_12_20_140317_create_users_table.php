@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('sms_verified_at')->nullable();
             $table->string('password');
-            $table->longText('address')->nullable()->index();
+            $table->longText('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('zip_code')->nullable();

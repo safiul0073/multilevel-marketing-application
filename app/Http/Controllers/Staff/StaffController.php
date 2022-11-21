@@ -42,6 +42,6 @@ class StaffController extends Controller
 
     public function logout()
     {
-        Auth::guard('staff')->logout();
+        Auth::guard('staff')->user()->tokens()->delete();
     }
 }
