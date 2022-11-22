@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\Staff\StaffController;
+use App\Http\Controllers\Staff\UserController;
 use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
@@ -13,4 +14,5 @@ Route::middleware('auth:staff')->group(function () {
 
     // category section
     Route::resource('category', CategoryController::class);
+    Route::resource('user', UserController::class);
 });
