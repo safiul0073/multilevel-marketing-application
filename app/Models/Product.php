@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Media extends Model
+class Product extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    /**
-     * Get the parent media model (user or package).
-     */
-    public function media()
+    public function category()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Category::class);
     }
 }
