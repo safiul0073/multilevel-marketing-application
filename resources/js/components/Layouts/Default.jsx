@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
-import Login from '../Auth/Login';
-import Cookies from 'js-cookie';
+import React from 'react';
 import { BrowserRouter } from "react-router-dom";
+import Protected from '../HOC/Protected';
 import { Router } from '../Router';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from "react-router-dom";
+
 const Layout =() =>{
 
     return(

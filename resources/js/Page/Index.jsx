@@ -17,10 +17,10 @@ function Index() {
        let data = await getUsers()
        if (data?.data?.json_object) {
         store.setUser(data?.data?.json_object)
+        store.set
        }
     }
     useEffect (() => {
-        console.log(token)
         if (!!token) {
             updateAxiosToken(token)
             callUserData()

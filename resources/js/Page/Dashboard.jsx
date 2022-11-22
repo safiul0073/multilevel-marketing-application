@@ -4,7 +4,8 @@ import { Logout } from '../helper/functions'
 import { getLoggedOut } from '../hooks/queries/auth/auth'
 import { useNavigate } from "react-router-dom";
 import { UseStore } from '../store';
-export const Dashboard = () => {
+import Protected from '../components/HOC/Protected';
+function Dashboard () {
     const store = UseStore();
     let navigate = useNavigate();
     const logoutOption = () => {
@@ -62,3 +63,5 @@ export const Dashboard = () => {
     </>
   )
 }
+
+export default Protected(Dashboard)
