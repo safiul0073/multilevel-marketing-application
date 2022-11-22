@@ -38,4 +38,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'sms_verified_at' => 'datetime',
     ];
+
+    public function nominee()
+    {
+        return $this->belongsTo(Nominee::class);
+    }
 }
