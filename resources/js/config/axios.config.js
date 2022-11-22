@@ -29,11 +29,11 @@ const userAxios = axios.create({
 userAxios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && router?.pathname !== '/') {
+    if (error.response.status === 401) {
       Cookies.remove('nToken', {
         expires: 2,
       });
-      window.location.href = `staff/auth/login`;
+      window.location.href = `staff/login`;
     }
     return Promise.reject(error);
   }
@@ -57,6 +57,7 @@ const updateAxiosToken = (token) => {
   if (token) {
     userAxios.defaults.headers.Authorization = `Bearer ${token}`;
     userAxioswithoutRedirect.defaults.headers.Authorization = `Bearer ${token}`;
+    console.log("success")
   }
 };
 
