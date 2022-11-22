@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\Staff\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,4 +10,7 @@ Route::post('/login', [StaffController::class, 'login'])->name('login');
 Route::middleware('auth:staff')->group(function () {
     Route::get('/me', [StaffController::class, 'me'])->name('me');
     Route::post('/logout', [StaffController::class, 'logout'])->name('logout');
+
+    // category section
+    Route::resource('category', CategoryController::class);
 });
