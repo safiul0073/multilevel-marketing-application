@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Media extends Model
+class Slider extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $guarded = [];
 
-    /**
-     * Get the parent media model (user or package).
-     */
-    public function media()
+    public function image()
     {
-        return $this->morphTo();
+        return $this->morphMany(Media::class, 'media');
     }
 }
