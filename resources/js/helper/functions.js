@@ -16,5 +16,4 @@ export const setToken = (token) => {
     Cookies.remove('nAToken', {
       expires: 2,
     });
-    window.location.href = `${LIVEURL}/staff`;
   };

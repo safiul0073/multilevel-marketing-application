@@ -38,4 +38,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'sms_verified_at' => 'datetime',
     ];
+
+    public function nominee()
+    {
+        return $this->belongsTo(Nominee::class);
+    }
+
+    /**
+     * Get the user's image.
+     */
+    public function image()
+    {
+        return $this->morphOne(Media::class, 'media');
+    }
+
+    /**
+     * Get the user's purchases.
+     */
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

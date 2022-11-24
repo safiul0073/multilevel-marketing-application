@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reference_id')->nullable();
+            $table->unsignedBigInteger('referrance_id')->nullable();
             $table->string('first_name')->nullable()->index();
             $table->string('last_name')->nullable()->index();
             $table->string('username')->unique()->index();

@@ -19,7 +19,7 @@ class StaffController extends Controller
             'password' => 'string|min:8',
         ]);
 
-        $user = User::where('username', $att['username'])->whereNull('reference_id')->first();
+        $user = User::where('username', $att['username'])->whereNull('referrance_id')->first();
 
         if (! $user) {
             return $this->withNotFound('User not fount!');
@@ -43,5 +43,7 @@ class StaffController extends Controller
     public function logout()
     {
         Auth::guard('staff')->user()->tokens()->delete();
+
+        return $this->withSuccess('Loged out.');
     }
 }
