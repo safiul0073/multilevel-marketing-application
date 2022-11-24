@@ -28,4 +28,8 @@ trait MediaOperator
     {
         return Storage::disk('public')->url($file_name);
     }
+
+    public function multiFileUpload($urls, $model)
+    {
+    }
 }

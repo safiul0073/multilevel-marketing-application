@@ -15,4 +15,12 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Get the user's images.
+     */
+    public function images()
+    {
+        return $this->morphMany(Media::class, 'media');
+    }
 }
