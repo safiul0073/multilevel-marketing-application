@@ -37,31 +37,35 @@ class ProductController extends Controller
         $att = $this->validate($request, [
             'name' => 'required|string|max:100',
             'category_id' => 'required|numeric|exists:categories,id',
-            'description' => 'required|string|500',
+            'description' => 'required|string|max:500',
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images' => 'required|image:jpg,png|max:2000',
-            'thamnail_image' => 'required|image:jpg,png|max:500',
+            'images' => 'required|image:jpg,png',
+            'thamnail_image' => 'required|image:jpg,png',
             'status' => 'nullable|between:0,1',
         ]);
+
+        return $request->file('images');
         $image_urls = [];
         $thamnail_image = null;
-        if ($att['iamges'] && count($att['images']) > 0) {
+        if (isset($att['iamges']) && $request->hasFile('images') | count($att['images']) > 0) {
             foreach ($att['images'] as $image) {
                 $image_urls[] = $this->uploadFile($image);
             }
             unset($att['iamges']);
+
+            return $att;
         }
 
+        return $att;
         if (isset($att['thamnail_image'])) {
             $thamnail_image = $this->uploadFile($request->file('thamnail_image'));
             unset($att['thamnail_image']);
         }
 
         // slug setting
-        $att['slug'] = time().'_'.rand(50000, 60000).'_'.$att['slug'];
-
+        $arr['slug'] = time().'_'.rand(50000, 60000).'_'.$att['name'];
         try {
             DB::beginTransaction();
             $product = Product::create($att);
@@ -77,10 +81,13 @@ class ProductController extends Controller
                 ]);
             }
 
-            $product->images()->create([
-                'url' => $thamnail_image,
-                'name' => 'thamnail',
-            ]);
+            if ($thamnail_image) {
+                $product->images()->create([
+                    'url' => $thamnail_image,
+                    'name' => 'thamnail',
+                ]);
+            }
+
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
@@ -127,13 +134,15 @@ class ProductController extends Controller
                 $image_urls[] = $this->uploadFile($image);
             }
             unset($att['iamges']);
-            $product->images()->where('name', 'thamnail')->delete();
+            $this->multiFileDelete($product->images()->where('type', 'gellary')->get());
+            $product->images()->where('type', 'gellary')->delete();
         }
 
         if (isset($att['thamnail_image'])) {
             $thamnail_image = $this->uploadFile($request->file('thamnail_image'));
             unset($att['thamnail_image']);
-            $product->images()->where('name', 'image')->delete();
+            $this->deleteFile($product->images()->where('type', 'thamnail')->firt());
+            $product->images()->where('type', 'thamnail')->delete();
         }
 
         // slug setting
@@ -154,16 +163,19 @@ class ProductController extends Controller
                 ]);
             }
 
-            $product->images()->create([
-                'url' => $thamnail_image,
-                'name' => 'thamnail',
-            ]);
+            if ($thamnail_image) {
+                $product->images()->create([
+                    'url' => $thamnail_image,
+                    'name' => 'thamnail',
+                ]);
+            }
+
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
         }
 
-        return $this->withCreated('Product Successfully created.');
+        return $this->withSuccess('Product Successfully updated.');
     }
 
     /**
@@ -174,6 +186,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $this->multiFileDelete($product->images);
+        $product->delete();
+
+        return $this->withSuccess('Product successfully deleted.');
     }
 }
