@@ -41,15 +41,15 @@ class ProductController extends Controller
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images' => 'required|image:jpg,png',
-            'thamnail_image' => 'required|image:jpg,png',
+            'images' => 'required|image|mimes:jpeg,jpg,png',
+            'thamnail_image' => 'required|image|mimes:jpeg,jpg,png',
             'status' => 'nullable|between:0,1',
         ]);
 
-        return $request->file('images');
+        return $att;
         $image_urls = [];
         $thamnail_image = null;
-        if (isset($att['iamges']) && $request->hasFile('images') | count($att['images']) > 0) {
+        if (isset($att['iamges'])) {
             foreach ($att['images'] as $image) {
                 $image_urls[] = $this->uploadFile($image);
             }
@@ -58,7 +58,6 @@ class ProductController extends Controller
             return $att;
         }
 
-        return $att;
         if (isset($att['thamnail_image'])) {
             $thamnail_image = $this->uploadFile($request->file('thamnail_image'));
             unset($att['thamnail_image']);
