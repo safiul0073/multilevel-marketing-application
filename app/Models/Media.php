@@ -9,6 +9,8 @@ class Media extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $guarded = [];
     
     public $timestamps = false;

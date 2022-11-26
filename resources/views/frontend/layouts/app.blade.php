@@ -15,17 +15,17 @@
     @yield('custome_style')
 </head>
 <body>
-    {{-- banner --}}
+    <div class="w-full min-h-screen bg-gray-100">
 
-    {{-- navigation bar --}}
+        {{-- Header  --}}
+        @include('frontend.layouts.partials.header')
 
-    {{-- slider --}}
+        @yield('content')
 
-    {{-- content --}}
+        {{-- footer --}}
+        @include('frontend.layouts.partials.footer')
 
-    @yield('content')
-
-    {{-- footer --}}
+    </div>
 
 
     {{-- dependent script --}}
