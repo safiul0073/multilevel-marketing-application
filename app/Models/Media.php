@@ -12,8 +12,7 @@ class Media extends Model
     public $timestamps = false;
 
     protected $guarded = [];
-    
-    public $timestamps = false;
+
     /**
      * Get the parent media model (user or product).
      */
