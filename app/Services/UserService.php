@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Transaction;
 use App\Models\User;
 use Exception;
 
@@ -35,5 +36,11 @@ class UserService {
         }
 
         $user->save();
+    }
+
+
+    private function joiningBonusToPerent (User $user) {
+
+        // user 
     }
 }
