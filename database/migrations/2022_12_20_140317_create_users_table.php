@@ -33,6 +33,7 @@ return new class extends Migration
             $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('left_ref_id')->nullable();
             $table->unsignedBigInteger('right_ref_id')->nullable();
+            $table->double('amount', 15)->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

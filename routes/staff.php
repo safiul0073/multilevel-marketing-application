@@ -5,6 +5,7 @@ use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Staff\UserController;
+use App\Http\Controllers\Staff\UserHelperController;
 use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
@@ -19,4 +20,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('product', ProductController::class);
     Route::resource('slider', SliderController::class);
+
+    // user Helper
+    Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
 });
