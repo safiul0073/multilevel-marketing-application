@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\UserService;
 use App\Traits\Formatter;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,6 +16,12 @@ class UserController extends Controller
 {
     use Formatter;
 
+    protected $user_service;
+
+    public function __construct(UserService $user_service)
+    {
+        $this->user_service = $user_service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,6 +44,7 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'referrance_id' => 'required|numeric|exists:users,id',
+            'refer_psition' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
@@ -51,6 +59,7 @@ class UserController extends Controller
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
         unset($userAtt['product_id']);
+        unset($userAtt['refer_psition']);
         $product = Product::findOrFail($att['product_id']);
         try {
             DB::beginTransaction();
@@ -58,6 +67,11 @@ class UserController extends Controller
             if (! $user) {
                 throw new Exception('User not create!');
             }
+            // position setting
+            $this->user_service->setReferPosition($att['referrance_id'],
+            $user->id,
+            (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
+
             $user->purchases()->create([
                 'product_id' => $att['product_id'],
                 'amount' => $product->price,
@@ -92,6 +106,8 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'referrance_id' => 'required|numeric|exists:users,id',
+            'refer_psition' => 'nullable|between:"left","right"',
+            'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
             'username' => 'required|string|min:4',
@@ -103,6 +119,8 @@ class UserController extends Controller
         if (isset($att['password'])) {
             $att['password'] = Hash::make($att['username']);
         }
+
+
         try {
             DB::beginTransaction();
             $u = $user->update($att);
