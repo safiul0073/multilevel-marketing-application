@@ -9,6 +9,7 @@ use App\Traits\MediaOperator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\File;
 
 class ProductController extends Controller
 {
@@ -21,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('images')->latest()->get();
+        $products = Product::with(['category:id,title','images'] )->latest()->get();
 
         return $this->withSuccess($products);
     }
@@ -41,31 +42,36 @@ class ProductController extends Controller
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images' => 'required|image|mimes:jpeg,jpg,png',
-            'thamnail_image' => 'required|image|mimes:jpeg,jpg,png',
+            'images.*' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'thamnail_image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
             'status' => 'nullable|between:0,1',
         ]);
 
-        return $att;
+
         $image_urls = [];
         $thamnail_image = null;
-        if (isset($att['iamges'])) {
-            foreach ($att['images'] as $image) {
-                $image_urls[] = $this->uploadFile($image);
-            }
-            unset($att['iamges']);
 
-            return $att;
-        }
-
-        if (isset($att['thamnail_image'])) {
-            $thamnail_image = $this->uploadFile($request->file('thamnail_image'));
-            unset($att['thamnail_image']);
-        }
-
-        // slug setting
-        $arr['slug'] = time().'_'.rand(50000, 60000).'_'.$att['name'];
         try {
+            // multiple image uplaod and validation checking
+            if (isset($att['images'])) {
+                foreach ($request->images as $image) {
+                    if ($this->validationCheck($image)) {
+                        $image_urls[] = $this->uploadFile($image);
+                    }else {
+                        throw new Exception('Please upload png and jpg image.');
+                    }
+                }
+                unset($att['images']);
+            }
+
+            if (isset($att['thamnail_image'])) {
+                $thamnail_image = $this->uploadFile($request->file('thamnail_image'));
+                unset($att['thamnail_image']);
+            }
+
+            // slug setting
+            $att['slug'] = $att['name'];
+
             DB::beginTransaction();
             $product = Product::create($att);
 
@@ -76,14 +82,14 @@ class ProductController extends Controller
             foreach ($image_urls as $url) {
                 $product->images()->create([
                     'url' => $url,
-                    'image' => 'image',
+                    'type' => 'gellary',
                 ]);
             }
 
             if ($thamnail_image) {
                 $product->images()->create([
                     'url' => $thamnail_image,
-                    'name' => 'thamnail',
+                    'type' => 'thamnail',
                 ]);
             }
 
@@ -118,18 +124,19 @@ class ProductController extends Controller
         $att = $this->validate($request, [
             'name' => 'required|string|max:100',
             'category_id' => 'required|numeric|exists:categories,id',
-            'description' => 'required|string|500',
+            'description' => 'required|string|max:500',
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images' => 'required|image:jpg,png|max:2000',
-            'thamnail_image' => 'required|image:jpg,png|max:500',
+            'images.*' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'thamnail_image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
             'status' => 'nullable|between:0,1',
         ]);
+
         $image_urls = [];
         $thamnail_image = null;
         if ($att['iamges'] && count($att['images']) > 0) {
-            foreach ($att['images'] as $image) {
+            foreach ($att['iamges'] as $image) {
                 $image_urls[] = $this->uploadFile($image);
             }
             unset($att['iamges']);
@@ -145,7 +152,7 @@ class ProductController extends Controller
         }
 
         // slug setting
-        $att['slug'] = time().'_'.rand(50000, 60000).'_'.$att['slug'];
+        $att['slug'] = $att['name'];
 
         try {
             DB::beginTransaction();
@@ -158,14 +165,14 @@ class ProductController extends Controller
             foreach ($image_urls as $url) {
                 $product->images()->create([
                     'url' => $url,
-                    'image' => 'image',
+                    'type' => 'gellary',
                 ]);
             }
 
             if ($thamnail_image) {
                 $product->images()->create([
                     'url' => $thamnail_image,
-                    'name' => 'thamnail',
+                    'type' => 'thamnail',
                 ]);
             }
 

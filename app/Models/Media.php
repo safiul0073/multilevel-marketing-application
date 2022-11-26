@@ -10,7 +10,8 @@ class Media extends Model
     use HasFactory;
 
     protected $guarded = [];
-
+    
+    public $timestamps = false;
     /**
      * Get the parent media model (user or product).
      */

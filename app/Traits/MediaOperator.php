@@ -53,4 +53,14 @@ trait MediaOperator
             $this->deleteFile($image->url);
         }
     }
+
+    public function validationCheck ($image) {
+
+        $allowedfileExtension=['jpg','png', 'jpeg'];
+        $extension = $image->getClientOriginalExtension();
+        $check=in_array($extension,$allowedfileExtension);
+
+        if ($check) return true;
+        return false;
+    }
 }
