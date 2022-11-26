@@ -120,7 +120,6 @@ class UserController extends Controller
             $att['password'] = Hash::make($att['username']);
         }
 
-
         try {
             DB::beginTransaction();
             $u = $user->update($att);
