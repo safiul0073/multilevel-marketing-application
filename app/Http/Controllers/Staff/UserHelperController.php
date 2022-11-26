@@ -14,10 +14,10 @@ class UserHelperController extends Controller
     public function userBinaryTreeData (Request $request) {
 
         $att = $this->validate($request, [
-            'user_id'   => 'required|numeric|exists:users,id'
+            'user_id'   => 'nullable|numeric|exists:users,id'
         ]);
 
-        $users = User::query();
-        return $this->withSuccess($users->latest()->get());
+        $users = User::select(['id','referrance_id', 'left_ref_id', 'right_ref_id']);
+        return $this->withSuccess($users->get());
     }
 }
