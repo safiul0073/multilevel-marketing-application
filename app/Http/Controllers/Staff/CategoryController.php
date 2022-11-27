@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('is_active', 1)->latest()->get();
+        $categories = Category::where('is_active', 1)->latest()->paginate(10);
 
         return $this->withSuccess($categories);
     }

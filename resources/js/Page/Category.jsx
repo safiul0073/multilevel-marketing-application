@@ -1,72 +1,24 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import LoaderAnimation from "../components/common/LoaderAnimation";
+import Modal from "../components/common/Modal";
+import { getCategoryList } from "../hooks/queries/category/getCategoryList";
 
 export const Category = () => {
-    const categoryList = [
-        {
-            id: "01",
-            name: "Front-end Developer",
-            status: "active",
-            description: "Category Description",
-        },
-        {
-            id: "02",
-            name: "Front-end Developer",
-            status: "inactive",
-            description: "Category Description",
-        },
-        {
-            id: "03",
-            name: "Front-end Developer",
-            status: "active",
-            description: "Category Description",
-        },
-        {
-            id: "04",
-            name: "Front-end Developer",
-            status: "inactive",
-            description: "Category Description",
-        },
-        {
-            id: "05",
-            name: "Front-end Developer",
-            status: "inactive",
-            description: "Category Description",
-        },
-        {
-            id: "06",
-            name: "Front-end Developer",
-            status: "active",
-            description: "Category Description",
-        },
-        {
-            id: "07",
-            name: "Front-end Developer",
-            status: "active",
-            description: "Category Description",
-        },
-        {
-            id: "08",
-            name: "Front-end Developer",
-            status: "active",
-            description: "Category Description",
-        },
-        {
-            id: "09",
-            name: "Front-end Developer",
-            status: "active",
-            description: "Category Description",
-        },
-        {
-            id: "10",
-            name: "Front-end Developer",
-            status: "inactive",
-            description: "Category Description",
-        },
-    ];
 
+    // fetching category list using react query
+    const {data, isLoading, refetch} = getCategoryList()
+    // memorising getting data
+    const categoriesList = useMemo(() => data?.data, [data])
+
+    // create category modal calling
+    const [isOpen, setIsOpen] = useState(false)
     const createCategory = () => {
-        console.log("Create Category");
+        setIsOpen(true)
     };
+
+    const closeModal = () => {
+        setIsOpen(false)
+    }
 
     const editCategory = (id) => {
         console.log(`Edit Category ${id}`);
@@ -75,8 +27,16 @@ export const Category = () => {
     const delateCategory = (id) => {
         console.log(`Delete Category ${id}`);
     };
+
+
+
     return (
         <>
+        <Modal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        closeModal={closeModal}
+        />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
@@ -98,6 +58,9 @@ export const Category = () => {
                                 </div>
                             </div>
                             <div className="mt-8 flex flex-col">
+                                {isLoading ?
+                                    <LoaderAnimation/>
+                                    :
                                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                                         <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -131,7 +94,7 @@ export const Category = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                                    {categoryList?.map(
+                                                    {categoriesList.map(
                                                         (category) => (
                                                             <tr
                                                                 key={Math.random()}
@@ -150,8 +113,8 @@ export const Category = () => {
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    {category?.status ==
-                                                                    "active" ? (
+                                                                    {category?.is_active ==
+                                                                    1 ? (
                                                                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
                                                                             Active
                                                                         </span>
@@ -193,6 +156,7 @@ export const Category = () => {
                                         </div>
                                     </div>
                                 </div>
+                                    }
                             </div>
                         </div>
                     </main>
