@@ -89,10 +89,10 @@ function Dashboard() {
 
     return (
         <>
-        <div>
+        {/* <div>
             Dashboard
-        </div>
-            {/* <div className="min-h-full">
+        </div> */}
+            <div className="min-h-full">
 
                 <div className="flex flex-1 flex-col lg:pl-64">
 
@@ -207,7 +207,7 @@ function Dashboard() {
                         </div>
                     </main>
                 </div>
-            </div> */}
+            </div>
         </>
     );
 }

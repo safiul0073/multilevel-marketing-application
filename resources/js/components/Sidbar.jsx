@@ -17,7 +17,7 @@ import {
 import { getLoggedOut } from '../hooks/queries/auth/auth';
 import { Logout } from '../helper/functions';
 import { UseStore } from '../store';
-import { Link } from 'react-router-dom';
+import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -26,9 +26,9 @@ export const Sidbar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigation = [
         { name: "Dashboard", href: "/staff", icon: HomeIcon},
-        { name: "Category", href: "/staff/category", icon: ClockIcon, },
-        { name: "MLM Plans", href: "#", icon: ScaleIcon, },
-        { name: "Network", href: "#", icon: CreditCardIcon, },
+        { name: "Category", href: "/staff/category", icon: ClockIcon },
+        { name: "Product", href: "/staff/product", icon: ScaleIcon},
+        { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
     ];
     const logoutOption = () => {
         getLoggedOut();
@@ -109,13 +109,13 @@ export const Sidbar = () => {
                                                     key={item.name}
                                                     to={item.href}
                                                     className={classNames(
-                                                        item.current
+                                                        (useMatch({path:useResolvedPath(item.href).pathname}))
                                                             ? "bg-cyan-800 text-white"
                                                             : "text-cyan-100 hover:text-white hover:bg-cyan-600",
                                                         "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                                                     )}
                                                     aria-current={
-                                                        item.current
+                                                        (useMatch({path:useResolvedPath(item.href).pathname}))
                                                             ? "page"
                                                             : undefined
                                                     }
@@ -177,17 +177,17 @@ export const Sidbar = () => {
                         >
                             <div className="space-y-1 px-2">
                                 {navigation.map((item) => (
-                                    <a
+                                    <Link
                                         key={item.name}
-                                        href={item.href}
+                                        to={item.href}
                                         className={classNames(
-                                            item.current
+                                            (useMatch({path:useResolvedPath(item.href).pathname}))
                                                 ? "bg-indigo-600 text-white"
                                                 : "text-gray-100 hover:text-white hover:bg-indigo-600",
                                             "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
                                         )}
                                         aria-current={
-                                            item.current ? "page" : undefined
+                                            (useMatch({path:useResolvedPath(item.href).pathname})) ? "page" : undefined
                                         }
                                     >
                                         <item.icon
@@ -195,7 +195,7 @@ export const Sidbar = () => {
                                             aria-hidden="true"
                                         />
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </nav>
