@@ -11,9 +11,19 @@ import { updateAxiosToken } from '../config/axios.config';
 import { UseStore } from '../store';
 import Dashboard from './Dashboard';
 import Login from '../components/Auth/Login'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
+import ProgressBar from "@badrap/bar-of-progress";
+
 function Index() {
+
+    const progress = new ProgressBar({
+        size: 4,
+        color: "#38a169",
+        className: "bar-of-progress",
+        delay: 100,
+      });
+      
     const {isAuth, setAuth, setUser} = UseStore();
     const queryClient = new QueryClient()
     const token = Cookies.get('nAToken')

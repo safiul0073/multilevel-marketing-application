@@ -9,6 +9,7 @@ import { setToken } from '../../helper/functions';
 import { useNavigate } from "react-router-dom";
 import { UseStore } from '../../store';
 import { getUsers } from '../../hooks/queries/auth/auth';
+import Swal from 'sweetalert2';
 const Login = () => {
     let navigate = useNavigate();
     const store = UseStore();
@@ -34,28 +35,46 @@ const Login = () => {
         onSuccess: (data) => {
 
           if (data?.token) {
-            updateAxiosToken(data?.token)
-            setToken(data?.token)
-            navigate("/staff");
-            callUserData()
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            Toast.fire({
+                icon: 'success',
+                title: 'Signed in successfully'
+            })
+            setTimeout(() => {
+                updateAxiosToken(data?.token)
+                setToken(data?.token)
+                navigate("/staff");
+                callUserData()
+            }, 3000)
+
           }
         },
         onError: (err) => {
-          // console.log({ err })
+
           let errorobj = err?.response?.data?.data?.json_object;
           setBackendError({
             ...backendError,
             ...errorobj,
           });
-          {
-            err?.response?.data?.data?.json_object.message && (
-              cogoToast.error(
-                <div>
-                  <b>{err?.response?.data?.data?.json_object.message}</b>
-                </div>,
-              )
-            )
-          }
+        //   {
+        //     err?.response?.data?.data?.json_object.message && (
+        //       cogoToast.error(
+        //         <div>
+        //           <b>{err?.response?.data?.data?.json_object.message}</b>
+        //         </div>,
+        //       )
+        //     )
+        //   }
 
         },
       });
@@ -84,14 +103,14 @@ const Login = () => {
                         <input type="text"
                             {...register("username")}
                             className='w-full h-12 rounded-lg outline-none px-4 text-gray-700 border-2'   />
-                            <p className='text-red-500 italic font-light py-2'>{errors.username?.message}</p>
+                            <p className='text-red-500 italic font-light py-2'>{errors.username?.message ?? backendError?.username}</p>
                     </div>
                     <div className='my-4'>
                         <label htmlFor="password" className='text-gray-500 font-semibold'>Password</label>
                         <input type="password"
                         {...register("password")}
                         className='w-full h-12 rounded-lg outline-none px-4 text-gray-700 border-2'   />
-                           <p className='text-red-500 italic font-light py-2'>{errors.password?.message}</p>
+                           <p className='text-red-500 italic font-light py-2'>{errors.username?.message ?? backendError?.password}</p>
                     </div>
                     <div className='flex justify-center items-center'>
                         <button type='submit' className='px-4 py-2 text-white bg-gray-800 hover:bg-gray-600 my-4 rounded-md'>Submit</button>
