@@ -17,6 +17,7 @@ import {
 import { getLoggedOut } from '../hooks/queries/auth/auth';
 import { Logout } from '../helper/functions';
 import { UseStore } from '../store';
+import { Link } from 'react-router-dom';
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -24,10 +25,10 @@ export const Sidbar = () => {
     const {removeAuth, removeUser} = UseStore()
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigation = [
-        { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-        { name: "Category", href: "#", icon: ClockIcon, current: false },
-        { name: "MLM Plans", href: "#", icon: ScaleIcon, current: false },
-        { name: "Network", href: "#", icon: CreditCardIcon, current: false },
+        { name: "Dashboard", href: "/staff", icon: HomeIcon},
+        { name: "Category", href: "/staff/category", icon: ClockIcon, },
+        { name: "MLM Plans", href: "#", icon: ScaleIcon, },
+        { name: "Network", href: "#", icon: CreditCardIcon, },
     ];
     const logoutOption = () => {
         getLoggedOut();
@@ -104,9 +105,9 @@ export const Sidbar = () => {
                                     >
                                         <div className="space-y-1 px-2">
                                             {navigation.map((item) => (
-                                                <a
+                                                <Link
                                                     key={item.name}
-                                                    href={item.href}
+                                                    to={item.href}
                                                     className={classNames(
                                                         item.current
                                                             ? "bg-cyan-800 text-white"
@@ -124,7 +125,7 @@ export const Sidbar = () => {
                                                         aria-hidden="true"
                                                     />
                                                     {item.name}
-                                                </a>
+                                                </Link>
                                             ))}
                                         </div>
                                     </nav>
