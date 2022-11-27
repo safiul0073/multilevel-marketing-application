@@ -14,6 +14,7 @@ import Login from '../components/Auth/Login'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
+import { Category } from './Category';
 
 function Index() {
 
@@ -23,7 +24,7 @@ function Index() {
         className: "bar-of-progress",
         delay: 100,
       });
-      
+
     const {isAuth, setAuth, setUser} = UseStore();
     const queryClient = new QueryClient()
     const token = Cookies.get('nAToken')
@@ -46,15 +47,9 @@ function Index() {
         <>
         <QueryClientProvider client={queryClient}>
             {isAuth ?
-                    <Layout>
-                        <BrowserRouter>
-                            <Routes>
-                                <Route path="/staff" element={<Dashboard />} />
-                                <Route path="/staff/login" element={<Login />} />
-                            </Routes>
-                        </BrowserRouter>
-                    </Layout>
-
+                    <BrowserRouter>
+                        <Layout/>
+                    </BrowserRouter>
                 :
                 <AuthLayout>
                     <BrowserRouter>
