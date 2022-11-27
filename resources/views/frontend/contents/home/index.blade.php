@@ -5,6 +5,7 @@
 @section('custome_style')
 {{-- here some style --}}
 <link rel="stylesheet" href="{{ asset('frontend/css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/css/splide-skyblue.min.css') }}">
 @endsection
 @section('content')
 <div class="relative overflow-hidden">
@@ -47,7 +48,21 @@
             <div class="w-full flex-1 bg-gray-800"></div>
         </div>
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
-            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+            <div id="splide1" class="splide" aria-label="Splide Basic HTML Example">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                        </li>
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                        </li>
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -208,21 +223,67 @@
         <span class="block text-indigo-700">Success Story</span>
     </h1>
     <div class="relative container">
-        <div class="relative overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
-            <div class="absolute inset-0 opacity-50 mix-blend-multiply saturate-0 filter">
-                <img src="https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" alt="" class="h-full w-full object-cover">
-            </div>
-            <div class="relative lg:col-span-1">
-                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
-                <blockquote class="mt-6 text-white">
-                    <p class="text-xl font-medium sm:text-2xl">This app has completely transformed how we interact with customers. We've seen record bookings, higher customer satisfaction, and reduced churn.</p>
-                    <footer class="mt-6">
-                        <p class="flex flex-col font-medium">
-                            <span>Marie Chilvers</span>
-                            <span>CEO, Workcation</span>
-                        </p>
-                    </footer>
-                </blockquote>
+        <div id="splide2" class="splide" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">
+                        <div class="relative overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                            <div class="absolute inset-0 opacity-50 mix-blend-multiply saturate-0 filter">
+                                <img src="https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" alt="" class="h-full w-full object-cover">
+                            </div>
+                            <div class="relative lg:col-span-1">
+                                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
+                                <blockquote class="mt-6 text-white">
+                                    <p class="text-xl font-medium sm:text-2xl">This app has completely transformed how we interact with customers. We've seen record bookings, higher customer satisfaction, and reduced churn.</p>
+                                    <footer class="mt-6">
+                                        <p class="flex flex-col font-medium">
+                                            <span>Marie Chilvers</span>
+                                            <span>CEO, Workcation</span>
+                                        </p>
+                                    </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="relative overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                            <div class="absolute inset-0 opacity-50 mix-blend-multiply saturate-0 filter">
+                                <img src="https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" alt="" class="h-full w-full object-cover">
+                            </div>
+                            <div class="relative lg:col-span-1">
+                                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
+                                <blockquote class="mt-6 text-white">
+                                    <p class="text-xl font-medium sm:text-2xl">This app has completely transformed how we interact with customers. We've seen record bookings, higher customer satisfaction, and reduced churn.</p>
+                                    <footer class="mt-6">
+                                        <p class="flex flex-col font-medium">
+                                            <span>Marie Chilvers</span>
+                                            <span>CEO, Workcation</span>
+                                        </p>
+                                    </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="splide__slide">
+                        <div class="relative overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                            <div class="absolute inset-0 opacity-50 mix-blend-multiply saturate-0 filter">
+                                <img src="https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" alt="" class="h-full w-full object-cover">
+                            </div>
+                            <div class="relative lg:col-span-1">
+                                <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
+                                <blockquote class="mt-6 text-white">
+                                    <p class="text-xl font-medium sm:text-2xl">This app has completely transformed how we interact with customers. We've seen record bookings, higher customer satisfaction, and reduced churn.</p>
+                                    <footer class="mt-6">
+                                        <p class="flex flex-col font-medium">
+                                            <span>Marie Chilvers</span>
+                                            <span>CEO, Workcation</span>
+                                        </p>
+                                    </footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -396,4 +457,5 @@
 
 @section('custome_scipt')
 <script src="{{ asset('frontend/script/home.js') }}"></script>
+<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
 @endsection
