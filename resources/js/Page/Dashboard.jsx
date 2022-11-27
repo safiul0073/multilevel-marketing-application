@@ -34,6 +34,8 @@ function Dashboard() {
     const logoutOption = () => {
         getLoggedOut();
         Logout();
+        store.removeUser()
+        store.removeAuth()
         navigate("/staff/login");
     };
 
@@ -122,7 +124,7 @@ function Dashboard() {
     return (
         <>
             <div className="min-h-full">
-                <Transition.Root show={sidebarOpen} as={Fragment}>
+                {/* <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog
                         as="div"
                         className="relative z-40 lg:hidden"
@@ -220,9 +222,9 @@ function Dashboard() {
                             ></div>
                         </div>
                     </Dialog>
-                </Transition.Root>
+                </Transition.Root> */}
 
-                <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
+                {/* <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
                     <div className="flex flex-grow flex-col overflow-y-auto bg-indigo-800 pt-5 pb-4">
                         <div className="flex flex-shrink-0 items-center px-4">
                             <img
@@ -283,7 +285,7 @@ function Dashboard() {
                             </div>
                         </nav>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <div className="flex h-16 flex-shrink-0 border-b border-gray-200 bg-white">

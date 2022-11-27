@@ -7,8 +7,11 @@ import { LoginWithPasswordFunc } from '../../hooks/queries/auth';
 import { updateAxiosToken } from '../../config/axios.config';
 import { setToken } from '../../helper/functions';
 import { useNavigate } from "react-router-dom";
+import { UseStore } from '../../store';
+import { getUsers } from '../../hooks/queries/auth/auth';
 const Login = () => {
     let navigate = useNavigate();
+    const store = UseStore();
     const [backendError, setBackendError] = useState()
     const schema = yup
     .object({
@@ -33,9 +36,8 @@ const Login = () => {
           if (data?.token) {
             updateAxiosToken(data?.token)
             setToken(data?.token)
-            setTimeout(() => {
-                navigate("/staff");
-            }, 1500);
+            navigate("/staff");
+            callUserData()
           }
         },
         onError: (err) => {
@@ -60,6 +62,13 @@ const Login = () => {
       const onSubmit = (data) => {
         LoginMutate(data)
       };
+      async function callUserData () {
+        let data = await getUsers()
+        if (data?.data?.json_object) {
+         store.setUser(data?.data?.json_object)
+         store.setAuth(true)
+        }
+     }
   return (
     <>
         <div className='w-1/2 mx-auto mt-[100px]'>

@@ -1,10 +1,10 @@
 import create from 'zustand'
 
 export const UseStore = create(set => ({
-    accessToken: null,
+    isAuth: false,
     user: {},
-    setAccessToken: (input) => set((state) => ({ accessToken: input })),
-    removeAccessToken: () => set({ accessToken: null }),
+    setAuth: (input) => set((state) => ({ isAuth: input })),
+    removeAuth: () => set({ isAuth: false }),
     setUser: (input) => set((state) => ({ user: input })),
     removeUser: () => set({ user: null })
 }))

@@ -1,16 +1,12 @@
 import React from 'react';
-import { BrowserRouter } from "react-router-dom";
-import Protected from '../HOC/Protected';
-import { Router } from '../Router';
+import { Sidbar } from '../Sidbar';
 
-const Layout =() =>{
-
+const Layout =({children}) =>{
     return(
         <>
-        <div>
-        <BrowserRouter>
-            <Router />
-        </BrowserRouter>
+        <div className='min-h-full'>
+            <Sidbar/>
+            {children}
         </div>
 
         </>
