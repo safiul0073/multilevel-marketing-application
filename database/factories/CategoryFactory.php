@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => fake()->title(),
-            'is_active' => rand(0, 1),
+            'status' => rand(0, 1),
         ];
     }
 }

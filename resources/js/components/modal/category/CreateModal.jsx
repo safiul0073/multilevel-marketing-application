@@ -4,9 +4,9 @@ import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-import { createCategory } from '../../hooks/queries/category';
 import * as yup from "yup";
-export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
+import { createCategory } from '../../../hooks/queries/category';
+export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) {
 
     const schema = yup
     .object({

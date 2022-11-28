@@ -1,36 +1,27 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useState } from 'react'
-import { useForm } from 'react-hook-form';
+import { Fragment } from 'react'
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-import { createCategory } from '../../hooks/queries/category';
-import * as yup from "yup";
-export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
+import { deleteCategory } from '../../../hooks/queries/category';
 
-    const schema = yup
-    .object({
-      title: yup.string().min(4, "Too Short!")
-        .max(50, "Too Long!"),
 
-    })
-    .required();
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-    })
+export default function DeleteCategory({isOpen, setIsOpen, closeModal, refatcher, category}) {
+
+
     const onSubmit= (data) => {
-        createCategoryMutate(data)
+        deleteCategoryMutate(data)
     }
   function closeModal() {
     setIsOpen(false)
   }
+
   const {
-    mutate: createCategoryMutate,
+    mutate: deleteCategoryMutate,
     isLoading,
-    reset,
+    // reset,
     isError,
     isSuccess,
-  } = useMutation(createCategory, {
+  } = useMutation(deleteCategory, {
     onSuccess: (data) => {
         refatcher()
         closeModal()
@@ -77,26 +68,19 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Create Category
+                        Delete Category
                     </div>
 
                         <div className='px-6'>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+
                                 <div className=" w-3/4 mx-auto">
-                                    <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="title">Category Title</label>
-                                        <input className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' id="title" {...register('title', { required: true })} />
-                                        {errors.title && errors.title.type === "required" && <span className="text-red-600 italic"><small>Type a name</small></span>}
-                                    </div>
 
-                                    <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="status">Status</label>
-                                        <select {...register('status', { required: false })} className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' name="status" id="status">
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
-                                        </select>
-
-                                    </div>
+                                <h2 className="text-lg font-semibold pb-5">Delete this Category </h2>
+                                <p className="text-gray-500 text-sm">
+                                    Are you sure you want to delete this Category? All of your data will
+                                    be permanently removed from our servers forever. This action
+                                    cannot be undone.
+                                </p>
 
 
                                     <div className='flex justify-end mt-4'>
@@ -112,10 +96,10 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
                                             </button>
                                             </>
                                         ) : (
-                                            <input type="submit" value="Create" className=' cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md' />
+                                            <button onClick={() => onSubmit(category)} className=' cursor-pointer bg-red-500 text-white font-normal px-4 py-1 rounded-md' > Delete </button>
                                         )}
                                         </div>
-                                        <div onClick={closeModal} className="bg-red-500 text-white font-normal px-4 py-1 rounded-md cursor-pointer">
+                                        <div onClick={closeModal} className=" bg-indigo-700 text-white font-normal px-4 py-1 rounded-md cursor-pointer">
                                             <span className="inline-flex  items-center">
                                                 <span className='inline-flex mr-2'><AiFillCloseCircle /></span>
                                                 <span>Close</span>
@@ -126,7 +110,7 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
 
 
                                 </div>
-                            </form>
+
 
                         </div>
                     </div>

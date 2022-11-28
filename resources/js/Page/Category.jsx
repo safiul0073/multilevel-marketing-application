@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
 import Modal from "../components/common/Modal";
+import CreateModal from "../components/modal/category/CreateModal";
+import DeleteCategory from "../components/modal/category/Delete";
+import EditModal from "../components/modal/category/EditModal";
 import { getCategoryList } from "../hooks/queries/category/getCategoryList";
 
 export const Category = () => {
@@ -19,23 +22,49 @@ export const Category = () => {
     const closeModal = () => {
         setIsOpen(false)
     }
-
-    const editCategory = (id) => {
-        console.log(`Edit Category ${id}`);
+    const [category, setCategory] = useState()
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const editCategory = (category) => {
+        setCategory(category)
+        setIsEditModalOpen(true)
     };
 
+    const closeEditModal = () => {
+        setIsEditModalOpen(false)
+    }
+    const [isDeleteModalOpen, setIsDeleteModalOpne] = useState(false)
     const delateCategory = (id) => {
-        console.log(`Delete Category ${id}`);
+        setCategory(id)
+        setIsDeleteModalOpne(true)
     };
+
+    const closeDeleteModal = () => {
+        setIsDeleteModalOpne(false)
+    }
 
 
 
     return (
         <>
-        <Modal
+        <CreateModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         closeModal={closeModal}
+        refatcher={refetch}
+        />
+        <EditModal
+        isOpen={isEditModalOpen}
+        setIsOpen={setIsEditModalOpen}
+        closeModal={closeEditModal}
+        refatcher={refetch}
+        category={category}
+        />
+        <DeleteCategory
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpne}
+        closeModal={closeDeleteModal}
+        refatcher={refetch}
+        category={category}
         />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
@@ -113,7 +142,7 @@ export const Category = () => {
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    {category?.is_active ==
+                                                                    {category?.status ==
                                                                     1 ? (
                                                                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
                                                                             Active
@@ -130,7 +159,7 @@ export const Category = () => {
                                                                             className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
                                                                             onClick={() =>
                                                                                 editCategory(
-                                                                                    category?.id
+                                                                                    category
                                                                                 )
                                                                             }
                                                                         >
