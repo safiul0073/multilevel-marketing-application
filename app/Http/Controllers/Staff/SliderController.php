@@ -21,7 +21,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::where('is_active', true)->latest()->get();
+        $sliders = Slider::with('image')->orderBy('id', 'DESC')->paginate(10);
 
         return $this->withSuccess($sliders);
     }
@@ -34,10 +34,11 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
+
         $att = $this->validate($request, [
             'title' => 'required|string|max:100',
-            'image' => 'required|image:jpg,png',
-            'is_active' => 'required|digits_between:0,1',
+            'image' => 'required|mimes:jpg,png|image',
+            'status' => 'required|digits_between:0,1',
         ]);
         $slider_image = null;
         if ($request->hasFile('image')) {
@@ -87,8 +88,8 @@ class SliderController extends Controller
     {
         $att = $this->validate($request, [
             'title' => 'required|string|max:100',
-            'image' => 'required|image:jpg,png',
-            'is_active' => 'required|digits_between:0,1',
+            'image' => 'required|mimes:jpg,png|image',
+            'status' => 'required|digits_between:0,1',
         ]);
         $slider_image = null;
         if ($request->hasFile('image')) {

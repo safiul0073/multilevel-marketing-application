@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
-import CreateModal from "../components/modal/category/CreateModal";
-import DeleteCategory from "../components/modal/category/Delete";
-import EditModal from "../components/modal/category/EditModal";
-import { getCategoryList } from "../hooks/queries/category/getCategoryList";
+import DeleteCategory from "../components/modal/slider/Delete";
+import EditModal from "../components/modal/slider/EditModal";
+import CreateModal from "../components/modal/slider/CreateModal";
+import { getSliderList } from "../hooks/queries/slider/getSliderList";
 
-export const Category = () => {
+export const Slider = () => {
 
     // fetching category list using react query
-    const {data, isLoading, refetch} = getCategoryList()
+    const {data, isLoading, refetch} = getSliderList()
     // memorising getting data
-    const categoriesList = useMemo(() => data?.data, [data])
+    const sliderList = useMemo(() => data?.data, [data])
 
     // create category modal calling
     const [isOpen, setIsOpen] = useState(false)
@@ -23,7 +23,7 @@ export const Category = () => {
     }
     const [category, setCategory] = useState()
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const editCategory = (category) => {
+    const editSlider = (category) => {
         setCategory(category)
         setIsEditModalOpen(true)
     };
@@ -32,7 +32,7 @@ export const Category = () => {
         setIsEditModalOpen(false)
     }
     const [isDeleteModalOpen, setIsDeleteModalOpne] = useState(false)
-    const delateCategory = (id) => {
+    const delateSlider = (id) => {
         setCategory(id)
         setIsDeleteModalOpne(true)
     };
@@ -72,7 +72,7 @@ export const Category = () => {
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
                                     <h1 className="text-xl font-semibold text-gray-900">
-                                        Category List
+                                        Slider List
                                     </h1>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -81,7 +81,7 @@ export const Category = () => {
                                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
                                         onClick={() => createCategory()}
                                     >
-                                        Add New Category
+                                        Add New Slider Image
                                     </button>
                                 </div>
                             </div>
@@ -111,6 +111,12 @@ export const Category = () => {
                                                             scope="col"
                                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                         >
+                                                            Image
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                        >
                                                             Status
                                                         </th>
                                                         <th
@@ -122,26 +128,31 @@ export const Category = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                                    {categoriesList?.map(
-                                                        (category) => (
+                                                    {sliderList?.map(
+                                                        (slider) => (
                                                             <tr
                                                                 key={Math.random()}
                                                             >
                                                                 <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
                                                                     <div className="text-gray-900">
                                                                         {
-                                                                            category?.id
+                                                                            slider?.id
                                                                         }
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                     <div className="text-gray-900">
-                                                                        {category?.name ||
-                                                                            category?.title}
+                                                                        {slider?.name ||
+                                                                            slider?.title}
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    {category?.status ==
+                                                                    <div className="text-gray-900">
+                                                                        {slider?.image?.url}
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    {slider?.status ==
                                                                     1 ? (
                                                                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
                                                                             Active
@@ -157,8 +168,8 @@ export const Category = () => {
                                                                         <button
                                                                             className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
                                                                             onClick={() =>
-                                                                                editCategory(
-                                                                                    category
+                                                                                editSlider(
+                                                                                    slider
                                                                                 )
                                                                             }
                                                                         >
@@ -167,8 +178,8 @@ export const Category = () => {
                                                                         <button
                                                                             className="text-red-600 font-normal hover:text-red-700 hover:underline"
                                                                             onClick={() =>
-                                                                                delateCategory(
-                                                                                    category?.id
+                                                                                delateSlider(
+                                                                                    slider?.id
                                                                                 )
                                                                             }
                                                                         >

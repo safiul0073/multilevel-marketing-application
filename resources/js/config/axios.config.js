@@ -15,6 +15,7 @@ let token = Cookies.get('nToken');
 const userAxioswithoutRedirect = axios.create({
   baseURL: api,
   headers: {
+    "Content-Type": "multipart/form-data",
     Authorization: `Bearer ${token}`,
   },
 });
@@ -22,6 +23,7 @@ const userAxioswithoutRedirect = axios.create({
 const userAxios = axios.create({
   baseURL: api,
   headers: {
+    "Content-Type": "multipart/form-data",
     Authorization: `Bearer ${token}`,
   },
 });

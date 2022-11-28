@@ -1,12 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-import { createCategory } from '../../hooks/queries/category';
+
 import * as yup from "yup";
-export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
+import { updateCategory } from '../../../hooks/queries/category';
+export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, category}) {
 
     const schema = yup
     .object({
@@ -15,22 +16,28 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
 
     })
     .required();
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register,reset, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
     const onSubmit= (data) => {
-        createCategoryMutate(data)
+        updateCategoryMutate(data)
     }
   function closeModal() {
     setIsOpen(false)
   }
+
+  useEffect(() => {
+    if (category) {
+        reset(category)
+    }
+  }, [category])
   const {
-    mutate: createCategoryMutate,
+    mutate: updateCategoryMutate,
     isLoading,
-    reset,
+    // reset,
     isError,
     isSuccess,
-  } = useMutation(createCategory, {
+  } = useMutation(updateCategory, {
     onSuccess: (data) => {
         refatcher()
         closeModal()
@@ -77,7 +84,7 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Create Category
+                        Update Category
                     </div>
 
                         <div className='px-6'>
@@ -112,7 +119,7 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
                                             </button>
                                             </>
                                         ) : (
-                                            <input type="submit" value="Create" className=' cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md' />
+                                            <input type="submit" value="Update" className=' cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md' />
                                         )}
                                         </div>
                                         <div onClick={closeModal} className="bg-red-500 text-white font-normal px-4 py-1 rounded-md cursor-pointer">

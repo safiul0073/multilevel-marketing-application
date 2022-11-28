@@ -5,7 +5,7 @@ import DeleteCategory from "../components/modal/category/Delete";
 import EditModal from "../components/modal/category/EditModal";
 import { getCategoryList } from "../hooks/queries/category/getCategoryList";
 
-export const Category = () => {
+export const Product = () => {
 
     // fetching category list using react query
     const {data, isLoading, refetch} = getCategoryList()
@@ -122,7 +122,7 @@ export const Category = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                                    {categoriesList?.map(
+                                                    {categoriesList.map(
                                                         (category) => (
                                                             <tr
                                                                 key={Math.random()}
