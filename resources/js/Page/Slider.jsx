@@ -148,7 +148,7 @@ export const Slider = () => {
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                     <div className="text-gray-900">
-                                                                        {slider?.image?.url}
+                                                                        <img width={100} height={80} src={slider?.image?.url} alt="" />
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
