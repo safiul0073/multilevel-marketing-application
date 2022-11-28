@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('is_active', 1)->latest()->get();
+        $categories = Category::orderBy('id', 'DESC')->paginate(10);
 
         return $this->withSuccess($categories);
     }
@@ -33,7 +33,7 @@ class CategoryController extends Controller
     {
         $att = $this->validate($request, [
             'title' => 'string|max:56',
-            'is_active' => 'nullable',
+            'status' => 'nullable',
         ]);
 
         Category::create($att);
@@ -63,12 +63,12 @@ class CategoryController extends Controller
     {
         $att = $this->validate($request, [
             'title' => 'string|max:56',
-            'is_active' => 'nullable',
+            'status' => 'nullable',
         ]);
 
         $category->update($att);
 
-        return $this->withSuccess('Category successfully created.');
+        return $this->withSuccess('Category successfully Updated.');
     }
 
     /**
