@@ -1,4 +1,4 @@
-<header class="bg-indigo-800 lg:h-24 flex flex-col justify-center">
+<header class="bg-indigo-800 lg:h-24 flex flex-col justify-center sticky top-0 z-50">
     <div class="container">
         <div class="relative flex h-16 items-center justify-between">
             <div class="absolute inset-y-0 left-0 flex items-center lg:hidden">

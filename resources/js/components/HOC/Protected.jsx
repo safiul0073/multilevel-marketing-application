@@ -1,17 +1,20 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UseStore } from "../../store";
 const Protected = (ProtectedComponent) => {
 
     return (props) => {
 
             const [isTrue, setTrue] = useState(false)
-
+            let navigate = useNavigate();
+            let {isAuth} = UseStore()
             useEffect(() => {
                     let token = Cookies.get('nAToken')
                     if (!!token) {
                         setTrue(true)
                     }else {
-                        window.location.href = '/staff/login';
+                        navigate('/staff/login');
                     }
 
             }, [])

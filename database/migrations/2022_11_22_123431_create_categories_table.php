@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->tinyInteger('is_active')->default(1)->comment('active=1, deactive=0');
+            $table->tinyInteger('status')->default(1)->comment('active=1, deactive=0');
             $table->timestamps();
         });
     }

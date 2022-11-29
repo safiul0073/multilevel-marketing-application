@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sliders', function (Blueprint $table) {
+        Schema::create('reset_code_passwords', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->boolean('status')->default(true);
-            $table->timestamps();
+            $table->string('email')->index();
+            $table->string('code');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sliders');
+        Schema::dropIfExists('reset_code_passwords');
     }
 };
