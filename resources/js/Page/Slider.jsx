@@ -14,17 +14,17 @@ export const Slider = () => {
 
     // create category modal calling
     const [isOpen, setIsOpen] = useState(false)
-    const createCategory = () => {
+    const createSlider = () => {
         setIsOpen(true)
     };
 
     const closeModal = () => {
         setIsOpen(false)
     }
-    const [category, setCategory] = useState()
+    const [slider, setSlider] = useState()
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const editSlider = (category) => {
-        setCategory(category)
+    const editSlider = (slider) => {
+        setSlider(slider)
         setIsEditModalOpen(true)
     };
 
@@ -56,14 +56,14 @@ export const Slider = () => {
         setIsOpen={setIsEditModalOpen}
         closeModal={closeEditModal}
         refatcher={refetch}
-        category={category}
+        slider={slider}
         />
         <DeleteCategory
         isOpen={isDeleteModalOpen}
         setIsOpen={setIsDeleteModalOpne}
         closeModal={closeDeleteModal}
         refatcher={refetch}
-        category={category}
+        slider={slider}
         />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
@@ -79,7 +79,7 @@ export const Slider = () => {
                                     <button
                                         type="button"
                                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                                        onClick={() => createCategory()}
+                                        onClick={() => createSlider()}
                                     >
                                         Add New Slider Image
                                     </button>
