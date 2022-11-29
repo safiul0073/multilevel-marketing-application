@@ -24,3 +24,13 @@ export const getLoggedOut = async () => {
 
   return res?.data?.data?.string_data;
 };
+
+
+export const EmailSender = async (inputEmail) =>{
+  console.log(inputEmail);
+  // const res = await publicAxios.post(
+  //   `${URL}/staff/password/email`,
+  //   inputEmail
+  // )
+  // return res?.json_object;
+}
