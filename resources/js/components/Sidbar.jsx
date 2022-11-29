@@ -27,8 +27,12 @@ export const Sidbar = () => {
     const navigation = [
         { name: "Dashboard", href: "/staff", icon: HomeIcon },
         { name: "Category", href: "/staff/category", icon: ClockIcon },
-        { name: "Product", href: "/staff/product", icon: ScaleIcon },
+        { name: "Package", href: "/staff/package", icon: ScaleIcon },
         { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
+        { name: "Users", href: "/staff/users", icon: CreditCardIcon },
+        { name: "Users Tree", href: "/staff/users/tree", icon: CreditCardIcon },
+        { name: "Reports", href: "/staff/report", icon: CreditCardIcon },
+        { name: "Settings", href: "/staff/settings", icon: CreditCardIcon },
     ];
     const logoutOption = () => {
         getLoggedOut();
