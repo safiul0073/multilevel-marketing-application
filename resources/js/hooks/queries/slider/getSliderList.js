@@ -1,13 +1,13 @@
 import { useQuery } from 'react-query';
 import { getQuery } from '../getQuery';
 
-export const getCategoryList = () => {
+export const getSliderList = () => {
   return useQuery(
     [
-      'category-lists'
+      'slider-lists'
     ],
     async () => {
-      let res = await getQuery('category');
+      let res = await getQuery('slider');
 
       return res;
     },

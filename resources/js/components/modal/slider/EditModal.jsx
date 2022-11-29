@@ -1,36 +1,56 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-import { createCategory } from '../../hooks/queries/category';
-import * as yup from "yup";
-export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
 
+import * as yup from "yup";
+import { updateCategory } from '../../../hooks/queries/category';
+import { updateSlider } from '../../../hooks/queries/slider';
+export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, slider}) {
+    const [backendError, setBackendError] = useState()
     const schema = yup
     .object({
-      title: yup.string().min(4, "Too Short!")
-        .max(50, "Too Long!"),
-
+      title: yup.string()
     })
     .required();
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register,reset, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
-    const onSubmit= (data) => {
-        createCategoryMutate(data)
+
+    const [findImage, setFindImage] = useState()
+    const handleImage = (e) => {
+        setFindImage(e.target.files[0])
     }
+
+    const onSubmit= (data) => {
+        data.image = findImage
+        let finalData = {}
+        finalData.id = data.id
+        finalData.title = data.title
+        finalData.status = data.status
+        finalData.image = findImage
+        console.log(finalData)
+        updateSliderMutate(finalData)
+    }
+
   function closeModal() {
     setIsOpen(false)
   }
+
+  useEffect(() => {
+    if (slider) {
+        reset(slider)
+    }
+  }, [slider])
   const {
-    mutate: createCategoryMutate,
+    mutate: updateSliderMutate,
     isLoading,
-    reset,
+    // reset,
     isError,
     isSuccess,
-  } = useMutation(createCategory, {
+  } = useMutation(updateSlider, {
     onSuccess: (data) => {
         refatcher()
         closeModal()
@@ -77,28 +97,34 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Create Category
+                        Update Category
                     </div>
 
                         <div className='px-6'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className=" w-3/4 mx-auto">
-                                    <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="title">Category Title</label>
-                                        <input className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' id="title" {...register('title', { required: true })} />
-                                        {errors.title && errors.title.type === "required" && <span className="text-red-600 italic"><small>Type a name</small></span>}
+                                <div>
+                                        <label className="text-gray-600 font-medium" htmlFor="title">Slider Title</label>
+                                        <input type="text" className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' id="title" {...register('title', { required: true })} />
+                                        <p className='text-red-500 italic font-light py-2'>{errors.title?.message ?? backendError?.title}</p>
                                     </div>
-
+                                    <div className='flex flex-row items-center gap-3'>
+                                        <div>
+                                            <label className="text-gray-600 font-medium" htmlFor="image">Slider Image</label>
+                                            <input type="file" className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2'  id="image" onChange={handleImage} />
+                                            <p className='text-red-500 italic font-light py-2'>{errors.image?.message ?? backendError?.image}</p>
+                                        </div>
+                                        <div>
+                                            <img width={100} height={80} src={slider?.image?.url} alt="" />
+                                        </div>
+                                    </div>
                                     <div>
                                         <label className="text-gray-600 font-medium" htmlFor="status">Status</label>
                                         <select {...register('status', { required: false })} className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' name="status" id="status">
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
-
                                     </div>
-
-
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>
                                         {isLoading ? (
@@ -112,7 +138,7 @@ export default function Modal({isOpen, setIsOpen, closeModal, refatcher}) {
                                             </button>
                                             </>
                                         ) : (
-                                            <input type="submit" value="Create" className=' cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md' />
+                                            <input type="submit" value="Update" className=' cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md' />
                                         )}
                                         </div>
                                         <div onClick={closeModal} className="bg-red-500 text-white font-normal px-4 py-1 rounded-md cursor-pointer">

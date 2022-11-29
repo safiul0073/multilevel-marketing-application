@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['category:id,title','images'] )->latest()->get();
+        $products = Product::with(['category:id,title','images'] )->orderBy('id', 'DESC')->paginate(10);
 
         return $this->withSuccess($products);
     }

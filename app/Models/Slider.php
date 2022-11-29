@@ -13,6 +13,6 @@ class Slider extends Model
 
     public function image()
     {
-        return $this->morphMany(Media::class, 'media');
+        return $this->morphOne(Media::class, 'media');
     }
 }

@@ -9,6 +9,7 @@ use App\Traits\MediaOperator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\File;
 
 class SliderController extends Controller
 {
@@ -21,7 +22,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::where('is_active', true)->latest()->get();
+        $sliders = Slider::with('image')->orderBy('id', 'DESC')->paginate(10);
 
         return $this->withSuccess($sliders);
     }
@@ -34,10 +35,11 @@ class SliderController extends Controller
      */
     public function store(Request $request)
     {
+
         $att = $this->validate($request, [
             'title' => 'required|string|max:100',
-            'image' => 'required|image:jpg,png',
-            'is_active' => 'required|digits_between:0,1',
+            'image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'status' => 'required|digits_between:0,1',
         ]);
         $slider_image = null;
         if ($request->hasFile('image')) {
@@ -87,8 +89,8 @@ class SliderController extends Controller
     {
         $att = $this->validate($request, [
             'title' => 'required|string|max:100',
-            'image' => 'required|image:jpg,png',
-            'is_active' => 'required|digits_between:0,1',
+            'image' => ['required'],
+            'status' => 'required|digits_between:0,1',
         ]);
         $slider_image = null;
         if ($request->hasFile('image')) {
@@ -115,7 +117,7 @@ class SliderController extends Controller
             return $this->withErrors($ex->getMessage());
         }
 
-        return $this->withCreated('Slider successfully created.');
+        return $this->withCreated('Slider successfully updated.');
     }
 
     /**
@@ -126,8 +128,12 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-        $this->deleteFile($slider->image()->first()->url);
-        $slider->image()->delete();
+        $file = $slider->image()->first();
+        if ($file) {
+            $this->deleteFile($file);
+            $slider->image()->delete();
+        }
+
         $slider->delete();
 
         return $this->withSuccess('Slider successfully delete.');
