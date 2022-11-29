@@ -39,8 +39,14 @@ class UserService {
     }
 
 
-    private function joiningBonusToPerent (User $user) {
+    /**
+     * @position type string between left or right.
+     * @refferrenc_id type int perent id
+     * @refferrer_id type int chiled id
+     * @return void
+     */
+    public function generationLoop (int $refferrenc_id, int $user_id, $i):void {
 
-        // user 
+        
     }
 }

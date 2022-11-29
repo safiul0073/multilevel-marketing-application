@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('referrance_id')->nullable();
+            $table->string('sponsor_id')->nullable();
             $table->string('first_name')->nullable()->index();
             $table->string('last_name')->nullable()->index();
             $table->string('username')->unique()->index();
@@ -31,8 +31,8 @@ return new class extends Migration
             $table->string('zip_code')->nullable();
             $table->string('country')->nullable();
             $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->unsignedBigInteger('left_ref_id')->nullable();
-            $table->unsignedBigInteger('right_ref_id')->nullable();
+            $table->string('left_ref_id')->nullable();
+            $table->string('right_ref_id')->nullable();
             $table->double('amount', 15)->default(0);
             $table->rememberToken();
             $table->timestamps();

@@ -29,7 +29,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['nominee', 'image'])->get();
+        $users = User::with(['nominee', 'image'])->orderBy('id', 'asc')->paginate(10);
 
         return $this->withSuccess($users);
     }
