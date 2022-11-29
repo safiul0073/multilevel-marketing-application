@@ -15,7 +15,10 @@ let token = Cookies.get('nToken');
 const userAxioswithoutRedirect = axios.create({
   baseURL: api,
   headers: {
+    "Accept": "application/json, text/plain, */*",
+    "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
+    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     Authorization: `Bearer ${token}`,
   },
 });
@@ -23,7 +26,10 @@ const userAxioswithoutRedirect = axios.create({
 const userAxios = axios.create({
   baseURL: api,
   headers: {
+    "Accept": "application/json, text/plain, */*",
+    "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
+    'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     Authorization: `Bearer ${token}`,
   },
 });

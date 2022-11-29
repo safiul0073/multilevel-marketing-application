@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
-import DeleteCategory from "../components/modal/slider/Delete";
 import EditModal from "../components/modal/slider/EditModal";
 import CreateModal from "../components/modal/slider/CreateModal";
 import { getSliderList } from "../hooks/queries/slider/getSliderList";
+import DeleteSlider from "../components/modal/slider/Delete";
 
 export const Slider = () => {
 
@@ -33,15 +33,14 @@ export const Slider = () => {
     }
     const [isDeleteModalOpen, setIsDeleteModalOpne] = useState(false)
     const delateSlider = (id) => {
-        setCategory(id)
+        setSlider(id)
+        console.log(id)
         setIsDeleteModalOpne(true)
     };
 
     const closeDeleteModal = () => {
         setIsDeleteModalOpne(false)
     }
-
-
 
     return (
         <>
@@ -58,7 +57,7 @@ export const Slider = () => {
         refatcher={refetch}
         slider={slider}
         />
-        <DeleteCategory
+        <DeleteSlider
         isOpen={isDeleteModalOpen}
         setIsOpen={setIsDeleteModalOpne}
         closeModal={closeDeleteModal}

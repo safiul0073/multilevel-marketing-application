@@ -2,26 +2,26 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-import { deleteCategory } from '../../../hooks/queries/category';
+import { deleteSlider } from '../../../hooks/queries/slider';
 
 
-export default function DeleteCategory({isOpen, setIsOpen, closeModal, refatcher, category}) {
+export default function DeleteSlider({isOpen, setIsOpen, closeModal, refatcher, slider}) {
 
 
     const onSubmit= (data) => {
-        deleteCategoryMutate(data)
+        deleteSliderMutate(data)
     }
   function closeModal() {
     setIsOpen(false)
   }
 
   const {
-    mutate: deleteCategoryMutate,
+    mutate: deleteSliderMutate,
     isLoading,
     // reset,
     isError,
     isSuccess,
-  } = useMutation(deleteCategory, {
+  } = useMutation(deleteSlider, {
     onSuccess: (data) => {
         refatcher()
         closeModal()
@@ -68,16 +68,16 @@ export default function DeleteCategory({isOpen, setIsOpen, closeModal, refatcher
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Delete Category
+                        Delete Slider
                     </div>
 
                         <div className='px-6'>
 
                                 <div className=" w-3/4 mx-auto">
 
-                                <h2 className="text-lg font-semibold pb-5">Delete this Category </h2>
+                                <h2 className="text-lg font-semibold pb-5">Delete this Slider </h2>
                                 <p className="text-gray-500 text-sm">
-                                    Are you sure you want to delete this Category? All of your data will
+                                    Are you sure you want to delete this Slider? All of your data will
                                     be permanently removed from our servers forever. This action
                                     cannot be undone.
                                 </p>
@@ -96,7 +96,7 @@ export default function DeleteCategory({isOpen, setIsOpen, closeModal, refatcher
                                             </button>
                                             </>
                                         ) : (
-                                            <button onClick={() => onSubmit(category)} className=' cursor-pointer bg-red-500 text-white font-normal px-4 py-1 rounded-md' > Delete </button>
+                                            <button onClick={() => onSubmit(slider)} className=' cursor-pointer bg-red-500 text-white font-normal px-4 py-1 rounded-md' > Delete </button>
                                         )}
                                         </div>
                                         <div onClick={closeModal} className=" bg-indigo-700 text-white font-normal px-4 py-1 rounded-md cursor-pointer">

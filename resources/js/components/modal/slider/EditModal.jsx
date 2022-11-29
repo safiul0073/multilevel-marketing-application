@@ -26,8 +26,13 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
 
     const onSubmit= (data) => {
         data.image = findImage
-        console.log(data)
-        updateSliderMutate(data)
+        let finalData = {}
+        finalData.id = data.id
+        finalData.title = data.title
+        finalData.status = data.status
+        finalData.image = findImage
+        console.log(finalData)
+        updateSliderMutate(finalData)
     }
 
   function closeModal() {
@@ -42,6 +47,9 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
   const {
     mutate: updateSliderMutate,
     isLoading,
+    // reset,
+    isError,
+    isSuccess,
   } = useMutation(updateSlider, {
     onSuccess: (data) => {
         refatcher()
