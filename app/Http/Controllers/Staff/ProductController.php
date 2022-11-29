@@ -119,9 +119,10 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request)
     {
         $att = $this->validate($request, [
+            'id'    => 'required|numeric|exists:products,id',
             'name' => 'required|string|max:100',
             'category_id' => 'required|numeric|exists:categories,id',
             'description' => 'required|string|max:500',
@@ -132,33 +133,40 @@ class ProductController extends Controller
             'thamnail_image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
             'status' => 'nullable|between:0,1',
         ]);
-
+        $product = Product::find($att['id']);
         $image_urls = [];
         $thamnail_image = null;
-        if ($att['iamges'] && count($att['images']) > 0) {
-            foreach ($att['iamges'] as $image) {
+        if ($request->images) {
+            foreach ($request->images as $image) {
                 $image_urls[] = $this->uploadFile($image);
             }
-            unset($att['iamges']);
-            $this->multiFileDelete($product->images()->where('type', 'gellary')->get());
-            $product->images()->where('type', 'gellary')->delete();
+            unset($att['images']);
+            $gallary_images = $product->images()->where('type', 'gellary')->get();
+            if (count($gallary_images) > 0) {
+                $this->multiFileDelete($gallary_images);
+                $product->images()->where('type', 'gellary')->delete();
+            }
         }
 
         if (isset($att['thamnail_image'])) {
             $thamnail_image = $this->uploadFile($request->file('thamnail_image'));
             unset($att['thamnail_image']);
-            $this->deleteFile($product->images()->where('type', 'thamnail')->firt());
-            $product->images()->where('type', 'thamnail')->delete();
+            $thamnail_file = $product->images()->where('type', 'thamnail')->first();
+            if ($thamnail_file) {
+                $this->deleteFile($thamnail_file);
+                $product->images()->where('type', 'thamnail')->delete();
+            }
+
         }
 
         // slug setting
         $att['slug'] = $att['name'];
 
-        try {
+        // try {
             DB::beginTransaction();
-            $product = Product::create($att);
+            $p = $product->update($att);
 
-            if (! $product) {
+            if (! $p) {
                 throw new Exception('Product not created');
             }
 
@@ -177,9 +185,9 @@ class ProductController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $ex) {
-            return $this->withErrors($ex->getMessage());
-        }
+        // } catch (\Exception $ex) {
+        //     return $this->withErrors($ex->getMessage());
+        // }
 
         return $this->withSuccess('Product Successfully updated.');
     }

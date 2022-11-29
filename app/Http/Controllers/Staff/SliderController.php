@@ -85,13 +85,15 @@ class SliderController extends Controller
      * @param  \App\Models\Slider  $slider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Slider $slider)
+    public function update(Request $request)
     {
         $att = $this->validate($request, [
+            'id'    => 'required|numeric|exists:sliders,id',
             'title' => 'required|string|max:100',
             'image' => ['required'],
             'status' => 'required|digits_between:0,1',
         ]);
+        $slider = Slider::find($att['id']);
         $slider_image = null;
         if ($request->hasFile('image')) {
             $slider_image = $this->uploadFile($request->file('image'));

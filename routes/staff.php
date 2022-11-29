@@ -20,7 +20,8 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('product', ProductController::class);
     Route::resource('slider', SliderController::class);
-
+    Route::post('product-update', [ProductController::class, 'update']);
+    Route::post('slider-update', [SliderController::class, 'update']);
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
 });
