@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
 // auth route start ...
+Route::get('test', function () {
+    return response()->json([
+        "message" => "Hello world! staff"
+    ]);
+});
 Route::post('/login', [StaffController::class, 'login'])->name('login');
  // Password reset routes
  Route::post('password/email',  ForgotPasswordController::class);
