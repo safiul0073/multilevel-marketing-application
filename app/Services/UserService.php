@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Generation;
 use App\Models\Transaction;
 use App\Models\User;
 use Exception;
@@ -45,8 +46,24 @@ class UserService {
      * @refferrer_id type int chiled id
      * @return void
      */
-    public function generationLoop (int $refferrenc_id, int $user_id, $i):void {
+    public function generationLoop (string $sponser_id, string $user_id, $i) {
 
-        
+        $sponser = User::where('username',$sponser_id)->first();
+        $sponser_sponser_id = $sponser->sponser_id;
+        if ($sponser_sponser_id) {
+            User::where('username', $sponser_sponser_id)->increment('total_group');
+            // generation lavel creating
+            Generation::create([
+                'main_id' => $sponser_sponser_id,
+                'member_id' => $sponser->username,
+                'gen_type' => 1
+            ]);
+
+            $i = $i + 1;
+
+            if ($i > 10) {
+                return $this->generationLoop($sponser_sponser_id, $user_id, $i);
+            }
+        }
     }
 }

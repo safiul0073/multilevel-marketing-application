@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Models\Generation;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
@@ -43,7 +44,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $att = $this->validate($request, [
-            'referrance_id' => 'required|numeric|exists:users,id',
+            'sponsor_id' => 'required|numeric|exists:users,username',
             'refer_psition' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
@@ -53,7 +54,7 @@ class UserController extends Controller
             'phone' => 'required|min:11|unique:users',
             'password' => 'required|string|min:8',
         ]);
-
+        $sopnsor = User::where('username', $request->sponsor_id)->first();
         $userAtt = $att;
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
@@ -72,6 +73,19 @@ class UserController extends Controller
             $user->id,
             (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
 
+            // sponser group updating
+            $sopnsor->total_group = $sopnsor->total_group + 1;
+            $sopnsor->save();
+            // generation lavel creating
+            Generation::create([
+                'main_id' => $sopnsor->id,
+                'member_id' => $user->id,
+                'gen_type' => 1
+            ]);
+
+            // generation looping
+            $i = 2;
+            $this->user_service->generationLoop($sopnsor->username, $user->username, $i);
             $user->purchases()->create([
                 'product_id' => $att['product_id'],
                 'amount' => $product->price,
