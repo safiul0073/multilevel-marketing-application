@@ -1,6 +1,7 @@
 
 import { publicAxios, userAxios } from '@/config/axios.config.js';
-const URL = 'http://127.0.0.1:8000/api'
+import { APIURL } from '../../../constent';
+const URL = APIURL ?? 'https://mlmshop.zstechbd.com/api'
 export const getUsers = async () => {
   const res = await userAxios.get(
     `${URL}/staff/me`
