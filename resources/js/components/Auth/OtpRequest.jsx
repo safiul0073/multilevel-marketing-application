@@ -6,19 +6,17 @@ import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from 'react-query';
 import {EmailSenderFunc} from '../../hooks/queries/auth';
+import LoaderAnimation from '../common/LoaderAnimation';
+
 
 export const OtpRequest = () => {
     let Navigate = useNavigate();
-    const store = UseStore();
+
     const [backendError, setBackendError] = useState();
 
-    let schema = yup.object({
-    email: yup.string().email().required() // pass your error message string
-    });
+    const [Error, setError] = useState();
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-      });
+    const [Email, setEmail] = useState("");
 
 
       const {
@@ -29,33 +27,7 @@ export const OtpRequest = () => {
         isSuccess,
       } = useMutation(EmailSenderFunc, {
         onSuccess: (data) => {
-
-          if (data) {
-            console.log(data);
-
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-            })
-            Toast.fire({
-                icon: 'success',
-                title: 'An Email has been sent for OTP code'
-            })
-            setTimeout(() => {
-                // updateAxiosToken(data?.token)
-                // setToken(data?.token)
-                navigate("/staff/otp-checker");
-                // callUserData()
-            }, 3000)
-
-          }
+          Navigate("/staff/otp-checker");
         },
         onError: (err) => {
         console.log(err);
@@ -76,29 +48,41 @@ export const OtpRequest = () => {
 
         },
       });
+
+      const onValidate = (e)=>{
+        const email = e.target.value;
+        if(email){
+          setEmail(email);
+        }
+
+      }
       
-      const onSubmit = (data) => {
-        console.log("data");
-        // EmailMutate(data)
-        // console.log(schema);
+      const onSubmit = () => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(Email)){
+          EmailMutate({email:Email});
+        }else{
+          setError("Please Enter a valid Email");
+        }
       };
+      if(loading){
+        return <LoaderAnimation/>
+      }
   return (
     <div className="w-screen h-screen flex items-center justify-center">
-        <form onSubmit={handleSubmit(onSubmit)} action="">
             <div>
                     <div className='w-1/2 mx-auto mt-[100px]'>
                     <label htmlFor="username" className='text-gray-500 font-semibold'>Please Enter Your Email to Validate</label>
-                    <input type="text"
-                        // {...register("username")}
-                        className='w-full h-12 rounded-lg outline-none px-4 text-gray-700 border-2'   />
-                        <p className='text-red-500 italic font-light py-2'>{errors.err}</p>
+                    <input type="email"
+                        className='w-full h-12 rounded-lg outline-none px-4 text-gray-700 border-2' 
+                        value={Email}  
+                        onChange={onValidate}
+                        />
+                        <p className='text-red-500 italic font-light py-2'>{Error??backendError}</p>
                     </div>
                     <div className='flex justify-center items-center'>
-                        <button type='submit' className='px-4 py-2 text-white bg-gray-800 hover:bg-gray-600 my-4 rounded-md'>Submit</button>
+                        <button className='px-4 py-2 text-white bg-gray-800 hover:bg-gray-600 my-4 rounded-md' onClick={onSubmit}>Submit</button>
                     </div>
             </div>
-        </form>
-
     </div>
   )
 }

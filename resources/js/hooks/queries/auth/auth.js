@@ -27,10 +27,18 @@ export const getLoggedOut = async () => {
 
 
 export const EmailSender = async (inputEmail) =>{
-  console.log(inputEmail);
-  // const res = await publicAxios.post(
-  //   `${URL}/staff/password/email`,
-  //   inputEmail
-  // )
-  // return res?.json_object;
+  // console.log(inputEmail);
+  const res = await publicAxios.post(
+    `${URL}/staff/password/email`,
+    inputEmail
+  )
+  return res?.json_object;
+};
+
+export const OTPSender = async (inputOtp) =>{
+  const res = await publicAxios.post(
+    `${URL}/staff/password/code/check`,
+    inputOtp
+  )
+  return res?.json_object;
 }
