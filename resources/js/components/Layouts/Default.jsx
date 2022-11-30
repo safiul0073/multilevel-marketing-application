@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
-import { Category } from '../../Page/Category';
+import { Route, Routes } from 'react-router-dom';
+import Category from '../../Page/Category';
 import Dashboard from '../../Page/Dashboard';
-import { Product } from '../../Page/Product';
-import { Slider } from '../../Page/Slider';
+import Product from '../../Page/Product';
+import Slider from '../../Page/Slider';
 import Login from '../Auth/Login';
 import { Sidbar } from '../Sidbar';
 

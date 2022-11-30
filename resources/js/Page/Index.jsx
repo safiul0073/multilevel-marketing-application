@@ -14,7 +14,6 @@ import Login from '../components/Auth/Login'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
-import { Category } from './Category';
 
 function Index() {
 
@@ -35,7 +34,6 @@ function Index() {
         setAuth(true)
        }
     }
-    console.log(isAuth)
     useEffect (() => {
         if (!!token) {
             updateAxiosToken(token)
