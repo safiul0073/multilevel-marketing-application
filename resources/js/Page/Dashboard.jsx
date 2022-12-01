@@ -1,6 +1,5 @@
 import React from "react";
 import Protected from "../components/HOC/Protected";
-
 import {
     EnvelopeIcon,
 } from "@heroicons/react/20/solid";

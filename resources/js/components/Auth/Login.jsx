@@ -66,15 +66,6 @@ const Login = () => {
             ...backendError,
             ...errorobj,
           });
-        //   {
-        //     err?.response?.data?.data?.json_object.message && (
-        //       cogoToast.error(
-        //         <div>
-        //           <b>{err?.response?.data?.data?.json_object.message}</b>
-        //         </div>,
-        //       )
-        //     )
-        //   }
 
         },
       });

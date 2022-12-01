@@ -46,17 +46,13 @@ function Index() {
         <>
         <QueryClientProvider client={queryClient}>
             {isAuth ?
-                    <BrowserRouter>
-                        <Layout/>
-                    </BrowserRouter>
+                     <Layout/>
                 :
                 <AuthLayout>
-                    <BrowserRouter>
                         <Routes>
                             <Route path="/staff" element={<Dashboard />} />
                             <Route path="/staff/login" element={<Login />} />
                         </Routes>
-                    </BrowserRouter>
                 </AuthLayout>
             }
         </QueryClientProvider>
@@ -71,7 +67,11 @@ if (document.getElementById('root')) {
 
     rootId.render(
         <React.StrictMode>
-            <Index/><Toaster />
+             <BrowserRouter>
+                <Index>
+                    <Toaster />
+                </Index>
+            </BrowserRouter>
         </React.StrictMode>
     )
 }
