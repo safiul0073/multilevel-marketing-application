@@ -16,8 +16,8 @@ const Layout =({children}) =>{
             <Routes>
                 <Route path="/staff" element={<Dashboard />} />
                 <Route path="/staff/category" element={<Category />} />
-                <Route path="/staff/Slider" element={<Slider />} />
-                <Route path="/staff/Product" element={<Product />} />
+                <Route path="/staff/slider" element={<Slider />} />
+                <Route path="/staff/package" element={<Product />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>
             </div>

@@ -17,3 +17,19 @@
 .btn-danger {
     @apply bg-red-500 text-white uppercase;
 }
+
+.form-control {
+    @apply w-full h-10 my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700;
+}
+
+.formGroup {
+    @apply flex flex-col my-2;
+}
+
+.error-message {
+    @apply text-[14px] font-medium capitalize text-red-500 py-2;
+}
+
+.has-error {
+    @apply border-2 border-red-500;
+}
