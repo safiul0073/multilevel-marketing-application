@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from "react-query";
 import { deleteProduct } from "../../../hooks/queries/product";
+import  toast  from 'react-hot-toast';
 
 export default function DeleteProduct({
     isOpen,
@@ -11,6 +12,7 @@ export default function DeleteProduct({
     refatcher,
     product,
 }) {
+
     const onSubmit = (data) => {
         deleteProductMutate(data);
     };
@@ -26,14 +28,15 @@ export default function DeleteProduct({
         isSuccess,
     } = useMutation(deleteProduct, {
         onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right',
+            });
             refatcher();
             closeModal();
         },
         onError: (err) => {
-            let errorobj = err?.response?.data?.data?.json_object;
-            setBackendError({
-                ...backendError,
-                ...errorobj,
+            toast.error(err, {
+                position: 'top-right',
             });
         },
     });

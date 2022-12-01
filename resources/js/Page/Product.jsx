@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/product/CreateModal";
 import DeleteProduct from "../components/modal/product/Delete";
 import EditModal from "../components/modal/product/EditModal";

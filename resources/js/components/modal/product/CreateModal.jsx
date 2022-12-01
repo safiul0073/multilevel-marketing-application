@@ -1,31 +1,45 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Fragment, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle, AiOutlineUserAdd } from "react-icons/ai";
 import { useMutation } from "react-query";
 import * as yup from "yup";
 import { createProduct } from "../../../hooks/queries/product";
+import { getCategorySelectlist } from "../../../hooks/queries/product/getCategorySelectlist";
+import SelectInput from "../../common/SelectInput";
+import Textinput from "../../common/Textinput"
+
 export default function CreateModal({
     isOpen,
     setIsOpen,
     closeModal,
     refatcher,
 }) {
+    const [backendError, setBackendError] = useState([])
+
+    const {data:categories} = getCategorySelectlist()
+
     const schema = yup
         .object({
-            title: yup.string().min(4, "Too Short!").max(50, "Too Long!"),
+            name: yup.string().min(4, "Too Short!").max(500, "Too Long!").required(),
+            category_id: yup.number("Select a category").required("Please select a Category!"),
+            price: yup.number('Please enter package price!').required("Enter a price!"),
+            refferral_commission: yup.number("Please enter referel commission!").required("Enter a price!"),
+            video_url: yup.string("Video url must a link").url("Please enter a video link"),
         })
         .required();
     const {
         register,
         handleSubmit,
+        control,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
     const onSubmit = (data) => {
-        createProductMutate(data);
+        // createProductMutate(data);
+        console.log(data)
     };
     function closeModal() {
         setIsOpen(false);
@@ -86,56 +100,57 @@ export default function CreateModal({
 
                                     <div className="px-6">
                                         <form onSubmit={handleSubmit(onSubmit)}>
-                                            <div className=" w-3/4 mx-auto">
-                                                <div>
-                                                    <label
-                                                        className="text-gray-600 font-medium"
-                                                        htmlFor="title"
-                                                    >
-                                                        Product Title
-                                                    </label>
-                                                    <input
-                                                        className="w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2"
-                                                        id="title"
-                                                        {...register("title", {
-                                                            required: true,
-                                                        })}
-                                                    />
-                                                    {errors.title &&
-                                                        errors.title.type ===
-                                                            "required" && (
-                                                            <span className="text-red-600 italic">
-                                                                <small>
-                                                                    Type a name
-                                                                </small>
-                                                            </span>
-                                                        )}
-                                                </div>
+                                            <div className=" w-3/4 mx-auto overflow-y-auto">
+                                            <Textinput
+                                                label="Package Name"
+                                                placeholder="package 1"
+                                                register={register}
+                                                name="name"
+                                                type="text"
+                                                backendValidationError={backendError?.name}
+                                                error={errors.name}
+                                            />
 
-                                                <div>
-                                                    <label
-                                                        className="text-gray-600 font-medium"
-                                                        htmlFor="status"
-                                                    >
-                                                        Status
-                                                    </label>
-                                                    <select
-                                                        {...register("status", {
-                                                            required: false,
-                                                        })}
-                                                        className="w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2"
-                                                        name="status"
-                                                        id="status"
-                                                    >
-                                                        <option value="1">
-                                                            Active
-                                                        </option>
-                                                        <option value="0">
-                                                            Inactive
-                                                        </option>
-                                                    </select>
-                                                </div>
+                                            <SelectInput
+                                                label="Select Category"
+                                                labelFor="category_id"
+                                                controlFu={control}
+                                                reqMessage="Please select Category"
+                                                optionArray={categories}
+                                                errorObj={errors?.category_id}
+                                                backendErrorMessagae={backendError?.category_id}
+                                            />
 
+                                            <Textinput
+                                                label="Price"
+                                                placeholder="5000"
+                                                type="number"
+                                                register={register}
+                                                name="price"
+                                                backendValidationError={backendError?.price}
+                                                error={errors.price}
+                                            />
+
+                                            <Textinput
+                                                label="Reference Commission (%)"
+                                                placeholder="20"
+                                                type="number"
+                                                register={register}
+                                                name="refferral_commission"
+                                                backendValidationError={backendError?.refferral_commission}
+                                                error={errors.refferral_commission}
+                                            />
+
+                                            <Textinput
+                                                label="Video URL (#)"
+                                                placeholder="https://www.youtube.com/watch"
+                                                type="text"
+                                                register={register}
+                                                name="video_url"
+                                                backendValidationError={backendError?.video_url}
+                                                error={errors.video_url}
+                                            />
+                                            
                                                 <div className="flex justify-end mt-4">
                                                     <div className="mr-3">
                                                         {isLoading ? (
