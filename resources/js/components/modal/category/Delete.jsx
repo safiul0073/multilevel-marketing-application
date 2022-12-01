@@ -11,33 +11,30 @@ export default function DeleteCategory({isOpen, setIsOpen, closeModal, refatcher
     const onSubmit= (data) => {
         deleteCategoryMutate(data)
     }
-  function closeModal() {
-    setIsOpen(false)
-  }
+    function closeModal() {
+        setIsOpen(false)
+    }
 
-  const {
-    mutate: deleteCategoryMutate,
-    isLoading,
-    // reset,
-    isError,
-    isSuccess,
-  } = useMutation(deleteCategory, {
-    onSuccess: (data) => {
-        toast.success(data, {
-            position: 'top-right',
-        });
-        refatcher()
-        closeModal()
-    },
-    onError: (err) => {
+    const {
+        mutate: deleteCategoryMutate,
+        isLoading,
+    } = useMutation(deleteCategory, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right',
+            });
+            refatcher()
+            closeModal()
+        },
+        onError: (err) => {
 
-      let errorobj = err?.response?.data?.data?.json_object;
-      setBackendError({
-        ...backendError,
-        ...errorobj,
-      });
-    },
-  });
+            let errorobj = err?.response?.data?.data?.json_object;
+            setBackendError({
+            ...backendError,
+            ...errorobj,
+            });
+        },
+    });
   return (
     <>
 
@@ -88,7 +85,7 @@ export default function DeleteCategory({isOpen, setIsOpen, closeModal, refatcher
 
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>
-                                        {false ? (
+                                        {isLoading ? (
                                             <>
                                             <button className="btn btn-danger flex justify-center align-center" type="button" disabled>
                                                 <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

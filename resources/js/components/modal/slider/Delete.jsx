@@ -3,7 +3,7 @@ import { Fragment } from 'react'
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
 import { deleteSlider } from '../../../hooks/queries/slider';
-
+import  toast  from 'react-hot-toast';
 
 export default function DeleteSlider({isOpen, setIsOpen, closeModal, refatcher, slider}) {
 
@@ -11,30 +11,31 @@ export default function DeleteSlider({isOpen, setIsOpen, closeModal, refatcher, 
     const onSubmit= (data) => {
         deleteSliderMutate(data)
     }
-  function closeModal() {
-    setIsOpen(false)
-  }
+    
+    function closeModal() {
+        setIsOpen(false)
+    }
 
-  const {
-    mutate: deleteSliderMutate,
-    isLoading,
-    // reset,
-    isError,
-    isSuccess,
-  } = useMutation(deleteSlider, {
-    onSuccess: (data) => {
-        refatcher()
-        closeModal()
-    },
-    onError: (err) => {
+    const {
+        mutate: deleteSliderMutate,
+        isLoading,
+    } = useMutation(deleteSlider, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right',
+            });
+            refatcher()
+            closeModal()
+        },
+        onError: (err) => {
 
-      let errorobj = err?.response?.data?.data?.json_object;
-      setBackendError({
-        ...backendError,
-        ...errorobj,
-      });
-    },
-  });
+            let errorobj = err?.response?.data?.data?.json_object;
+            setBackendError({
+            ...backendError,
+            ...errorobj,
+            });
+        },
+    });
   return (
     <>
 

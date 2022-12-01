@@ -67,6 +67,7 @@ class CategoryController extends Controller
             'status' => 'nullable',
         ]);
         $category = Category::find((int)$att['id']);
+        unset($att['id']);
         $category->update($att);
 
         return $this->withSuccess('Category successfully Updated.');
