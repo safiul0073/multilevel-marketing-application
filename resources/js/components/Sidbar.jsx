@@ -17,11 +17,12 @@ import {
 import { getLoggedOut } from "../hooks/queries/auth/auth";
 import { Logout } from "../helper/functions";
 import { UseStore } from "../store";
-import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 export const Sidbar = () => {
+    let navigate = useNavigate();
     const { removeAuth, removeUser } = UseStore();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const navigation = [

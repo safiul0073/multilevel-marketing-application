@@ -1,98 +1,53 @@
-
 <footer class="bg-gray-800" aria-labelledby="footer-heading">
   <h2 id="footer-heading" class="sr-only">Footer</h2>
   <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-    <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-      <div class="grid grid-cols-2 gap-8 xl:col-span-2">
-        <div class="md:grid md:grid-cols-2 md:gap-8">
-          <div>
-            <h3 class="text-base font-medium text-white">Solutions</h3>
-            <ul role="list" class="mt-4 space-y-4">
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Marketing</a>
-              </li>
+    <div class="md:grid md:grid-cols-2 md:gap-8">
+      <div class="sm:grid sm:grid-cols-2 sm:gap-8">
+        <div class="text-center md:text-left">
+          <h3 class="text-base font-medium text-white">Solutions</h3>
+          <ul role="list" class="mt-4 space-y-4">
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Marketing</a>
+            </li>
 
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Analytics</a>
-              </li>
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Analytics</a>
+            </li>
 
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Commerce</a>
-              </li>
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Commerce</a>
+            </li>
 
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Insights</a>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-12 md:mt-0">
-            <h3 class="text-base font-medium text-white">Support</h3>
-            <ul role="list" class="mt-4 space-y-4">
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Pricing</a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Documentation</a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Guides</a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">API Status</a>
-              </li>
-            </ul>
-          </div>
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Insights</a>
+            </li>
+          </ul>
         </div>
-        <div class="md:grid md:grid-cols-2 md:gap-8">
-          <div>
-            <h3 class="text-base font-medium text-white">Company</h3>
-            <ul role="list" class="mt-4 space-y-4">
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">About</a>
-              </li>
+        <div class="mt-12 sm:mt-0 text-center md:text-left">
+          <h3 class="text-base font-medium text-white">Support</h3>
+          <ul role="list" class="mt-4 space-y-4">
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Pricing</a>
+            </li>
 
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Blog</a>
-              </li>
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Documentation</a>
+            </li>
 
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Jobs</a>
-              </li>
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">Guides</a>
+            </li>
 
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Press</a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Partners</a>
-              </li>
-            </ul>
-          </div>
-          <div class="mt-12 md:mt-0">
-            <h3 class="text-base font-medium text-white">Legal</h3>
-            <ul role="list" class="mt-4 space-y-4">
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Claim</a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Privacy</a>
-              </li>
-
-              <li>
-                <a href="#" class="text-base text-gray-300 hover:text-white">Terms</a>
-              </li>
-            </ul>
-          </div>
+            <li>
+              <a href="#" class="text-base text-gray-300 hover:text-white">API Status</a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="mt-8 xl:mt-0">
+      <div class="mt-8 md:mt-0 text-center md:text-left">
         <h3 class="text-base font-medium text-white">Subscribe to our newsletter</h3>
         <p class="mt-4 text-base text-gray-300">The latest news, articles, and resources, sent to your inbox weekly.</p>
-        <form class="mt-4 sm:flex sm:max-w-md">
+        <form class="mt-4 flex mx-auto md:mx-0 sm:max-w-md justify-center md:justify-start">
           <label for="email-address" class="sr-only">Email address</label>
           <input type="email" name="email-address" id="email-address" autocomplete="email" required class="w-full min-w-0 appearance-none rounded-md border border-transparent bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus:border-white focus:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" placeholder="Enter your email">
           <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
@@ -101,7 +56,7 @@
         </form>
       </div>
     </div>
-    <div class="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
+    <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center md:justify-between">
       <div class="flex space-x-6 md:order-2">
         <a href="#" class="text-gray-400 hover:text-gray-300">
           <span class="sr-only">Facebook</span>

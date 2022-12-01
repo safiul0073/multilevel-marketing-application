@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/category/CreateModal";
 import DeleteCategory from "../components/modal/category/Delete";
 import EditModal from "../components/modal/category/EditModal";
 import { getCategoryList } from "../hooks/queries/category/getCategoryList";
 
-export const Category = () => {
+const Category = () => {
 
     // fetching category list using react query
     const {data, isLoading, refetch} = getCategoryList()
@@ -193,3 +194,5 @@ export const Category = () => {
         </>
     );
 };
+
+export default Protected(Category);

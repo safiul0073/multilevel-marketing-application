@@ -29,9 +29,9 @@
             </svg>
         </div>
     </div>
-    <div class="pt-6 pb-16 sm:pb-24">
+    <div class="py-8 md:py-12 xl:py-20">
         <div class="container">
-            <div class="mx-auto mt-16 px-4 sm:px-6">
+            <div class="mx-auto px-4 sm:px-6">
                 <div class="text-center">
                     <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
                         <span class="block">Data to enrich your</span>
@@ -67,21 +67,21 @@
     </div>
 </div>
 
-<div class="bg-gray-800">
-    <div class="container pt-20 pb-28">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl md:text-6xl mb-20 text-center">
+<div class="bg-gray-800 py-10 md:py-12 lg:py-20">
+    <div class=" container">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl md:text-6xl mb-10 md:mb-12 lg:mb-20 text-center">
             <span class="block">Some of Our</span>
             <span class="block text-indigo-500">Trending Products</span>
         </h1>
         <div class="bg-indigo-600/20 rounded-xl">
-            <div class="mx-auto p-8 sm:p-16 lg:p-24">
+            <div class="mx-auto p-4 sm:p-8">
                 <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     <a href="#" class="group">
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -97,8 +97,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -114,8 +114,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -131,8 +131,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -148,8 +148,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -164,8 +164,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -181,8 +181,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -198,8 +198,8 @@
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
                             <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
-                        <div class="flex justify-between items-center">
-                            <div class="my-4 flex flex-col">
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex flex-col">
                                 <h3 class="text-sm text-white">Earthen Bottle</h3>
                                 <p class="mt-1 text-lg font-medium text-white">$48</p>
                             </div>
@@ -217,8 +217,8 @@
     </div>
 </div>
 
-<div class="bg-white py-16 lg:py-24">
-    <h1 class="text-4xl font-bold tracking-tight text-gray-500 sm:text-5xl md:text-6xl mb-20 text-center">
+<div class="bg-white py-10 md:py-12 lg:py-20">
+    <h1 class="text-4xl font-bold tracking-tight text-gray-500 sm:text-5xl md:text-6xl mb-10 md:mb-12 lg:mb-20 text-center">
         <span class="block tracking-wide">Some of Our's</span>
         <span class="block text-indigo-700">Success Story</span>
     </h1>
@@ -289,7 +289,7 @@
     </div>
 </div>
 
-<div class="relative bg-gray-900">
+<div class="relative bg-gray-900 py-10 md:py-12 lg:py-20">
     <div class="absolute bottom-0 h-80 w-full xl:inset-0 xl:h-full">
         <div class="h-full w-full xl:grid xl:grid-cols-2">
             <div class="h-full xl:relative xl:col-start-2">
@@ -299,8 +299,8 @@
         </div>
     </div>
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-        <div class="relative pt-12 pb-64 sm:pt-24 sm:pb-64 xl:col-start-1 xl:pb-24">
-            <h1 class="text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl md:text-6xl mb-20 text-center">
+        <div class="relative pb-0 sm:pb-6 xl:col-start-1 xl:pb-24">
+            <h1 class="text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl md:text-6xl mb-10 md:mb-12 lg:mb-20 text-center">
                 <span class="block text-indigo-500">Achievements</span>
             </h1>
             <div class="w-full bg-indigo-300/10 border rounded-lg shadow-md border-indigo-900/20">
@@ -337,13 +337,13 @@
     </div>
 </div>
 
-<div class="relative bg-white py-16 sm:py-24 lg:py-32">
+<div class="relative bg-white py-10 md:py-12 lg:py-20">
     <div class="mx-auto max-w-md px-6 text-center sm:max-w-3xl lg:max-w-7xl lg:px-8">
         <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Our UpComing Events</p>
-        <div class="mt-20">
-            <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div class=" mt-10 md:mt-12 lg:mt-20 ">
+            <div class="grid grid-cols-1 gap-4 md:gap-8 lg:gap-12 sm:grid-cols-2 lg:grid-cols-3">
                 <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-50 px-6 pb-8">
+                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
                         <div class="-mt-6">
                             <div>
                                 <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
@@ -360,7 +360,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-50 px-6 pb-8">
+                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
                         <div class="-mt-6">
                             <div>
                                 <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
@@ -377,7 +377,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-50 px-6 pb-8">
+                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
                         <div class="-mt-6">
                             <div>
                                 <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
@@ -394,7 +394,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-50 px-6 pb-8">
+                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
                         <div class="-mt-6">
                             <div>
                                 <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
@@ -411,7 +411,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-50 px-6 pb-8">
+                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
                         <div class="-mt-6">
                             <div>
                                 <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
@@ -428,7 +428,7 @@
                 </div>
 
                 <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-50 px-6 pb-8">
+                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
                         <div class="-mt-6">
                             <div>
                                 <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
