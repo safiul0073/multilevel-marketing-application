@@ -6,6 +6,7 @@ import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
 import * as yup from "yup";
 import { createCategory } from '../../../hooks/queries/category';
+import  toast  from 'react-hot-toast';
 export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) {
 
     const schema = yup
@@ -32,6 +33,9 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
     isSuccess,
   } = useMutation(createCategory, {
     onSuccess: (data) => {
+        toast.success(data, {
+            position: 'top-right'
+        });
         refatcher()
         closeModal()
     },

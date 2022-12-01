@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
+import  toast  from 'react-hot-toast';
 
 import * as yup from "yup";
 import { updateCategory } from '../../../hooks/queries/category';
@@ -39,8 +40,12 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, cat
     isSuccess,
   } = useMutation(updateCategory, {
     onSuccess: (data) => {
+        toast.success(data, {
+            position: 'top-right'
+        });
         refatcher()
         closeModal()
+
     },
     onError: (err) => {
 

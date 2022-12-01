@@ -14,6 +14,7 @@ import Login from '../components/Auth/Login'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
+import { Toaster } from 'react-hot-toast';
 
 function Index() {
 
@@ -70,7 +71,7 @@ if (document.getElementById('root')) {
 
     rootId.render(
         <React.StrictMode>
-            <Index/>
+            <Index/><Toaster />
         </React.StrictMode>
     )
 }

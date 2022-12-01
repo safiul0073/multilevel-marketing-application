@@ -5,3 +5,15 @@
 .container {
     @apply max-w-screen-2xl laptop:max-w-screen-xl px-4 sm:px-8 mx-auto;
 }
+
+.btn {
+    @apply rounded-md px-3 py-1;
+}
+
+.btn-primary {
+    @apply bg-indigo-700 text-white uppercase;
+}
+
+.btn-danger {
+    @apply bg-red-500 text-white uppercase;
+}
