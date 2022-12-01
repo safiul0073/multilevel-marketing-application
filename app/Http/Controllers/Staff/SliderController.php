@@ -94,18 +94,22 @@ class SliderController extends Controller
             'status' => 'required|digits_between:0,1',
         ]);
         $slider = Slider::find($att['id']);
+        unset($att['id']);
         $slider_image = null;
         if ($request->hasFile('image')) {
             $slider_image = $this->uploadFile($request->file('image'));
-            $this->deleteFile($slider?->image?->url);
-            $slider->image()->delete();
+            if ($slider?->image?->url) {
+                $this->deleteFile($slider?->image?->url);
+                $slider->image()->delete();
+            }
+
             unset($att['image']);
         }
 
         try {
             DB::beginTransaction();
-            $slider = Slider::create($att);
-            if (! $slider) {
+            $s = $slider->update($att);
+            if (! $s) {
                 throw new Exception('Slider not updated!');
             }
             if ($slider_image) {

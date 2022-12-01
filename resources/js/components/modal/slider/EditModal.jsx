@@ -4,10 +4,11 @@ import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-
+import  toast  from 'react-hot-toast';
 import * as yup from "yup";
-import { updateCategory } from '../../../hooks/queries/category';
 import { updateSlider } from '../../../hooks/queries/slider';
+import Textinput from '../../common/Textinput';
+
 export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, slider}) {
     const [backendError, setBackendError] = useState()
     const schema = yup
@@ -31,7 +32,6 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
         finalData.title = data.title
         finalData.status = data.status
         finalData.image = findImage
-        console.log(finalData)
         updateSliderMutate(finalData)
     }
 
@@ -47,11 +47,12 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
   const {
     mutate: updateSliderMutate,
     isLoading,
-    // reset,
-    isError,
-    isSuccess,
   } = useMutation(updateSlider, {
     onSuccess: (data) => {
+        toast.success(data, {
+            position: 'top-right'
+        });
+        reset()
         refatcher()
         closeModal()
     },
@@ -103,28 +104,34 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
                         <div className='px-6'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className=" w-3/4 mx-auto">
-                                <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="title">Slider Title</label>
-                                        <input type="text" className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' id="title" {...register('title', { required: true })} />
-                                        <p className='text-red-500 italic font-light py-2'>{errors.title?.message ?? backendError?.title}</p>
-                                    </div>
+                                <Textinput
+                                    label="Slider Title"
+                                    placeholder="First Slider"
+                                    register={register}
+                                    name="title"
+                                    type="text"
+                                    backendValidationError={backendError?.title}
+                                    error={errors.title}
+                                />
                                     <div className='flex flex-row items-center gap-3'>
-                                        <div>
-                                            <label className="text-gray-600 font-medium" htmlFor="image">Slider Image</label>
-                                            <input type="file" className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2'  id="image" onChange={handleImage} />
-                                            <p className='text-red-500 italic font-light py-2'>{errors.image?.message ?? backendError?.image}</p>
+                                        <div className='formGroup'>
+                                            <label className="label-style" htmlFor="image">Slider Image</label>
+                                            <input type="file" className='form-control'  id="image" onChange={handleImage} />
+                                            <p className='error-messag'>{errors.image?.message ?? backendError?.image}</p>
                                         </div>
                                         <div>
                                             <img width={100} height={80} src={slider?.image?.url} alt="" />
                                         </div>
                                     </div>
-                                    <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="status">Status</label>
-                                        <select {...register('status', { required: false })} className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' name="status" id="status">
+                                    <div className='formGroup'>
+                                        <label className="label-style" htmlFor="status">Status</label>
+                                        <select {...register('status', { required: false })} className='form-control' name="status" id="status">
+                                            <option value="">Select a status</option>
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
                                     </div>
+
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>
                                         {isLoading ? (
