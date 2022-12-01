@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Staff;
+namespace App\Http\Controllers\Staff\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
@@ -19,10 +20,14 @@ class StaffController extends Controller
             'password' => 'string|min:8',
         ]);
 
-        $user = User::where('username', $att['username'])->whereNull('reference_id')->first();
+        $user = User::where('username', $att['username'])->whereNull('referrance_id')->first();
 
         if (! $user) {
             return $this->withNotFound('User not fount!');
+        }
+        
+        if (!Hash::check($request->password, $user->password)){
+            return $this->withErrors('Invalied password. Try again');
         }
 
         $token = $user->createToken('staff')->plainTextToken;

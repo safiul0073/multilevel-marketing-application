@@ -2,10 +2,34 @@
 
 namespace App\Models;
 
+use App\Traits\MediaOperator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Media extends Model
 {
-    use HasFactory;
+    use HasFactory, MediaOperator;
+
+    public $timestamps = false;
+
+    protected $guarded = [];
+
+    /**
+     * Get the parent media model (user or product).
+     */
+    public function media()
+    {
+        return $this->morphTo();
+    }
+
+    function getUrlAttribute($value) {
+        if ($value && request()->method() === 'GET') {
+            if (app()->environment('local')) {
+                return 'http://localhost:8000/storage/'. $value;
+            }
+            return $this->getFileUrl($value);
+        }
+        return $value;
+    }
+
 }

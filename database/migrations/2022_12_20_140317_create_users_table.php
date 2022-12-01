@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('reference_id')->nullable();
+            $table->unsignedBigInteger('referrance_id')->nullable();
             $table->string('first_name')->nullable()->index();
             $table->string('last_name')->nullable()->index();
             $table->string('username')->unique()->index();
@@ -33,6 +33,9 @@ return new class extends Migration
             $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('left_ref_id')->nullable();
             $table->unsignedBigInteger('right_ref_id')->nullable();
+            $table->unsignedBigInteger('total_group')->default(0);
+            $table->double('total_income', 15)->default(0);
+            $table->float('total_withdraw')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

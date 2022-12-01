@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,18 +15,19 @@
     @stack('custom_style')
     @yield('custome_style')
 </head>
+
 <body>
-    {{-- banner --}}
+    <div class="w-full min-h-screen bg-gray-100 relative">
 
-    {{-- navigation bar --}}
+        {{-- Header  --}}
+        @include('frontend.layouts.partials.header')
 
-    {{-- slider --}}
+        @yield('content')
 
-    {{-- content --}}
+        {{-- footer --}}
+        @include('frontend.layouts.partials.footer')
 
-    @yield('content')
-
-    {{-- footer --}}
+    </div>
 
 
     {{-- dependent script --}}
@@ -34,4 +36,5 @@
     @stack('custom_scipt')
     @yield('custome_scipt')
 </body>
+
 </html>
