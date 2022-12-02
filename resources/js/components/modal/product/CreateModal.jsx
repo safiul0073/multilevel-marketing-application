@@ -36,13 +36,27 @@ export default function CreateModal({
         register,
         handleSubmit,
         control,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
     const onSubmit = (data) => {
-        data.thamnail_image = data.thamnail_image[0]
-        createProductMutate(data);
+        let formData = {}
+        formData.name = data.name
+        formData.category_id = data.category_id
+        formData.price = data.price
+        formData.refferral_commission = data.refferral_commission
+        formData.video_url = data.video_url
+        formData.description = data.description
+        formData.thamnail_image = data.thamnail_image[0]
+
+        let imagelist = []
+        for (const key of Object.keys(data.images)) {
+          imagelist.push(data.images[key])
+        }
+        formData.images = imagelist
+        createProductMutate(formData);
     };
     function closeModal() {
         setIsOpen(false);
@@ -55,6 +69,7 @@ export default function CreateModal({
             toast.success(data, {
                 position: 'top-right'
             });
+            reset()
             refatcher();
             closeModal();
         },
@@ -180,6 +195,14 @@ export default function CreateModal({
                                                 id=""
                                                 cols="30"
                                                 rows="5"></textarea>
+                                                {backendError && backendError?.description && (
+                                                    <p className="error-message">
+                                                    {backendError?.description}
+                                                    </p>
+                                                )}
+                                                {
+                                                    errors && errors?.description && <div className="error-message"> {errors?.description?.message}</div>
+                                                }
                                             </div>
 
 

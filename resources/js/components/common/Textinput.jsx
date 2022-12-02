@@ -57,7 +57,7 @@
           }
 
           {backendValidationError && (
-            <p className="error-messag">
+            <p className="error-message">
               {backendValidationError}
             </p>
           )}
