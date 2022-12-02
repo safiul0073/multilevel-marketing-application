@@ -11,6 +11,7 @@
     classGroup = "",
     register,
     name,
+    multiple= false,
     readonly = false,
     dvalue = "",
     requ = true,
@@ -39,6 +40,7 @@
                 placeholder={placeholder}
                 readOnly={readonly}
                 value={value}
+                multiple={multiple}
               />
             )
           }
@@ -55,7 +57,7 @@
           }
 
           {backendValidationError && (
-            <p className="error-messag">
+            <p className="error-message">
               {backendValidationError}
             </p>
           )}

@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['category:id,title','images'] )->orderBy('id', 'DESC')->paginate(10);
+        $products = Product::with(['category:id,title'] )->orderBy('id', 'DESC')->paginate(10);
 
         return $this->withSuccess($products);
     }
@@ -129,8 +129,8 @@ class ProductController extends Controller
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images.*' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
-            'thamnail_image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'images.*' => ['nullable',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'thamnail_image' => ['nullable',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
             'status' => 'nullable|between:0,1',
         ]);
         $product = Product::find($att['id']);

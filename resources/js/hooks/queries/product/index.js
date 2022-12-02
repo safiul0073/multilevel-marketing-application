@@ -2,6 +2,7 @@ import { userAxios } from "../../../config/axios.config";
 import { APIURL } from "../../../constent";
 
 export const createProduct = async (inputData) => {
+
     const res = await userAxios.post(`${APIURL}/staff/product`, inputData);
 
     return res?.data?.data?.string_data;

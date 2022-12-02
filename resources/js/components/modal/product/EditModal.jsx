@@ -1,52 +1,81 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiOutlineUserAdd } from "react-icons/ai";
 import { useMutation } from "react-query";
-
 import * as yup from "yup";
 import { updateProduct } from "../../../hooks/queries/product";
+import { getCategorySelectlist } from "../../../hooks/queries/product/getCategorySelectlist";
+import SelectInput from "../../common/SelectInput";
+import Textinput from "../../common/Textinput"
+import  toast  from 'react-hot-toast';
+
 export default function EditModal({
     isOpen,
     setIsOpen,
     closeModal,
     refatcher,
-    product,
+    product
 }) {
+    const [backendError, setBackendError] = useState([])
+
+    const {data:categories} = getCategorySelectlist()
+
     const schema = yup
         .object({
-            title: yup.string().min(4, "Too Short!").max(50, "Too Long!"),
+            name: yup.string().min(4, "Too Short!").max(500, "Too Long!").required(),
+            category_id: yup.number("Select a category").required("Please select a Category!"),
+            price: yup.number('Please enter package price!').required("Enter a price!"),
+            refferral_commission: yup.number("Please enter referel commission!").required("Enter a price!"),
+            video_url: yup.string("Video url must a link").url("Please enter a video link"),
+            description: yup.string("Only string").required("Please enter package details")
         })
         .required();
+
     const {
         register,
-        reset,
         handleSubmit,
+        control,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
     const onSubmit = (data) => {
-        updateProductMutate(data);
+        let formData = {}
+        formData.id = product.id
+        formData.name = data.name
+        formData.category_id = data.category_id
+        formData.price = data.price
+        formData.refferral_commission = data.refferral_commission
+        formData.video_url = data.video_url
+        formData.description = data.description
+        if (data.thamnail_image[0]) {
+            formData.thamnail_image = data.thamnail_image[0]
+        }
+        let imagelist = []
+        if (data.images[0]) {
+            for (const key of Object.keys(data.images)) {
+                imagelist.push(data.images[key])
+              }
+              formData.images = imagelist
+        }
+        // product update mutation calling
+        updateProductMutate(formData);
     };
     function closeModal() {
         setIsOpen(false);
     }
-
-    useEffect(() => {
-        if (product) {
-            reset(product);
-        }
-    }, [product]);
     const {
         mutate: updateProductMutate,
         isLoading,
-        // reset,
-        isError,
-        isSuccess,
     } = useMutation(updateProduct, {
         onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            reset()
             refatcher();
             closeModal();
         },
@@ -58,6 +87,11 @@ export default function EditModal({
             });
         },
     });
+    useEffect(() => {
+        if (product) {
+            reset(product)
+        }
+    }, [product])
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -88,62 +122,100 @@ export default function EditModal({
                                 <div className="inline-block w-full max-w-2xl pb-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-[3px]">
                                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                                         <span className="inline-block text-2xl mr-3">
-                                            <AiFillPlusCircle />
+                                            <AiOutlineUserAdd />
                                         </span>
-                                        Update Product
+                                        Create Product
                                     </div>
 
                                     <div className="px-6">
                                         <form onSubmit={handleSubmit(onSubmit)}>
-                                            <div className=" w-3/4 mx-auto">
-                                                <div>
-                                                    <label
-                                                        className="text-gray-600 font-medium"
-                                                        htmlFor="title"
-                                                    >
-                                                        Product Title
-                                                    </label>
-                                                    <input
-                                                        className="w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2"
-                                                        id="title"
-                                                        {...register("title", {
-                                                            required: true,
-                                                        })}
-                                                    />
-                                                    {errors.title &&
-                                                        errors.title.type ===
-                                                            "required" && (
-                                                            <span className="text-red-600 italic">
-                                                                <small>
-                                                                    Type a name
-                                                                </small>
-                                                            </span>
-                                                        )}
-                                                </div>
+                                            <div className=" w-3/4 mx-auto overflow-y-auto">
+                                            <Textinput
+                                                label="Package Name"
+                                                placeholder="package 1"
+                                                register={register}
+                                                name="name"
+                                                type="text"
+                                                backendValidationError={backendError?.name}
+                                                error={errors.name}
+                                            />
 
-                                                <div>
-                                                    <label
-                                                        className="text-gray-600 font-medium"
-                                                        htmlFor="status"
-                                                    >
-                                                        Status
-                                                    </label>
-                                                    <select
-                                                        {...register("status", {
-                                                            required: false,
-                                                        })}
-                                                        className="w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2"
-                                                        name="status"
-                                                        id="status"
-                                                    >
-                                                        <option value="1">
-                                                            Active
-                                                        </option>
-                                                        <option value="0">
-                                                            Inactive
-                                                        </option>
-                                                    </select>
-                                                </div>
+                                            <SelectInput
+                                                label="Select Category"
+                                                labelFor="category_id"
+                                                controlFu={control}
+                                                reqMessage="Please select Category"
+                                                optionArray={categories}
+                                                errorObj={errors?.category_id}
+                                                backendErrorMessagae={backendError?.category_id}
+                                            />
+
+                                            <Textinput
+                                                label="Price"
+                                                placeholder="5000"
+                                                type="number"
+                                                register={register}
+                                                name="price"
+                                                backendValidationError={backendError?.price}
+                                                error={errors.price}
+                                            />
+
+                                            <Textinput
+                                                label="Reference Commission (%)"
+                                                placeholder="20"
+                                                type="number"
+                                                register={register}
+                                                name="refferral_commission"
+                                                backendValidationError={backendError?.refferral_commission}
+                                                error={errors.refferral_commission}
+                                            />
+
+                                            <Textinput
+                                                label="Video URL (#)"
+                                                placeholder="https://www.youtube.com/watch"
+                                                type="text"
+                                                register={register}
+                                                name="video_url"
+                                                backendValidationError={backendError?.video_url}
+                                                error={errors.video_url}
+                                            />
+                                            <Textinput
+                                                label="Images (.jpg, .png, 100k - 2000k)"
+                                                type="file"
+                                                multiple={true}
+                                                register={register}
+                                                name="images"
+                                                backendValidationError={backendError?.images}
+                                                error={errors.images}
+                                            />
+
+                                            <Textinput
+                                                label="Thamnail Image (.jpg, .png, 100k - 2000k)"
+                                                type="file"
+                                                register={register}
+                                                name="thamnail_image"
+                                                backendValidationError={backendError?.thamnail_image}
+                                                error={errors.thamnail_image}
+                                            />
+                                            <div className="formGroup">
+                                                <label htmlFor="description" className="label-style">Description</label>
+                                                <textarea
+                                                className="w-full my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700"
+                                                {...register('description', { required: true })}
+                                                placeholder="Write package details here..."
+                                                id="description"
+                                                cols="30"
+                                                rows="5"></textarea>
+                                                {backendError && backendError?.description && (
+                                                    <p className="error-message">
+                                                    {backendError?.description}
+                                                    </p>
+                                                )}
+                                                {
+                                                    errors && errors?.description && <div className="error-message"> {errors?.description?.message}</div>
+                                                }
+                                            </div>
+
 
                                                 <div className="flex justify-end mt-4">
                                                     <div className="mr-3">
@@ -181,7 +253,7 @@ export default function EditModal({
                                                         ) : (
                                                             <input
                                                                 type="submit"
-                                                                value="Update"
+                                                                value="Create"
                                                                 className=" cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md"
                                                             />
                                                         )}

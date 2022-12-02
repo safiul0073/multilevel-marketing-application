@@ -9,6 +9,7 @@ import { createProduct } from "../../../hooks/queries/product";
 import { getCategorySelectlist } from "../../../hooks/queries/product/getCategorySelectlist";
 import SelectInput from "../../common/SelectInput";
 import Textinput from "../../common/Textinput"
+import  toast  from 'react-hot-toast';
 
 export default function CreateModal({
     isOpen,
@@ -27,19 +28,35 @@ export default function CreateModal({
             price: yup.number('Please enter package price!').required("Enter a price!"),
             refferral_commission: yup.number("Please enter referel commission!").required("Enter a price!"),
             video_url: yup.string("Video url must a link").url("Please enter a video link"),
+            description: yup.string("Only string").required("Please enter package details")
         })
         .required();
+
     const {
         register,
         handleSubmit,
         control,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
     });
     const onSubmit = (data) => {
-        // createProductMutate(data);
-        console.log(data)
+        let formData = {}
+        formData.name = data.name
+        formData.category_id = data.category_id
+        formData.price = data.price
+        formData.refferral_commission = data.refferral_commission
+        formData.video_url = data.video_url
+        formData.description = data.description
+        formData.thamnail_image = data.thamnail_image[0]
+
+        let imagelist = []
+        for (const key of Object.keys(data.images)) {
+          imagelist.push(data.images[key])
+        }
+        formData.images = imagelist
+        createProductMutate(formData);
     };
     function closeModal() {
         setIsOpen(false);
@@ -47,11 +64,12 @@ export default function CreateModal({
     const {
         mutate: createProductMutate,
         isLoading,
-        reset,
-        isError,
-        isSuccess,
     } = useMutation(createProduct, {
         onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            reset()
             refatcher();
             closeModal();
         },
@@ -150,7 +168,44 @@ export default function CreateModal({
                                                 backendValidationError={backendError?.video_url}
                                                 error={errors.video_url}
                                             />
-                                            
+                                            <Textinput
+                                                label="Images (.jpg, .png, 100k - 2000k)"
+                                                type="file"
+                                                multiple={true}
+                                                register={register}
+                                                name="images"
+                                                backendValidationError={backendError?.images}
+                                                error={errors.images}
+                                            />
+
+                                            <Textinput
+                                                label="Thamnail Image (.jpg, .png, 100k - 2000k)"
+                                                type="file"
+                                                register={register}
+                                                name="thamnail_image"
+                                                backendValidationError={backendError?.thamnail_image}
+                                                error={errors.thamnail_image}
+                                            />
+                                            <div className="formGroup">
+                                                <label htmlFor="description" className="label-style">Description</label>
+                                                <textarea
+                                                className="w-full my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700"
+                                                {...register('description', { required: true })}
+                                                placeholder="Write package details here..."
+                                                id=""
+                                                cols="30"
+                                                rows="5"></textarea>
+                                                {backendError && backendError?.description && (
+                                                    <p className="error-message">
+                                                    {backendError?.description}
+                                                    </p>
+                                                )}
+                                                {
+                                                    errors && errors?.description && <div className="error-message"> {errors?.description?.message}</div>
+                                                }
+                                            </div>
+
+
                                                 <div className="flex justify-end mt-4">
                                                     <div className="mr-3">
                                                         {isLoading ? (

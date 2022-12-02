@@ -150,7 +150,7 @@ export const Product = () => {
                                                                 {[
                                                                     ...productList,
                                                                 ]
-                                                                    .reverse()
+                                                                
                                                                     ?.map(
                                                                         (
                                                                             product
