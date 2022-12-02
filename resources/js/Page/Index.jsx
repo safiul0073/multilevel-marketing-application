@@ -49,18 +49,22 @@ function Index() {
         <>
         <QueryClientProvider client={queryClient}>
             {isAuth ?
+                <BrowserRouter>
                      <Layout/>
+                </BrowserRouter>
                 :
-                <AuthLayout>
-                        <Routes>
-                            <Route path="/staff" element={<Dashboard />} />
-                            <Route path="/staff/login" element={<Login />} />
+                <BrowserRouter>
+                    <AuthLayout>
+                            <Routes>
+                                <Route path="/staff" element={<Dashboard />} />
+                                <Route path="/staff/login" element={<Login />} />
 
-                            <Route path="/staff/email-validation" element={<OtpRequest />} />
-                            <Route path="/staff/otp-checker" element={<CheckerOTP />} />
-                            <Route path="/staff/reset-password" element={<ResetPassword />} />
-                        </Routes>
-                </AuthLayout>
+                                <Route path="/staff/email-validation" element={<OtpRequest />} />
+                                <Route path="/staff/otp-checker" element={<CheckerOTP />} />
+                                <Route path="/staff/reset-password" element={<ResetPassword />} />
+                            </Routes>
+                    </AuthLayout>
+                </BrowserRouter>
             }
         </QueryClientProvider>
         </>
@@ -74,11 +78,7 @@ if (document.getElementById('root')) {
 
     rootId.render(
         <React.StrictMode>
-             <BrowserRouter>
-                <Index>
-                    <Toaster />
-                </Index>
-            </BrowserRouter>
+            <Index/><Toaster />
         </React.StrictMode>
     )
 }
