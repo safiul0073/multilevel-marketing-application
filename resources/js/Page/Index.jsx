@@ -14,6 +14,9 @@ import Login from '../components/Auth/Login'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
+import { OtpRequest } from '../components/Auth/OtpRequest';
+import { CheckerOTP } from '../components/Auth/CheckerOTP';
+import { ResetPassword } from '../components/Auth/ResetPassword';
 import { Toaster } from 'react-hot-toast';
 
 function Index() {
@@ -52,6 +55,10 @@ function Index() {
                         <Routes>
                             <Route path="/staff" element={<Dashboard />} />
                             <Route path="/staff/login" element={<Login />} />
+
+                            <Route path="/staff/email-validation" element={<OtpRequest />} />
+                            <Route path="/staff/otp-checker" element={<CheckerOTP />} />
+                            <Route path="/staff/reset-password" element={<ResetPassword />} />
                         </Routes>
                 </AuthLayout>
             }

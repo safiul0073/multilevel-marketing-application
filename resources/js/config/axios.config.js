@@ -19,6 +19,7 @@ const userAxioswithoutRedirect = axios.create({
     "Accept": "application/json, text/plain, */*",
     "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
+    // 'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     Authorization: `Bearer ${token}`,
   },
 });
@@ -30,6 +31,7 @@ const userAxios = axios.create({
     "Accept": "application/json, text/plain, */*",
     "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
+    // 'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     Authorization: `Bearer ${token}`,
   },
 });
