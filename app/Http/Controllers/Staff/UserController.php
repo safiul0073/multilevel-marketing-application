@@ -44,24 +44,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $att = $this->validate($request, [
-            'sponsor_id' => 'required|numeric|exists:users,username',
+            'sponsor_id' => 'required|numeric|exists:users,id',
             'refer_psition' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
             'username' => 'required|string|min:4|unique:users',
-            'email' => 'required|string|unique:users',
-            'phone' => 'required|min:11|unique:users',
+            'email' => 'required|string',
+            'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
         ]);
-        $sopnsor = User::where('username', $request->sponsor_id)->first();
+        $sopnsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
         unset($userAtt['product_id']);
         unset($userAtt['refer_psition']);
-        $product = Product::findOrFail($att['product_id']);
+        $product = Product::find((int)$att['product_id']);
         try {
             DB::beginTransaction();
             $user = User::create($userAtt);
@@ -69,7 +69,7 @@ class UserController extends Controller
                 throw new Exception('User not create!');
             }
             // position setting
-            $this->user_service->setReferPosition($att['referrance_id'],
+            $this->user_service->setReferPosition($att['sponsor_id'],
             $user->id,
             (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
 
@@ -85,11 +85,14 @@ class UserController extends Controller
 
             // generation looping
             $i = 2;
-            $this->user_service->generationLoop($sopnsor->username, $user->username, $i);
+            $this->user_service->generationLoop($sopnsor->id, $user->id, $i);
             $user->purchases()->create([
                 'product_id' => $att['product_id'],
                 'amount' => $product->price,
             ]);
+
+            // bonuse given
+            $this->user_service->bonuseGiven($sopnsor->id, $user->id);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());

@@ -14,11 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('generations', function (Blueprint $table) {
+        Schema::create('bonuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'main_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(User::class, 'member_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->unsignedInteger('gen_type')->index()->default(0);
+            $table->foreignIdFor(User::class, 'given_id')->index()->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'for_given_id')->index()->constrained('users')->cascadeOnDelete();
+            $table->string('bonuse_type')->default('joining');
+            $table->float('amount')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('generations');
+        Schema::dropIfExists('bonuses');
     }
 };

@@ -15,13 +15,13 @@ class UserService {
      * @refferrer_id type int chiled id
      * @return void
      */
-    public function setReferPosition (int $refferrenc_id, int $refferrer_id, string $position = 'left',):void {
+    public function setReferPosition (int $sponsor_id, int $refferrer_id, string $position = 'left',):void {
 
         if (!in_array($position, ['left', 'right'])) {
             throw new Exception('please select left or right');
         }
 
-        $user = User::findOrFail((int) $refferrenc_id);
+        $user = User::find((int) $sponsor_id);
         if ($position === 'left') {
             if ($user->left_ref_id) {
                 throw new Exception('Left is already fillup!');
@@ -41,29 +41,56 @@ class UserService {
 
 
     /**
-     * @position type string between left or right.
-     * @refferrenc_id type int perent id
-     * @refferrer_id type int chiled id
+     * @reneration looping from 1 - 10.
+     * @$sponser_id int
+     * @user_id who joined
+     * $i loop index
      * @return void
      */
-    public function generationLoop (string $sponser_id, string $user_id, $i) {
+    public function generationLoop (int $sponser_id, int $user_id, $i) {
 
-        $sponser = User::where('username',$sponser_id)->first();
-        $sponser_sponser_id = $sponser->sponser_id;
+        $sponser = User::find((int) $sponser_id);
+        $sponser_sponser_id = $sponser->sponsor_id;
+
         if ($sponser_sponser_id) {
-            User::where('username', $sponser_sponser_id)->increment('total_group');
+            $sponser_sponser = User::find((int) $sponser_sponser_id);
+            $sponser_sponser->total_group = $sponser_sponser->total_group + 1;
+            $sponser_sponser->save();
             // generation lavel creating
+
             Generation::create([
                 'main_id' => $sponser_sponser_id,
-                'member_id' => $sponser->username,
-                'gen_type' => 1
+                'member_id' => $user_id,
+                'gen_type' => $i
             ]);
 
             $i = $i + 1;
-
-            if ($i > 10) {
+            if ($i <= 10) {
                 return $this->generationLoop($sponser_sponser_id, $user_id, $i);
             }
         }
+    }
+
+
+     /**
+     * @reneration looping from 1 - 10.
+     * @$sponser_id int
+     * @user_id who joined
+     * $i loop index
+     * @return void
+     */
+    public function bonuseGiven ($sponser_id, $user_id) {
+
+        // first joining bonuse given
+        $sponser = User::find((int) $sponser_id);
+        $join_bonuse = config('setting_option.bonuse.joining');
+        $sponser->balance = $sponser->balance + $join_bonuse;
+        $sponser->save();
+        $sponser->bonuses()->create([
+            'bonuse_type' => 'joining',
+            'for_given_id'=> $user_id,
+            'amount'      => $join_bonuse
+        ]);
+
     }
 }
