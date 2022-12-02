@@ -9,7 +9,9 @@ import { setToken } from '../../helper/functions';
 import { Link, useNavigate } from "react-router-dom";
 import { UseStore } from '../../store';
 import { getUsers } from '../../hooks/queries/auth/auth';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2/dist/sweetalert2.all.js';
+
 const Login = () => {
     let navigate = useNavigate();
     const store = UseStore();
@@ -25,7 +27,7 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
       });
-      
+
     const {
         mutate: LoginMutate,
         isLoading: loading,
@@ -61,7 +63,13 @@ const Login = () => {
           }
         },
         onError: (err) => {
-
+            if (err?.response?.data?.data?.string_data) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login failed',
+                    text: err?.response?.data?.data?.string_data,
+                })
+            }
           let errorobj = err?.response?.data?.data?.json_object;
           setBackendError({
             ...backendError,
