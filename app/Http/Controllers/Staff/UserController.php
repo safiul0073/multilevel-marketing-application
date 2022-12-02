@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Models\Generation;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
@@ -29,7 +30,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['nominee', 'image'])->get();
+        $users = User::with(['nominee', 'image'])->orderBy('id', 'asc')->paginate(10);
 
         return $this->withSuccess($users);
     }
@@ -43,24 +44,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $att = $this->validate($request, [
-            'referrance_id' => 'required|numeric|exists:users,id',
+            'sponsor_id' => 'required|numeric|exists:users,id',
             'refer_psition' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
             'username' => 'required|string|min:4|unique:users',
-            'email' => 'required|string|unique:users',
-            'phone' => 'required|min:11|unique:users',
+            'email' => 'required|string',
+            'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
         ]);
-
+        $sopnsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
         unset($userAtt['product_id']);
         unset($userAtt['refer_psition']);
-        $product = Product::findOrFail($att['product_id']);
+        $product = Product::find((int)$att['product_id']);
         try {
             DB::beginTransaction();
             $user = User::create($userAtt);
@@ -68,14 +69,30 @@ class UserController extends Controller
                 throw new Exception('User not create!');
             }
             // position setting
-            $this->user_service->setReferPosition($att['referrance_id'],
+            $this->user_service->setReferPosition($att['sponsor_id'],
             $user->id,
             (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
 
+            // sponser group updating
+            $sopnsor->total_group = $sopnsor->total_group + 1;
+            $sopnsor->save();
+            // generation lavel creating
+            Generation::create([
+                'main_id' => $sopnsor->id,
+                'member_id' => $user->id,
+                'gen_type' => 1
+            ]);
+
+            // generation looping
+            $i = 2;
+            $this->user_service->generationLoop($sopnsor->id, $user->id, $i);
             $user->purchases()->create([
                 'product_id' => $att['product_id'],
                 'amount' => $product->price,
             ]);
+
+            // bonuse given
+            $this->user_service->bonuseGiven($sopnsor->id, $user->id);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
@@ -119,7 +136,6 @@ class UserController extends Controller
         if (isset($att['password'])) {
             $att['password'] = Hash::make($att['username']);
         }
-
 
         try {
             DB::beginTransaction();

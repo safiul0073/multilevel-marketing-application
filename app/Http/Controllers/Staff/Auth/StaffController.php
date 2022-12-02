@@ -20,12 +20,12 @@ class StaffController extends Controller
             'password' => 'string|min:8',
         ]);
 
-        $user = User::where('username', $att['username'])->whereNull('referrance_id')->first();
+        $user = User::where('username', $att['username'])->whereNull('sponsor_id')->first();
 
         if (! $user) {
             return $this->withNotFound('User not fount!');
         }
-        
+
         if (!Hash::check($request->password, $user->password)){
             return $this->withErrors('Invalied password. Try again');
         }
