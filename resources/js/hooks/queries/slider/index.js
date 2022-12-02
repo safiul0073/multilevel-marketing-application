@@ -7,22 +7,21 @@ export const createSlider = async (inputData) => {
       inputData
     );
 
-    return res?.data?.data?.json_object;
+    return res?.data?.data?.string_data;
   };
 
   export const updateSlider = async (inputData) => {
-    console.log(inputData)
-    const res = await userAxios.put(
-      `${APIURL}/staff/slider/${inputData?.id}`,
+    const res = await userAxios.post(
+      `${APIURL}/staff/slider-update/`,
       inputData
     );
 
-    return res?.data?.data?.json_object;
+    return res?.data?.data?.string_data;
   };
 
   export const deleteSlider = async (id) => {
     const res = await userAxios.delete(
       `${APIURL}/staff/slider/${id}`);
 
-    return res?.data?.data?.json_object;
+    return res?.data?.data?.string_data;
   };
