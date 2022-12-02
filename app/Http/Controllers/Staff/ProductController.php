@@ -134,6 +134,7 @@ class ProductController extends Controller
             'status' => 'nullable|between:0,1',
         ]);
         $product = Product::find($att['id']);
+        unset($att['id']);
         $image_urls = [];
         $thamnail_image = null;
         if ($request->images) {

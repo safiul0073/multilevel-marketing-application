@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-loading';
 import Category from '../../Page/Category';
 import Dashboard from '../../Page/Dashboard';
 import Product from '../../Page/Product';
@@ -7,13 +7,14 @@ import Slider from '../../Page/Slider';
 import Login from '../Auth/Login';
 import { Sidbar } from '../Sidbar';
 
-const Layout =({children}) =>{
+const Layout =() =>{
+
     return(
         <>
         <div className='min-h-full'>
             <Sidbar/>
             <div>
-            <Routes>
+            <Routes >
                 <Route path="/staff" element={<Dashboard />} />
                 <Route path="/staff/category" element={<Category />} />
                 <Route path="/staff/slider" element={<Slider />} />
