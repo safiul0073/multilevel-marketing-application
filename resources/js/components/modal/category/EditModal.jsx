@@ -4,53 +4,62 @@ import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-
+import  toast  from 'react-hot-toast';
 import * as yup from "yup";
 import { updateCategory } from '../../../hooks/queries/category';
+import Textinput from '../../common/Textinput';
+
 export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, category}) {
 
-    const schema = yup
-    .object({
-      title: yup.string().min(4, "Too Short!")
-        .max(50, "Too Long!"),
+    const [backendError, setBackendError] = useState()
 
-    })
-    .required();
+    const schema = yup
+        .object({
+            title: yup.string().min(4, "Too Short!")
+            .max(50, "Too Long!"),
+
+        })
+        .required();
+
     const { register,reset, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
+
     const onSubmit= (data) => {
         updateCategoryMutate(data)
     }
-  function closeModal() {
-    setIsOpen(false)
-  }
 
-  useEffect(() => {
-    if (category) {
-        reset(category)
+    function closeModal() {
+        setIsOpen(false)
     }
-  }, [category])
-  const {
-    mutate: updateCategoryMutate,
-    isLoading,
-    // reset,
-    isError,
-    isSuccess,
-  } = useMutation(updateCategory, {
-    onSuccess: (data) => {
-        refatcher()
-        closeModal()
-    },
-    onError: (err) => {
 
-      let errorobj = err?.response?.data?.data?.json_object;
-      setBackendError({
-        ...backendError,
-        ...errorobj,
-      });
-    },
-  });
+    useEffect(() => {
+        if (category) {
+            reset(category)
+        }
+    }, [category])
+
+    const {
+        mutate: updateCategoryMutate,
+        isLoading,
+    } = useMutation(updateCategory, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            refatcher()
+            closeModal()
+
+        },
+        onError: (err) => {
+
+            let errorobj = err?.response?.data?.data?.json_object;
+            setBackendError({
+            ...backendError,
+            ...errorobj,
+            });
+        },
+    });
   return (
     <>
 
@@ -90,21 +99,23 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, cat
                         <div className='px-6'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className=" w-3/4 mx-auto">
-                                    <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="title">Category Title</label>
-                                        <input className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' id="title" {...register('title', { required: true })} />
-                                        {errors.title && errors.title.type === "required" && <span className="text-red-600 italic"><small>Type a name</small></span>}
-                                    </div>
-
-                                    <div>
-                                        <label className="text-gray-600 font-medium" htmlFor="status">Status</label>
-                                        <select {...register('status', { required: false })} className='w-full h-10 my-3 rounded-lg outline-none px-4 text-gray-700 border-2' name="status" id="status">
+                                    <Textinput
+                                        label="Category Title"
+                                        placeholder="Man Fashion"
+                                        register={register}
+                                        name="title"
+                                        type="text"
+                                        backendValidationError={backendError?.title}
+                                        error={errors.title}
+                                    />
+                                    <div className='formGroup'>
+                                        <label className="label-style" htmlFor="status">Status</label>
+                                        <select {...register('status', { required: false })} className='form-control' name="status" id="status">
+                                            <option value="">Select a status</option>
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
-
                                     </div>
-
 
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>

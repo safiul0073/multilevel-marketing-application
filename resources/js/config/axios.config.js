@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const api = import.meta.env.VITE_PUBLIC_API_URL;
+const api = import.meta.env.VITE_PUBLIC_API_URL??"https://mlmshop.zstechbd.com/api";
 
 // For common config
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -15,6 +15,7 @@ let token = Cookies.get('nToken');
 const userAxioswithoutRedirect = axios.create({
   baseURL: api,
   headers: {
+    'Access-Control-Allow-Origin': '*',
     "Accept": "application/json, text/plain, */*",
     "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
@@ -26,6 +27,7 @@ const userAxioswithoutRedirect = axios.create({
 const userAxios = axios.create({
   baseURL: api,
   headers: {
+    'Access-Control-Allow-Origin': '*',
     "Accept": "application/json, text/plain, */*",
     "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
@@ -41,7 +43,7 @@ userAxios.interceptors.response.use(
       Cookies.remove('nToken', {
         expires: 2,
       });
-      window.location.href = `staff/login`;
+      window.location.href = `/staff/login`;
     }
     return Promise.reject(error);
   }

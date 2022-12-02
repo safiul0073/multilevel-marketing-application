@@ -6,6 +6,7 @@ use App\Http\Controllers\Staff\Auth\ResetPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffController;
 use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\Staff\ProductController;
+use App\Http\Controllers\Staff\ProductHelperController;
 use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\UserController;
 use App\Http\Controllers\Staff\UserHelperController;
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
 // auth route start ...
+Route::get('test', function () {
+    return response()->json([
+        "message" => "Hello world! staff"
+    ]);
+});
 Route::post('/login', [StaffController::class, 'login'])->name('login');
  // Password reset routes
  Route::post('password/email',  ForgotPasswordController::class);
@@ -28,7 +34,10 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('product', ProductController::class);
     Route::resource('slider', SliderController::class);
     Route::post('product-update', [ProductController::class, 'update']);
+    // product helper
+    Route::get('category-list', [ProductHelperController::class, 'getCategoryList']);
     Route::post('slider-update', [SliderController::class, 'update']);
+    Route::post('category-update', [CategoryController::class, 'update']);
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
 });

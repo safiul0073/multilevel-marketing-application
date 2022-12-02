@@ -14,10 +14,10 @@ import Login from '../components/Auth/Login'
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
-import { Category } from './Category';
 import { OtpRequest } from '../components/Auth/OtpRequest';
 import { CheckerOTP } from '../components/Auth/CheckerOTP';
 import { ResetPassword } from '../components/Auth/ResetPassword';
+import { Toaster } from 'react-hot-toast';
 
 function Index() {
 
@@ -38,7 +38,6 @@ function Index() {
         setAuth(true)
        }
     }
-    console.log(isAuth)
     useEffect (() => {
         if (!!token) {
             updateAxiosToken(token)
@@ -50,12 +49,9 @@ function Index() {
         <>
         <QueryClientProvider client={queryClient}>
             {isAuth ?
-                    <BrowserRouter>
-                        <Layout/>
-                    </BrowserRouter>
+                     <Layout/>
                 :
                 <AuthLayout>
-                    <BrowserRouter>
                         <Routes>
                             <Route path="/staff" element={<Dashboard />} />
                             <Route path="/staff/login" element={<Login />} />
@@ -64,7 +60,6 @@ function Index() {
                             <Route path="/staff/otp-checker" element={<CheckerOTP />} />
                             <Route path="/staff/reset-password" element={<ResetPassword />} />
                         </Routes>
-                    </BrowserRouter>
                 </AuthLayout>
             }
         </QueryClientProvider>
@@ -79,7 +74,11 @@ if (document.getElementById('root')) {
 
     rootId.render(
         <React.StrictMode>
-            <Index/>
+             <BrowserRouter>
+                <Index>
+                    <Toaster />
+                </Index>
+            </BrowserRouter>
         </React.StrictMode>
     )
 }

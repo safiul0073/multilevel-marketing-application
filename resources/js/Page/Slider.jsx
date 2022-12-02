@@ -4,8 +4,9 @@ import EditModal from "../components/modal/slider/EditModal";
 import CreateModal from "../components/modal/slider/CreateModal";
 import { getSliderList } from "../hooks/queries/slider/getSliderList";
 import DeleteSlider from "../components/modal/slider/Delete";
+import Protected from "../components/HOC/Protected";
 
-export const Slider = () => {
+const Slider = () => {
 
     // fetching category list using react query
     const {data, isLoading, refetch} = getSliderList()
@@ -203,3 +204,4 @@ export const Slider = () => {
         </>
     );
 };
+export default Protected(Slider);

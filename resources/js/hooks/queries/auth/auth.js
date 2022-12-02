@@ -1,6 +1,7 @@
 
 import { publicAxios, userAxios } from '@/config/axios.config.js';
-const URL = 'http://127.0.0.1:8000/api'
+import { APIURL } from '../../../constent';
+const URL = APIURL
 export const getUsers = async () => {
   const res = await userAxios.get(
     `${URL}/staff/me`
@@ -32,7 +33,7 @@ export const EmailSender = async (inputEmail) =>{
     `${URL}/staff/password/email`,
     inputEmail
   )
-  return res?.json_object;
+  return res?.data?.data?.string_data;
 };
 
 export const OTPSender = async (inputOtp) =>{
@@ -40,5 +41,13 @@ export const OTPSender = async (inputOtp) =>{
     `${URL}/staff/password/code/check`,
     inputOtp
   )
-  return res?.json_object;
+  return res?.data?.data?.json_object;
 }
+
+export const resetPassword = async (inputOtp) =>{
+    const res = await publicAxios.post(
+      `${URL}/staff/password/reset`,
+      inputOtp
+    )
+    return res?.data?.data?.string_data;
+  }
