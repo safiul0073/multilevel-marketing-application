@@ -34,6 +34,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('product', ProductController::class);
     Route::resource('slider', SliderController::class);
     Route::post('product-update', [ProductController::class, 'update']);
+    Route::get('product-images/{product}', [ProductHelperController::class, 'getProductImages']);
     // product helper
     Route::get('category-list', [ProductHelperController::class, 'getCategoryList']);
     Route::post('slider-update', [SliderController::class, 'update']);

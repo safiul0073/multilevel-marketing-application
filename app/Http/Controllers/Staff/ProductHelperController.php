@@ -18,4 +18,12 @@ class ProductHelperController extends Controller
 
         return $this->withSuccess($categories);
     }
+
+    public function getProductImages (Request $request, Product $product) {
+
+        $images = $product->images;
+
+        return $this->withSuccess($images);
+
+    }
 }
