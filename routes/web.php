@@ -20,3 +20,4 @@ Route::get('/staff/{slag?}', [DashboardController::class, 'index']);
 // end dashboard page route
 
 Route::get('/', [HomeCotroller::class, 'index'])->name('home');
+// Route::get('/product',)
