@@ -72,4 +72,16 @@ class User extends Authenticatable
     public function generations () {
         return $this->hasMany(Generation::class, 'main_id', 'id');
     }
+
+    public function left_children () {
+        return $this->belongsTo(User::class, 'left_ref_id', 'id');
+    }
+
+    public function right_children () {
+        return $this->belongsTo(User::class, 'right_ref_id', 'id');
+    }
+
+    public function children () {
+        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
+    }
 }

@@ -17,7 +17,7 @@ class UserHelperController extends Controller
             'user_id'   => 'nullable|numeric|exists:users,id'
         ]);
 
-        $users = User::query()->select(['id','sponsor_id', 'left_ref_id', 'right_ref_id']);
+        $users = User::select(['id', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children'])->whereNull('sponsor_id');
 
         // if (isset($att['user_id'])) {
         //     $users->whereRelation('generations', 'main_id', $att['user_id']);
