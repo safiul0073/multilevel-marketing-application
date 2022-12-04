@@ -5,6 +5,7 @@ use App\Http\Controllers\Staff\Auth\ForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\ResetPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffController;
 use App\Http\Controllers\Staff\CategoryController;
+use App\Http\Controllers\Staff\MediaController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProductHelperController;
 use App\Http\Controllers\Staff\SliderController;
@@ -41,4 +42,8 @@ Route::middleware('auth:staff')->group(function () {
     Route::post('category-update', [CategoryController::class, 'update']);
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
+
+    // media
+    Route::post('image-store', [MediaController::class, 'storeImage']);
+    Route::delete('image-delete/{image}', [MediaController::class, 'deleteImage']);
 });

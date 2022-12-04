@@ -126,12 +126,6 @@ export const Product = () => {
                                                                                 scope="col"
                                                                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                             >
-                                                                                Description
-                                                                            </th>
-                                                                            <th
-                                                                                scope="col"
-                                                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                            >
                                                                                 Referrel
                                                                                 Commission
                                                                             </th>
@@ -188,19 +182,7 @@ export const Product = () => {
                                                                                                     ?.title}
                                                                                         </div>
                                                                                     </td>
-                                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                                        <div className="text-gray-900">
-                                                                                            {product
-                                                                                                ?.description
-                                                                                                ?.length <=
-                                                                                            30
-                                                                                                ? product?.description
-                                                                                                : product?.description.substring(
-                                                                                                      0,
-                                                                                                      30
-                                                                                                  )}
-                                                                                        </div>
-                                                                                    </td>
+
                                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                         <div className="text-gray-900">
                                                                                             {

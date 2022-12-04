@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
+import  toast  from 'react-hot-toast';
+import { getImagesList } from "../../hooks/queries/product/getImagesList";
+import { createMedia, deleteMedia } from "../../hooks/queries/media";
+import { useMutation } from "react-query";
 
 const product = {
     name: "Basic Tee 6-Pack",
@@ -23,24 +26,7 @@ const product = {
         { name: "2XL", inStock: true },
         { name: "3XL", inStock: true },
     ],
-    images: [
-        {
-            src: "https://tailwindui.com/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
-            alt: "Two each of gray, white, and black shirts laying flat.",
-        },
-        {
-            src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
-            alt: "Model wearing plain black basic tee.",
-        },
-        {
-            src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
-            alt: "Model wearing plain gray basic tee.",
-        },
-        {
-            src: "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
-            alt: "Model wearing plain white basic tee.",
-        },
-    ],
+
     description:
         'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
     highlights: [
@@ -59,8 +45,82 @@ function classNames(...classes) {
 }
 
 const ProductView = ({ viewProduct, setViewProduct }) => {
+    const [backendError, setBackendError] = useState()
     const [selectedColor, setSelectedColor] = useState(product.colors[0]);
     const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+    const {data: productImages, refetch} = getImagesList({
+        product_id: viewProduct?.id
+    })
+    const thamnailImage = useMemo(() => productImages?.find((image) => (image.type == 'thamnail')), [productImages])
+    const gellaryImage = useMemo(() =>{
+            let images = []
+            productImages?.map((image) =>
+            {
+                if (image.type != 'thamnail') {
+                    images.push(image)
+                }
+            }
+    ); return images}, [productImages])
+
+    const deleteGellaryPhoto = (image) => {
+        deleteMediaMutate(image?.id)
+    }
+
+    // thamnail image handle and upload
+    const uploadThamnailImage = (event) => {
+        if (event.target.files[0]) {
+            createMediaMutate({
+                id: viewProduct?.id,
+                image: event.target.files[0],
+                type: 'thamnail'
+            })
+        }
+    }
+
+    // gallery image handle and upload
+    const uploadGalleryImage = (event) => {
+        if (event.target.files[0]) {
+            createMediaMutate({
+                id: viewProduct?.id,
+                image: event.target.files[0],
+                type: 'gellary'
+            })
+        }
+    }
+
+    const {
+        mutate: deleteMediaMutate,
+        isLoading: loadingMedia,
+    } = useMutation(deleteMedia, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right',
+            });
+            refetch()
+        },
+        onError: (err) => {
+
+            let errorobj = err?.response?.data?.data?.string_data;
+
+        },
+    });
+// create mutate
+    const {
+        mutate: createMediaMutate,
+        isLoading,
+      } = useMutation(createMedia, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            refetch()
+        },
+        onError: (err) => {
+
+            let errorobj = err?.response?.data?.data?.json_object;
+        },
+      });
+
 
     return (
         <div className="bg-white">
@@ -90,34 +150,41 @@ const ProductView = ({ viewProduct, setViewProduct }) => {
                 {/* Image gallery */}
                 <div className="mt-6 lg:grid lg:grid-cols-2 lg:gap-x-8">
                     <div>
-                        <label className="text-sm mb-1.5 text-gray-500 block">
+                        <label className="label-style">
                             Thumbnail
                         </label>
-                        <div className="aspect-w-3 aspect-h-4 hidden overflow-hidden rounded-lg lg:block">
+                        <div className="aspect-w-3 h-72 aspect-h-4 hidden overflow-hidden rounded-lg lg:block">
                             <img
-                                src={product.images[0].src}
-                                alt={product.images[0].alt}
+                                src={thamnailImage?.url}
+                                alt={thamnailImage?.url}
                                 className="h-full w-full object-cover object-center rounded-lg"
                             />
                         </div>
+                        <div className="py-4">
+                            <input type="file" className="form-control" onChange={uploadThamnailImage} />
+                        </div>
                     </div>
-                    <div>
-                        <label className="text-sm mb-1.5 text-gray-500 block">
-                            Images
-                        </label>
-                        <div className="aspect-w-3 aspect-h-4 hidden overflow-hidden rounded-lg lg:block">
-                            <Carousel>
-                                <img
-                                    src={product.images[1].src}
-                                    alt={product.images[1].alt}
-                                    className="w-full object-cover object-center rounded-lg"
-                                />
-                                <img
-                                    src={product.images[2].src}
-                                    alt={product.images[2].alt}
-                                    className="w-full object-cover object-center rounded-lg"
-                                />
-                            </Carousel>
+                    <div className="w-full h-96">
+                        <div>
+                            <label htmlFor="iamge" className="label-style">Gellary</label>
+                        </div>
+                        <div className=" h-72 overflow-y-auto w-full overflow-x-hidden">
+                            <div className="grid grid-cols-2 grid-flow-row gap-2">
+                            {gellaryImage?.map((image) => (
+                                    <div className=" relative" key={image?.id}>
+                                        <div onClick={() => deleteGellaryPhoto(image)} className="text-red-600 text-right font-extrabold absolute top-0 left-[210px] cursor-pointer hover:text-red-400">X</div>
+                                        <img
+                                        src={image?.url}
+                                        alt={image?.url}
+                                        className="object-cover object-center rounded-lg "
+                                    />
+                                    </div>
+                                    ))}
+                            </div>
+                        </div>
+
+                        <div className="py-4">
+                            <input type="file" onChange={uploadGalleryImage} className="form-control" />
                         </div>
                     </div>
                 </div>
@@ -131,48 +198,20 @@ const ProductView = ({ viewProduct, setViewProduct }) => {
 
                         <div className="pb-10 lg:col-span-2 lg:col-start-1 lg:pb-16">
                             {/* Description and details */}
-                            <div>
-                                <h3 className="sr-only">Description</h3>
-
-                                <div className="space-y-6">
-                                    <p className="text-base text-gray-900">
-                                        {viewProduct?.description}
-                                    </p>
-                                </div>
+                            <div className="my-4 text-left">
+                                <p className="text-lg text-gray-600">Category: {viewProduct?.category?.title}</p>
                             </div>
 
-                            <div className="mt-10">
-                                <h3 className="text-sm font-medium text-gray-900">
-                                    Highlights
-                                </h3>
 
-                                <div className="mt-4">
-                                    <ul
-                                        role="list"
-                                        className="list-disc space-y-2 pl-4 text-sm"
-                                    >
-                                        {product.highlights.map((highlight) => (
-                                            <li
-                                                key={highlight}
-                                                className="text-gray-400"
-                                            >
-                                                <span className="text-gray-600">
-                                                    {highlight}
-                                                </span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
 
                             <div className="mt-10">
-                                <h2 className="text-sm font-medium text-gray-900">
-                                    Details
+                                <h2 className="text-sm font-medium text-gray-600">
+                                    Details / Description
                                 </h2>
 
                                 <div className="mt-4 space-y-6">
                                     <p className="text-sm text-gray-600">
-                                        {product.details}
+                                        {viewProduct?.description}
                                     </p>
                                 </div>
                             </div>
@@ -182,192 +221,19 @@ const ProductView = ({ viewProduct, setViewProduct }) => {
                     {/* Options */}
                     <div className="mt-4 lg:row-span-3 lg:mt-0 lg:pl-4">
                         <h2 className="sr-only">Product information</h2>
-                        <p className="text-3xl tracking-tight text-gray-900">
-                            {product.price}
+                        <p className="text-lg text-gray-600">
+                            Price: {viewProduct?.price + " Taka"}
                         </p>
 
                         {/* Reviews */}
                         <div className="mt-6">
-                            <h3 className="sr-only">Reviews</h3>
-                            <div className="flex items-center">
-                                <div className="flex items-center">
-                                    {[0, 1, 2, 3, 4].map((rating) => (
-                                        <StarIcon
-                                            key={rating}
-                                            className={classNames(
-                                                reviews.average > rating
-                                                    ? "text-gray-900"
-                                                    : "text-gray-200",
-                                                "h-5 w-5 flex-shrink-0"
-                                            )}
-                                            aria-hidden="true"
-                                        />
-                                    ))}
-                                </div>
-                                <p className="sr-only">
-                                    {reviews.average} out of 5 stars
-                                </p>
-                                <a
-                                    href={reviews.href}
-                                    className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                >
-                                    {reviews.totalCount} reviews
-                                </a>
-                            </div>
+                            <h3 className="text-lg text-gray-600">Referral Commission : {viewProduct?.refferral_commission + "%"} </h3>
                         </div>
 
-                        <form className="mt-10">
-                            {/* Colors */}
-                            <div>
-                                <h3 className="text-sm font-medium text-gray-900">
-                                    Color
-                                </h3>
-
-                                <RadioGroup
-                                    value={selectedColor}
-                                    onChange={setSelectedColor}
-                                    className="mt-4"
-                                >
-                                    <RadioGroup.Label className="sr-only">
-                                        {" "}
-                                        Choose a color{" "}
-                                    </RadioGroup.Label>
-                                    <div className="flex items-center space-x-3">
-                                        {product.colors.map((color) => (
-                                            <RadioGroup.Option
-                                                key={color.name}
-                                                value={color}
-                                                className={({
-                                                    active,
-                                                    checked,
-                                                }) =>
-                                                    classNames(
-                                                        color.selectedClass,
-                                                        active && checked
-                                                            ? "ring ring-offset-1"
-                                                            : "",
-                                                        !active && checked
-                                                            ? "ring-2"
-                                                            : "",
-                                                        "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
-                                                    )
-                                                }
-                                            >
-                                                <RadioGroup.Label
-                                                    as="span"
-                                                    className="sr-only"
-                                                >
-                                                    {" "}
-                                                    {color.name}{" "}
-                                                </RadioGroup.Label>
-                                                <span
-                                                    aria-hidden="true"
-                                                    className={classNames(
-                                                        color.class,
-                                                        "h-8 w-8 border border-black border-opacity-10 rounded-full"
-                                                    )}
-                                                />
-                                            </RadioGroup.Option>
-                                        ))}
-                                    </div>
-                                </RadioGroup>
-                            </div>
-
-                            {/* Sizes */}
-                            <div className="mt-10">
-                                <div className="flex items-center justify-between">
-                                    <h3 className="text-sm font-medium text-gray-900">
-                                        Size
-                                    </h3>
-                                    <a
-                                        href="#"
-                                        className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                                    >
-                                        Size guide
-                                    </a>
-                                </div>
-
-                                <RadioGroup
-                                    value={selectedSize}
-                                    onChange={setSelectedSize}
-                                    className="mt-4"
-                                >
-                                    <RadioGroup.Label className="sr-only">
-                                        {" "}
-                                        Choose a size{" "}
-                                    </RadioGroup.Label>
-                                    <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                                        {product.sizes.map((size) => (
-                                            <RadioGroup.Option
-                                                key={size.name}
-                                                value={size}
-                                                disabled={!size.inStock}
-                                                className={({ active }) =>
-                                                    classNames(
-                                                        size.inStock
-                                                            ? "bg-white shadow-sm text-gray-900 cursor-pointer"
-                                                            : "bg-gray-50 text-gray-200 cursor-not-allowed",
-                                                        active
-                                                            ? "ring-2 ring-indigo-500"
-                                                            : "",
-                                                        "group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
-                                                    )
-                                                }
-                                            >
-                                                {({ active, checked }) => (
-                                                    <>
-                                                        <RadioGroup.Label as="span">
-                                                            {size.name}
-                                                        </RadioGroup.Label>
-                                                        {size.inStock ? (
-                                                            <span
-                                                                className={classNames(
-                                                                    active
-                                                                        ? "border"
-                                                                        : "border-2",
-                                                                    checked
-                                                                        ? "border-indigo-500"
-                                                                        : "border-transparent",
-                                                                    "pointer-events-none absolute -inset-px rounded-md"
-                                                                )}
-                                                                aria-hidden="true"
-                                                            />
-                                                        ) : (
-                                                            <span
-                                                                aria-hidden="true"
-                                                                className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                                                            >
-                                                                <svg
-                                                                    className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                                                                    viewBox="0 0 100 100"
-                                                                    preserveAspectRatio="none"
-                                                                    stroke="currentColor"
-                                                                >
-                                                                    <line
-                                                                        x1={0}
-                                                                        y1={100}
-                                                                        x2={100}
-                                                                        y2={0}
-                                                                        vectorEffect="non-scaling-stroke"
-                                                                    />
-                                                                </svg>
-                                                            </span>
-                                                        )}
-                                                    </>
-                                                )}
-                                            </RadioGroup.Option>
-                                        ))}
-                                    </div>
-                                </RadioGroup>
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                            >
-                                Add to bag
-                            </button>
-                        </form>
+                        <div className="mt-6">
+                            <h1 className="text-lg text-gray-600">Video</h1>
+                            <iframe className="w-full aspect-video" src={viewProduct?.video_url} frameBorder="0"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
