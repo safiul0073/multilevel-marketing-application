@@ -27,6 +27,12 @@ module.exports = {
             inset: {
                 "10/12": "83.333333%",
             },
+            gridTemplateRows: {
+                "[auto,auto,1fr]": "auto auto 1fr",
+            },
+            height: {
+                "9/12": "75%",
+            },
         },
     },
     variants: {
