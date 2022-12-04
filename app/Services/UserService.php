@@ -79,7 +79,7 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function bonuseGiven ($sponser_id, $user_id) {
+    public function bonuseGiven ($sponser_id, $user_id, $side) {
 
         // first joining bonuse given
         $sponser = User::find((int) $sponser_id);
@@ -92,5 +92,19 @@ class UserService {
             'amount'      => $join_bonuse
         ]);
 
+    }
+
+    private function machingBonuse ($user_id, $sponser, $side) {
+
+
+        if ($side == 'right') {
+            if ($sponser->left_ref_id) {
+                $sponser->bonuses()->create([
+                    'bonuse_type' => 'maching',
+                    'for_given_id'=> $user_id,
+                    'amount'      => 100
+                ]);
+            }
+        }
     }
 }
