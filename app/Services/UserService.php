@@ -96,15 +96,20 @@ class UserService {
 
     private function machingBonuse ($user_id, $sponser, $side) {
 
-
+        $i = 0;
         if ($side == 'right') {
             if ($sponser->left_ref_id) {
+
                 $sponser->bonuses()->create([
                     'bonuse_type' => 'maching',
                     'for_given_id'=> $user_id,
                     'amount'      => 100
                 ]);
             }
+
+            $i = $i +1;
+
+            
         }
     }
 }

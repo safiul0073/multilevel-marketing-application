@@ -92,7 +92,7 @@ class UserController extends Controller
             ]);
 
             // bonuse given
-            $this->user_service->bonuseGiven($sopnsor->id, $user->id);
+            $this->user_service->bonuseGiven($sopnsor->id, $user->id,$att['refer_psition']);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
