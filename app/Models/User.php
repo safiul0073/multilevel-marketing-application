@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -67,5 +67,21 @@ class User extends Authenticatable
     public function bonuses()
     {
         return $this->hasMany(Bonuse::class, 'given_id', 'id');
+    }
+
+    public function generations () {
+        return $this->hasMany(Generation::class, 'main_id', 'id');
+    }
+
+    public function left_children () {
+        return $this->belongsTo(User::class, 'left_ref_id', 'id');
+    }
+
+    public function right_children () {
+        return $this->belongsTo(User::class, 'right_ref_id', 'id');
+    }
+
+    public function children () {
+        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
     }
 }
