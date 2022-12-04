@@ -124,7 +124,7 @@ export default function EditModal({
                                         <span className="inline-block text-2xl mr-3">
                                             <AiOutlineUserAdd />
                                         </span>
-                                        Create Product
+                                        Edit Product
                                     </div>
 
                                     <div className="px-6">
@@ -253,7 +253,7 @@ export default function EditModal({
                                                         ) : (
                                                             <input
                                                                 type="submit"
-                                                                value="Create"
+                                                                value="Edit"
                                                                 className=" cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md"
                                                             />
                                                         )}
