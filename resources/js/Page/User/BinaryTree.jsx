@@ -38,8 +38,8 @@ const BinaryTree = () => {
         if(tree.left_ref_id !== null){
             console.log("left child : ", findChild(tree.children, tree.left_ref_id).id);
             createComp(findChild(tree.children, tree.left_ref_id))
-        } 
-        
+        }
+
         if(tree.right_ref_id !== null){
             console.log("right child : ", findChild(tree.children, tree.right_ref_id).id);
             createComp(findChild(tree.children, tree.right_ref_id))
