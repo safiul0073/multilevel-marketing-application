@@ -40,6 +40,7 @@ class User extends Authenticatable
         'sms_verified_at' => 'datetime',
     ];
 
+
     public function nominee()
     {
         return $this->belongsTo(Nominee::class);
@@ -85,7 +86,12 @@ class User extends Authenticatable
         return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
     }
 
+    public function sponsor () {
+        return $this->belongsTo(User::class, 'sponsor_id');
+    }
+    
     public function epin () {
         return $this->hasOne(Epin::class, 'use_by', 'id');
+
     }
 }
