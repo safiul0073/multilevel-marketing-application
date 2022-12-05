@@ -5,6 +5,7 @@ use App\Http\Controllers\Staff\Auth\ForgotPasswordController;
 use App\Http\Controllers\Staff\Auth\ResetPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffController;
 use App\Http\Controllers\Staff\CategoryController;
+use App\Http\Controllers\Staff\EpinController;
 use App\Http\Controllers\Staff\MediaController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProductHelperController;
@@ -34,9 +35,13 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('product', ProductController::class);
     Route::resource('slider', SliderController::class);
+    Route::resource('epin', EpinController::class);
+
+    Route::post('epin-update', [EpinController::class, 'update']);
+    // product helper
     Route::post('product-update', [ProductController::class, 'update']);
     Route::get('product-images/{product}', [ProductHelperController::class, 'getProductImages']);
-    // product helper
+
     Route::get('category-list', [ProductHelperController::class, 'getCategoryList']);
     Route::post('slider-update', [SliderController::class, 'update']);
     Route::post('category-update', [CategoryController::class, 'update']);
