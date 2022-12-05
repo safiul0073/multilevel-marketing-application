@@ -21,7 +21,7 @@ use App\Http\Controllers\Staff\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 // dashboard page route
-Route::get('/{any}', [DashboardController::class, 'index'])->where('any', '.*');
+Route::get('/staff/{slug?}', [DashboardController::class, 'index']);
 // end dashboard page route
 
 Route::get('/', [HomeCotroller::class, 'index'])->name('home')->name('index.home.page');
