@@ -89,4 +89,9 @@ class User extends Authenticatable
     public function sponsor () {
         return $this->belongsTo(User::class, 'sponsor_id');
     }
+    
+    public function epin () {
+        return $this->hasOne(Epin::class, 'use_by', 'id');
+
+    }
 }
