@@ -23,7 +23,7 @@ const Layout =() =>{
                 <Route path="/staff/slider" element={<Slider />} />
                 <Route path="/staff/package" element={<Product />} />
                 <Route path="/staff/users" element={<User />} />
-                <Route path="/staff/users/tree" element={<BinaryTree />} />
+                <Route path="/staff/users-tree" element={<BinaryTree />} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>
