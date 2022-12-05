@@ -21,6 +21,39 @@ document.addEventListener("DOMContentLoaded", function () {
         interval: 2500,
     });
     splide2.mount();
+
+    var main = new Splide("#main-slider", {
+        type: "fade",
+        heightRatio: 0.5,
+        pagination: false,
+        arrows: false,
+        cover: true,
+    });
+
+    var thumbnails = new Splide("#thumbnail-slider", {
+        rewind: true,
+        fixedWidth: 104,
+        fixedHeight: 58,
+        isNavigation: true,
+        gap: 10,
+        focus: "center",
+        pagination: false,
+        cover: true,
+        dragMinThreshold: {
+            mouse: 4,
+            touch: 10,
+        },
+        breakpoints: {
+            640: {
+                fixedWidth: 66,
+                fixedHeight: 38,
+            },
+        },
+    });
+
+    main.sync(thumbnails);
+    main.mount();
+    thumbnails.mount();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -40,4 +73,21 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         false
     );
+});
+
+var modals = document.querySelectorAll("[data-modal]");
+
+modals.forEach(function (trigger) {
+    trigger.addEventListener("click", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById(trigger.dataset.modal);
+        modal.classList.add("open");
+        var exits = modal.querySelectorAll(".modal-exit");
+        exits.forEach(function (exit) {
+            exit.addEventListener("click", function (event) {
+                event.preventDefault();
+                modal.classList.remove("open");
+            });
+        });
+    });
 });
