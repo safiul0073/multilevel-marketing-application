@@ -76,140 +76,27 @@
         <div class="bg-indigo-600/20 rounded-xl">
             <div class="mx-auto p-4 sm:p-8">
                 <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
 
-                    <a href="#" class="group">
+                    @foreach ($products as $product)
+                    <div>
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                            <img src="{{count($product->images) > 0 ? $product->images[0]->url : 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg'}}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
+                                <h3 class="text-sm text-white">{{$product->name}}</h3>
+                                <p class="mt-1 text-lg font-medium text-white">{{$product->price . " TK"}}</p>
                             </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
+                            <button data-modal="modal-one" onclick="getOneProduct({{$product->id}})" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
                                 <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                                 </svg>Buy
                             </button>
                         </div>
-                    </a>
+                   </div>
 
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
+                    @endforeach
 
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button data-modal="modal-one" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
                 </div>
             </div>
         </div>
@@ -460,37 +347,13 @@
             </button>
         </div>
         <div class="bg-white">
-            <nav aria-label="Breadcrumb" class="mt-5 mb-5">
-                <ol role="list" class="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <li>
-                        <div class="flex items-center">
-                            <a href="#" class="mr-2 text-sm font-medium text-gray-900">Men</a>
-                            <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-4 text-gray-300">
-                                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                            </svg>
-                        </div>
-                    </li>
 
-                    <li>
-                        <div class="flex items-center">
-                            <a href="#" class="mr-2 text-sm font-medium text-gray-900">Clothing</a>
-                            <svg width="16" height="20" viewBox="0 0 16 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-5 w-4 text-gray-300">
-                                <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                            </svg>
-                        </div>
-                    </li>
-
-                    <li class="text-sm">
-                        <a href="#" aria-current="page" class="font-medium text-gray-500 hover:text-gray-600">Basic Tee 6-Pack</a>
-                    </li>
-                </ol>
-            </nav>
-            <div class="mx-auto px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
+            <div class="mx-auto py-8 px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
                 <div class="lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8">
                     <div id="main-slider" class="splide mb-10" aria-label="Splide Basic HTML Example">
                         <div class="splide__track">
-                            <ul class="splide__list">
-                                <li class="splide__slide">
+                            <ul id="ul-slider-image-show" class="splide__list">
+                                {{-- <li class="splide__slide">
                                     <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                                 </li>
                                 <li class="splide__slide">
@@ -498,13 +361,13 @@
                                 </li>
                                 <li class="splide__slide">
                                     <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
                     <div id="thumbnail-slider" class="splide mb-10" aria-label="Splide Basic HTML Example">
                         <div class="splide__track">
-                            <ul class="splide__list">
+                            <ul id="ul-slider-image-nav" class="splide__list">
                                 <li class="splide__slide">
                                     <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                                 </li>
@@ -514,29 +377,6 @@
                                 <li class="splide__slide">
                                     <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                                 </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="sr-only">Description</h3>
-
-                        <div class="space-y-6">
-                            <p class="text-base text-gray-900">The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: &quot;Black&quot;. Need to add an extra pop of color to your outfit? Our white tee has you covered.</p>
-                        </div>
-                    </div>
-
-                    <div class="mt-10">
-                        <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
-
-                        <div class="mt-4">
-                            <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-                                <li class="text-gray-400"><span class="text-gray-600">Hand cut and sewn locally</span></li>
-
-                                <li class="text-gray-400"><span class="text-gray-600">Dyed with our proprietary colors</span></li>
-
-                                <li class="text-gray-400"><span class="text-gray-600">Pre-washed &amp; pre-shrunk</span></li>
-
-                                <li class="text-gray-400"><span class="text-gray-600">Ultra-soft 100% cotton</span></li>
                             </ul>
                         </div>
                     </div>
@@ -545,126 +385,26 @@
                         <h2 class="text-sm font-medium text-gray-900">Details</h2>
 
                         <div class="mt-4 space-y-6">
-                            <p class="text-sm text-gray-600">The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming &quot;Charcoal Gray&quot; limited release.</p>
+                            <p id="description" class="text-sm text-gray-600"></p>
                         </div>
                     </div>
                 </div>
                 <div class="mt-4 lg:row-span-3 lg:mt-0">
-                    <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl mb-4">Basic Tee 6-Pack</h1>
+                    <h1 id="product_name"  class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl mb-4"></h1>
                     <h2 class="sr-only">Product information</h2>
-                    <p class="text-3xl tracking-tight text-gray-900">$192</p>
+                    <p id="category" class="text-lg tracking-tight text-gray-600"></p>
                     <div class="mt-6">
-                        <h3 class="sr-only">Reviews</h3>
-                        <div class="flex items-center">
-                            <div class="flex items-center">
+                        <p id="price" class="text-lg tracking-tight text-gray-600"></p>
 
-                                <svg class="text-gray-900 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                                </svg>
-                                <svg class="text-gray-900 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                                </svg>
-                                <svg class="text-gray-900 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                                </svg>
-                                <svg class="text-gray-900 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                                </svg>
-                                <svg class="text-gray-200 h-5 w-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <p class="sr-only">4 out of 5 stars</p>
-                            <a href="#" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">117 reviews</a>
-                        </div>
                     </div>
 
-                    <form class="mt-10">
-                        <div>
-                            <h3 class="text-sm font-medium text-gray-900">Color</h3>
-                            <fieldset class="mt-4">
-                                <legend class="sr-only">Choose a color</legend>
-                                <div class="flex items-center space-x-3">
-                                    <label class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
-                                        <input type="radio" name="color-choice" value="White" class="sr-only" aria-labelledby="color-choice-0-label">
-                                        <span id="color-choice-0-label" class="sr-only"> White </span>
-                                        <span aria-hidden="true" class="h-8 w-8 bg-white border border-black border-opacity-10 rounded-full"></span>
-                                    </label>
-                                    <label class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-400">
-                                        <input type="radio" name="color-choice" value="Gray" class="sr-only" aria-labelledby="color-choice-1-label">
-                                        <span id="color-choice-1-label" class="sr-only"> Gray </span>
-                                        <span aria-hidden="true" class="h-8 w-8 bg-gray-200 border border-black border-opacity-10 rounded-full"></span>
-                                    </label>
-                                    <label class="-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none ring-gray-900">
-                                        <input type="radio" name="color-choice" value="Black" class="sr-only" aria-labelledby="color-choice-2-label">
-                                        <span id="color-choice-2-label" class="sr-only"> Black </span>
-                                        <span aria-hidden="true" class="h-8 w-8 bg-gray-900 border border-black border-opacity-10 rounded-full"></span>
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <div class="mt-10">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-sm font-medium text-gray-900">Size</h3>
-                                <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size guide</a>
-                            </div>
-
-                            <fieldset class="mt-4">
-                                <legend class="sr-only">Choose a size</legend>
-                                <div class="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-gray-50 text-gray-200 cursor-not-allowed">
-                                        <input type="radio" name="size-choice" value="XXS" disabled class="sr-only" aria-labelledby="size-choice-0-label">
-                                        <span id="size-choice-0-label">XXS</span>
-
-                                        <span aria-hidden="true" class="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200">
-                                            <svg class="absolute inset-0 h-full w-full stroke-2 text-gray-200" viewBox="0 0 100 100" preserveAspectRatio="none" stroke="currentColor">
-                                                <line x1="0" y1="100" x2="100" y2="0" vector-effect="non-scaling-stroke" />
-                                            </svg>
-                                        </span>
-                                    </label>
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="XS" class="sr-only" aria-labelledby="size-choice-1-label">
-                                        <span id="size-choice-1-label">XS</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="S" class="sr-only" aria-labelledby="size-choice-2-label">
-                                        <span id="size-choice-2-label">S</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="M" class="sr-only" aria-labelledby="size-choice-3-label">
-                                        <span id="size-choice-3-label">M</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="L" class="sr-only" aria-labelledby="size-choice-4-label">
-                                        <span id="size-choice-4-label">L</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="XL" class="sr-only" aria-labelledby="size-choice-5-label">
-                                        <span id="size-choice-5-label">XL</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="2XL" class="sr-only" aria-labelledby="size-choice-6-label">
-                                        <span id="size-choice-6-label">2XL</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-                                    <label class="group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6 bg-white shadow-sm text-gray-900 cursor-pointer">
-                                        <input type="radio" name="size-choice" value="3XL" class="sr-only" aria-labelledby="size-choice-7-label">
-                                        <span id="size-choice-7-label">3XL</span>
-                                        <span class="pointer-events-none absolute -inset-px rounded-md" aria-hidden="true"></span>
-                                    </label>
-                                </div>
-                            </fieldset>
-                        </div>
-
-                        <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Add to bag</button>
-                    </form>
+                    <div class="mt-6">
+                        <h3 id="referral_commission"  class="text-lg text-gray-600"> </h3>
+                    </div>
+                    <div class="mt-6">
+                        <h1 class="text-lg text-gray-600">Video</h1>
+                        <iframe class="w-full aspect-video" id="vedio_link" frameBorder="0"></iframe>
+                    </div>
                 </div>
             </div>
         </div>
