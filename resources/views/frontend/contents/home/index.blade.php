@@ -80,8 +80,8 @@
 
                     @foreach ($products as $product)
                     <div>
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="{{count($product->images) > 0 ? $product->images[0]->url : 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg'}}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 relative pt-[120%]">
+                            <img src="{{count($product->images) > 0 ? $product->images[0]->url : 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg'}}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-top group-hover:opacity-75 absolute inset-0">
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             <div class="flex flex-col">
@@ -94,7 +94,7 @@
                                 </svg>Buy
                             </button>
                         </div>
-                   </div>
+                    </div>
 
                     @endforeach
 
@@ -351,23 +351,21 @@
 
             <div class="mx-auto py-8 px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
                 <div class="lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8">
-                    <div id="image-shop-slid" class="show" >
-                        {{-- <img src="https://placeimg.com/1000/1000/animals" id="show-img"> --}}
-                      </div>
-                      <div class="small-img">
+                    <div id="image-shop-slid" class="show"></div>
+                    <div class="small-img">
                         <img src="{{ asset("frontend/images/icon/online_icon_right@2x.png") }}" class="icon-left" alt="" id="prev-img">
                         <div class="small-container">
-                          <div id="small-img-roll">
-                            {{-- <img src="https://placeimg.com/1000/1000/animals" class="show-small-img" alt="">
+                            <div id="small-img-roll">
+                                {{-- <img src="https://placeimg.com/1000/1000/animals" class="show-small-img" alt="">
                             <img src="https://placeimg.com/1000/1000/arch" class="show-small-img" alt="">
                             <img src="https://placeimg.com/1000/1000/nature" class="show-small-img" alt="">
                             <img src="https://placeimg.com/1000/1000/people" class="show-small-img" alt="">
                             <img src="https://placeimg.com/1000/1000/tech" class="show-small-img" alt="">
                             <img src="https://picsum.photos/1000/1000/?random" class="show-small-img" alt=""> --}}
-                          </div>
+                            </div>
                         </div>
                         <img src="{{ asset("frontend/images/icon/online_icon_right@2x.png") }}" class="icon-right" alt="" id="next-img">
-                      </div>
+                    </div>
 
                     <div class="mt-10">
                         <h2 class="text-sm font-medium text-gray-900">Details</h2>
@@ -378,7 +376,7 @@
                     </div>
                 </div>
                 <div class="mt-4 lg:row-span-3 lg:mt-0">
-                    <h1 id="product_name"  class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl mb-4"></h1>
+                    <h1 id="product_name" class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl mb-4"></h1>
                     <h2 class="sr-only">Product information</h2>
                     <p id="category" class="text-lg tracking-tight text-gray-600"></p>
                     <div class="mt-6">
@@ -387,7 +385,7 @@
                     </div>
 
                     <div class="mt-6">
-                        <h3 id="referral_commission"  class="text-lg text-gray-600"> </h3>
+                        <h3 id="referral_commission" class="text-lg text-gray-600"> </h3>
                     </div>
                     <div class="mt-6">
                         <h1 class="text-lg text-gray-600">Video</h1>
