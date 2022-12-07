@@ -8,6 +8,7 @@ import BinaryTree from '../../Page/User/BinaryTree';
 import Slider from '../../Page/Slider';
 import Login from '../Auth/Login';
 import { Sidbar } from '../Sidbar';
+import Epin from '../../Page/Epin';
 
 const Layout =() =>{
 
@@ -22,7 +23,8 @@ const Layout =() =>{
                 <Route path="/staff/slider" element={<Slider />} />
                 <Route path="/staff/package" element={<Product />} />
                 <Route path="/staff/users" element={<User />} />
-                <Route path="/staff/users/tree" element={<BinaryTree />} />
+                <Route path="/staff/users-tree" element={<BinaryTree />} />
+                <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>
             </div>

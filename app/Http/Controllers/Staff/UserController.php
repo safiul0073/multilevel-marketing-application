@@ -28,9 +28,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with(['nominee', 'image'])->orderBy('id', 'asc')->paginate(10);
+        $users = User::select(['first_name', 'sponsor_id','last_name','username', 'email', 'phone', 'country', 'created_at', 'balance'])
+                       ->with('sponsor:id,username')
+                       ->whereNotNull('sponsor_id')
+                       ->orderBy('id', 'asc')->paginate(10);
 
         return $this->withSuccess($users);
     }

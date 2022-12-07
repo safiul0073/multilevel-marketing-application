@@ -1,9 +1,18 @@
-import React from 'react'
+import moment from "moment";
+import React, { useMemo, useState } from "react";
+import LoaderAnimation from "../../components/common/LoaderAnimation";
+import Protected from "../../components/HOC/Protected";
+import { getAllUser } from "../../hooks/queries/user/getAllUser";
+
 
 const Index = () => {
-  return (
-    <>
-    <div className="min-h-full">
+
+    // fetching category list using react query
+    const {data:users, isLoading, refetch} = getAllUser()
+
+    return (
+        <>
+            <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
                         <div className="container">
@@ -17,13 +26,13 @@ const Index = () => {
                                     <button
                                         type="button"
                                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                                        // onClick={() => createCategory()}
+                                        onClick={() => createCategory()}
                                     >
-                                        Add New User
+                                        Add New Category
                                     </button>
                                 </div>
                             </div>
-                            {/* <div className="mt-8 flex flex-col">
+                            <div className="mt-8 flex flex-col">
                                 {isLoading ?
                                     <LoaderAnimation/>
                                     :
@@ -35,80 +44,98 @@ const Index = () => {
                                                     <tr>
                                                         <th
                                                             scope="col"
-                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                            className="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6"
                                                         >
-                                                            Sr.
+                                                            User
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                            className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"
                                                         >
-                                                            Title
+                                                            Sponser Id
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                            className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"
                                                         >
-                                                            Status
+                                                            Email-Phone
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
+                                                            className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"
+                                                        >
+                                                            Country
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"
+                                                        >
+                                                            Joined At
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900"
+                                                        >
+                                                            Balance
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-center "
                                                         >
                                                             Action
                                                         </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                                    {categoriesList?.map(
-                                                        (category) => (
+                                                    {users && users?.data?.map(
+                                                        (user) => (
                                                             <tr
                                                                 key={Math.random()}
                                                             >
-                                                                <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
-                                                                    <div className="text-gray-900">
-                                                                        {
-                                                                            category?.id
-                                                                        }
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className=" text-center">
+                                                                        <div>{user?.first_name + " " + user?.last_name}</div>
+                                                                        <div>{user?.username}</div>
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {category?.name ||
-                                                                            category?.title}
+                                                                    <div className="text-center">
+                                                                        {user?.sponsor?.username}
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    {category?.status ==
-                                                                    1 ? (
-                                                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
-                                                                            Active
-                                                                        </span>
-                                                                    ) : (
-                                                                        <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
-                                                                            Inactive
-                                                                        </span>
-                                                                    )}
+                                                                    <div className=" text-center">
+                                                                        <div>{user?.email}</div>
+                                                                        <div>{user?.phone}</div>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className="text-center">
+                                                                        {user?.country}
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className=" text-center">
+                                                                        <div>{moment(user?.created_at).format('MMMM Do YYYY, h:mm:ss a')}</div>
+                                                                        <div>{moment(user?.created_at).fromNow()}</div>
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className="text-center">
+                                                                        {user?.balance}
+                                                                    </div>
                                                                 </td>
                                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                                     <div className="flex gap-2 justify-end">
                                                                         <button
                                                                             className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
-                                                                            onClick={() =>
-                                                                                editCategory(
-                                                                                    category
-                                                                                )
-                                                                            }
+
                                                                         >
                                                                             Edit
                                                                         </button>
                                                                         <button
                                                                             className="text-red-600 font-normal hover:text-red-700 hover:underline"
-                                                                            onClick={() =>
-                                                                                delateCategory(
-                                                                                    category?.id
-                                                                                )
-                                                                            }
+
                                                                         >
                                                                             Delete
                                                                         </button>
@@ -123,12 +150,13 @@ const Index = () => {
                                     </div>
                                 </div>
                                     }
-                            </div> */}
+                            </div>
                         </div>
                     </main>
                 </div>
             </div>
-    </>
-  )
-}
-export default Index;
+        </>
+    );
+};
+
+export default Protected(Index);

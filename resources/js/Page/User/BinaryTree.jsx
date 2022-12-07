@@ -59,7 +59,7 @@ const BinaryTree = () => {
         })
     },[treeDatas])
 
-
+console.log(treeDatas)
 
     // console.log(treeDatas);
   return (
