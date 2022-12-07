@@ -1,20 +1,26 @@
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import moment from "moment";
 import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Protected from "../../components/HOC/Protected";
 import { getAllUser } from "../../hooks/queries/user/getAllUser";
-
+import UserDetails from '../../components/user/Index'
 
 const Index = () => {
 
+    const [search, setSearch] = useState('')
+    const [showUserDetails, setUserDetails] = useState(false)
     // fetching category list using react query
-    const {data:users, isLoading, refetch} = getAllUser()
+    const {data:users, isLoading, refetch} = getAllUser({
+        search
+    })
 
     return (
         <>
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
+                    {showUserDetails ? <UserDetails showUserDetails={showUserDetails} setUserDetails={setUserDetails}/> :
                         <div className="container">
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
@@ -22,14 +28,24 @@ const Index = () => {
                                         User List
                                     </h1>
                                 </div>
-                                <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                    <button
-                                        type="button"
-                                        className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                                        onClick={() => createCategory()}
+                                <div className="mt-4 sm:mt-0 sm:ml-16 relative rounded-md shadow-sm">
+                                    <div
+                                        className="pointer-events-none absolute inset-y-0 left-[200px] flex items-center pl-3"
+                                        aria-hidden="true"
                                     >
-                                        Add New Category
-                                    </button>
+                                        <MagnifyingGlassIcon
+                                            className="mr-3 h-4 w-4 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="search"
+                                        className="h-10 block w-full rounded-md border-gray-300 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm hover:border-indigo-700 "
+                                        placeholder="username or email"
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                    />
                                 </div>
                             </div>
                             <div className="mt-8 flex flex-col">
@@ -129,16 +145,11 @@ const Index = () => {
                                                                     <div className="flex gap-2 justify-end">
                                                                         <button
                                                                             className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
-
+                                                                            onClick={() => setUserDetails(user)}
                                                                         >
-                                                                            Edit
+                                                                            Details
                                                                         </button>
-                                                                        <button
-                                                                            className="text-red-600 font-normal hover:text-red-700 hover:underline"
 
-                                                                        >
-                                                                            Delete
-                                                                        </button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -152,6 +163,7 @@ const Index = () => {
                                     }
                             </div>
                         </div>
+                    }
                     </main>
                 </div>
             </div>
