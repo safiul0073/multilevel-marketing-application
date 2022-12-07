@@ -14,26 +14,42 @@ export default function TreeNode(props) {
   }, [props.node]);
 
 
+  const fullname = (row) => {
+    if (row?.first_name && row?.last_name) {
+        // return row?.first_name + " " + row?.last_name
+        return row?.id
+    }else{
+        return row?.id
+    }
+  }
 
-  console.log(node);
+  const checkingUser = (row) => {
+    if (row?.id) {
+        return  (<div key={node?.id}>
+                    <label className="pl-8">{row?.id}</label>
+                </div>)
+    }else {
+        return  (<div key={Math.random()}>
+                    <label className="pl-8">Add new</label>
+                </div>)
+    }
+  }
 
   return (
     <div>
-      {node?.children ? (
+      {(node?.children?.length > 0) ? (
         <div>
-          <label className="pr-8">{node?.id}</label>
+          <label >{fullname(node)}</label>
           <div
            className="flex flex-row justify-around"
           >
-            <TreeNode node={firstChild ?? 5} />
-            <TreeNode node={secondchild?? 5} />
+            <TreeNode node={firstChild} />
+            <TreeNode node={secondchild} />
           </div>
         </div>
-      ) : (
-        <div key={node?.id}>
-          <label className="pl-8">{node?.id}</label>
-        </div>
-      )}
+      ) :
+           checkingUser(node)
+      }
     </div>
   );
 }

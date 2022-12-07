@@ -83,13 +83,13 @@ class User extends Authenticatable
     }
 
     public function children () {
-        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
+        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'first_name', 'last_name', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
     }
 
     public function sponsor () {
         return $this->belongsTo(User::class, 'sponsor_id');
     }
-    
+
     public function epin () {
         return $this->hasOne(Epin::class, 'use_by', 'id');
 

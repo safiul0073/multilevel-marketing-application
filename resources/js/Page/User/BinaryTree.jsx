@@ -62,8 +62,7 @@ const BinaryTree = () => {
     },[treeDatas])
 
 // console.log(treeDatas)
-    const root = useMemo(() => treeDatas?.find((data) => data.id == 1), [treeDatas])
-    console.log(root);
+    const root = useMemo(() => {for (let i = 0; i<treeDatas?.length; i++) return treeDatas[0];}, [treeDatas])
   return (
     <>
     <div className="min-h-full">
