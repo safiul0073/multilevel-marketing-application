@@ -49,7 +49,7 @@ export default function EditModal({
         formData.category_id = data.category_id
         formData.price = data.price
         formData.refferral_commission = data.refferral_commission
-        formData.video_url = data.video_url
+        formData.video_url = data.video_url.replace("watch?v=", "embed/")
         formData.description = data.description
         if (data.thamnail_image[0]) {
             formData.thamnail_image = data.thamnail_image[0]
