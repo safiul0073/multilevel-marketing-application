@@ -33,9 +33,13 @@ class UserController extends Controller
         $users = User::select(['first_name', 'sponsor_id','last_name','username', 'email', 'phone', 'country', 'created_at', 'balance'])
                        ->with('sponsor:id,username')
                        ->whereNotNull('sponsor_id')
-                       ->orderBy('id', 'asc')->paginate(10);
+                       ->orderBy('id', 'asc');
 
-        return $this->withSuccess($users);
+        if ($request->search) {
+            $users->whereLike(['username', 'email'], $request->search);
+        }
+
+        return $this->withSuccess($users->paginate(10));
     }
 
     /**
