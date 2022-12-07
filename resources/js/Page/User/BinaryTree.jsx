@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useMemo } from 'react';
-import TreeNode from '../../components/user/TreeNode';
+import TreeNode from '../../components/user/tree/TreeNode';
 import { binaryTreeData } from '../../hooks/queries/user/binaryTreeData';
 const BinaryTree = () => {
 

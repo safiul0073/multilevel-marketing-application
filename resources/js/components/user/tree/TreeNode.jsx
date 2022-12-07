@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import UserView from "./UserView";
 
 export default function TreeNode(props) {
   const [node, setNode] = useState(props.node);
@@ -16,7 +17,7 @@ export default function TreeNode(props) {
 
   const fullname = (row) => {
     if (row?.first_name && row?.last_name) {
-        // return row?.first_name + " " + row?.last_name
+        return row?.first_name + " " + row?.last_name
         return row?.id
     }else{
         return row?.id
@@ -25,9 +26,7 @@ export default function TreeNode(props) {
 
   const checkingUser = (row) => {
     if (row?.id) {
-        return  (<div key={node?.id}>
-                    <label className="pl-8">{row?.id}</label>
-                </div>)
+        return  (<UserView user={row} />)
     }else {
         return  (<div key={Math.random()}>
                     <label className="pl-8">Add new</label>
@@ -38,8 +37,8 @@ export default function TreeNode(props) {
   return (
     <div>
       {(node?.children?.length > 0) ? (
-        <div>
-          <label >{fullname(node)}</label>
+        <div >
+            <UserView user={node} />
           <div
            className="flex flex-row justify-around"
           >
