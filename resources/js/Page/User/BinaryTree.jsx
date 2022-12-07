@@ -1,4 +1,6 @@
-import React, { Children, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useMemo } from 'react';
+import TreeNode from '../../components/user/TreeNode';
 import { binaryTreeData } from '../../hooks/queries/user/binaryTreeData';
 const BinaryTree = () => {
 
@@ -59,20 +61,18 @@ const BinaryTree = () => {
         })
     },[treeDatas])
 
-console.log(treeDatas)
-
-    // console.log(treeDatas);
+// console.log(treeDatas)
+    const root = useMemo(() => treeDatas?.find((data) => data.id == 1), [treeDatas])
+    console.log(root);
   return (
     <>
     <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
-                    <main className="flex-1 py-8">
-                        {
-                            // treeDatas && treeDatas.map((tree,i)=>{
-                            //     createComp(tree);
-                            // })
-                        }
-
+                    <main className="flex-1 py-8 text-center">
+                    <TreeNode
+                        style={{ display: "flex", flexDirection: "column" }}
+                        node={root}
+                        />
                     </main>
                 </div>
             </div>
