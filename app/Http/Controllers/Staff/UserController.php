@@ -8,14 +8,16 @@ use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\Formatter;
+use App\Traits\MediaOperator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\File;
 
 class UserController extends Controller
 {
-    use Formatter;
+    use Formatter, MediaOperator;
 
     protected $user_service;
 
@@ -53,6 +55,7 @@ class UserController extends Controller
             'email' => 'required|string',
             'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
+            'avater'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)]
         ]);
         $sopnsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
@@ -73,7 +76,7 @@ class UserController extends Controller
             $user->id,
             (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
 
-            // sponser group updating
+            // sponser group incrementing
             $sopnsor->total_group = $sopnsor->total_group + 1;
             $sopnsor->save();
             // generation lavel creating
@@ -83,14 +86,20 @@ class UserController extends Controller
                 'gen_type' => 1
             ]);
 
-            // generation looping
-            $i = 2;
-            $this->user_service->generationLoop($sopnsor->id, $user->id, $i);
+            if ($request->avater) {
+                $this->singleFileUpload(
+                $this->uploadFile($request->avater),
+                $user,
+                'profile');
+            }
+
             $user->purchases()->create([
                 'product_id' => $att['product_id'],
                 'amount' => $product->price,
             ]);
-
+            // generation looping
+            $i = 2;
+            $this->user_service->generationLoop($sopnsor->id, $user->id, $i);
             // bonuse given
             $this->user_service->bonuseGiven($sopnsor->id, $user->id,$att['refer_psition']);
             DB::commit();
