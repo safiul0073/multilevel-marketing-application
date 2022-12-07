@@ -5,6 +5,7 @@
 @section('custome_style')
 {{-- here some style --}}
 <link rel="stylesheet" href="{{ asset('frontend/css/home.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/css/slider-zoom/main.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/splide-skyblue.min.css') }}">
 @endsection
 @section('content')
@@ -350,36 +351,23 @@
 
             <div class="mx-auto py-8 px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
                 <div class="lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8">
-                    <div id="main-slider" class="splide mb-10" aria-label="Splide Basic HTML Example">
-                        <div class="splide__track">
-                            <ul id="ul-slider-image-show" class="splide__list">
-                                {{-- <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li> --}}
-                            </ul>
+                    <div id="image-shop-slid" class="show" >
+                        {{-- <img src="https://placeimg.com/1000/1000/animals" id="show-img"> --}}
+                      </div>
+                      <div class="small-img">
+                        <img src="{{ asset("frontend/images/icon/online_icon_right@2x.png") }}" class="icon-left" alt="" id="prev-img">
+                        <div class="small-container">
+                          <div id="small-img-roll">
+                            {{-- <img src="https://placeimg.com/1000/1000/animals" class="show-small-img" alt="">
+                            <img src="https://placeimg.com/1000/1000/arch" class="show-small-img" alt="">
+                            <img src="https://placeimg.com/1000/1000/nature" class="show-small-img" alt="">
+                            <img src="https://placeimg.com/1000/1000/people" class="show-small-img" alt="">
+                            <img src="https://placeimg.com/1000/1000/tech" class="show-small-img" alt="">
+                            <img src="https://picsum.photos/1000/1000/?random" class="show-small-img" alt=""> --}}
+                          </div>
                         </div>
-                    </div>
-                    <div id="thumbnail-slider" class="splide mb-10" aria-label="Splide Basic HTML Example">
-                        <div class="splide__track">
-                            <ul id="ul-slider-image-nav" class="splide__list">
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                        <img src="{{ asset("frontend/images/icon/online_icon_right@2x.png") }}" class="icon-right" alt="" id="next-img">
+                      </div>
 
                     <div class="mt-10">
                         <h2 class="text-sm font-medium text-gray-900">Details</h2>
@@ -421,5 +409,7 @@
 
 @section('custome_scipt')
 <script src="{{ asset('frontend/script/home.js') }}"></script>
+<script src="{{ asset('frontend/script/slider-zoom/zoom-image.js') }}"></script>
+<script src="{{ asset('frontend/script/slider-zoom/main.js') }}"></script>
 <script src="{{ asset('frontend/script/splide.min.js') }}"></script>
 @endsection

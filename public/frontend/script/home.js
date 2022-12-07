@@ -103,19 +103,15 @@ async function  getOneProduct (id) {
     document.getElementById("category").innerText ="Category: " + data?.category?.title
     document.getElementById("referral_commission").innerText = "Referral Commission: " + data?.refferral_commission + "%"
     document.getElementById("vedio_link").src = data?.video_url
+    var imageDiv =  document.getElementById("small-img-roll")
+    var imageShowSlide = document.getElementById("image-shop-slid")
     if (data?.images?.length > 0) {
-
-
-        // ulSliderImageShow.innerHTML = li
-        // ulSliderImageNav.innerHTML = li
+        var images = ''
+       data?.images?.map((image) => {
+         images += `<img src="${image?.url}" class="show-small-img" alt="">`
+         imageShowSlide.innerHTML = `<img src="${image?.url}" id="show-img">`
+       })
+       imageDiv.innerHTML = images
     }
-    document.getElementById("ul-slider-image-show").innerHTML = `<li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>
-                                <li class="splide__slide">
-                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                                </li>`
+
  }
