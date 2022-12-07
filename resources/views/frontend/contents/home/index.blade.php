@@ -76,140 +76,27 @@
         <div class="bg-indigo-600/20 rounded-xl">
             <div class="mx-auto p-4 sm:p-8">
                 <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
 
-                    <a href="#" class="group">
+                    @foreach ($products as $product)
+                    <div>
                         <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                            <img src="{{count($product->images) > 0 ? $product->images[0]->url : 'https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg'}}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
                         </div>
                         <div class="flex justify-between items-center mt-4">
                             <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
+                                <h3 class="text-sm text-white">{{$product->name}}</h3>
+                                <p class="mt-1 text-lg font-medium text-white">{{$product->price . " TK"}}</p>
                             </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
+                            <button data-modal="modal-one" onclick="getOneProduct({{$product->id}})" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
                                 <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
                                 </svg>Buy
                             </button>
                         </div>
-                    </a>
+                   </div>
 
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
+                    @endforeach
 
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-03.jpg" alt="Person using a pen to cross a task off a productivity paper card." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-04.jpg" alt="Hand holding black machined steel mechanical pencil with brass tip and top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
-
-                    <a href="#" class="group">
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
-                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                        </div>
-                        <div class="flex justify-between items-center mt-4">
-                            <div class="flex flex-col">
-                                <h3 class="text-sm text-white">Earthen Bottle</h3>
-                                <p class="mt-1 text-lg font-medium text-white">$48</p>
-                            </div>
-                            <button class="inline-flex items-center rounded-md border border-transparent bg-rose-500 pl-2 pr-3 py-1.5 text-base font-medium text-white hover:bg-rose-600">
-                                <svg class="h-5 w-5 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>Buy
-                            </button>
-                        </div>
-                    </a>
                 </div>
             </div>
         </div>
@@ -447,6 +334,83 @@
         </div>
     </div>
 </div>
+
+<div class="fixed inset-0 flex z-50 modal overflow-y-auto p-10" id="modal-one">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-exit"></div>
+    <div class="flex flex-col m-auto transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:p-6">
+        <div class="absolute top-0 right-0 hidden pt-2 pr-2 sm:block">
+            <button type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 modal-exit">
+                <span class="sr-only">Close</span>
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="bg-white">
+
+            <div class="mx-auto py-8 px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
+                <div class="lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8">
+                    <div id="main-slider" class="splide mb-10" aria-label="Splide Basic HTML Example">
+                        <div class="splide__track">
+                            <ul id="ul-slider-image-show" class="splide__list">
+                                {{-- <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li> --}}
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="thumbnail-slider" class="splide mb-10" aria-label="Splide Basic HTML Example">
+                        <div class="splide__track">
+                            <ul id="ul-slider-image-nav" class="splide__list">
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-10">
+                        <h2 class="text-sm font-medium text-gray-900">Details</h2>
+
+                        <div class="mt-4 space-y-6">
+                            <p id="description" class="text-sm text-gray-600"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 lg:row-span-3 lg:mt-0">
+                    <h1 id="product_name"  class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl mb-4"></h1>
+                    <h2 class="sr-only">Product information</h2>
+                    <p id="category" class="text-lg tracking-tight text-gray-600"></p>
+                    <div class="mt-6">
+                        <p id="price" class="text-lg tracking-tight text-gray-600"></p>
+
+                    </div>
+
+                    <div class="mt-6">
+                        <h3 id="referral_commission"  class="text-lg text-gray-600"> </h3>
+                    </div>
+                    <div class="mt-6">
+                        <h1 class="text-lg text-gray-600">Video</h1>
+                        <iframe class="w-full aspect-video" id="vedio_link" frameBorder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 

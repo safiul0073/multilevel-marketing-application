@@ -26,6 +26,7 @@ Route::get('/staff/{slug?}', [DashboardController::class, 'index']);
 
 Route::get('/', [HomeCotroller::class, 'index'])->name('home')->name('index.home.page');
 Route::get('/products', [ProductController::class, 'index'])->name('product.page');
+Route::get('get-one-product-res', [HomeCotroller::class, 'responseProductData'])->name('product.get.one.res');
 Route::get('/news', [NewsController::class, 'index'])->name('news.page');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.page');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.page');

@@ -2,9 +2,9 @@ import moment from "moment";
 import React, { useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
 import Protected from "../components/HOC/Protected";
-import CreateModal from "../components/modal/epin/CreateModal";
-import DeleteEpin from "../components/modal/epin/Delete";
-import EditModal from "../components/modal/epin/EditModal";
+import CreateModal from "../components/modal/category copy/CreateModal";
+import DeleteEpin from "../components/modal/category copy/Delete";
+import EditModal from "../components/modal/category copy/EditModal";
 import { getEpinList } from "../hooks/queries/epin/getEpinList";
 
 const Epin = () => {

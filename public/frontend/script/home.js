@@ -21,6 +21,39 @@ document.addEventListener("DOMContentLoaded", function () {
         interval: 2500,
     });
     splide2.mount();
+
+    var main = new Splide("#main-slider", {
+        type: "fade",
+        heightRatio: 0.5,
+        pagination: false,
+        arrows: false,
+        cover: true,
+    });
+
+    var thumbnails = new Splide("#thumbnail-slider", {
+        rewind: true,
+        fixedWidth: 104,
+        fixedHeight: 58,
+        isNavigation: true,
+        gap: 10,
+        focus: "center",
+        pagination: false,
+        cover: true,
+        dragMinThreshold: {
+            mouse: 4,
+            touch: 10,
+        },
+        breakpoints: {
+            640: {
+                fixedWidth: 66,
+                fixedHeight: 38,
+            },
+        },
+    });
+
+    main.sync(thumbnails);
+    main.mount();
+    thumbnails.mount();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -41,3 +74,48 @@ document.addEventListener("DOMContentLoaded", function () {
         false
     );
 });
+
+var modals = document.querySelectorAll("[data-modal]");
+
+modals.forEach(function (trigger) {
+    trigger.addEventListener("click", function (event) {
+        event.preventDefault();
+        var modal = document.getElementById(trigger.dataset.modal);
+        modal.classList.add("open");
+        var exits = modal.querySelectorAll(".modal-exit");
+        exits.forEach(function (exit) {
+            exit.addEventListener("click", function (event) {
+                event.preventDefault();
+                modal.classList.remove("open");
+            });
+        });
+    });
+});
+
+// get model data
+async function  getOneProduct (id) {
+    let res = await fetch(`get-one-product-res?id=${id}`)
+    var data = await res.json()
+    var description = document.getElementById('description')
+    description.innerText = data.description
+    document.getElementById('product_name').innerText = data.name
+    document.getElementById("price").innerText ="Price: " + data.price + "TK"
+    document.getElementById("category").innerText ="Category: " + data?.category?.title
+    document.getElementById("referral_commission").innerText = "Referral Commission: " + data?.refferral_commission + "%"
+    document.getElementById("vedio_link").src = data?.video_url
+    if (data?.images?.length > 0) {
+
+
+        // ulSliderImageShow.innerHTML = li
+        // ulSliderImageNav.innerHTML = li
+    }
+    document.getElementById("ul-slider-image-show").innerHTML = `<li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>
+                                <li class="splide__slide">
+                                    <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                                </li>`
+ }
