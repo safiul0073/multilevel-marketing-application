@@ -1,7 +1,9 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import React from 'react'
+import { Link } from 'react-router-dom'
+import UserSideBar from '../../components/user/Sidebar'
 
-export default function Index({showUserDetails, setUserDetails}) {
+export default function Details({showUserDetails, setUserDetails}) {
   return (
    <>
 
@@ -9,7 +11,6 @@ export default function Index({showUserDetails, setUserDetails}) {
         <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto flex items-center">
                 <button
-                    type="button"
                     className="inline-flex items-center rounded border border-transparent bg-gray-200 p-1.5 text-black shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 mr-2"
                     onClick={() => setUserDetails(false)}
                 >
@@ -20,9 +21,12 @@ export default function Index({showUserDetails, setUserDetails}) {
                 </h1>
             </div>
         </div>
-        <div className="mt-8 flex flex-col">
+        <div className="mt-8 flex flex-row">
 
-
+        <UserSideBar />
+        <div>
+            {tab == info}
+        </div>
 
         </div>
     </div>

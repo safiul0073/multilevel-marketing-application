@@ -4,7 +4,9 @@ import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Protected from "../../components/HOC/Protected";
 import { getAllUser } from "../../hooks/queries/user/getAllUser";
-import UserDetails from '../../components/user/Index'
+import UserDetails from './Details'
+import { Link } from "react-router-dom";
+import Details from "./Details";
 
 const Index = () => {
 
@@ -20,7 +22,7 @@ const Index = () => {
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
-                    {showUserDetails ? <UserDetails showUserDetails={showUserDetails} setUserDetails={setUserDetails}/> :
+                        {showUserDetails ? <Details showUserDetails={showUserDetails} setUserDetails={setUserDetails} /> :
                         <div className="container">
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
@@ -163,7 +165,7 @@ const Index = () => {
                                     }
                             </div>
                         </div>
-                    }
+                        }
                     </main>
                 </div>
             </div>
