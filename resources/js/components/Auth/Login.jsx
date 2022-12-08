@@ -56,7 +56,7 @@ const Login = () => {
             setTimeout(() => {
                 updateAxiosToken(data?.token)
                 setToken(data?.token)
-                navigate("/staff");
+                navigate("/staff/dashboard");
                 callUserData()
             }, 3000)
 
