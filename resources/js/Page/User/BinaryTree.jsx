@@ -21,9 +21,9 @@ const BinaryTree = () => {
     // }
 
     const findChild = (arr, id)=>{
-        if(id === arr[0].id.toString()){
+        if(id === arr[0]?.id.toString()){
             return arr[0];
-        }else if(id === arr[1].id.toString()){
+        }else if(id === arr[1]?.id.toString()){
             return arr[1];
         }else {
             return null;
@@ -33,7 +33,6 @@ const BinaryTree = () => {
     let elements = [];
 
     const createComp = (tree)=>{
-        if(tree.left_ref_id === null && tree.right_ref_id === null) return;
 
         console.log("this is root : ",tree.id);
 
@@ -46,6 +45,7 @@ const BinaryTree = () => {
             console.log("right child : ", findChild(tree.children, tree.right_ref_id).id);
             createComp(findChild(tree.children, tree.right_ref_id))
         }
+        if(tree.left_ref_id === null && tree.right_ref_id === null) return;
 
 
 
