@@ -81,7 +81,7 @@ class UserService {
      */
     public function bonusGiven ($sponser_id, $user_id, $side) {
 
-        // first joining bonuse given
+        // first joining bonus given
         $sponser = User::find((int) $sponser_id);
         $join_bonus = config('setting_option.bonuse.joining');
         $sponser->balance = $sponser->balance + $join_bonus;
@@ -91,12 +91,12 @@ class UserService {
             'for_given_id'=> $user_id,
             'amount'      => $join_bonus
         ]);
-
+        $i = 1;
+        $this->matchingBonus($user_id, $sponser, $side, $i);
     }
 
-    private function matchingBonus ($user_id, $sponser, $side) {
+    private function matchingBonus ($user_id, $sponser, $side, $i) {
 
-        $i = 0;
         if ($side == 'right') {
             if ($sponser->left_ref_id) {
 
@@ -111,9 +111,12 @@ class UserService {
 
             $i = $i +1;
 
-            $sponser_sponser_id = $sponser->sponsor_id;
-            $sponser_sponser = User::find((int) $sponser_sponser_id);
-            if (!$sponser_sponser) throw new Exception("Don't match any sponser!");
+            for ($j=0; $j<$i; $j++) {
+                $sponser_sponser_id = $sponser->sponsor_id;
+                $sponser_sponser = User::find((int) $sponser_sponser_id);
+            }
+            if (!$sponser_sponser) return "Successfully matching bonus given.";
+            return $this->matchingBonus($user_id, $sponser_sponser, $side, $i);
 
         }
     }
