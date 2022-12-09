@@ -47,7 +47,7 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'sponsor_id' => 'required|numeric|exists:users,id',
-            'refer_psition' => 'nullable|string',
+            'refer_position' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
@@ -57,13 +57,13 @@ class UserController extends Controller
             'password' => 'required|string|min:8',
             'avater'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)]
         ]);
-        $sopnsor = User::find((int) $att['sponsor_id']);
+        $sponsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
         unset($userAtt['product_id']);
-        unset($userAtt['refer_psition']);
+        unset($userAtt['refer_position']);
         $product = Product::find((int)$att['product_id']);
         try {
             DB::beginTransaction();
@@ -74,14 +74,14 @@ class UserController extends Controller
             // position setting
             $this->user_service->setReferPosition($att['sponsor_id'],
             $user->id,
-            (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
+            (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
 
-            // sponser group incrementing
-            $sopnsor->total_group = $sopnsor->total_group + 1;
-            $sopnsor->save();
-            // generation lavel creating
+            // sponsor group incrementing
+            $sponsor->total_group = $sponsor->total_group + 1;
+            $sponsor->save();
+            // generation label creating
             Generation::create([
-                'main_id' => $sopnsor->id,
+                'main_id' => $sponsor->id,
                 'member_id' => $user->id,
                 'gen_type' => 1
             ]);
@@ -99,9 +99,9 @@ class UserController extends Controller
             ]);
             // generation looping
             $i = 2;
-            $this->user_service->generationLoop($sopnsor->id, $user->id, $i);
-            // bonuse given
-            $this->user_service->bonuseGiven($sopnsor->id, $user->id,$att['refer_psition']);
+            $this->user_service->generationLoop($sponsor->id, $user->id, $i);
+            // bonus given
+            $this->user_service->bonusGiven($sponsor->id, $user->id,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
@@ -132,7 +132,7 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'referrance_id' => 'required|numeric|exists:users,id',
-            'refer_psition' => 'nullable|between:"left","right"',
+            'refer_position' => 'nullable|between:"left","right"',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
