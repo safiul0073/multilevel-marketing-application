@@ -25,7 +25,7 @@ export default function Details({showUserDetails, setUserDetails}) {
 
         <UserSideBar />
         <div>
-            {tab == info}
+            {'tab' == 'info'}
         </div>
 
         </div>
