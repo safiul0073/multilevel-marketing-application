@@ -11,7 +11,7 @@ import { updateAxiosToken } from '../config/axios.config';
 import { UseStore } from '../store';
 import Dashboard from './Dashboard';
 import Login from '../components/Auth/Login'
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Router, Routes, useMatch } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
 import { OtpRequest } from '../components/Auth/OtpRequest';
@@ -43,6 +43,7 @@ function Index() {
             updateAxiosToken(token)
             callUserData()
         }
+        return () => {}
     },[token])
 
     return (
@@ -56,7 +57,7 @@ function Index() {
                 <BrowserRouter>
                     <AuthLayout>
                             <Routes>
-                                <Route path="/staff" element={<Dashboard />} />
+                                <Route path="/staff/dashboard" element={<Dashboard />} />
                                 <Route path="/staff/login" element={<Login />} />
 
                                 <Route path="/staff/email-validation" element={<OtpRequest />} />
@@ -71,7 +72,7 @@ function Index() {
     );
 }
 
-export default Index;
+export default  Index;
 
 if (document.getElementById('root')) {
     const rootId = ReactDOM.createRoot(document.getElementById("root"));

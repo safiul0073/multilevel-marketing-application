@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
                 'category_id' => $cat->id,
             ]);
         }
+
+        \App\Models\Epin::factory(50)->create();
     }
 }

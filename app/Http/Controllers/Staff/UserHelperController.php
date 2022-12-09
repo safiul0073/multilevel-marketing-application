@@ -17,7 +17,13 @@ class UserHelperController extends Controller
             'user_id'   => 'nullable|numeric|exists:users,id'
         ]);
 
-        $users = User::select(['id','referrance_id', 'left_ref_id', 'right_ref_id']);
+        $users = User::query()->select(['id', 'first_name', 'last_name', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children']);
+
+        if (isset($att['user_id'])) {
+            $users->where('id',$att['user_id']);
+        }else {
+            $users->whereNull('sponsor_id');
+        }
         return $this->withSuccess($users->get());
     }
 }
