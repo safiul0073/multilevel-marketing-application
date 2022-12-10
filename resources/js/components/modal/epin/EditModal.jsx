@@ -8,38 +8,27 @@ import  toast  from 'react-hot-toast';
 import * as yup from "yup";
 import Textinput from '../../common/Textinput';
 import { updateEpin } from '../../../hooks/queries/epin';
+import SelectInput from '../../common/SelectInput';
+import { getProductList } from '../../../hooks/queries/epin/getProductList';
 
 export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, epin}) {
 
-    const [code ,setCode] = useState('')
     const [backendError, setBackendError] = useState()
-    const handleCode = (e) => {
-        setCode(e.target.value)
-      }
-      const generateCode = () => {
-        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-        var string_length = 14;
-        var randomstring = '';
-        for (var i=0; i<string_length; i++) {
-         var rnum = Math.floor(Math.random() * chars.length);
-         randomstring += chars.substring(rnum,rnum+1);
-        }
-        setCode(randomstring)
-      }
+    const {data:products} = getProductList()
+
     const schema = yup
         .object({
-            title: yup.string().min(4, "Too Short!")
+            type: yup.string().min(4, "Too Short!")
             .max(50, "Too Long!"),
 
         })
         .required();
 
-    const { register,reset, handleSubmit, formState: { errors } } = useForm({
+    const { register, reset, control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
 
     const onSubmit= (data) => {
-        data.code = code
         updateEpinMutate(data)
     }
 
@@ -50,7 +39,6 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, epi
     useEffect(() => {
         if (epin) {
             reset(epin)
-            setCode(epin?.code)
         }
     }, [epin])
 
@@ -123,26 +111,15 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, epi
                                         backendValidationError={backendError?.type}
                                         error={errors.type}
                                     />
-                                   <div className="grid grid-cols-2 gap-2">
-                                        <div className="formGroup">
-                                            <label htmlFor="code" className='label-style'>Epin Code</label>
-                                            <input
-                                                type="text"
-                                                value={code}
-                                                onChange={handleCode}
-                                                className="form-control"
-                                                placeholder='FDSFSDF5646DFS'
-                                            />
-                                            {backendError && backendError?.code && (
-                                                <p className="error-message">
-                                                {backendError?.code}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className='flax justify-center items-center'>
-                                            <a href='#' onClick={generateCode} className="btn btn-primary" >Generate Code</a>
-                                        </div>
-                                   </div>
+                                    <SelectInput
+                                        label="Select Package"
+                                        labelFor="product_id"
+                                        controlFu={control}
+                                        reqMessage="Please select Package"
+                                        optionArray={products}
+                                        errorObj={errors?.product_id}
+                                        backendErrorMessagae={backendError?.product_id}
+                                    />
                                     <Textinput
                                         label="Epin Cost"
                                         placeholder="5000"
@@ -151,6 +128,24 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, epi
                                         type="number"
                                         backendValidationError={backendError?.cost}
                                         error={errors.cost}
+                                    />
+                                    <Textinput
+                                        label="Customer Name"
+                                        placeholder="Jhon"
+                                        register={register}
+                                        name="customer_name"
+                                        type="text"
+                                        backendValidationError={backendError?.customer_name}
+                                        error={errors.customer_name}
+                                    />
+                                    <Textinput
+                                        label="Customer Phone"
+                                        placeholder="01500000000"
+                                        register={register}
+                                        name="customer_phone"
+                                        type="text"
+                                        backendValidationError={backendError?.customer_phone}
+                                        error={errors.customer_phone}
                                     />
 
                                     <div className='flex justify-end mt-4'>
