@@ -22,20 +22,42 @@ export default function TreeNode(props) {
         return  (<div >
             <UserView user={row} />
           <div className="flex flex-row justify-around">
-            <NewAddView sponsor_id={row?.id} />
-            <NewAddView sponsor_id={row?.id} />
+            {row?.left_ref_id ? (<div>
+                                    <UserView user={firstChild} />
+                                    <div className="flex flex-row justify-around">
+                                    <NewAddView sponsor_id={row?.left_ref_id} />
+                                    <NewAddView sponsor_id={row?.left_ref_id} />
+                                    </div>
+                                 </div>) : <NewAddView sponsor_id={row?.id} />}
+            {row?.right_ref_id ? (<div>
+                                    <UserView user={secondChild} />
+                                    <div className="flex flex-row justify-around">
+                                    <NewAddView sponsor_id={row?.right_ref_id} />
+                                    <NewAddView sponsor_id={row?.right_ref_id} />
+                                    </div>
+                                 </div>) : <NewAddView sponsor_id={row?.id} />}
           </div>
         </div>)
     }else {
 
-        return  (<NewAddView sponsor_id={3} />)
+        return  (<NewAddView sponsor_id={null} />)
     }
+  }
+
+  const onlyOneMemeber = (row) => {
+    return (<div >
+              <UserView user={row} />
+              <div className="flex flex-row justify-around">
+                <NewAddView sponsor_id={row?.id} />
+                <NewAddView sponsor_id={row?.id} />
+              </div>
+            </div>)
   }
 
 
   return (
     <div>
-      {(node?.children?.length > 0) ? (
+      {(node?.left_ref_id && node?.right_ref_id) ? (
         <div >
             <UserView user={node} />
           <div className="flex flex-row justify-around">

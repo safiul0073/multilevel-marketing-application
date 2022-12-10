@@ -3,7 +3,7 @@ import React from 'react'
 export default function UserView({user}) {
 
     const fullName = (row) => {
-        
+        return row?.id
         if (row?.first_name && row?.last_name) {
             return row?.first_name + " " + row?.last_name
         }else{

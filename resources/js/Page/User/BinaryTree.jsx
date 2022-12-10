@@ -14,7 +14,7 @@ const BinaryTree = () => {
     <>
     <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
-                    <main className="flex-1 py-8 text-center overflow-x-auto overflow-y-auto">
+                    <main className=" w-screen overflow-x-auto overflow-y-auto">
                     <TreeNode
                         style={{ display: "flex", flexDirection: "column" }}
                         node={root}
