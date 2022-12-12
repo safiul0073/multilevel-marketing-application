@@ -17,5 +17,8 @@ export default defineConfig({
     server: {
         host: 'localhost'
    },
+   build: {
+    chunkSizeWarningLimit: 1600,
+  },
 });
  ``

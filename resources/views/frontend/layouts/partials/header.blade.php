@@ -1,4 +1,4 @@
-<header class="bg-indigo-800 lg:h-24 flex flex-col justify-center sticky top-0 z-50">
+<header class="bg-indigo-800 lg:h-24 flex flex-col justify-center sticky top-0 z-40">
     <div class="container">
         <div class="relative flex h-16 items-center justify-between">
             <div class="absolute inset-y-0 left-0 flex items-center lg:hidden">
@@ -19,17 +19,17 @@
                 </a>
                 <div class="hidden lg:ml-auto lg:flex items-center">
                     <div class="flex space-x-4 wide-tablet:space-x-2">
-                        <a href="#" class="bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Home</a>
+                        <a href="{{url('/')}}" class="{{ request()->routeIs('index.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium" >Home</a>
 
-                        <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Product</a>
+                        <a href="{{url('/products')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Product</a>
 
-                        <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">News</a>
+                        <a href="{{url('/news')}}" class="{{ request()->routeIs('news.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">News</a>
 
-                        <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Gallery</a>
+                        <a href="{{url('/gallery')}}" class="{{ request()->routeIs('gallery.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Gallery</a>
 
-                        <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About Us</a>
+                        <a href="{{url('/about-us')}}" class="{{ request()->routeIs('about.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">About Us</a>
 
-                        <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                        <a href="{{url('/contact')}}" class="{{ request()->routeIs('contact.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Contact</a>
                     </div>
                 </div>
             </div>

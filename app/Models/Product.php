@@ -23,9 +23,11 @@ class Product extends Model
         parent::boot();
         static::created(function ($product) {
             $product->slug = $product->generateSlug($product->name);
+            $product->sku = $product->generateSlug(random_int(1000000, 9999999));
             $product->save();
         });
     }
+
     private function generateSlug($name)
     {
 
@@ -40,6 +42,8 @@ class Product extends Model
         }
         return $slug;
     }
+
+
     /**
      * Get the user's images.
      */

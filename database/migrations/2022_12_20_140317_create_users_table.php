@@ -16,26 +16,27 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('referrance_id')->nullable();
+            $table->string('sponsor_id')->index()->nullable();
             $table->string('first_name')->nullable()->index();
             $table->string('last_name')->nullable()->index();
             $table->string('username')->unique()->index();
-            $table->string('email')->unique()->index();
-            $table->string('phone')->unique()->index();
+            $table->string('email')->index();
+            $table->string('phone')->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('sms_verified_at')->nullable();
             $table->string('password');
             $table->longText('address')->nullable();
-            $table->string('city')->nullable();
+            $table->string('city')->index()->nullable();
             $table->string('state')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('country')->nullable();
             $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->unsignedBigInteger('left_ref_id')->nullable();
-            $table->unsignedBigInteger('right_ref_id')->nullable();
+            $table->string('left_ref_id')->index()->nullable();
+            $table->string('right_ref_id')->index()->nullable();
             $table->unsignedBigInteger('total_group')->default(0);
             $table->double('total_income', 15)->default(0);
             $table->float('total_withdraw')->default(0);
+            $table->float('balance')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

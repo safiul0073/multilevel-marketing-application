@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['category:id,title','images'] )->orderBy('id', 'DESC')->paginate(10);
+        $products = Product::with(['category:id,title'])->orderBy('id', 'DESC')->paginate(10);
 
         return $this->withSuccess($products);
     }
@@ -42,8 +42,8 @@ class ProductController extends Controller
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images.*' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
-            'thamnail_image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'images.*' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
+            'thamnail_image' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
             'status' => 'nullable|between:0,1',
         ]);
 
@@ -57,7 +57,7 @@ class ProductController extends Controller
                 foreach ($request->images as $image) {
                     if ($this->validationCheck($image)) {
                         $image_urls[] = $this->uploadFile($image);
-                    }else {
+                    } else {
                         throw new Exception('Please upload png and jpg image.');
                     }
                 }
@@ -75,7 +75,7 @@ class ProductController extends Controller
             DB::beginTransaction();
             $product = Product::create($att);
 
-            if (! $product) {
+            if (!$product) {
                 throw new Exception('Product not created');
             }
 
@@ -129,11 +129,12 @@ class ProductController extends Controller
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',
             'video_url' => 'nullable|string',
-            'images.*' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
-            'thamnail_image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'images.*' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
+            'thamnail_image' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
             'status' => 'nullable|between:0,1',
         ]);
         $product = Product::find($att['id']);
+        unset($att['id']);
         $image_urls = [];
         $thamnail_image = null;
         if ($request->images) {
@@ -156,35 +157,34 @@ class ProductController extends Controller
                 $this->deleteFile($thamnail_file);
                 $product->images()->where('type', 'thamnail')->delete();
             }
-
         }
 
         // slug setting
         $att['slug'] = $att['name'];
 
         // try {
-            DB::beginTransaction();
-            $p = $product->update($att);
+        DB::beginTransaction();
+        $p = $product->update($att);
 
-            if (! $p) {
-                throw new Exception('Product not created');
-            }
+        if (!$p) {
+            throw new Exception('Product not created');
+        }
 
-            foreach ($image_urls as $url) {
-                $product->images()->create([
-                    'url' => $url,
-                    'type' => 'gellary',
-                ]);
-            }
+        foreach ($image_urls as $url) {
+            $product->images()->create([
+                'url' => $url,
+                'type' => 'gellary',
+            ]);
+        }
 
-            if ($thamnail_image) {
-                $product->images()->create([
-                    'url' => $thamnail_image,
-                    'type' => 'thamnail',
-                ]);
-            }
+        if ($thamnail_image) {
+            $product->images()->create([
+                'url' => $thamnail_image,
+                'type' => 'thamnail',
+            ]);
+        }
 
-            DB::commit();
+        DB::commit();
         // } catch (\Exception $ex) {
         //     return $this->withErrors($ex->getMessage());
         // }

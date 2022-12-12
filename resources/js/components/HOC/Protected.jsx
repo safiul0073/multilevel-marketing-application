@@ -8,7 +8,6 @@ const Protected = (ProtectedComponent) => {
 
             const [isTrue, setTrue] = useState(false)
             let navigate = useNavigate();
-            let {isAuth} = UseStore()
             useEffect(() => {
                     let token = Cookies.get('nAToken')
                     if (!!token) {

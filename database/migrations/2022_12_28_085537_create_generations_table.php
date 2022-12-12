@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('generations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'main_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(User::class, 'member_id')->constrained('users')->cascadeOnDelete();
-            $table->unsignedInteger('gen_type')->default(0);
+            $table->foreignIdFor(User::class, 'main_id')->index()->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'member_id')->index()->constrained('users')->cascadeOnDelete();
+            $table->unsignedInteger('gen_type')->index()->default(0);
             $table->timestamps();
         });
     }

@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'category_id' => $category->id,
             'name' => fake()->name(),
             'slug' => 'product_slug',
+            'sku'  => random_int(1000000,9999999),
             'description' => fake()->text(),
             'refferral_commission' => rand(20, 30),
             'price' => rand(5000, 10000),

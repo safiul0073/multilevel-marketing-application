@@ -11,9 +11,13 @@ import { updateAxiosToken } from '../config/axios.config';
 import { UseStore } from '../store';
 import Dashboard from './Dashboard';
 import Login from '../components/Auth/Login'
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Router, Routes, useMatch } from 'react-router-dom';
 import AuthLayout from '../components/Layouts/Auth';
 import ProgressBar from "@badrap/bar-of-progress";
+import { OtpRequest } from '../components/Auth/OtpRequest';
+import { CheckerOTP } from '../components/Auth/CheckerOTP';
+import { ResetPassword } from '../components/Auth/ResetPassword';
+import { Toaster } from 'react-hot-toast';
 
 function Index() {
 
@@ -39,38 +43,44 @@ function Index() {
             updateAxiosToken(token)
             callUserData()
         }
+
+        return () => {}
     },[token])
 
     return (
         <>
         <QueryClientProvider client={queryClient}>
             {isAuth ?
-                    <BrowserRouter>
-                        <Layout/>
-                    </BrowserRouter>
+                <BrowserRouter>
+                     <Layout/>
+                </BrowserRouter>
                 :
-                <AuthLayout>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/staff" element={<Dashboard />} />
-                            <Route path="/staff/login" element={<Login />} />
-                        </Routes>
-                    </BrowserRouter>
-                </AuthLayout>
+                <BrowserRouter>
+                    <AuthLayout>
+                            <Routes>
+                                <Route path="/staff/dashboard" element={<Dashboard />} />
+                                <Route path="/staff/login" element={<Login />} />
+
+                                <Route path="/staff/email-validation" element={<OtpRequest />} />
+                                <Route path="/staff/otp-checker" element={<CheckerOTP />} />
+                                <Route path="/staff/reset-password" element={<ResetPassword />} />
+                            </Routes>
+                    </AuthLayout>
+                </BrowserRouter>
             }
         </QueryClientProvider>
         </>
     );
 }
 
-export default Index;
+export default  Index;
 
 if (document.getElementById('root')) {
     const rootId = ReactDOM.createRoot(document.getElementById("root"));
 
     rootId.render(
         <React.StrictMode>
-            <Index/>
+            <Index/><Toaster />
         </React.StrictMode>
     )
 }
