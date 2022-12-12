@@ -38,6 +38,7 @@ function classNames(...classes) {
         { name: "Package", href: "/staff/package", icon: ScaleIcon },
         { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
         { name: "Users", href: "/staff/users", icon: CreditCardIcon },
+        { name: "Add New Member", href: "/staff/user/registration", icon: ClockIcon},
         { name: "Users Tree", href: "/staff/binary-tree", icon: CreditCardIcon },
         { name: "Epin", href: "/staff/epin", icon: CreditCardIcon },
         { name: "Settings", href: "/staff/settings", icon: CreditCardIcon },

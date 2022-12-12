@@ -51,6 +51,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::post('category-update', [CategoryController::class, 'update']);
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
+    Route::get('user-list', [UserHelperController::class, 'getUserList']);
 
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
