@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->index()->constrained()->cascadeOnDelete();
             $table->string('name')->index();
             $table->string('slug');
+            $table->string('sku');
             $table->longText('description')->nullable();
             $table->unsignedInteger('refferral_commission')->default(0);
             $table->double('price', 15)->default(0);

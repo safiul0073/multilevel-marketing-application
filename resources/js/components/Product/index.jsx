@@ -187,6 +187,10 @@ const ProductView = ({ viewProduct, setViewProduct }) => {
 
                         {/* Reviews */}
                         <div className="mt-6">
+                            <h3 className="text-lg text-gray-600">SKU : {viewProduct?.sku} </h3>
+                        </div>
+
+                        <div className="mt-6">
                             <h3 className="text-lg text-gray-600">Referral Commission : {viewProduct?.refferral_commission + "%"} </h3>
                         </div>
 
