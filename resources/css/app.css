@@ -22,7 +22,6 @@
     @apply bg-gray-700 text-white uppercase hover:bg-gray-500;
 }
 
-
 .form-control {
     @apply w-full h-10 my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700;
 }
@@ -41,4 +40,9 @@
 
 .has-error {
     @apply border-2 border-red-500;
+}
+
+.tree-screen {
+    @apply flex flex-1 flex-col lg:pl-64;
+    min-height: calc(100vh - 64px);
 }
