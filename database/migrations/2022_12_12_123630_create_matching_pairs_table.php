@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('matching_pairs', function (Blueprint $table) {
             $table->id();
-            
+            $table->foreignIdFor(User::class, 'matcher_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'match_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
