@@ -8,14 +8,16 @@ use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\Formatter;
+use App\Traits\MediaOperator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\File;
 
 class UserController extends Controller
 {
-    use Formatter;
+    use Formatter, MediaOperator;
 
     protected $user_service;
 
@@ -52,7 +54,7 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'sponsor_id' => 'required|numeric|exists:users,id',
-            'refer_psition' => 'nullable|string',
+            'refer_position' => 'nullable|string',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
@@ -60,14 +62,15 @@ class UserController extends Controller
             'email' => 'required|string',
             'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
+            'avatar'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)]
         ]);
-        $sopnsor = User::find((int) $att['sponsor_id']);
+        $sponsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
         unset($userAtt['product_id']);
-        unset($userAtt['refer_psition']);
+        unset($userAtt['refer_position']);
         $product = Product::find((int)$att['product_id']);
         try {
             DB::beginTransaction();
@@ -78,28 +81,39 @@ class UserController extends Controller
             // position setting
             $this->user_service->setReferPosition($att['sponsor_id'],
             $user->id,
-            (isset($att['refer_psition']) ? $att['refer_psition'] : 'left'));
+            (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
 
-            // sponser group updating
-            $sopnsor->total_group = $sopnsor->total_group + 1;
-            $sopnsor->save();
-            // generation lavel creating
+            // sponsor group incrementing
+            if ($att['refer_position'] == 'left') {
+                $sponsor->left_group = $sponsor->left_group + 1;
+            }else{
+                $sponsor->right_group = $sponsor->right_group + 1;
+            }
+
+            $sponsor->save();
+            // generation label creating
             Generation::create([
-                'main_id' => $sopnsor->id,
+                'main_id' => $sponsor->id,
                 'member_id' => $user->id,
                 'gen_type' => 1
             ]);
 
-            // generation looping
-            $i = 2;
-            $this->user_service->generationLoop($sopnsor->id, $user->id, $i);
+            if ($request->avatar) {
+                $this->singleFileUpload(
+                $this->uploadFile($request->avatar),
+                $user,
+                'profile');
+            }
+
             $user->purchases()->create([
                 'product_id' => $att['product_id'],
                 'amount' => $product->price,
             ]);
-
-            // bonuse given
-            $this->user_service->bonuseGiven($sopnsor->id, $user->id);
+            // generation looping
+            $i = 2;
+            $this->user_service->generationLoop($sponsor->id, $user->id, $i);
+            // bonus given'
+            $this->user_service->bonusGiven($sponsor->id, $user->id,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
@@ -130,7 +144,7 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'referrance_id' => 'required|numeric|exists:users,id',
-            'refer_psition' => 'nullable|between:"left","right"',
+            'refer_position' => 'nullable|between:"left","right"',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
