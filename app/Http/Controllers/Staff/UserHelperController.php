@@ -26,4 +26,11 @@ class UserHelperController extends Controller
         }
         return $this->withSuccess($users->get());
     }
+
+    public function getUserList () {
+
+        $users = User::select(['id as value', 'username as label'])->get();
+
+        return $this->withSuccess($users);
+    }
 }

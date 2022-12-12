@@ -9,6 +9,7 @@ import Slider from '../../Page/Slider';
 import Login from '../Auth/Login';
 import  Sidebar from '../Sidebar';
 import Epin from '../../Page/Epin';
+import Create from '../../Page/User/Create';
 
 const Layout =() =>{
 
@@ -24,6 +25,7 @@ const Layout =() =>{
                 <Route path="/staff/package" element={<Product />} />
                 <Route path="/staff/users" element={<User />} />
                 <Route path="/staff/binary-tree" element={<BinaryTree />} />
+                <Route path="staff/user/registration" element={<Create/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>
