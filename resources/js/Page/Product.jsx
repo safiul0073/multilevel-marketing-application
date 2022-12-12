@@ -108,7 +108,7 @@ export const Product = () => {
                                                                                 scope="col"
                                                                                 className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                             >
-                                                                                Sr.
+                                                                                SKU
                                                                             </th>
                                                                             <th
                                                                                 scope="col"
@@ -126,7 +126,7 @@ export const Product = () => {
                                                                                 scope="col"
                                                                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                             >
-                                                                                Referrel
+                                                                                Referral
                                                                                 Commission
                                                                             </th>
                                                                             <th
@@ -162,7 +162,7 @@ export const Product = () => {
                                                                                     <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
                                                                                         <div className="text-gray-900">
                                                                                             {
-                                                                                                product?.id
+                                                                                                product?.sku
                                                                                             }
                                                                                         </div>
                                                                                     </td>

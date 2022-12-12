@@ -5,6 +5,7 @@ import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/epin/CreateModal";
 import DeleteEpin from "../components/modal/epin/Delete";
 import EditModal from "../components/modal/epin/EditModal";
+import EpinList from "../components/modal/epin/EpinList";
 import { getEpinList } from "../hooks/queries/epin/getEpinList";
 
 const Epin = () => {
@@ -41,15 +42,27 @@ const Epin = () => {
         setIsDeleteModalOpne(false)
     }
 
-
+    const [isListModal, setListModal] = useState(false)
+    const [epinMainId, setEpinMainId] = useState()
+    // show epin list by modal
+    const showEpinList = (id) => {
+        setEpinMainId(id)
+        setListModal(true)
+    }
 
     return (
         <>
+        <EpinList
+        isOpen={isListModal}
+        setIsOpen={setListModal}
+        refetcher={refetch}
+        epinMainId={epinMainId}
+        />
         <CreateModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         closeModal={closeModal}
-        refatcher={refetch}
+        refetcher={refetch}
         />
         <EditModal
         isOpen={isEditModalOpen}
@@ -99,7 +112,7 @@ const Epin = () => {
                                                             scope="col"
                                                             className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                         >
-                                                            Sr.
+                                                            Package
                                                         </th>
                                                         <th
                                                             scope="col"
@@ -117,25 +130,31 @@ const Epin = () => {
                                                             scope="col"
                                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                         >
-                                                            Activation Code
+                                                            Quantity
                                                         </th>
                                                         <th
                                                             scope="col"
                                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                         >
-                                                            Gen. Date
+                                                            Cus. Name
                                                         </th>
                                                         <th
                                                             scope="col"
                                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                         >
-                                                            Status
+                                                            Cus. Phone
                                                         </th>
                                                         <th
                                                             scope="col"
                                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                         >
-                                                            Use By
+                                                            Code List
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                        >
+                                                            Created At
                                                         </th>
                                                         <th
                                                             scope="col"
@@ -154,7 +173,7 @@ const Epin = () => {
                                                                 <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
                                                                     <div className="text-gray-900">
                                                                         {
-                                                                            epin?.id
+                                                                            epin?.product?.name
                                                                         }
                                                                     </div>
                                                                 </td>
@@ -170,7 +189,22 @@ const Epin = () => {
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                     <div className="text-gray-900">
-                                                                        {epin?.code}
+                                                                        {epin?.quantity}
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className="text-gray-900">
+                                                                        {epin?.customer_name}
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className="text-gray-900">
+                                                                        {epin?.customer_phone}
+                                                                    </div>
+                                                                </td>
+                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                    <div className="text-gray-900">
+                                                                      <button onClick={() => showEpinList(epin?.id)} className="btn btn-secondary">Show Epin List</button>
                                                                     </div>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -178,7 +212,7 @@ const Epin = () => {
                                                                         {moment(epin?.created_at).format("d-m-Y")}
                                                                     </div>
                                                                 </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                     {epin?.status ==
                                                                     1 ? (
                                                                         <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
@@ -189,12 +223,12 @@ const Epin = () => {
                                                                             unused
                                                                         </span>
                                                                     )}
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                </td> */}
+                                                                {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                     <div className="text-gray-900">
                                                                         {epin?.use_by}
                                                                     </div>
-                                                                </td>
+                                                                </td> */}
                                                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                                     <div className="flex gap-2 justify-end">
                                                                         <button

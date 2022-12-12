@@ -6,6 +6,7 @@ use App\Http\Controllers\Staff\Auth\ResetPasswordController;
 use App\Http\Controllers\Staff\Auth\StaffController;
 use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\Staff\EpinController;
+use App\Http\Controllers\Staff\EpinHelperController;
 use App\Http\Controllers\Staff\MediaController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProductHelperController;
@@ -38,6 +39,9 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('epin', EpinController::class);
 
     Route::post('epin-update', [EpinController::class, 'update']);
+    Route::post('store-epin', [EpinHelperController::class, 'storeEpin']);
+    Route::delete('delete-epin/{id}', [EpinHelperController::class, 'deleteEpin']);
+    Route::get('product-list', [EpinHelperController::class, 'getProductList']);
     // product helper
     Route::post('product-update', [ProductController::class, 'update']);
     Route::get('product-images/{product}', [ProductHelperController::class, 'getProductImages']);
@@ -47,6 +51,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::post('category-update', [CategoryController::class, 'update']);
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
+    Route::get('user-list', [UserHelperController::class, 'getUserList']);
 
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);

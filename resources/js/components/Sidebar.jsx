@@ -18,26 +18,22 @@ import { getLoggedOut } from "../hooks/queries/auth/auth";
 import { Logout } from "../helper/functions";
 import { UseStore } from "../store";
 import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
-import { useEffect } from "react";
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
  const Sidebar = () => {
-    let navigate = useNavigate();
+
     const { removeAuth, removeUser } = UseStore();
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    useEffect(() => {
-        if (window.location.pathname == '/staff') {
-            navigate('/staff/dashboard')
-        }
-        return () => {}
-    }, [])
+
     const navigation = [
         { name: "Dashboard", href: "/staff/dashboard", icon: HomeIcon },
         { name: "Category", href: "/staff/category", icon: ClockIcon },
         { name: "Package", href: "/staff/package", icon: ScaleIcon },
         { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
         { name: "Users", href: "/staff/users", icon: CreditCardIcon },
+        { name: "Add New Member", href: "/staff/user/registration", icon: ClockIcon},
         { name: "Users Tree", href: "/staff/binary-tree", icon: CreditCardIcon },
         { name: "Epin", href: "/staff/epin", icon: CreditCardIcon },
         { name: "Settings", href: "/staff/settings", icon: CreditCardIcon },
