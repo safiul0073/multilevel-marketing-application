@@ -7,18 +7,21 @@ import { useMutation } from 'react-query';
 import * as yup from "yup";
 import  toast  from 'react-hot-toast';
 import Textinput from '../../common/Textinput';
-import { createEpin } from '../../../hooks/queries/epin';
-export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) {
-    const [code ,setCode] = useState('')
+import { createEpinMain } from '../../../hooks/queries/epin';
+import { getProductList } from '../../../hooks/queries/epin/getProductList';
+import SelectInput from '../../common/SelectInput';
+export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) {
+    const [code ,setCode] = useState([])
     const [backendError, setBackendError] = useState()
+    const {data:products} = getProductList()
     const schema = yup
     .object({
-      title: yup.string().min(4, "Too Short!")
+      type: yup.string().min(4, "Too Short!")
         .max(50, "Too Long!"),
 
     })
     .required();
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register,control, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
     const onSubmit= (data) => {
@@ -31,15 +34,12 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
   const {
     mutate: createEpinMutate,
     isLoading,
-    reset,
-    isError,
-    isSuccess,
-  } = useMutation(createEpin, {
+  } = useMutation(createEpinMain, {
     onSuccess: (data) => {
         toast.success(data, {
             position: 'top-right'
         });
-        refatcher()
+        refetcher()
         closeModal()
     },
     onError: (err) => {
@@ -55,15 +55,24 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
   const handleCode = (e) => {
     setCode(e.target.value)
   }
+  const quantity = watch('quantity');
+  const [epinCodeGenerateError, setEpinCodeGenerateError] = useState('')
   const generateCode = () => {
-    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-    var string_length = 14;
-    var randomstring = '';
-    for (var i=0; i<string_length; i++) {
-     var rnum = Math.floor(Math.random() * chars.length);
-     randomstring += chars.substring(rnum,rnum+1);
+
+    if (!quantity) return setEpinCodeGenerateError("Please at first enter quantity!")
+    setEpinCodeGenerateError("")
+    var creatingCodes = [];
+    for (let j=0; j < quantity; j++) {
+        var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+        var string_length = 14;
+        var randomstring = '';
+        for (var i=0; i<string_length; i++) {
+         var rnum = Math.floor(Math.random() * chars.length);
+         randomstring += chars.substring(rnum,rnum+1);
+        }
+        creatingCodes.push(randomstring)
     }
-    setCode(randomstring)
+    setCode(creatingCodes)
   }
   return (
     <>
@@ -113,26 +122,15 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
                                         backendValidationError={backendError?.type}
                                         error={errors.type}
                                     />
-                                   <div className="grid grid-cols-2 gap-2">
-                                        <div className="formGroup">
-                                            <label htmlFor="code" className='label-style'>Epin Code</label>
-                                            <input
-                                                type="text"
-                                                value={code}
-                                                onChange={handleCode}
-                                                className="form-control"
-                                                placeholder='FDSFSDF5646DFS'
-                                            />
-                                            {backendError && backendError?.code && (
-                                                <p className="error-message">
-                                                {backendError?.code}
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className='flax justify-center items-center'>
-                                            <a href='#' onClick={generateCode} className="btn btn-primary" >Generate Code</a>
-                                        </div>
-                                   </div>
+                                    <SelectInput
+                                        label="Select Package"
+                                        labelFor="product_id"
+                                        controlFu={control}
+                                        reqMessage="Please select Package"
+                                        optionArray={products}
+                                        errorObj={errors?.product_id}
+                                        backendErrorMessagae={backendError?.product_id}
+                                    />
                                     <Textinput
                                         label="Epin Cost"
                                         placeholder="5000"
@@ -142,6 +140,60 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
                                         backendValidationError={backendError?.cost}
                                         error={errors.cost}
                                     />
+                                    <Textinput
+                                        label="Epin Quantity"
+                                        placeholder="10"
+                                        register={register}
+                                        name="quantity"
+                                        type="number"
+                                        backendValidationError={backendError?.quantity}
+                                        error={errors.quantity}
+                                    />
+                                    <Textinput
+                                        label="Customer Name"
+                                        placeholder="Jhon"
+                                        register={register}
+                                        name="customer_name"
+                                        type="text"
+                                        backendValidationError={backendError?.customer_name}
+                                        error={errors.customer_name}
+                                    />
+                                    <Textinput
+                                        label="Customer Phone"
+                                        placeholder="01500000000"
+                                        register={register}
+                                        name="customer_phone"
+                                        type="text"
+                                        backendValidationError={backendError?.customer_phone}
+                                        error={errors.customer_phone}
+                                    />
+                                    <div className="flex flex-row justify-between items-center">
+                                        <div className="formGroup">
+                                            <label htmlFor="code" className='label-style'>Epin Codes</label>
+                                            <ul className='text-sm text-gray-700 mb-1 font-medium'>
+                                                {
+                                                    code.length > 0 ?
+                                                    code.map((c, idx) => (
+                                                        <li> { (idx + 1) + ". " + c}</li>
+                                                    ))
+                                                    : ''
+                                                }
+                                            </ul>
+                                            {backendError && backendError?.code && (
+                                                <p className="error-message">
+                                                {backendError?.code}
+                                                </p>
+                                            )}
+                                            {epinCodeGenerateError &&  (
+                                                <p className="error-message">
+                                                {epinCodeGenerateError}
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className='flax justify-center items-center'>
+                                            <a href='#' onClick={generateCode} className="btn btn-primary" >Generate Code</a>
+                                        </div>
+                                   </div>
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>
                                         {isLoading ? (

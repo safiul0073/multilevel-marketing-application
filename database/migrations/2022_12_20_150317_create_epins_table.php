@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\EpinMain;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,10 +17,9 @@ return new class extends Migration
     {
         Schema::create('epins', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(EpinMain::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'use_by')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string('type');
-            $table->string('code')->unique();
-            $table->float('cost')->default(0);
+            $table->string('code');
             $table->tinyInteger('status')->default(0)->comment('0=unused, 1=used');
             $table->date('activation_date')->nullable();
             $table->timestamps();
