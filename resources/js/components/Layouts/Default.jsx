@@ -25,7 +25,6 @@ const Layout =() =>{
         <>
         <div className='min-h-full'>
             <Sidebar/>
-            <div>
             <Routes >
                 <Route path="/staff/dashboard" element={<Dashboard />} />
                 <Route path="/staff/category" element={<Category />} />
@@ -38,11 +37,7 @@ const Layout =() =>{
                 <Route path="/staff/login" element={<Login />} />
             </Routes>
             </div>
-
-        </div>
-
         </>
     )
 }
-
 export default Layout;
