@@ -62,7 +62,7 @@ class UserController extends Controller
             'email' => 'required|string',
             'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
-            'avater'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)]
+            'avatar'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)]
         ]);
         $sponsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
@@ -84,7 +84,12 @@ class UserController extends Controller
             (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
 
             // sponsor group incrementing
-            $sponsor->total_group = $sponsor->total_group + 1;
+            if ($att['refer_position'] == 'left') {
+                $sponsor->left_group = $sponsor->left_group + 1;
+            }else{
+                $sponsor->right_group = $sponsor->right_group + 1;
+            }
+
             $sponsor->save();
             // generation label creating
             Generation::create([
@@ -93,9 +98,9 @@ class UserController extends Controller
                 'gen_type' => 1
             ]);
 
-            if ($request->avater) {
+            if ($request->avatar) {
                 $this->singleFileUpload(
-                $this->uploadFile($request->avater),
+                $this->uploadFile($request->avatar),
                 $user,
                 'profile');
             }
@@ -107,7 +112,7 @@ class UserController extends Controller
             // generation looping
             $i = 2;
             $this->user_service->generationLoop($sponsor->id, $user->id, $i);
-            // bonus given
+            // bonus given'
             $this->user_service->bonusGiven($sponsor->id, $user->id,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {

@@ -79,7 +79,7 @@ class User extends Authenticatable
     }
 
     public function right_children () {
-        return $this->belongsTo(User::class, 'right_ref_id', 'id');
+        return $this->belongsTo(User::class, 'right_ref_id', 'id')->with('right_children');
     }
 
     public function children () {

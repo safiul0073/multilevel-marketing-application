@@ -33,4 +33,9 @@ class UserHelperController extends Controller
 
         return $this->withSuccess($users);
     }
+
+    public function getUserDetails ($id) {
+
+        // $user = User
+    }
 }

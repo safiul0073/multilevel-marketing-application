@@ -47,27 +47,32 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function generationLoop (int $sponser_id, int $user_id, $i) {
+    public function generationLoop (int $sponsor_id, int $user_id,  $i) {
 
-        $sponser = User::find((int) $sponser_id);
-        $sponser_sponser_id = $sponser->sponsor_id;
+        $sponsor = User::find((int) $sponsor_id);
+        $sponsor_sponsor_id = $sponsor->sponsor_id;
 
-        if ($sponser_sponser_id) {
-            $sponser_sponser = User::find((int) $sponser_sponser_id);
-            $sponser_sponser->total_group = $sponser_sponser->total_group + 1;
-            $sponser_sponser->save();
-            // generation lavel creating
+        if ($sponsor_sponsor_id) {
+            $sponsor_sponsor = User::find((int) $sponsor_sponsor_id);
+            // sponsor group incrementing
+            if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
+                $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
+            }else{
+                $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
+            }
+            $sponsor_sponsor->save();
+            // generation label creating
 
             Generation::create([
-                'main_id' => $sponser_sponser_id,
+                'main_id' => $sponsor_sponsor_id,
                 'member_id' => $user_id,
                 'gen_type' => $i
             ]);
 
             $i = $i + 1;
-            if ($i <= 10) {
-                return $this->generationLoop($sponser_sponser_id, $user_id, $i);
-            }
+
+            return $this->generationLoop($sponsor_sponsor_id, $user_id, $i);
+
         }
     }
 
