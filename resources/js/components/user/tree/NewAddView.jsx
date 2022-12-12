@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const NewAddView = ({ referral }) => {
+    let navigator = useNavigate()
     const newUserCreate = (referral) => {
-        console.log("sponsor id: " + referral);
+        navigator(`/staff/user/registration?sponsor_id=${referral}`)
     };
     return (
         <div className="flex justify-center items-start basis-1/2 shrink-0">

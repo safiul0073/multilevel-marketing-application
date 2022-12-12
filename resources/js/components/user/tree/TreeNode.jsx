@@ -19,9 +19,9 @@ export default function TreeNode({ node, before = false, sponsor = null }) {
     }, [node]);
 
     return node ? (
-        <div className="flex flex-col justify-start items-center basis-1/2 shrink-0 w-max">
+        <div className="flex flex-col justify-start items-center basis-1/2 shrink-0 min-w-max w-full">
             <UserView user={node} before={before} />
-            <div className="grid grid-cols-2 shrink-0 relative after:absolute after:bottom-full after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-2.5 after:bg-gray-400 before:absolute before:h-1 before:top-0 before:left-[25%] before:right-[25%] before:bg-gray-400">
+            <div className="w-full grid grid-cols-2 shrink-0 relative after:absolute after:bottom-full after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-2.5 after:bg-gray-400 before:absolute before:h-1 before:top-0 before:left-[25%] before:right-[25%] before:bg-gray-400">
                 <TreeNode node={firstChild} before={true} sponsor={node?.id} />
                 <TreeNode node={secondChild} before={true} sponsor={node?.id} />
             </div>
