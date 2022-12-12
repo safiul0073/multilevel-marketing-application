@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Routes } from 'react-router-loading';
 import Category from '../../Page/Category';
 import Dashboard from '../../Page/Dashboard';
@@ -10,9 +10,17 @@ import Login from '../Auth/Login';
 import  Sidebar from '../Sidebar';
 import Epin from '../../Page/Epin';
 import Create from '../../Page/User/Create';
+import { useNavigate } from 'react-router-dom';
 
 const Layout =() =>{
-
+    let navigate = useNavigate();
+    useEffect(() => {
+        if (window.location.pathname == '/staff') {
+            console.log('hello staff')
+            navigate('/staff/dashboard')
+        }
+        return () => {}
+    }, [])
     return(
         <>
         <div className='min-h-full'>

@@ -18,20 +18,15 @@ import { getLoggedOut } from "../hooks/queries/auth/auth";
 import { Logout } from "../helper/functions";
 import { UseStore } from "../store";
 import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
-import { useEffect } from "react";
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
  const Sidebar = () => {
-    let navigate = useNavigate();
+
     const { removeAuth, removeUser } = UseStore();
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    useEffect(() => {
-        if (window.location.pathname == '/staff') {
-            navigate('/staff/dashboard')
-        }
-        return () => {}
-    }, [])
+
     const navigation = [
         { name: "Dashboard", href: "/staff/dashboard", icon: HomeIcon },
         { name: "Category", href: "/staff/category", icon: ClockIcon },
