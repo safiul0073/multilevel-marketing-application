@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\Generation;
+use App\Models\MatchingPair;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
@@ -86,8 +87,10 @@ class UserController extends Controller
             // sponsor group incrementing
             if ($att['refer_position'] == 'left') {
                 $sponsor->left_group = $sponsor->left_group + 1;
+
             }else{
                 $sponsor->right_group = $sponsor->right_group + 1;
+
             }
 
             $sponsor->save();
@@ -96,6 +99,13 @@ class UserController extends Controller
                 'main_id' => $sponsor->id,
                 'member_id' => $user->id,
                 'gen_type' => 1
+            ]);
+
+            MatchingPair::create([
+                'parent_id' => $sponsor->id,
+                'count'     => 1,
+                'user_id'   => $user->id,
+                'position'  => $att['refer_position']
             ]);
 
             if ($request->avatar) {
@@ -111,7 +121,7 @@ class UserController extends Controller
             ]);
             // generation looping
             $i = 2;
-            $this->user_service->generationLoop($sponsor->id, $user->id, $i);
+            $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
             // bonus given'
             $this->user_service->bonusGiven($sponsor->id, $user->id,$att['refer_position']);
             DB::commit();
