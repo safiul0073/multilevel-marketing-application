@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\MatchingPair;
 use App\Models\Product;
@@ -63,7 +64,8 @@ class UserController extends Controller
             'email' => 'required|string',
             'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
-            'avatar'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)]
+            'avatar'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
+            'epin_code' => 'nullable|string|exists:epins,code'
         ]);
         $sponsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
@@ -75,10 +77,21 @@ class UserController extends Controller
         $product = Product::find((int)$att['product_id']);
         try {
             DB::beginTransaction();
+            $isEpin = false;
+            if ($request->epin_code) {
+                $this->user_service->checkEpinAndUpdate($request->epin_code);
+                $isEpin = true;
+            }
             $user = User::create($userAtt);
             if (! $user) {
                 throw new Exception('User not create!');
             }
+
+            $user->purchases()->create([
+                'product_id' => $att['product_id'],
+                'amount' => $product->price,
+                'status' => $isEpin ? 1 : 0
+            ]);
             // position setting
             $this->user_service->setReferPosition($att['sponsor_id'],
             $user->id,
@@ -87,10 +100,8 @@ class UserController extends Controller
             // sponsor group incrementing
             if ($att['refer_position'] == 'left') {
                 $sponsor->left_group = $sponsor->left_group + 1;
-
             }else{
                 $sponsor->right_group = $sponsor->right_group + 1;
-
             }
 
             $sponsor->save();
@@ -103,6 +114,7 @@ class UserController extends Controller
 
             MatchingPair::create([
                 'parent_id' => $sponsor->id,
+                'parent_position' => $att['refer_position'],
                 'count'     => 1,
                 'user_id'   => $user->id,
                 'position'  => $att['refer_position']
@@ -114,11 +126,6 @@ class UserController extends Controller
                 $user,
                 'profile');
             }
-
-            $user->purchases()->create([
-                'product_id' => $att['product_id'],
-                'amount' => $product->price,
-            ]);
             // generation looping
             $i = 2;
             $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);

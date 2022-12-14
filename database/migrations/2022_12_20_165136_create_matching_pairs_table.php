@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('matching_pairs', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class, 'parent_id')->constrained('users')->cascadeOnDelete();
+            $table->string('parent_position')->default('right');
             $table->unsignedInteger('count')->default(1);
             $table->foreignIdFor(User::class, 'user_id')->constrained('users')->cascadeOnDelete();
             $table->string('position')->default('right');
