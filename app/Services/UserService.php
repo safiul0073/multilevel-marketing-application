@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Bonuse;
 use App\Models\Generation;
+use App\Models\MatchingPair;
 use App\Models\Transaction;
 use App\Models\User;
 use Exception;
@@ -47,7 +49,7 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function generationLoop (int $sponsor_id, int $user_id,  $i) {
+    public function generationLoop (int $sponsor_id, int $user_id, $position,  $i) {
 
         $sponsor = User::find((int) $sponsor_id);
         $sponsor_sponsor_id = $sponsor->sponsor_id;
@@ -57,8 +59,20 @@ class UserService {
             // sponsor group incrementing
             if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
                 $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
+                    MatchingPair::create([
+                        'parent_id' => $sponsor_sponsor->id,
+                        'count'     => $i,
+                        'user_id'   => $user_id,
+                        'position'  => $position
+                    ]);
             }else{
                 $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
+                    MatchingPair::create([
+                        'parent_id' => $sponsor_sponsor->id,
+                        'count'     => $i,
+                        'user_id'   => $user_id,
+                        'position'  => $position
+                    ]);
             }
             $sponsor_sponsor->save();
             // generation label creating
@@ -71,7 +85,7 @@ class UserService {
 
             $i = $i + 1;
 
-            return $this->generationLoop($sponsor_sponsor_id, $user_id, $i);
+            return $this->generationLoop($sponsor_sponsor_id, $user_id,$position, $i);
 
         }
     }
@@ -96,33 +110,37 @@ class UserService {
             'for_given_id'=> $user_id,
             'amount'      => $join_bonus
         ]);
-        $i = 1;
-        $this->matchingBonus($user_id, $sponser, $side, $i);
+        $this->matchingBonus($user_id, $side);
     }
 
-    private function matchingBonus ($user_id, $sponser, $side, $i) {
+    public function matchingBonus ($user_id, $side) {
 
-        if ($side == 'right') {
-            if ($sponser->left_ref_id) {
-
-                $sponser->bonuses()->create([
-                    'bonus_type' => 'matching',
-                    'for_given_id'=> $user_id,
-                    'amount'      => 100
-                ]);
-                $sponser->balance = $sponser->balance + 100;
-                $sponser->save();
-            }
-
-            $i = $i +1;
-
-            for ($j=0; $j<$i; $j++) {
-                $sponser_sponser_id = $sponser->sponsor_id;
-                $sponser_sponser = User::find((int) $sponser_sponser_id);
-            }
-            if (!$sponser_sponser) return "Successfully matching bonus given.";
-            return $this->matchingBonus($user_id, $sponser_sponser, $side, $i);
-
+        $matching_pairs = MatchingPair::where('user_id', $user_id)->where('position', $side)->get();
+        if ($side === 'left') {
+            $side = 'right';
+        }else{
+            $side = 'left';
         }
+        foreach($matching_pairs as $user) {
+            $find_match = MatchingPair::where('parent_id', $user->parent_id)
+                                        ->where('count', $user->count)
+                                        ->where('position', $side)->first();
+            if ($find_match) {
+                $this->bonusSave($find_match->parent_id, $user->user_id, 'matching', 100);
+            }
+        }
+
+    }
+
+    private function bonusSave ($sponsor_id, $user_id, $type, $amount) {
+        Bonuse::create([
+            'given_id'   => $sponsor_id,
+            'bonus_type' => 'matching',
+            'for_given_id'=> $user_id,
+            'amount'      => 100
+        ]);
+        $sponsor = User::find((int) $sponsor_id);
+        $sponsor->balance = $sponsor->balance + $amount;
+        $sponsor->save();
     }
 }
