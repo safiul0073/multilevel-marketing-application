@@ -65,15 +65,16 @@ class UserController extends Controller
             'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
             'avatar'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
-            'epin_code' => 'nullable|string|exists:epins,code'
+            'epin_code' => 'required|string|exists:epins,code'
         ]);
         $sponsor = User::find((int) $att['sponsor_id']);
         $userAtt = $att;
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
-        
+
         $userAtt['password'] = Hash::make($request->password);
+        unset($userAtt['epin_code']);
         unset($userAtt['product_id']);
         unset($userAtt['refer_position']);
         $product = Product::find((int)$att['product_id']);
@@ -81,11 +82,14 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $isEpin = false;
+
+            $user = User::create($userAtt);
+
             if ($request->epin_code) {
-                $this->user_service->checkEpinAndUpdate($request->epin_code);
+                $this->user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
                 $isEpin = true;
             }
-            $user = User::create($userAtt);
+
             if (! $user) {
                 throw new Exception('User not create!');
             }

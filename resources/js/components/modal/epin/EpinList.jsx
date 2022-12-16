@@ -192,7 +192,7 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     <div className="text-gray-900">
-                                                        {epin?.use_by}
+                                                        {epin?.use_by?.username}
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

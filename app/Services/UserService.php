@@ -12,10 +12,12 @@ use Exception;
 
 class UserService {
 
-    public function checkEpinAndUpdate ($epin_code) {
-        $epin = Epin::where('code', $epin_code)->first();
+    public function checkEpinAndUpdate ($epin_code, $product, $user) {
+        $epin = Epin::with('epin_main')->where('code', $epin_code)->first();
         if($epin && $epin->status == 1) throw new Exception('Epin already used. Please use new epin.');
+        if ($epin->epin_main->product_id != $product->id) throw new Exception('Sorry package not match! Please use valid package epin!');
         $epin->status = 1;
+        $epin->use_by = $user->id;
         $epin->activation_date = now();
         $epin->save();
     }
