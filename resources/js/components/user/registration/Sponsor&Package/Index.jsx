@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import Select from 'react-select';
+import Select, { createFilter } from 'react-select';
 import TableView from './TableView';
 import BlockView from './BlockView';
 import { getUserList } from '../../../../hooks/queries/user/getUserList';
@@ -36,8 +36,19 @@ const Index = ({ setTab }) => {
     const { data, isLoading } = getProductList();
     // memorizing getting data
     const productList = useMemo(() => data?.data, [data]);
+	const selectFilter = createFilter({
+		matchFrom: "start",
+		ignoreCase: true,
+		trim: true,
+	});
+    const [username, setUsername] = useState()
+    const handleContinue = () => {
+        console.log(username)
+    }
 
-
+    const handleSelectSearch = (e) => {
+        // setUsername(productList?.)
+    }
   return (
     <>
         <div className=' w-2/3 h-full mx-auto'>
@@ -51,7 +62,10 @@ const Index = ({ setTab }) => {
                     name="sponsor_id"
                     options={users}
                     styles={customStyles}
+                    value={username}
                     id="sponsor_id"
+                    filterOption={selectFilter}
+                    onChange={(e) => setUsername(e.value)}
                 />
             </div>
             {/* package table */}
@@ -100,7 +114,7 @@ const Index = ({ setTab }) => {
             </div>
             {/* next or continue button */}
             <div className='float-left py-2 my-2'>
-                <button onClick={() => setTab('userInfo')} className='btn btn-primary'>Continue </button>
+                <button onClick={handleContinue} className='btn btn-primary'>Continue </button>
             </div>
         </div>
     </>
