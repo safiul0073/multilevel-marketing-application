@@ -11,6 +11,9 @@ const BinaryTree = () => {
 
   return (
         <div className="tree-screen">
+            <div className='w-full flex justify-center items-center rounded-md border-1 border-gray-500'>
+                <input type="text" className="w-64 h-12" />
+            </div>
             <main className="overflow-x-scroll overflow-y-auto grow">
             <TreeNode
                         style={{ display: "flex", flexDirection: "column" }}

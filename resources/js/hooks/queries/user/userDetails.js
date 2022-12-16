@@ -1,18 +1,19 @@
 import { useQuery } from 'react-query';
 import { getQuery } from '../getQuery';
 
-export const binaryTreeData = ({username}) => {
+export const userDetails = ({id}) => {
   return useQuery(
     [
-      'binary-user-lists',
-      username
+      'user-details',
+      id
     ],
     async () => {
-      let res = await getQuery('binary-user', {username:username} );
+      let res = await getQuery(`user-details/${id}`);
 
       return res;
     },
     {
+      enabled: id ? true : false,
       refetchOnWindowFocus: false,
     }
   );
