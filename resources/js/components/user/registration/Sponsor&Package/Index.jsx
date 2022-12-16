@@ -6,6 +6,7 @@ import { getUserList } from '../../../../hooks/queries/user/getUserList';
 import { getProductList } from '../../../../hooks/queries/product/getProductList';
 import LoaderAnimation from '../../../common/LoaderAnimation';
 import { UseStore } from '../../../../store';
+import { useQuery } from '../../../../hooks/others';
 
 const customStyles = {
     control: (base, state) => ({
@@ -31,8 +32,10 @@ const customStyles = {
   };
 
 const Index = ({ setTab }) => {
-    const {userRegister, set} = UseStore()
+    let query = useQuery();
+    const {userRegister, setUserRegister} = UseStore()
     const [username, setUsername] = useState()
+    const [productId, setProductId] = useState()
     const [isTable, setTable] = useState(true)
     const {data:users} = getUserList()
     const { data, isLoading } = getProductList();
@@ -44,12 +47,13 @@ const Index = ({ setTab }) => {
 		trim: true,
 	});
     const handleSelectSearch = (e) => {
-        setUsername(productList?.find((p) => p.value == e.value))
-
+        let usern = productList?.find((p) => p.value == e.value)
+        setUsername(usern)
+        setUserRegister({username: e.label})
     }
 
     const handleContinue = () => {
-        console.log(username)
+        setTab('userInfo')
     }
 
   return (
@@ -83,7 +87,7 @@ const Index = ({ setTab }) => {
                         <>
                             {productList?.length ? (
                                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                    { isTable ? <TableView lists={productList} /> : <BlockView lists={productList} /> }
+                                    { isTable ? <TableView productId={productId} setProductId={setProductId} lists={productList} /> : <BlockView  productId={productId} setProductId={setProductId} lists={productList} /> }
                                 </div>
                             ) : (
                                 <div className="text-center border border-gray-200 px-5 py-10 rounded-2xl">

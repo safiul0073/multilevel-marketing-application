@@ -1,6 +1,12 @@
-import React from 'react'
+import { set } from 'lodash'
+import React, { useState } from 'react'
 
-const TableView = ({ lists }) => {
+const TableView = ({ productId, setProductId, lists }) => {
+    const [selectedId, setSelectedId] = useState(productId)
+    const handleTRClick = (product) => {
+        setSelectedId(product?.id)
+        setProductId(product?.id)
+    }
   return (
     <>
 
@@ -46,6 +52,8 @@ const TableView = ({ lists }) => {
                             ) => (
                                 <tr
                                     key={Math.random()}
+                                    onClick={() => handleTRClick(product)}
+                                    className={(selectedId == product?.id) ? 'bg-gray-200' : ''}
                                 >
 
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
