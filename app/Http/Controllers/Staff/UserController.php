@@ -72,9 +72,12 @@ class UserController extends Controller
         if (isset($userAtt['password'])) {
             $userAtt['password'] = Hash::make($userAtt['username']);
         }
+        
+        $userAtt['password'] = Hash::make($request->password);
         unset($userAtt['product_id']);
         unset($userAtt['refer_position']);
         $product = Product::find((int)$att['product_id']);
+
         try {
             DB::beginTransaction();
             $isEpin = false;

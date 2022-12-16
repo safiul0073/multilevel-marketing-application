@@ -62,6 +62,10 @@ class User extends Authenticatable
         return $this->hasMany(Purchase::class);
     }
 
+    public function transactions () {
+        return $this->hasMany(Transaction::class);
+    }
+
     /**
      * Get the user's bonuses.
      */

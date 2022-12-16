@@ -135,6 +135,7 @@ class UserService {
         foreach($matching_pairs as $user) {
             $find_match = MatchingPair::where('parent_id', $user->parent_id)
                                         ->where('count', $user->count)
+                                        ->where('parent_position', '!=', $user->parent_position)
                                         ->where('position', $side)->first();
             if ($find_match) {
                 $this->bonusSave($find_match->parent_id, $user->user_id, 'matching', 100);

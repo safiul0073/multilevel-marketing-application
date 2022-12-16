@@ -52,6 +52,9 @@ Route::middleware('auth:staff')->group(function () {
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
     Route::get('user-list', [UserHelperController::class, 'getUserList']);
+    Route::get('user-details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
+    Route::post('user-password-reset', [UserHelperController::class, 'passwordReset']);
+    Route::get('get-signle-user-tree/{user}', [UserHelperController::class, 'getOnlyUserBinaryTree']);
 
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
