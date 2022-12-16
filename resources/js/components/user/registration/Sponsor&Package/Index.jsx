@@ -5,6 +5,7 @@ import BlockView from './BlockView';
 import { getUserList } from '../../../../hooks/queries/user/getUserList';
 import { getProductList } from '../../../../hooks/queries/product/getProductList';
 import LoaderAnimation from '../../../common/LoaderAnimation';
+import { UseStore } from '../../../../store';
 
 const customStyles = {
     control: (base, state) => ({
@@ -30,7 +31,8 @@ const customStyles = {
   };
 
 const Index = ({ setTab }) => {
-
+    const {userRegister, set} = UseStore()
+    const [username, setUsername] = useState()
     const [isTable, setTable] = useState(true)
     const {data:users} = getUserList()
     const { data, isLoading } = getProductList();
@@ -41,14 +43,15 @@ const Index = ({ setTab }) => {
 		ignoreCase: true,
 		trim: true,
 	});
-    const [username, setUsername] = useState()
+    const handleSelectSearch = (e) => {
+        setUsername(productList?.find((p) => p.value == e.value))
+
+    }
+
     const handleContinue = () => {
         console.log(username)
     }
 
-    const handleSelectSearch = (e) => {
-        // setUsername(productList?.)
-    }
   return (
     <>
         <div className=' w-2/3 h-full mx-auto'>
@@ -65,7 +68,7 @@ const Index = ({ setTab }) => {
                     value={username}
                     id="sponsor_id"
                     filterOption={selectFilter}
-                    onChange={(e) => setUsername(e.value)}
+                    onChange={handleSelectSearch}
                 />
             </div>
             {/* package table */}
