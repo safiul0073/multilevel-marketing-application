@@ -7,14 +7,14 @@ import UserInfo from "../../components/user/registration/UserInfo";
 const Create = () => {
 
     const [tab, setTab] = useState('sponsor')
-
+    const [backendError, setBackendError] = useState()
     const switchPage = (tab) => {
         if (tab === 'sponsor') {
-            return (<OrderSummary setTab={setTab} />)
+            return (<SponsorPackage backendError={backendError} setTab={setTab} />)
         } else if (tab === 'userInfo') {
-            return (<UserInfo setTab={setTab} />)
+            return (<UserInfo backendError={backendError} setTab={setTab} />)
         } else {
-            return (<OrderSummary setTab={setTab} />)
+            return (<OrderSummary setBackendError={setBackendError} backendError={backendError} setTab={setTab} />)
         }
     }
     return (

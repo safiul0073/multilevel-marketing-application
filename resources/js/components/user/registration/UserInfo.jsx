@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { UseStore } from '../../../store'
 import Textinput from '../../common/Textinput'
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 
-const UserInfo = ({ setTab }) => {
-    const [backendError, setBackendError] = useState([])
+const UserInfo = ({ setTab, backendError }) => {
     const {userRegister} = UseStore()
 
     const schema = yup
@@ -22,9 +21,16 @@ const UserInfo = ({ setTab }) => {
         confirm_password: yup.string().label('confirm password').required().oneOf([yup.ref('password'), null], 'Passwords must match'),
     })
     .required();
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, reset, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
+
+    useEffect(() => {
+        if (userRegister?.first_name) {
+            reset(userRegister)
+        }
+
+    }, [userRegister])
 
     const onSubmit = (data) => {
         userRegister.first_name = data.first_name

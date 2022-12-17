@@ -10,9 +10,9 @@ export const changePassword = async (inputData) => {
     return res?.data?.data?.string_data;
   };
 
-  export const updateSlider = async (inputData) => {
+  export const userCreate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/slider-update/`,
+      `${APIURL}/staff/user/`,
       inputData
     );
 

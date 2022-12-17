@@ -32,10 +32,11 @@ const customStyles = {
     }),
   };
 
-const Index = ({ setTab }) => {
+const Index = ({ setTab, backendError  }) => {
     let query = useQuery();
+
     const sponsorId = query.get('sponsor_id')
-    const {userRegister, setProduct} = UseStore()
+    const {userRegister} = UseStore()
     const [username, setUsername] = useState()
     const [referPosition, setReferPosition] = useState('')
     const [productId, setProductId] = useState()
@@ -61,7 +62,23 @@ const Index = ({ setTab }) => {
             setUsername(usern)
             userRegister.sponsor_id = sponsorId
         }
-    }, [sponsorId, productList])
+        if (userRegister?.sponsorId) {
+            let usern = users?.find((p) => p.value == userRegister?.sponsorId)
+            setUsername(usern)
+            userRegister.sponsor_id = sponsorId
+        }
+        if (userRegister?.refer_position) {
+            setReferPosition(userRegister?.refer_position)
+        }
+
+        if (userRegister?.product_id) {
+            setProductId(userRegister?.product_id)
+        }
+        
+        return () =>  {}
+    }, [sponsorId, productList, userRegister])
+
+
 
     const handlePosition = (e) => {
         setReferPosition(e.target.value)
