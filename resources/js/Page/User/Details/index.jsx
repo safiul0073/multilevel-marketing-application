@@ -71,7 +71,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Password />
+                    <Password userId={showUserDetails?.id}/>
                 </>
             ),
         },
