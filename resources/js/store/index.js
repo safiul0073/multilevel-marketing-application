@@ -8,7 +8,30 @@ export const UseStore = create(set => ({
     setUser: (input) => set((state) => ({ user: input })),
     removeUser: () => set({ user: null }),
 
-    userRegister: {},
-    setUserRegister: (input) => set({userRegister: input}),
-    removeUserRegister: () => set(() => ({userRegister:{}}))
+    userRegister: {
+        sponsor_id: '',
+        refer_position: '',
+        product_id: '',
+        first_name: '',
+        last_name: '',
+        username: '',
+        email: '',
+        phone: '',
+        password: '',
+        epin_code: ''
+    },
+    product: {},
+    setProduct: (input) => set({product: input}),
+    removeUserRegister: () => set(() => ({userRegister:{
+        sponsor_id: '',
+        refer_position: '',
+        product_id: '',
+        first_name: '',
+        last_name: '',
+        username: '',
+        email: '',
+        phone: '',
+        password: '',
+        epin_code: ''
+    }}))
 }))

@@ -10,7 +10,7 @@ const Create = () => {
 
     const switchPage = (tab) => {
         if (tab === 'sponsor') {
-            return (<SponsorPackage setTab={setTab} />)
+            return (<OrderSummary setTab={setTab} />)
         } else if (tab === 'userInfo') {
             return (<UserInfo setTab={setTab} />)
         } else {

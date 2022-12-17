@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Select, { createFilter } from 'react-select';
 import TableView from './TableView';
 import BlockView from './BlockView';
@@ -7,6 +7,7 @@ import { getProductList } from '../../../../hooks/queries/product/getProductList
 import LoaderAnimation from '../../../common/LoaderAnimation';
 import { UseStore } from '../../../../store';
 import { useQuery } from '../../../../hooks/others';
+import toast from 'react-hot-toast';
 
 const customStyles = {
     control: (base, state) => ({
@@ -33,8 +34,10 @@ const customStyles = {
 
 const Index = ({ setTab }) => {
     let query = useQuery();
-    const {userRegister, setUserRegister} = UseStore()
+    const sponsorId = query.get('sponsor_id')
+    const {userRegister, setProduct} = UseStore()
     const [username, setUsername] = useState()
+    const [referPosition, setReferPosition] = useState('')
     const [productId, setProductId] = useState()
     const [isTable, setTable] = useState(true)
     const {data:users} = getUserList()
@@ -47,13 +50,49 @@ const Index = ({ setTab }) => {
 		trim: true,
 	});
     const handleSelectSearch = (e) => {
-        let usern = productList?.find((p) => p.value == e.value)
+        let usern = users?.find((p) => p.value == e.value)
         setUsername(usern)
-        setUserRegister({username: e.label})
+        userRegister.sponsor_id = e.value
+    }
+
+    useEffect(() => {
+        if (sponsorId) {
+            let usern = users?.find((p) => p.value == sponsorId)
+            setUsername(usern)
+            userRegister.sponsor_id = sponsorId
+        }
+    }, [sponsorId, productList])
+
+    const handlePosition = (e) => {
+        setReferPosition(e.target.value)
+        userRegister.refer_position = e.target.value
     }
 
     const handleContinue = () => {
-        setTab('userInfo')
+        userRegister.product_id = productId
+        if (checkValidation()) {
+            toast.error(checkValidation(), {
+                position: 'top-center'
+            });
+        }else {
+            setTab('userInfo')
+        }
+    }
+
+    const checkValidation = () => {
+
+        if (!userRegister?.sponsor_id) {
+            return 'Please select a sponsor username!';
+        }
+
+        if (!userRegister?.refer_position) {
+            return 'Please select referrer Position!';
+        }
+
+        if (!userRegister?.product_id) {
+            return 'Please select a package!';
+        }
+        return false;
     }
 
   return (
@@ -74,6 +113,18 @@ const Index = ({ setTab }) => {
                     filterOption={selectFilter}
                     onChange={handleSelectSearch}
                 />
+            </div>
+            <div className='formGroup'>
+                <label
+                    htmlFor='refer_position'
+                    className="label-style">
+                    Select position (Left or Right)
+                </label>
+                <select className='form-control' value={referPosition} onChange={handlePosition} id="refer_position">
+                    <option value="">Select Left or Right</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
             </div>
             {/* package table */}
             <div>

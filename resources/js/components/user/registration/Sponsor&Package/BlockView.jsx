@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { UseStore } from '../../../../store'
 
 const BlockView = ({ productId, setProductId, lists }) => {
     const [selectedId, setSelectedId] = useState(productId)
+    const {setProduct} = UseStore()
     const handleTRClick = (product) => {
+        setProduct(product)
         setSelectedId(product?.id)
         setProductId(product?.id)
         console.log(product)
