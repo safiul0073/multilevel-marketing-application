@@ -30,7 +30,7 @@ class UserHelperController extends Controller
 
     public function getUserList () {
 
-        $users = User::select(['id as value', 'username as label'])->get();
+        $users = User::select(['id as value', 'username as label', 'left_ref_id', 'right_ref_id'])->get();
 
         return $this->withSuccess($users);
     }

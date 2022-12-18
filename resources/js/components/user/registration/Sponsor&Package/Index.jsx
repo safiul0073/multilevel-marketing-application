@@ -61,6 +61,14 @@ const Index = ({ setTab, backendError  }) => {
             let usern = users?.find((p) => p.value == sponsorId)
             setUsername(usern)
             userRegister.sponsor_id = sponsorId
+
+            if (!usern?.left_ref_id && usern?.right_ref_id) {
+                setReferPosition('left')
+                userRegister.refer_position = 'left'
+            } else if (usern?.left_ref_id && !usern?.right_ref_id) {
+                setReferPosition('right')
+                userRegister.refer_position = 'right'
+            }
         }
         if (userRegister?.sponsorId) {
             let usern = users?.find((p) => p.value == userRegister?.sponsorId)
@@ -74,7 +82,7 @@ const Index = ({ setTab, backendError  }) => {
         if (userRegister?.product_id) {
             setProductId(userRegister?.product_id)
         }
-        
+
         return () =>  {}
     }, [sponsorId, productList, userRegister])
 
