@@ -27,7 +27,7 @@ class Media extends Model
             if (app()->environment('local')) {
                 return 'http://localhost:8000/storage/'. $value;
             }
-            return 'https://mlmshop.zstechbd.com/storage/'. $value;
+            return config('app.url') . '/storage/'. $value;
         }
         return $value;
     }
