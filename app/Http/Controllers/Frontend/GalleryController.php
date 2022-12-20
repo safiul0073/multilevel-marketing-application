@@ -9,6 +9,7 @@ class GalleryController extends Controller
 {
     public function index () {
 
+        
         return view('frontend.contents.gallery.index');
     }
 }

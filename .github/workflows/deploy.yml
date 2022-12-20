@@ -22,7 +22,7 @@ jobs:
 
         with:
 
-          node-version: '12'
+          node-version: '18'
 
           check-latest: true
 
