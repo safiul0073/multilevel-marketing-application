@@ -1,15 +1,51 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { UseStore } from '../../../store'
 import Textinput from '../../common/Textinput'
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
 
-const UserInfo = ({ setTab }) => {
-    const [backendError, setBackendError] = useState([])
-    const { register, handleSubmit, formState: { errors } } = useForm()
+const UserInfo = ({ setTab, backendError }) => {
+    const {userRegister} = UseStore()
 
+    const schema = yup
+    .object({
+        first_name: yup.string().min(4, "Too Short!")
+            .required("Enter first name!")
+            .max(50, "Too Long!"),
+        last_name: yup.string(),
+        username: yup.string().required('Please enter username!'),
+        email: yup.string().required('Please enter email!'),
+        phone: yup.string('Please enter phone number!').max(12, 'Please enter phone number!').min(11, 'Please enter phone number!'),
+        password: yup.string().min(8, 'Please enter minimum 8 character!'),
+        confirm_password: yup.string().label('confirm password').required().oneOf([yup.ref('password'), null], 'Passwords must match'),
+    })
+    .required();
+    const { register, reset, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
+    })
+
+    useEffect(() => {
+        if (userRegister?.first_name) {
+            reset(userRegister)
+        }
+
+    }, [userRegister])
+
+    const onSubmit = (data) => {
+        userRegister.first_name = data.first_name
+        userRegister.last_name = data.last_name
+        userRegister.email     = data.email
+        userRegister.phone     = data.phone
+        userRegister.password  = data.password
+        userRegister.username  = data.username
+        userRegister.password_confirmation = data.confirm_password
+        setTab('summary')
+    }
   return (
     <>
         <div className=' w-2/3 h-full mx-auto'>
-            <form action="">
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Textinput
                     label="First name"
                     placeholder="Jhon"
@@ -68,16 +104,17 @@ const UserInfo = ({ setTab }) => {
                     label="Confirmed Password"
                     placeholder=""
                     register={register}
-                    name="confirmed"
+                    name="confirm_password"
                     type="password"
-                    backendValidationError={backendError?.confirmed}
-                    error={errors.confirmed}
+                    backendValidationError={backendError?.confirm_password}
+                    error={errors.confirm_password}
                 />
+
+                <div className='flex justify-around items-center py-2 my-2'>
+                    <button onClick={() => setTab('sponsor')} className='btn btn-primary'>Back </button>
+                    <button type='submit' className='btn btn-primary'>Continue </button>
+                </div>
             </form>
-            <div className='flex justify-around items-center py-2 my-2'>
-                <button onClick={() => setTab('sponsor')} className='btn btn-primary'>Back </button>
-                <button onClick={() => setTab('summary')} className='btn btn-primary'>Continue </button>
-            </div>
         </div>
     </>
   )

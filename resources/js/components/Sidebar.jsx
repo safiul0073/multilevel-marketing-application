@@ -23,7 +23,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
  const Sidebar = () => {
-
+    const navigate = useNavigate();
     const { removeAuth, removeUser } = UseStore();
     const [sidebarOpen, setSidebarOpen] = useState(false);
 

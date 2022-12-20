@@ -15,8 +15,9 @@ export default defineConfig({
         react(),
     ],
     server: {
-        host: 'localhost'
-   },
+        open: true,
+        origin: 'http://127.0.0.1:8080/'
+      },
    build: {
     chunkSizeWarningLimit: 1600,
   },

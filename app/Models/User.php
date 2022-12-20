@@ -62,6 +62,10 @@ class User extends Authenticatable
         return $this->hasMany(Purchase::class);
     }
 
+    public function transactions () {
+        return $this->hasMany(Transaction::class);
+    }
+
     /**
      * Get the user's bonuses.
      */
@@ -79,11 +83,11 @@ class User extends Authenticatable
     }
 
     public function right_children () {
-        return $this->belongsTo(User::class, 'right_ref_id', 'id');
+        return $this->belongsTo(User::class, 'right_ref_id', 'id')->with('right_children');
     }
 
     public function children () {
-        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'first_name', 'last_name', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
+        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
     }
 
     public function sponsor () {

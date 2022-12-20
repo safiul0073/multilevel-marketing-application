@@ -19,7 +19,7 @@
                 </a>
                 <div class="hidden lg:ml-auto lg:flex items-center">
                     <div class="flex space-x-4 wide-tablet:space-x-2">
-                        <a href="{{url('/')}}" class="{{ request()->routeIs('index.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium" >Home</a>
+                        <a href="{{url('/')}}" class="{{ request()->routeIs('hello.world.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium" >Home</a>
 
                         <a href="{{url('/products')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Product</a>
 
@@ -33,24 +33,42 @@
                     </div>
                 </div>
             </div>
-            <div class="absolute inset-y-0 right-0 flex items-center lg:static lg:inset-auto lg:ml-5">
-                <a href="#" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 px-4 py-1 text-base font-medium text-white hover:bg-rose-600">Log in</a>
-            </div>
+
+                @if (auth()->user())
+                    <div class="absolute inset-y-0 right-0 flex items-center lg:static lg:inset-auto lg:ml-5">
+                        <a href="{{ route('user.dashboard') }}" class="btn btn-primary">Dashboard</a>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();" class="btn btn-danger">
+                          <p>
+                            Log Out
+                          </p>
+                        </a>
+                    </div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
+                @else
+                    <div class="absolute inset-y-0 right-0 flex items-center lg:static lg:inset-auto lg:ml-5">
+                        <a href="{{ route('login') }}" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 px-4 py-1 text-base font-medium text-white hover:bg-rose-600">Log in</a>
+                    </div>
+                @endif
+
         </div>
     </div>
     <div class="lg:hidden bg-indigo-800 absolute top-full w-full transition-transform ease-in-out duration-100 origin-top" id="mlm-mobile-menu">
         <div class="space-y-1 px-8 pt-5 pb-5">
-            <a href="#" class="bg-indigo-600 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</a>
 
-            <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Product</a>
+            <a href="{{url('/')}}" class="{{ request()->routeIs('hello.world.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</a>
 
-            <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">News</a>
+            <a href="{{url('/products')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Product</a>
 
-            <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
+            <a href="{{url('/news')}}" class="{{ request()->routeIs('news.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">News</a>
 
-            <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About Us</a>
+            <a href="{{url('/gallery')}}" class="{{ request()->routeIs('gallery.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
 
-            <a href="#" class="text-gray-300 hover:bg-indigo-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            <a href="{{url('/about-us')}}" class="{{ request()->routeIs('about.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">About Us</a>
+
+            <a href="{{url('/contact')}}" class="{{ request()->routeIs('contact.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Contact</a>
         </div>
     </div>
 </header>

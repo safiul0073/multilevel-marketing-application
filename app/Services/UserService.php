@@ -2,20 +2,32 @@
 
 namespace App\Services;
 
+use App\Models\Bonuse;
+use App\Models\Epin;
 use App\Models\Generation;
+use App\Models\MatchingPair;
 use App\Models\Transaction;
 use App\Models\User;
 use Exception;
 
 class UserService {
 
+    public function checkEpinAndUpdate ($epin_code, $product, $user) {
+        $epin = Epin::with('epin_main')->where('code', $epin_code)->first();
+        if($epin && $epin->status == 1) throw new Exception('Epin already used. Please use new epin.');
+        if ($epin->epin_main->product_id != $product->id) throw new Exception('Sorry package not match! Please use valid package epin!');
+        $epin->status = 1;
+        $epin->use_by = $user->id;
+        $epin->activation_date = now();
+        $epin->save();
+    }
     /**
      * @position type string between left or right.
      * @refferrenc_id type int perent id
-     * @refferrer_id type int chiled id
+     * @referrer_id type int chiled id
      * @return void
      */
-    public function setReferPosition (int $sponsor_id, int $refferrer_id, string $position = 'left',):void {
+    public function setReferPosition (int $sponsor_id, int $referrer_id, string $position = 'left',):void {
 
         if (!in_array($position, ['left', 'right'])) {
             throw new Exception('please select left or right');
@@ -24,15 +36,15 @@ class UserService {
         $user = User::find((int) $sponsor_id);
         if ($position === 'left') {
             if ($user->left_ref_id) {
-                throw new Exception('Left is already fillup!');
+                throw new Exception('Left is already fill up!');
             }else {
-                $user->left_ref_id = $refferrer_id;
+                $user->left_ref_id = $referrer_id;
             }
         }else {
             if ($user->right_ref_id) {
-                throw new Exception('Right is already fillup!');
+                throw new Exception('Right is already fill up!');
             }else {
-                $user->right_ref_id = $refferrer_id;
+                $user->right_ref_id = $referrer_id;
             }
         }
 
@@ -47,27 +59,46 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function generationLoop (int $sponser_id, int $user_id, $i) {
+    public function generationLoop (int $sponsor_id, int $user_id, $position,  $i) {
 
-        $sponser = User::find((int) $sponser_id);
-        $sponser_sponser_id = $sponser->sponsor_id;
+        $sponsor = User::find((int) $sponsor_id);
+        $sponsor_sponsor_id = $sponsor->sponsor_id;
 
-        if ($sponser_sponser_id) {
-            $sponser_sponser = User::find((int) $sponser_sponser_id);
-            $sponser_sponser->total_group = $sponser_sponser->total_group + 1;
-            $sponser_sponser->save();
-            // generation lavel creating
+        if ($sponsor_sponsor_id) {
+            $sponsor_sponsor = User::find((int) $sponsor_sponsor_id);
+            // sponsor group incrementing
+            if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
+                $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
+                    MatchingPair::create([
+                        'parent_id' => $sponsor_sponsor->id,
+                        'parent_position' => 'left',
+                        'count'     => $i,
+                        'user_id'   => $user_id,
+                        'position'  => $position
+                    ]);
+            }else{
+                $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
+                    MatchingPair::create([
+                        'parent_id' => $sponsor_sponsor->id,
+                        'parent_position' => 'right',
+                        'count'     => $i,
+                        'user_id'   => $user_id,
+                        'position'  => $position
+                    ]);
+            }
+            $sponsor_sponsor->save();
+            // generation label creating
 
             Generation::create([
-                'main_id' => $sponser_sponser_id,
+                'main_id' => $sponsor_sponsor_id,
                 'member_id' => $user_id,
                 'gen_type' => $i
             ]);
 
             $i = $i + 1;
-            if ($i <= 10) {
-                return $this->generationLoop($sponser_sponser_id, $user_id, $i);
-            }
+
+            return $this->generationLoop($sponsor_sponsor_id, $user_id,$position, $i);
+
         }
     }
 
@@ -79,18 +110,78 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function bonuseGiven ($sponser_id, $user_id) {
+    public function bonusGiven ($sponser_id, $user_id, $side) {
 
-        // first joining bonuse given
+        // first joining bonus given
         $sponser = User::find((int) $sponser_id);
-        $join_bonuse = config('setting_option.bonuse.joining');
-        $sponser->balance = $sponser->balance + $join_bonuse;
+        $join_bonus = config('setting_option.bonuse.joining');
+        $sponser->balance = $sponser->balance + $join_bonus;
         $sponser->save();
         $sponser->bonuses()->create([
-            'bonuse_type' => 'joining',
+            'bonus_type' => 'joining',
             'for_given_id'=> $user_id,
-            'amount'      => $join_bonuse
+            'amount'      => $join_bonus
         ]);
+        $this->matchingBonus($user_id, $side);
+        $this->generationBonus($user_id);
+    }
 
+    public function matchingBonus ($user_id, $side) {
+
+        $matching_pairs = MatchingPair::where('user_id', $user_id)->where('position', $side)->get();
+        if ($side === 'left') {
+            $side = 'right';
+        }else{
+            $side = 'left';
+        }
+        foreach($matching_pairs as $user) {
+            $find_match = MatchingPair::where('parent_id', $user->parent_id)
+                                        ->where('count', $user->count)
+                                        ->where('parent_position', '!=', $user->parent_position)
+                                        ->where('position', $side)->first();
+            if ($find_match) {
+                $this->bonusSave($find_match->parent_id, $user->user_id, 'matching', 100);
+            }
+        }
+
+    }
+
+    private function generationBonus ($user_id) {
+
+        $gen_bonuses = [10,9,8,7,6,2];
+        $generations = Generation::where('member_id', $user_id)->get();
+        foreach($generations as $gen) {
+            switch ($gen->gen_type) {
+                case 1:
+                    $this->bonusSave($gen->main_id, $user_id, 'gen', $gen_bonuses[0]);
+                  break;
+                case 2:
+                    $this->bonusSave($gen->main_id, $user_id, 'gen', $gen_bonuses[1]);
+                  break;
+                case 3:
+                    $this->bonusSave($gen->main_id, $user_id, 'gen', $gen_bonuses[2]);
+                  break;
+                case 4:
+                    $this->bonusSave($gen->main_id, $user_id, 'gen', $gen_bonuses[3]);
+                  break;
+                case 5:
+                    $this->bonusSave($gen->main_id, $user_id, 'gen', $gen_bonuses[4]);
+                  break;
+                default:
+                    $this->bonusSave($gen->parent_id, $user_id, 'gen', $gen_bonuses[5]);
+              }
+        }
+    }
+
+    private function bonusSave ($sponsor_id, $user_id, $type, $amount) {
+        Bonuse::create([
+            'given_id'   => $sponsor_id,
+            'bonus_type' => $type,
+            'for_given_id'=> $user_id,
+            'amount'      => $amount
+        ]);
+        $sponsor = User::find((int) $sponsor_id);
+        $sponsor->balance = $sponsor->balance + $amount;
+        $sponsor->save();
     }
 }

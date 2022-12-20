@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class, 'given_id')->index()->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'for_given_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->string('bonuse_type')->default('joining');
+            $table->string('bonus_type')->default('joining');
             $table->float('amount')->default(0);
             $table->timestamps();
         });
