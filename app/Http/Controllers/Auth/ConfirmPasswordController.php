@@ -21,6 +21,15 @@ class ConfirmPasswordController extends Controller
 
     use ConfirmsPasswords;
 
+        /**
+     * Display the password confirmation view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showConfirmForm()
+    {
+        return view('frontend.auth.passwords.confirm');
+    }
     /**
      * Where to redirect users when the intended url fails.
      *

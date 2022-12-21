@@ -8,6 +8,7 @@ use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\Staff\EpinController;
 use App\Http\Controllers\Staff\EpinHelperController;
 use App\Http\Controllers\Staff\MediaController;
+use App\Http\Controllers\Staff\OptionController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProductHelperController;
 use App\Http\Controllers\Staff\SliderController;
@@ -59,4 +60,10 @@ Route::middleware('auth:staff')->group(function () {
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
     Route::delete('image-delete/{image}', [MediaController::class, 'deleteImage']);
+
+    // settings
+    Route::prefix('settings/')->group(function () {
+        Route::get('bonus', [OptionController::class, 'getBonus']);
+        Route::post('bonus',[OptionController::class, 'storeOption']);
+    });
 });

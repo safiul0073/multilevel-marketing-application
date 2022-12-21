@@ -12,6 +12,19 @@ use Exception;
 
 class UserService {
 
+    protected $gen_bonus;
+
+    protected $matching_bonus;
+
+    protected $join_bonus;
+
+    public function __construct()
+    {
+       $this->gen_bonus      = config('mlm.bonus.gen');
+       $this->matching_bonus = config('mlm.bonus.matching');
+       $this->join_bonus     = config('mlm.bonus.joining');
+    }
+
     public function checkEpinAndUpdate ($epin_code, $product, $user) {
         $epin = Epin::with('epin_main')->where('code', $epin_code)->first();
         if($epin && $epin->status == 1) throw new Exception('Epin already used. Please use new epin.');
@@ -89,11 +102,13 @@ class UserService {
             $sponsor_sponsor->save();
             // generation label creating
 
-            Generation::create([
-                'main_id' => $sponsor_sponsor_id,
-                'member_id' => $user_id,
-                'gen_type' => $i
-            ]);
+            if (count($this->gen_bonus) >= $i) {
+                Generation::create([
+                    'main_id' => $sponsor_sponsor_id,
+                    'member_id' => $user_id,
+                    'gen_type' => $i
+                ]);
+            }
 
             $i = $i + 1;
 
@@ -110,17 +125,17 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function bonusGiven ($sponser_id, $user_id, $side) {
+    public function bonusGiven ($sponsor_id, $user_id, $side) {
 
         // first joining bonus given
-        $sponser = User::find((int) $sponser_id);
-        $join_bonus = config('setting_option.bonuse.joining');
-        $sponser->balance = $sponser->balance + $join_bonus;
-        $sponser->save();
-        $sponser->bonuses()->create([
+        $sponsor = User::find((int) $sponsor_id);
+        $bonus = $this->join_bonus;
+        $sponsor->balance = $sponsor->balance + $bonus;
+        $sponsor->save();
+        $sponsor->bonuses()->create([
             'bonus_type' => 'joining',
             'for_given_id'=> $user_id,
-            'amount'      => $join_bonus
+            'amount'      => $bonus
         ]);
         $this->matchingBonus($user_id, $side);
         $this->generationBonus($user_id);
@@ -140,7 +155,7 @@ class UserService {
                                         ->where('parent_position', '!=', $user->parent_position)
                                         ->where('position', $side)->first();
             if ($find_match) {
-                $this->bonusSave($find_match->parent_id, $user->user_id, 'matching', 100);
+                $this->bonusSave($find_match->parent_id, $user->user_id, 'matching', $this->matching_bonus);
             }
         }
 
@@ -148,7 +163,7 @@ class UserService {
 
     private function generationBonus ($user_id) {
 
-        $gen_bonuses = [10,9,8,7,6,2];
+        $gen_bonuses = $this->gen_bonus;
         $generations = Generation::where('member_id', $user_id)->get();
         foreach($generations as $gen) {
             switch ($gen->gen_type) {
