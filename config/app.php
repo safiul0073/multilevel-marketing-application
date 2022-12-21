@@ -185,7 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        App\Providers\FlyServiceProvider::class,
         /*
          * Application Service Providers...
          */
