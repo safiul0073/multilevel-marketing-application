@@ -1,8 +1,58 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from 'react-hook-form';
+import { toast } from "react-hot-toast";
+import { useMutation } from "react-query";
+import { changePassword } from "../../../hooks/queries/user";
 
-const Password = () => {
+
+const Password = ({userId}) => {
+    console.log("password change page");
+    const [oldPassword, setOldPassword] = useState();
+    const [newPassword, setNewPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+
+    const [backendError, setBackendError] = useState([])
+
+    const {
+        register,
+        handleSubmit,
+        control,
+        reset,
+        formState: { errors },
+    } = useForm();
+    const onSubmit = (data) => {
+        data.id = userId;
+        changePasswordFunction(data);
+    };
+
+    
+    const {
+        mutate: changePasswordFunction,
+        isLoading,
+    } = useMutation(changePassword, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            reset()
+            refatcher();
+            closeModal();
+        },
+        onError: (err) => {
+            let errorobj = err?.response?.data?.data?.json_object;
+            setBackendError({
+                ...backendError,
+                ...errorobj,
+            });
+        },
+    });
+
+    
+
     return (
-        <form className="space-y-8 mt-10 divide-y divide-gray-200">
+        <form className="space-y-8 mt-10 divide-y divide-gray-200" onSubmit={handleSubmit(onSubmit)}>
             <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                 <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10">
                     <div>
@@ -27,8 +77,10 @@ const Password = () => {
                                     name="first-name"
                                     id="first-name"
                                     autoComplete="given-name"
+                                    {...register("old_password", { required: "Please enter your current Password." })} 
                                     className="block py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 />
+                                {backendError && <span className="error-message">{backendError?.old_password}</span>}
                             </div>
                         </div>
                     </div>
@@ -46,8 +98,10 @@ const Password = () => {
                                     name="first-name"
                                     id="first-name"
                                     autoComplete="given-name"
+                                    {...register("password", { required: "Please enter your new Password." })} 
                                     className="block py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 />
+                                {backendError && <span className="error-message">{backendError?.password}</span>}
                             </div>
                         </div>
                     </div>
@@ -65,8 +119,10 @@ const Password = () => {
                                     name="first-name"
                                     id="first-name"
                                     autoComplete="given-name"
+                                    {...register("password_confirmation", { required: "Please enter your new confirm Password." })} 
                                     className="block py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 />
+                                {backendError && <span className="error-message">{backendError?.password_confirmation}</span>}
                             </div>
                         </div>
                     </div>

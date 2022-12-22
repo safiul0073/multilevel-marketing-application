@@ -1,10 +1,13 @@
-import React, { useMemo, useState } from 'react'
-import Select from 'react-select';
+import React, { useEffect, useMemo, useState } from 'react'
+import Select, { createFilter } from 'react-select';
 import TableView from './TableView';
 import BlockView from './BlockView';
 import { getUserList } from '../../../../hooks/queries/user/getUserList';
 import { getProductList } from '../../../../hooks/queries/product/getProductList';
 import LoaderAnimation from '../../../common/LoaderAnimation';
+import { UseStore } from '../../../../store';
+import { useQuery } from '../../../../hooks/others';
+import toast from 'react-hot-toast';
 
 const customStyles = {
     control: (base, state) => ({
@@ -29,14 +32,93 @@ const customStyles = {
     }),
   };
 
-const Index = ({ setTab }) => {
+const Index = ({ setTab, backendError  }) => {
+    let query = useQuery();
 
+    const sponsorId = query.get('sponsor_id')
+    const {userRegister} = UseStore()
+    const [username, setUsername] = useState()
+    const [referPosition, setReferPosition] = useState('')
+    const [productId, setProductId] = useState()
     const [isTable, setTable] = useState(true)
     const {data:users} = getUserList()
     const { data, isLoading } = getProductList();
     // memorizing getting data
     const productList = useMemo(() => data?.data, [data]);
+	const selectFilter = createFilter({
+		matchFrom: "start",
+		ignoreCase: true,
+		trim: true,
+	});
+    const handleSelectSearch = (e) => {
+        let usern = users?.find((p) => p.value == e.value)
+        setUsername(usern)
+        userRegister.sponsor_id = e.value
+    }
 
+    useEffect(() => {
+        if (sponsorId) {
+            let usern = users?.find((p) => p.value == sponsorId)
+            setUsername(usern)
+            userRegister.sponsor_id = sponsorId
+
+            if (!usern?.left_ref_id && usern?.right_ref_id) {
+                setReferPosition('left')
+                userRegister.refer_position = 'left'
+            } else if (usern?.left_ref_id && !usern?.right_ref_id) {
+                setReferPosition('right')
+                userRegister.refer_position = 'right'
+            }
+        }
+        if (userRegister?.sponsorId) {
+            let usern = users?.find((p) => p.value == userRegister?.sponsorId)
+            setUsername(usern)
+            userRegister.sponsor_id = sponsorId
+        }
+        if (userRegister?.refer_position) {
+            setReferPosition(userRegister?.refer_position)
+        }
+
+        if (userRegister?.product_id) {
+            setProductId(userRegister?.product_id)
+        }
+
+        return () =>  {}
+    }, [sponsorId, productList, userRegister])
+
+
+
+    const handlePosition = (e) => {
+        setReferPosition(e.target.value)
+        userRegister.refer_position = e.target.value
+    }
+
+    const handleContinue = () => {
+        userRegister.product_id = productId
+        if (checkValidation()) {
+            toast.error(checkValidation(), {
+                position: 'top-center'
+            });
+        }else {
+            setTab('userInfo')
+        }
+    }
+
+    const checkValidation = () => {
+
+        if (!userRegister?.sponsor_id) {
+            return 'Please select a sponsor username!';
+        }
+
+        if (!userRegister?.refer_position) {
+            return 'Please select referrer Position!';
+        }
+
+        if (!userRegister?.product_id) {
+            return 'Please select a package!';
+        }
+        return false;
+    }
 
   return (
     <>
@@ -51,8 +133,23 @@ const Index = ({ setTab }) => {
                     name="sponsor_id"
                     options={users}
                     styles={customStyles}
+                    value={username}
                     id="sponsor_id"
+                    filterOption={selectFilter}
+                    onChange={handleSelectSearch}
                 />
+            </div>
+            <div className='formGroup'>
+                <label
+                    htmlFor='refer_position'
+                    className="label-style">
+                    Select position (Left or Right)
+                </label>
+                <select className='form-control' value={referPosition} onChange={handlePosition} id="refer_position">
+                    <option value="">Select Left or Right</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
             </div>
             {/* package table */}
             <div>
@@ -66,7 +163,7 @@ const Index = ({ setTab }) => {
                         <>
                             {productList?.length ? (
                                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                    { isTable ? <TableView lists={productList} /> : <BlockView lists={productList} /> }
+                                    { isTable ? <TableView productId={productId} setProductId={setProductId} lists={productList} /> : <BlockView  productId={productId} setProductId={setProductId} lists={productList} /> }
                                 </div>
                             ) : (
                                 <div className="text-center border border-gray-200 px-5 py-10 rounded-2xl">
@@ -100,7 +197,7 @@ const Index = ({ setTab }) => {
             </div>
             {/* next or continue button */}
             <div className='float-left py-2 my-2'>
-                <button onClick={() => setTab('userInfo')} className='btn btn-primary'>Continue </button>
+                <button onClick={handleContinue} className='btn btn-primary'>Continue </button>
             </div>
         </div>
     </>

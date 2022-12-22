@@ -80,7 +80,7 @@ class EpinController extends Controller
      */
     public function show(EpinMain $epin)
     {
-        return $this->withSuccess($epin->load('epins'));
+        return $this->withSuccess($epin->load(['epins' => fn ($q) => $q->with('use_by:id,username') ]));
     }
 
     /**

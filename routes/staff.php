@@ -8,6 +8,7 @@ use App\Http\Controllers\Staff\CategoryController;
 use App\Http\Controllers\Staff\EpinController;
 use App\Http\Controllers\Staff\EpinHelperController;
 use App\Http\Controllers\Staff\MediaController;
+use App\Http\Controllers\Staff\OptionController;
 use App\Http\Controllers\Staff\ProductController;
 use App\Http\Controllers\Staff\ProductHelperController;
 use App\Http\Controllers\Staff\SliderController;
@@ -52,8 +53,17 @@ Route::middleware('auth:staff')->group(function () {
     // user Helper
     Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
     Route::get('user-list', [UserHelperController::class, 'getUserList']);
+    Route::get('user-details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
+    Route::post('user-password-reset', [UserHelperController::class, 'passwordReset']);
+    Route::get('get-signle-user-tree/{user}', [UserHelperController::class, 'getOnlyUserBinaryTree']);
 
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
     Route::delete('image-delete/{image}', [MediaController::class, 'deleteImage']);
+
+    // settings
+    Route::prefix('settings/')->group(function () {
+        Route::get('bonus', [OptionController::class, 'getBonus']);
+        Route::post('bonus',[OptionController::class, 'storeOption']);
+    });
 });

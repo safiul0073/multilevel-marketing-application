@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'use_by')->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('code');
             $table->tinyInteger('status')->default(0)->comment('0=unused, 1=used');
-            $table->date('activation_date')->nullable();
+            $table->timestamp('activation_date')->nullable();
             $table->timestamps();
         });
     }

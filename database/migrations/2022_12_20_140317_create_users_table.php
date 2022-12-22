@@ -33,7 +33,8 @@ return new class extends Migration
             $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('left_ref_id')->index()->nullable();
             $table->string('right_ref_id')->index()->nullable();
-            $table->unsignedBigInteger('total_group')->default(0);
+            $table->unsignedBigInteger('left_group')->default(0);
+            $table->unsignedBigInteger('right_group')->default(0);
             $table->double('total_income', 15)->default(0);
             $table->float('total_withdraw')->default(0);
             $table->float('balance')->default(0);

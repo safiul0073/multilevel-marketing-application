@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
+import { userDetails } from "../../../hooks/queries/user/userDetails";
 import "react-tabs/style/react-tabs.css";
 import Details from "./Details";
 import Balance from "./Balance";
@@ -8,98 +9,98 @@ import LoginLog from "./LoginLog";
 import SendEmail from "./SendEmail";
 import Password from "./Password";
 import Referrals from "./Referrals";
-
-const tabOptions = [
-    {
-        title: "User Profile",
-        placeholder: "Profile",
-        colorClass: "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
-        isTab: true,
-        content: (
-            <>
-                <Details />
-            </>
-        ),
-    },
-    {
-        title: "Add or Subtract Balance",
-        placeholder: "Add/Subtract Balance",
-        colorClass: "bg-green-600 hover:bg-green-700 focus:ring-green-500",
-        isTab: true,
-        content: (
-            <>
-                <Balance />
-            </>
-        ),
-    },
-    {
-        title: "User Login Logs",
-        placeholder: "Login Logs",
-        colorClass: "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
-        isTab: true,
-        content: (
-            <>
-                <LoginLog />
-            </>
-        ),
-    },
-    {
-        title: "Send Email to User",
-        placeholder: "Send Email",
-        colorClass: "bg-sky-600 hover:bg-sky-600 focus:ring-sky-600",
-        isTab: true,
-        content: (
-            <>
-                <SendEmail />
-            </>
-        ),
-    },
-    {
-        title: "Login as User",
-        placeholder: "Login as User",
-        isTab: false,
-        colorClass: "bg-gray-900 hover:bg-gray-900 focus:ring-gray-900",
-        link: "https://www.google.com",
-    },
-    {
-        title: "Change User Password!",
-        placeholder: "Password Change",
-        colorClass: "bg-sky-600 hover:bg-sky-600 focus:ring-sky-600",
-        isTab: true,
-        content: (
-            <>
-                <Password />
-            </>
-        ),
-    },
-    {
-        title: "User Referrals List",
-        placeholder: "User Referrals",
-        colorClass: "bg-orange-600 hover:bg-orange-600 focus:ring-orange-600",
-        isTab: true,
-        content: (
-            <>
-                <Referrals />
-            </>
-        ),
-    },
-    {
-        title: "User Referrals Tree",
-        placeholder: "User Tree",
-        colorClass: "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
-        isTab: true,
-        content: (
-            <>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. At
-                repellat corrupti, facere, qui eius optio veniam enim animi nam
-                incidunt illo? Consectetur nemo dolor excepturi laborum omnis
-                quae veniam ad.
-            </>
-        ),
-    },
-];
+import moment from "moment";
 
 export default function UserDetails({ showUserDetails, setUserDetails }) {
+    const tabOptions = [
+        {
+            title: "User Profile",
+            placeholder: "Profile",
+            colorClass: "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
+            isTab: true,
+            content: (
+                <>
+                    <Details userId={showUserDetails?.id} />
+                </>
+            ),
+        },
+        {
+            title: "Add or Subtract Balance",
+            placeholder: "Add/Subtract Balance",
+            colorClass: "bg-green-600 hover:bg-green-700 focus:ring-green-500",
+            isTab: true,
+            content: (
+                <>
+                    <Balance />
+                </>
+            ),
+        },
+        {
+            title: "User Login Logs",
+            placeholder: "Login Logs",
+            colorClass: "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
+            isTab: true,
+            content: (
+                <>
+                    <LoginLog />
+                </>
+            ),
+        },
+        {
+            title: "Send Email to User",
+            placeholder: "Send Email",
+            colorClass: "bg-sky-600 hover:bg-sky-600 focus:ring-sky-600",
+            isTab: true,
+            content: (
+                <>
+                    <SendEmail />
+                </>
+            ),
+        },
+        {
+            title: "Login as User",
+            placeholder: "Login as User",
+            isTab: false,
+            colorClass: "bg-gray-900 hover:bg-gray-900 focus:ring-gray-900",
+            link: "https://www.google.com",
+        },
+        {
+            title: "Change User Password!",
+            placeholder: "Password Change",
+            colorClass: "bg-sky-600 hover:bg-sky-600 focus:ring-sky-600",
+            isTab: true,
+            content: (
+                <>
+                    <Password userId={showUserDetails?.id}/>
+                </>
+            ),
+        },
+        {
+            title: "User Referrals List",
+            placeholder: "User Referrals",
+            colorClass: "bg-orange-600 hover:bg-orange-600 focus:ring-orange-600",
+            isTab: true,
+            content: (
+                <>
+                    <Referrals />
+                </>
+            ),
+        },
+        {
+            title: "User Referrals Tree",
+            placeholder: "User Tree",
+            colorClass: "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
+            isTab: true,
+            content: (
+                <>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. At
+                    repellat corrupti, facere, qui eius optio veniam enim animi nam
+                    incidunt illo? Consectetur nemo dolor excepturi laborum omnis
+                    quae veniam ad.
+                </>
+            ),
+        },
+    ];
     const [tabIndex, setTabIndex] = useState(0);
     const handleTab = (index) => {
         setTabIndex(index);
@@ -121,12 +122,12 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                                 alt=""
                             />
                             <h3 className="mt-6 text-sm font-medium text-gray-900">
-                                Sapan Mozammel
+                                {showUserDetails?.first_name + " " + (showUserDetails?.last_name??'')}
                             </h3>
                             <dl className="mt-1 flex flex-grow flex-col justify-between">
                                 <dt className="sr-only">Title</dt>
-                                <dd className="text-sm text-gray-500">
-                                    Frontend Developer
+                                <dd className="text-[10px] text-gray-500">
+                                    Joined At: <span className="text-gray-900">{moment(showUserDetails?.created_at).format('d MMM, Y h:mm a ')}</span>
                                 </dd>
                             </dl>
                         </div>
@@ -184,7 +185,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                         return (
                             <React.Fragment key={Math.random()}>
                                 {tabContent?.isTab ? (
-                                    <TabPanel>
+                                    <TabPanel  >
                                         <div>{tabContent?.content}</div>
                                     </TabPanel>
                                 ) : null}
