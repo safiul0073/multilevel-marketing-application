@@ -96,6 +96,8 @@ modals.forEach(function (trigger) {
 async function  getOneProduct (id) {
     let res = await fetch(`get-one-product-res?id=${id}`)
     var data = await res.json()
+    var checkoutButton = document.getElementById('checkout_button');
+    checkoutButton.setAttribute('href', `set-sponsor/?slug=${data?.slug}`)
     var description = document.getElementById('description')
     description.innerText = data.description
     document.getElementById('product_name').innerText = data.name
@@ -113,5 +115,6 @@ async function  getOneProduct (id) {
        })
        imageDiv.innerHTML = images
     }
+
 
  }
