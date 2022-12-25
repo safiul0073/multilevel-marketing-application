@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\ProductController;
+use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Staff\DashboardController;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,13 @@ Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.page')
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
+
 });
+
+// registration process
+Route::get('set-sponsor/', [RegisterController::class, 'setSponsor'])->name('set.sponsor.user');
+Route::get('check-sponsor/{slug}', [RegisterController::class, 'checkSponsor'])->name('check.sponsor.user');
+Route::get('check-user/{slug}', [RegisterController::class, 'checkUser'])->name('check.user');
+Route::post('save-user', [RegisterController::class, 'saveUser'])->name('save.user');
 
 

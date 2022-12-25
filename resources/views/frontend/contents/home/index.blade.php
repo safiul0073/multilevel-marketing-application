@@ -391,6 +391,9 @@
                         <h1 class="text-lg text-gray-600">Video</h1>
                         <iframe class="w-full aspect-video" id="vedio_link" frameBorder="0"></iframe>
                     </div>
+                    <div>
+                        <a class="btn btn-primary" id="checkout_button" >Checkout</a>
+                    </div>
                 </div>
             </div>
         </div>
