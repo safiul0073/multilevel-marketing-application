@@ -26,7 +26,11 @@
                 </div>
                 <div class="formGroup">
                     <label for="sponsor_id">Set Position</label>
-                    <input type="text" name="position" class="form-control @error('position') has-error @enderror">
+                    <select name="position" class="form-control @error('position') has-error @enderror" id="">
+                        <option value="">Select position</option>
+                        <option value="left">Left</option>
+                        <option value="right">Right</option>
+                    </select>
                     @error('position')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
