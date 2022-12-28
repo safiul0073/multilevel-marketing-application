@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
@@ -9,10 +9,33 @@ import  toast  from 'react-hot-toast';
 import Textinput from '../../common/Textinput';
 import { createEpinMain } from '../../../hooks/queries/epin';
 import { getProductList } from '../../../hooks/queries/epin/getProductList';
-import SelectInput from '../../common/SelectInput';
+import Select from 'react-select';
+const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      background: '#fff',
+      height: '40px',
+
+      // Overwrittes the different states of border
+      borderColor: state.isFocused ? '#D1D5DB' : '#D1D5DB',
+      // Removes weird border around container
+      boxShadow: state.isFocused ? null : null,
+      '&:hover': {
+        // Overwrittes the different states of border
+        borderColor: state.isFocused ? '#000080' : '#000080',
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isSelected ? 'white' : '#111827',
+      backgroundColor: state.isSelected ? '#000080' : '#fff',
+      fontSize: state.selectProps.myFontSize,
+    }),
+  };
 export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) {
     const [code ,setCode] = useState([])
     const [backendError, setBackendError] = useState()
+    const [productId, serProductId] = useState()
     const {data:products} = getProductList()
     const schema = yup
     .object({
@@ -21,13 +44,15 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) 
 
     })
     .required();
-    const { register,control, watch, handleSubmit, formState: { errors } } = useForm({
+    const { register,control,reset, watch, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     })
     const onSubmit= (data) => {
         data.code = code
+        data.product_id = productId?.value
         createEpinMutate(data)
     }
+
   function closeModal() {
     setIsOpen(false)
   }
@@ -52,9 +77,14 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) 
     },
   });
 
-  const handleCode = (e) => {
-    setCode(e.target.value)
-  }
+    useEffect(() => {
+        if (productId) {
+            reset({
+                cost: productId?.price
+            })
+          }
+    },[productId])
+
   const quantity = watch('quantity');
   const [epinCodeGenerateError, setEpinCodeGenerateError] = useState('')
   const generateCode = () => {
@@ -74,6 +104,7 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) 
     }
     setCode(creatingCodes)
   }
+
   return (
     <>
 
@@ -122,15 +153,12 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) 
                                         backendValidationError={backendError?.type}
                                         error={errors.type}
                                     />
-                                    <SelectInput
-                                        label="Select Package"
-                                        labelFor="product_id"
-                                        controlFu={control}
-                                        reqMessage="Please select Package"
-                                        optionArray={products}
-                                        errorObj={errors?.product_id}
-                                        backendErrorMessagae={backendError?.product_id}
-                                    />
+                                    <Select
+                                        options={products}
+                                        styles={customStyles}
+                                        value={productId}
+                                        onChange={e => serProductId(e)}
+                                        />
                                     <Textinput
                                         label="Epin Cost"
                                         placeholder="5000"
@@ -174,7 +202,7 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) 
                                                 {
                                                     code.length > 0 ?
                                                     code.map((c, idx) => (
-                                                        <li> { (idx + 1) + ". " + c}</li>
+                                                        <li key={idx}> { (idx + 1) + ". " + c}</li>
                                                     ))
                                                     : ''
                                                 }

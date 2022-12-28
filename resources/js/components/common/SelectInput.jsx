@@ -37,7 +37,8 @@ const SelectInput = ({
   optionArray,
   errorObj,
   backendErrorMessagae,
-  multi = false
+  multi = false,
+  setOne
 }) => {
 
   return (
@@ -56,6 +57,7 @@ const SelectInput = ({
         render={({ field: { value, onChange, name, ref } }) => {
 
           const currentSelection = optionArray?.find((c) => c?.value === value);
+          setOne(currentSelection)
           const handleSelectChange = (
             selectedOption
           ) => {

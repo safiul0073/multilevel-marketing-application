@@ -171,10 +171,10 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     <div className="text-gray-900">
                                                         <div>
-                                                        {moment(epin?.created_at).format("d-m-Y")}
+                                                        {moment(epin?.created_at).format("D-M-Y")}
                                                         </div>
                                                         <div>
-                                                        {moment(epin?.created_at).fromNow()}
+                                                        {moment(epin?.created_at,true).fromNow()}
                                                         </div>
                                                     </div>
                                                 </td>
@@ -198,10 +198,10 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     <div className="text-gray-900">
                                                     <div>
-                                                        {epin?.activation_date ? moment(epin?.activation_date).format("d-m-Y") : ''}
+                                                        {epin?.activation_date ? moment(epin?.updated_at).format("D-M-Y") : ''}
                                                         </div>
                                                         <div>
-                                                        {epin?.activation_date ? moment(epin?.activation_date).fromNow() : ''}
+                                                        {epin?.activation_date ? moment(epin?.updated_at, true).fromNow() : ''}
                                                         </div>
                                                     </div>
                                                 </td>
