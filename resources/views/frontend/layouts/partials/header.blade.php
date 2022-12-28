@@ -19,7 +19,7 @@
                 </a>
                 <div class="hidden lg:ml-auto lg:flex items-center">
                     <div class="flex space-x-4 wide-tablet:space-x-2">
-                        <a href="{{url('/')}}" class="{{ request()->routeIs('hello.world.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium" >Home</a>
+                        <a href="{{url('/')}}" class="{{ request()->routeIs('hello.world.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Home</a>
 
                         <a href="{{url('/products')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Product</a>
 
@@ -34,24 +34,49 @@
                 </div>
             </div>
 
-                @if (auth()->user())
-                    <div class="absolute inset-y-0 right-0 flex items-center lg:static lg:inset-auto lg:ml-5">
-                        <a href="{{ route('user.dashboard') }}" class="btn btn-primary">Dashboard</a>
+            @if (auth()->user())
+            <div class="relative inline-block text-left group lg:ml-5">
+                <div>
+                    <button type="button" class="inline-flex items-center w-full justify-center rounded-md border border-indigo-600 bg-indigo-600 pl-1 pr-2 py-1 text-sm font-medium text-white shadow-sm focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                        <div class="flex items-center gap-2">
+                            <img src="https://img.freepik.com/premium-vector/woman-portrait-generic-female-avatar-gender-placeholder-isolated-white-background_543062-417.jpg?w=2000" class="w-7 h-7 rounded-full" alt="">
+                            <span>Anis</span>
+                        </div>
+                        <svg class="-mr-1 ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="absolute right-0 z-10 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none invisible opacity-0 group-hover:visible group-hover:opacity-100" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="px-4 py-3" role="none">
+                        <p class="text-sm" role="none">Signed in as</p>
+                        <p class="truncate text-sm font-medium text-gray-900" role="none">Anis</p>
+                    </div>
+                    <div class="py-1" role="none">
+                        <a href="{{ route('user.dashboard') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Dasboard</a>
+                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Profile</a>
+                        <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">My Team</a>
+                    </div>
+                    <div class="py-1" role="none">
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();" class="btn btn-danger">
-                          <p>
-                            Log Out
-                          </p>
+                        document.getElementById('logout-form').submit();" class="text-gray-700 block w-full px-4 py-2 text-left text-sm">
+                            <p>
+                                Log Out
+                            </p>
                         </a>
                     </div>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                        @csrf
-                    </form>
-                @else
-                    <div class="absolute inset-y-0 right-0 flex items-center lg:static lg:inset-auto lg:ml-5">
-                        <a href="{{ route('login') }}" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 px-4 py-1 text-base font-medium text-white hover:bg-rose-600">Log in</a>
-                    </div>
-                @endif
+                </div>
+            </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
+
+            @else
+            <div class="absolute inset-y-0 right-0 flex items-center lg:static lg:inset-auto lg:ml-5">
+                <a href="{{ route('login') }}" class="inline-flex items-center rounded-md border border-transparent bg-rose-500 px-4 py-1 text-base font-medium text-white hover:bg-rose-600">Log in</a>
+            </div>
+            @endif
 
         </div>
     </div>

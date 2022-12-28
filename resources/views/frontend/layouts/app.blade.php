@@ -17,12 +17,14 @@
 </head>
 
 <body>
-    <div class="w-full min-h-screen bg-gray-100 relative">
+    <div class="w-full min-h-screen bg-gray-100 relative flex flex-col">
 
         {{-- Header  --}}
         @include('frontend.layouts.partials.header')
 
-        @yield('content')
+        <div class="grow">
+            @yield('content')
+        </div>
 
         {{-- footer --}}
         @include('frontend.layouts.partials.footer')
