@@ -16,7 +16,6 @@ const Layout =() =>{
     let navigate = useNavigate();
     useEffect(() => {
         if (window.location.pathname == '/staff') {
-            console.log('hello staff')
             navigate('/staff/dashboard')
         }
         return () => {}

@@ -44,7 +44,7 @@ class EpinHelperController extends Controller
 
     public function getProductList () {
 
-        $products = Product::select(['id as value', 'name as label'])->get();
+        $products = Product::select(['id as value', 'name as label', 'price'])->get();
 
         return $this->withSuccess($products);
     }
