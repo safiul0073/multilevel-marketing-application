@@ -36,8 +36,14 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact.page'
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.page');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserDashboardController::class, 'profile'])->name('user.profile');
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
-
+    Route::get('/user-my-team', [UserDashboardController::class, 'userTeamView'])->name('user.my.team');
+    Route::get('/change-password', [UserDashboardController::class, 'changePassView'])->name('user.change.password');
+    Route::get('/user-purchase-product', [UserDashboardController::class, 'productPurchaseView'])->name('user.purchase.product');
+    Route::get('/user-deposit', [UserDashboardController::class, 'depositView'])->name('user.deposit');
+    Route::get('/user-balance-transfer', [UserDashboardController::class, 'balanceTransferView'])->name('user.balance.transfer');
+    Route::get('/user-invoice', [UserDashboardController::class, 'invoiceView'])->name('user.invoice');
 });
 
 // registration process

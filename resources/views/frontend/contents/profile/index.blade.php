@@ -7,13 +7,8 @@
 
 @endsection
 @section('content')
-    <div class="flex">
-        <div>
-            @include('frontend.contents.dashboard.sidebar')
-        </div>
-        <div>
-            @yield('dashboard-page')
-        </div>
+    <div>
+        Profile
     </div>
 @endsection
 
