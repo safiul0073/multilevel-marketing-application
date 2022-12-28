@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import Pagination from "../components/common/Pagination";
 import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/product/CreateModal";
 import DeleteProduct from "../components/modal/product/Delete";
@@ -42,6 +43,12 @@ export const Product = () => {
     const closeDeleteModal = () => {
         setIsDeleteModalOpen(false);
     };
+
+    const handlePageChange = (page, currentPageValue) => {
+
+        console.log(currentPageValue)
+
+    }
 
     return (
         <>
@@ -248,6 +255,14 @@ export const Product = () => {
                                                                         )}
                                                                     </tbody>
                                                                 </table>
+                                                            </div>
+                                                            <div className="my-4">
+                                                                <Pagination
+                                                                    total={100}
+                                                                    pageSize={10}
+                                                                    pageNumber={1}
+                                                                    hendlePageChange={handlePageChange}
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
