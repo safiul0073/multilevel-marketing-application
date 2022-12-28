@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
 use App\Http\Controllers\Frontend\NewsController;
+use App\Http\Controllers\Frontend\NotFoundController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
@@ -45,5 +46,8 @@ Route::get('set-sponsor/', [RegisterController::class, 'setSponsor'])->name('set
 Route::get('check-sponsor/{slug}', [RegisterController::class, 'checkSponsor'])->name('check.sponsor.user');
 Route::get('check-user/{slug}', [RegisterController::class, 'checkUser'])->name('check.user');
 Route::post('save-user', [RegisterController::class, 'saveUser'])->name('save.user');
+
+// not found route
+Route::get('not-found', [NotFoundController::class, 'index'])->name('not.found');
 
 
