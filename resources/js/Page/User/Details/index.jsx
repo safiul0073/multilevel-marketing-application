@@ -10,8 +10,10 @@ import SendEmail from "./SendEmail";
 import Password from "./Password";
 import Referrals from "./Referrals";
 import moment from "moment";
+import { LIVE_URL } from "../../../constent";
 
 export default function UserDetails({ showUserDetails, setUserDetails }) {
+
     const tabOptions = [
         {
             title: "User Profile",
@@ -62,7 +64,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             placeholder: "Login as User",
             isTab: false,
             colorClass: "bg-gray-900 hover:bg-gray-900 focus:ring-gray-900",
-            link: "https://www.google.com",
+            link: `${LIVE_URL}user-login/${showUserDetails?.id}`,
         },
         {
             title: "Change User Password!",
@@ -105,6 +107,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
     const handleTab = (index) => {
         setTabIndex(index);
     };
+
 
     return (
         <>

@@ -1,6 +1,5 @@
 
 import Cookies from 'js-cookie';
-import { LIVEURL } from '../constent';
 
 // token setter
 export const setToken = (token) => {

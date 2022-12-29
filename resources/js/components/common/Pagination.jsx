@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-const Pagination = ({ total, pageSize, hendlePageChange, pageNumber }) => {
+const Pagination = ({ total, pageSize, handlePageChange, pageNumber }) => {
 
     const [currentPage, setCurrentPage] = useState(pageNumber);
     const [currentPageValue, setCurrentPageValue] = useState(pageSize);
@@ -82,13 +82,13 @@ const Pagination = ({ total, pageSize, hendlePageChange, pageNumber }) => {
 
     const handleOptionChange = (e) => {
         // setCurrentPageValue(Number(e.target.value))
-        hendlePageChange(currentPage, Number(e.target.value))
+        handlePageChange(currentPage, Number(e.target.value))
     }
 
     const pageCalling = (page) => {
         if (typeof page != 'number') return;
         setCurrentPage(page);
-        hendlePageChange(page, currentPageValue)
+        handlePageChange(page, currentPageValue)
 
     }
 
@@ -98,7 +98,7 @@ const Pagination = ({ total, pageSize, hendlePageChange, pageNumber }) => {
         }
     }
     const nextCalling = (number) => {
-        if (currentPage < totalCount) {
+        if (currentPage < Math.ceil(totalCount / currentPageValue)) {
             pageCalling(currentPage + number)
         }
     }
@@ -118,18 +118,17 @@ const Pagination = ({ total, pageSize, hendlePageChange, pageNumber }) => {
         setCurrentPageValue(pageSize)
     }, [pageNumber, pageSize])
 
-    const previousAtagStyle = 'relative inline-flex items-center px-4 py-3 border text-md font-medium bg-blue-100 text-blue-500 rounded-l-[10px]';
+    const previousATagStyle = 'relative inline-flex items-center px-4 py-2 border text-md font-medium bg-blue-100 text-indigo-500 rounded-l-[10px]';
     const dynamicATagStyle = ''
-    const nextStyle = "relative inline-flex items-center px-2 py-3 border text-md font-medium rounded-r-[10px] bg-blue-100 text-blue-500"
-    const currentPageButtonStyle = 'bg-blue-500 text-white'
+    const nextStyle = "relative inline-flex items-center px-2 py-2 border text-md font-medium rounded-r-[10px] bg-blue-100 text-indigo-500"
+    const currentPageButtonStyle = 'bg-indigo-600 text-white'
     const renderPageNumbers = Pagenum()?.map((number, i) => {
-        // first 3 pages then .... then last 3 pages
+
         return (
             <li
-
                 key={i}
             >
-                <button className={`${currentPage === number ? currentPageButtonStyle : dynamicATagStyle}  relative inline-flex items-center px-4 py-3 border text-md font-medium`} onClick={() => pageCalling(number)}>{number}</button>
+                <button className={`${currentPage === number ? currentPageButtonStyle : dynamicATagStyle}  relative inline-flex items-center px-4 py-2 border text-md font-medium`} onClick={() => pageCalling(number)}>{number}</button>
             </li>
         );
     });
@@ -137,13 +136,13 @@ const Pagination = ({ total, pageSize, hendlePageChange, pageNumber }) => {
     return (
         <>
             <div className="2xl:flex 2xl:justify-between   mx-auto overflow-x-auto ">
-                <div className="flex justify-center align-center">
+                <div className="flex justify-center items-center">
                     {/* showing page of  */}
                     <span className="text-gray-500 text-md mr-5">Showing page <span className="font-bold">{currentPage}</span> of <span className="font-bold">{Math.ceil(totalCount / currentPageValue)}</span></span> |
                     {/* showing total data */}
                     <span className="text-gray-700 text-md ml-5">Total Records: <span className="font-bold">{totalCount}</span> </span>
                     <div className="w-[80px] mr-5">
-                        <select className="form-select mr-5 ml-5 appearance-none block w-full px-4 py-1 text-base
+                        <select className="form-select mr-5 ml-5 appearance-none block w-full px-4 py-2 text-base
                             font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat
                             border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             onChange={handleOptionChange} value={currentPageValue}>
@@ -154,15 +153,15 @@ const Pagination = ({ total, pageSize, hendlePageChange, pageNumber }) => {
                     </div>
 
                     <div className="ml-5">
-                        <input type="number" onChange={(e) => setCustomPage(e.target.value)} className="px-2 py-1 w-20 rounded-lg border border-slate-300 mr-2  focus:outline-none focus:shadow-none" />
-                        <button onClick={setCustomPageHandle} className="bg-blue-500 text-white py-1 px-2 hover:bg-blue-900 rounded-md">GO</button>
+                        <input type="number" onChange={(e) => setCustomPage(e.target.value)} className="px-2 py-2 w-20 rounded-lg border border-slate-300 mr-2  focus:outline-none focus:shadow-none" />
+                        <button onClick={setCustomPageHandle} className="bg-indigo-600 text-white py-2 px-2 hover:bg-blue-900 rounded-md">GO</button>
                     </div>
                 </div>
 
                 <nav className=''>
                     <ul className="flex justify-center 2xl:mt-0 mt-5">
                         <li>
-                            <button className={previousAtagStyle} onClick={() => previousCalling(1)} >Previous</button>
+                            <button className={previousATagStyle} onClick={() => previousCalling(1)} >Previous</button>
                         </li>
                         {renderPageNumbers}
                         <li>

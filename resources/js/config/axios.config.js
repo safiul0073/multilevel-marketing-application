@@ -1,19 +1,19 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { APIURL } from '../constent';
 
-const api = import.meta.env.VITE_PUBLIC_API_URL??"https://mlmshop.zstechbd.com/api";
 
 // For common config
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const publicAxios = axios.create({
-  baseURL: api,
+  baseURL: APIURL,
 });
 
 let token = Cookies.get('nToken');
 
 const userAxioswithoutRedirect = axios.create({
-  baseURL: api,
+  baseURL: APIURL,
   headers: {
     'Access-Control-Allow-Origin': '*',
     "Accept": "application/json, text/plain, */*",
@@ -25,7 +25,7 @@ const userAxioswithoutRedirect = axios.create({
 });
 
 const userAxios = axios.create({
-  baseURL: api,
+  baseURL: APIURL,
   headers: {
     'Access-Control-Allow-Origin': '*',
     "Accept": "application/json, text/plain, */*",

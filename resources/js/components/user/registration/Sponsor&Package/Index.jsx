@@ -3,11 +3,11 @@ import Select, { createFilter } from 'react-select';
 import TableView from './TableView';
 import BlockView from './BlockView';
 import { getUserList } from '../../../../hooks/queries/user/getUserList';
-import { getProductList } from '../../../../hooks/queries/product/getProductList';
 import LoaderAnimation from '../../../common/LoaderAnimation';
 import { UseStore } from '../../../../store';
 import { useQuery } from '../../../../hooks/others';
 import toast from 'react-hot-toast';
+import { allPackageList } from '../../../../hooks/queries/package/allPackageList';
 
 const customStyles = {
     control: (base, state) => ({
@@ -42,9 +42,9 @@ const Index = ({ setTab, backendError  }) => {
     const [productId, setProductId] = useState()
     const [isTable, setTable] = useState(true)
     const {data:users} = getUserList()
-    const { data, isLoading } = getProductList();
+    const { data, isLoading } = allPackageList();
     // memorizing getting data
-    const productList = useMemo(() => data?.data, [data]);
+    const productList = useMemo(() => data, [data]);
 	const selectFilter = createFilter({
 		matchFrom: "start",
 		ignoreCase: true,
@@ -162,7 +162,7 @@ const Index = ({ setTab, backendError  }) => {
                     ) : (
                         <>
                             {productList?.length ? (
-                                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div className="-my-2 -mx-4 overflow-x-auto overflow-y-auto h-[600px] sm:-mx-6 lg:-mx-8">
                                     { isTable ? <TableView productId={productId} setProductId={setProductId} lists={productList} /> : <BlockView  productId={productId} setProductId={setProductId} lists={productList} /> }
                                 </div>
                             ) : (

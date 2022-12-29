@@ -9,8 +9,8 @@ use App\Http\Controllers\Staff\EpinController;
 use App\Http\Controllers\Staff\EpinHelperController;
 use App\Http\Controllers\Staff\MediaController;
 use App\Http\Controllers\Staff\OptionController;
-use App\Http\Controllers\Staff\ProductController;
-use App\Http\Controllers\Staff\ProductHelperController;
+use App\Http\Controllers\Staff\PackageController;
+use App\Http\Controllers\Staff\PackageHelperController;
 use App\Http\Controllers\Staff\SliderController;
 use App\Http\Controllers\Staff\UserController;
 use App\Http\Controllers\Staff\UserHelperController;
@@ -35,19 +35,20 @@ Route::middleware('auth:staff')->group(function () {
     // category section
     Route::resource('category', CategoryController::class);
     Route::resource('user', UserController::class);
-    Route::resource('product', ProductController::class);
+    Route::resource('package', PackageController::class);
     Route::resource('slider', SliderController::class);
     Route::resource('epin', EpinController::class);
 
     Route::post('epin-update', [EpinController::class, 'update']);
     Route::post('store-epin', [EpinHelperController::class, 'storeEpin']);
     Route::delete('delete-epin/{id}', [EpinHelperController::class, 'deleteEpin']);
-    Route::get('product-list', [EpinHelperController::class, 'getProductList']);
-    // product helper
-    Route::post('product-update', [ProductController::class, 'update']);
-    Route::get('product-images/{product}', [ProductHelperController::class, 'getProductImages']);
+    Route::get('package-list', [EpinHelperController::class, 'getProductList']);
+    // package helper
+    Route::get('all-package', [PackageHelperController::class, 'getAllPackage']);
+    Route::post('package-update', [PackageController::class, 'update']);
+    Route::get('package-images/{product}', [PackageHelperController::class, 'getProductImages']);
 
-    Route::get('category-list', [ProductHelperController::class, 'getCategoryList']);
+    Route::get('category-list', [PackageHelperController::class, 'getCategoryList']);
     Route::post('slider-update', [SliderController::class, 'update']);
     Route::post('category-update', [CategoryController::class, 'update']);
     // user Helper
@@ -56,6 +57,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::get('user-details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
     Route::post('user-password-reset', [UserHelperController::class, 'passwordReset']);
     Route::get('get-signle-user-tree/{user}', [UserHelperController::class, 'getOnlyUserBinaryTree']);
+
 
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);

@@ -29,6 +29,7 @@ class ProductFactory extends Factory
             'price' => rand(5000, 10000),
             'video_url' => 'https://www.youtube.com/watch?v=b9kSKlxY3_8&list=RDQvtA4z9yzqM&index=11',
             'status' => 1,
+            'is_package' => 1
         ];
     }
 }

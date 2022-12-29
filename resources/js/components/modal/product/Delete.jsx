@@ -2,8 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from "react-query";
-import { deleteProduct } from "../../../hooks/queries/product";
 import  toast  from 'react-hot-toast';
+import { deletePackage } from "../../../hooks/queries/package";
 
 export default function DeleteProduct({
     isOpen,
@@ -26,7 +26,7 @@ export default function DeleteProduct({
         // reset,
         isError,
         isSuccess,
-    } = useMutation(deleteProduct, {
+    } = useMutation(deletePackage, {
         onSuccess: (data) => {
             toast.success(data, {
                 position: 'top-right',

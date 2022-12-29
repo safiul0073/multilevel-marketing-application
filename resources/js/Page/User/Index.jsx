@@ -2,13 +2,22 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import moment from "moment";
 import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../../components/common/LoaderAnimation";
+import Pagination from "../../components/common/Pagination";
+import RowNotFound from "../../components/common/RowNotFound";
 import Protected from "../../components/HOC/Protected";
 import { getAllUser } from "../../hooks/queries/user/getAllUser";
 import UserDetails from "./Details";
 
 const Index = () => {
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
     const [search, setSearch] = useState("");
     const [showUserDetails, setUserDetails] = useState(false);
+
+    const handlePageChange = (pageNum, currentPageValue) => {
+        setPage(() => pageNum)
+        setPageSize(() => currentPageValue)
+    }
     // fetching category list using react query
     const {
         data: users,
@@ -16,6 +25,8 @@ const Index = () => {
         refetch,
     } = getAllUser({
         search,
+        page,
+        perPage:pageSize
     });
 
     return (
@@ -62,6 +73,8 @@ const Index = () => {
                                     {isLoading ? (
                                         <LoaderAnimation />
                                     ) : (
+                                        <>
+                                        {users?.length ?
                                         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                                                 <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -206,8 +219,19 @@ const Index = () => {
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <div className="my-4">
+                                                    <Pagination
+                                                        total={users?.total}
+                                                        pageSize={pageSize}
+                                                        pageNumber={page}
+                                                        handlePageChange={handlePageChange}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
+                                        : <RowNotFound name='users' />
+                                        }
+                                    </>
                                     )}
                                 </div>
                             </div>

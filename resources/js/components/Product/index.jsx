@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import  toast  from 'react-hot-toast';
-import { getImagesList } from "../../hooks/queries/product/getImagesList";
 import { createMedia, deleteMedia } from "../../hooks/queries/media";
 import { useMutation } from "react-query";
+import { getImagesList } from "../../hooks/queries/package/getImagesList";
 
 
 

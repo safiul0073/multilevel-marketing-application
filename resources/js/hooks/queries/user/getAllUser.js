@@ -5,11 +5,17 @@ export const getAllUser = (props) => {
   return useQuery(
     [
       'user-lists',
-        props.search
+        props.search,
+        props.page,
+        props.perPage
     ],
     async () => {
       let res = await getQuery('user',
-      {search: props.search});
+      {
+        search: props.search,
+        page:props.page,
+        perPage:props.perPage
+    });
 
       return res;
     },
