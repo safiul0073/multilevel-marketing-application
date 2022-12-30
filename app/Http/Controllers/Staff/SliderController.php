@@ -22,7 +22,11 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::with('image')->orderBy('id', 'DESC')->paginate(10);
+        $perPage = 10;
+        if (request()->perPage) {
+            $perPage = request()->perPage;
+        }
+        $sliders = Slider::with('image')->orderBy('id', 'DESC')->paginate($perPage);
 
         return $this->withSuccess($sliders);
     }

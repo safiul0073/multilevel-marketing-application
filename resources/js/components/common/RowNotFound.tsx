@@ -25,7 +25,7 @@ const RowNotFound = ({name}) => {
         <p className="mt-1 text-sm text-gray-500">
             Get started by
             creating a new
-            {name}.
+            {' '+name}.
         </p>
     </div>
     </>

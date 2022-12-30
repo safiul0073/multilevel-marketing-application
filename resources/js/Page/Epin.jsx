@@ -1,6 +1,8 @@
 import moment from "moment";
 import React, { useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import Pagination from "../components/common/Pagination";
+import RowNotFound from "../components/common/RowNotFound";
 import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/epin/CreateModal";
 import DeleteEpin from "../components/modal/epin/Delete";
@@ -9,9 +11,15 @@ import EpinList from "../components/modal/epin/EpinList";
 import { getEpinList } from "../hooks/queries/epin/getEpinList";
 
 const Epin = () => {
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
 
+    const handlePageChange = (pageNum, currentPageValue) => {
+        setPage(() => pageNum)
+        setPageSize(() => currentPageValue)
+    }
     // fetching epin list using react query
-    const {data:epinsList, isLoading, refetch} = getEpinList()
+    const {data:epinsList, isLoading, refetch} = getEpinList(page,pageSize)
 
     // create epin modal calling
     const [isOpen, setIsOpen] = useState(false)
@@ -102,165 +110,164 @@ const Epin = () => {
                                 {isLoading ?
                                     <LoaderAnimation/>
                                     :
-                                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                                        <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                            <table className="min-w-full divide-y divide-gray-300">
-                                                <thead className="bg-gray-50">
-                                                    <tr>
-                                                        <th
-                                                            scope="col"
-                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                                        >
-                                                            Package
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Type/Name
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Cost
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Quantity
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Cus. Name
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Cus. Phone
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Code List
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Created At
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
-                                                        >
-                                                            Action
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody className="divide-y divide-gray-200 bg-white">
-                                                    {epinsList?.data?.map(
-                                                        (epin) => (
-                                                            <tr
-                                                                key={Math.random()}
-                                                            >
-                                                                <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
-                                                                    <div className="text-gray-900">
-                                                                        {
-                                                                            epin?.product?.name
-                                                                        }
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {epin?.type}
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {epin?.cost}
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {epin?.quantity}
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {epin?.customer_name}
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {epin?.customer_phone}
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                      <button onClick={() => showEpinList(epin?.id)} className="btn btn-secondary">Show Epin List</button>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {moment(epin?.created_at).format("D-M-Y")}
-                                                                    </div>
-                                                                </td>
-                                                                {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    {epin?.status ==
-                                                                    1 ? (
-                                                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
-                                                                            used
-                                                                        </span>
-                                                                    ) : (
-                                                                        <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
-                                                                            unused
-                                                                        </span>
-                                                                    )}
-                                                                </td> */}
-                                                                {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {epin?.use_by}
-                                                                    </div>
-                                                                </td> */}
-                                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                                    <div className="flex gap-2 justify-end">
-                                                                        <button
-                                                                            className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
-                                                                            onClick={() =>
-                                                                                editEpin(
-                                                                                    epin
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Edit
-                                                                        </button>
-                                                                        <button
-                                                                            className="text-red-600 font-normal hover:text-red-700 hover:underline"
-                                                                            onClick={() =>
-                                                                                delateEpin(
-                                                                                    epin?.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Delete
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
+                                    <>
+                                     {epinsList?.length
+                                        ?
+                                        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                                                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                                                    <table className="min-w-full divide-y divide-gray-300">
+                                                        <thead className="bg-gray-50">
+                                                            <tr>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                >
+                                                                    Package
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Type/Name
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Cost
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Quantity
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Cus. Name
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Cus. Phone
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Code List
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Created At
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
+                                                                >
+                                                                    Action
+                                                                </th>
                                                             </tr>
-                                                        )
-                                                    )}
-                                                </tbody>
-                                            </table>
+                                                        </thead>
+                                                        <tbody className="divide-y divide-gray-200 bg-white">
+                                                            {epinsList?.data?.map(
+                                                                (epin) => (
+                                                                    <tr
+                                                                        key={Math.random()}
+                                                                    >
+                                                                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
+                                                                            <div className="text-gray-900">
+                                                                                {
+                                                                                    epin?.product?.name
+                                                                                }
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {epin?.type}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {epin?.cost}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {epin?.quantity}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {epin?.customer_name}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {epin?.customer_phone}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                            <button onClick={() => showEpinList(epin?.id)} className="btn btn-secondary">Show Epin List</button>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {moment(epin?.created_at).format("D-M-Y")}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                                            <div className="flex gap-2 justify-end">
+                                                                                <button
+                                                                                    className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
+                                                                                    onClick={() =>
+                                                                                        editEpin(
+                                                                                            epin
+                                                                                        )
+                                                                                    }
+                                                                                >
+                                                                                    Edit
+                                                                                </button>
+                                                                                <button
+                                                                                    className="text-red-600 font-normal hover:text-red-700 hover:underline"
+                                                                                    onClick={() =>
+                                                                                        delateEpin(
+                                                                                            epin?.id
+                                                                                        )
+                                                                                    }
+                                                                                >
+                                                                                    Delete
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            )}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div className="my-4">
+                                                    <Pagination
+                                                        total={epinsList?.total}
+                                                        pageSize={pageSize}
+                                                        pageNumber={page}
+                                                        handlePageChange={handlePageChange}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+
+                                        : (<RowNotFound name="epins" />)
+
+                                        }
+                                    </>
                                     }
                             </div>
                         </div>

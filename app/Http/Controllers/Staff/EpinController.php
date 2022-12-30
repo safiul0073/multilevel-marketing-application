@@ -19,7 +19,11 @@ class EpinController extends Controller
      */
     public function index()
     {
-        $epins = EpinMain::with('epins', 'product:id,name')->orderBy('id', 'desc')->paginate(15);
+        $perPage = 10;
+        if (request()->perPage) {
+            $perPage = request()->perPage;
+        }
+        $epins = EpinMain::with('epins', 'product:id,name')->orderBy('id', 'desc')->paginate($perPage);
 
         return $this->withSuccess($epins);
     }

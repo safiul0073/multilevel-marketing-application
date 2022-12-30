@@ -258,12 +258,12 @@ export const Package = () => {
                                                                 </table>
                                                             </div>
                                                             <div className="my-4">
-                                                            <Pagination
-                                                                total={data?.total}
-                                                                pageSize={pageSize}
-                                                                pageNumber={page}
-                                                                handlePageChange={handlePageChange}
-                                                            />
+                                                                <Pagination
+                                                                    total={data?.total}
+                                                                    pageSize={pageSize}
+                                                                    pageNumber={page}
+                                                                    handlePageChange={handlePageChange}
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
