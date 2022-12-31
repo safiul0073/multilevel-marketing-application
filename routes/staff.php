@@ -1,19 +1,20 @@
 <?php
 
-use App\Http\Controllers\Staff\Auth\CodeCheckController;
-use App\Http\Controllers\Staff\Auth\ForgotPasswordController;
-use App\Http\Controllers\Staff\Auth\ResetPasswordController;
-use App\Http\Controllers\Staff\Auth\StaffController;
-use App\Http\Controllers\Staff\CategoryController;
-use App\Http\Controllers\Staff\EpinController;
-use App\Http\Controllers\Staff\EpinHelperController;
-use App\Http\Controllers\Staff\MediaController;
-use App\Http\Controllers\Staff\OptionController;
-use App\Http\Controllers\Staff\PackageController;
-use App\Http\Controllers\Staff\PackageHelperController;
-use App\Http\Controllers\Staff\SliderController;
-use App\Http\Controllers\Staff\UserController;
-use App\Http\Controllers\Staff\UserHelperController;
+use App\Http\Controllers\Staff\V1\Auth\CodeCheckController;
+use App\Http\Controllers\Staff\V1\Auth\ForgotPasswordController;
+use App\Http\Controllers\Staff\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Staff\V1\Auth\StaffController;
+use App\Http\Controllers\Staff\V1\CategoryController;
+use App\Http\Controllers\Staff\V1\EpinController;
+use App\Http\Controllers\Staff\V1\EpinHelperController;
+use App\Http\Controllers\Staff\V1\MediaController;
+use App\Http\Controllers\Staff\V1\OptionController;
+use App\Http\Controllers\Staff\V1\PackageController;
+use App\Http\Controllers\Staff\V1\PackageHelperController;
+use App\Http\Controllers\Staff\V1\RewardController;
+use App\Http\Controllers\Staff\V1\SliderController;
+use App\Http\Controllers\Staff\V1\UserController;
+use App\Http\Controllers\Staff\V1\UserHelperController;
 use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
@@ -32,22 +33,26 @@ Route::middleware('auth:staff')->group(function () {
     Route::get('/me', [StaffController::class, 'me'])->name('me');
     Route::post('/logout', [StaffController::class, 'logout'])->name('logout');
 
-    // category section
+    // resource route start
     Route::resource('category', CategoryController::class);
     Route::resource('user', UserController::class);
     Route::resource('package', PackageController::class);
     Route::resource('slider', SliderController::class);
     Route::resource('epin', EpinController::class);
+    Route::resource('reward', RewardController::class);
+    // resource route end
 
+    // epin helper
     Route::post('epin-update', [EpinController::class, 'update']);
     Route::post('store-epin', [EpinHelperController::class, 'storeEpin']);
     Route::delete('delete-epin/{id}', [EpinHelperController::class, 'deleteEpin']);
-    Route::get('package-list', [EpinHelperController::class, 'getProductList']);
     // package helper
+    Route::get('package-list', [EpinHelperController::class, 'getProductList']);
     Route::get('all-package', [PackageHelperController::class, 'getAllPackage']);
     Route::post('package-update', [PackageController::class, 'update']);
     Route::get('package-images/{product}', [PackageHelperController::class, 'getProductImages']);
 
+    // category and slider helper
     Route::get('category-list', [PackageHelperController::class, 'getCategoryList']);
     Route::post('slider-update', [SliderController::class, 'update']);
     Route::post('category-update', [CategoryController::class, 'update']);

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Staff;
+namespace App\Http\Controllers\Staff\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\MatchingPair;
 use App\Models\Product;
@@ -40,7 +39,6 @@ class UserController extends Controller
         }
         $users = User::select(['id','first_name', 'sponsor_id','last_name','username', 'email', 'phone', 'country', 'created_at', 'balance'])
                        ->with('sponsor:id,username')
-                       ->whereNotNull('sponsor_id')
                        ->orderBy('id', 'asc');
 
         if ($request->search) {

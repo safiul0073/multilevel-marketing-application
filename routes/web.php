@@ -20,7 +20,7 @@ use App\Http\Controllers\Frontend\NotFoundController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
-use App\Http\Controllers\Staff\DashboardController;
+use App\Http\Controllers\Staff\V1\DashboardController;
 use App\Http\Controllers\Staff\UserHelperController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
