@@ -25,6 +25,7 @@ return new class extends Migration
             $table->double('price', 15)->default(0);
             $table->string('video_url')->nullable();
             $table->tinyInteger('status')->default(1)->comment('1=active, 0=inactive');
+            $table->tinyInteger('is_package')->default(0)->comment('0=product, 1=package');
             $table->timestamps();
         });
     }

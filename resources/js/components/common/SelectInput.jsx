@@ -37,7 +37,7 @@ const SelectInput = ({
   optionArray,
   errorObj,
   backendErrorMessagae,
-  multi = false
+  multi = false,
 }) => {
 
   return (

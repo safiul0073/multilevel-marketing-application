@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import { AiFillCloseCircle, AiOutlineUserAdd } from "react-icons/ai";
 import { useMutation } from "react-query";
 import * as yup from "yup";
-import { createProduct } from "../../../hooks/queries/product";
-import { getCategorySelectlist } from "../../../hooks/queries/product/getCategorySelectlist";
 import SelectInput from "../../common/SelectInput";
 import Textinput from "../../common/Textinput"
 import  toast  from 'react-hot-toast';
+import { createPackage } from "../../../hooks/queries/package";
+import { getCategorySelectList } from "../../../hooks/queries/package/getCategorySelectList";
 
 export default function CreateModal({
     isOpen,
@@ -19,7 +19,7 @@ export default function CreateModal({
 }) {
     const [backendError, setBackendError] = useState([])
 
-    const {data:categories} = getCategorySelectlist()
+    const {data:categories} = getCategorySelectList()
 
     const schema = yup
         .object({
@@ -64,7 +64,7 @@ export default function CreateModal({
     const {
         mutate: createProductMutate,
         isLoading,
-    } = useMutation(createProduct, {
+    } = useMutation(createPackage, {
         onSuccess: (data) => {
             toast.success(data, {
                 position: 'top-right'

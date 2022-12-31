@@ -1,6 +1,7 @@
 import React, { useEffect, lazy } from 'react'
 import { useState } from 'react';
 import { useMemo } from 'react';
+import LoaderAnimation from '../../components/common/LoaderAnimation';
 import TreeNode from '../../components/user/tree/TreeNode';
 import { binaryTreeData } from '../../hooks/queries/user/binaryTreeData';
 
@@ -19,13 +20,22 @@ const BinaryTree = () => {
                 className="w-64 h-12 mx-auto rounded-[60px] border-2 placeholder:text-left outline-none p-5"
                 />
             </div>
-            <main className="overflow-x-scroll overflow-y-auto grow">
-            <TreeNode
-                        style={{ display: "flex", flexDirection: "column" }}
-                        node={root}
-                        />
-                    </main>
-                </div>
+            {
+                isLoading
+                            ?(
+                                <LoaderAnimation/>
+                            )
+                            :
+                                <main className="overflow-x-scroll overflow-y-auto grow">
+                                    <TreeNode
+                                        style={{ display: "flex", flexDirection: "column" }}
+                                        node={root}
+                                    />
+                                </main>
+
+            }
+
+        </div>
   )
 }
 

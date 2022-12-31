@@ -18,7 +18,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'DESC')->paginate(10);
+        $perPage = 10;
+        if (request()->perPage) {
+            $perPage = request()->perPage;
+        }
+        $categories = Category::orderBy('id', 'DESC')->paginate($perPage);
 
         return $this->withSuccess($categories);
     }

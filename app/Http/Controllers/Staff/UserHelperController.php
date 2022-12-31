@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserHelperController extends Controller
@@ -72,5 +73,11 @@ class UserHelperController extends Controller
         $users = User::select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children'])->where('id', $id)->first();
 
         return $this->withSuccess($users);
+    }
+
+    public function userLoginFromDashboard (User $user) {
+
+        Auth::login($user);
+        return redirect()->route('login');
     }
 }

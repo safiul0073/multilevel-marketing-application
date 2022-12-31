@@ -1,18 +1,26 @@
 import React, { useEffect, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import Pagination from "../components/common/Pagination";
+import RowNotFound from "../components/common/RowNotFound";
 import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/product/CreateModal";
 import DeleteProduct from "../components/modal/product/Delete";
 import EditModal from "../components/modal/product/EditModal";
 import ProductView from "../components/Product";
-import { getProductList } from "../hooks/queries/product/getProductList";
+import { getPackageList } from "../hooks/queries/package/getPackageList";
 
-export const Product = () => {
+export const Package = () => {
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
+
+    const handlePageChange = (pageNum, currentPageValue) => {
+        setPage(() => pageNum)
+        setPageSize(() => currentPageValue)
+    }
     // fetching product list using react query
-    const { data, isLoading, refetch } = getProductList();
-    // memorising getting data
+    const { data, isLoading, refetch } = getPackageList(page,pageSize);
+    // memorizing getting data
     const productList = useMemo(() => data?.data, [data]);
-
     // create product modal calling
     const [isOpen, setIsOpen] = useState(false);
     const createProduct = () => {
@@ -249,34 +257,18 @@ export const Product = () => {
                                                                     </tbody>
                                                                 </table>
                                                             </div>
+                                                            <div className="my-4">
+                                                                <Pagination
+                                                                    total={data?.total}
+                                                                    pageSize={pageSize}
+                                                                    pageNumber={page}
+                                                                    handlePageChange={handlePageChange}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="text-center border border-gray-200 px-5 py-10 rounded-2xl">
-                                                        <svg
-                                                            className="mx-auto h-12 w-12 text-gray-400"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                            strokeWidth={1.5}
-                                                            stroke="currentColor"
-                                                        >
-                                                            <path
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-                                                            />
-                                                        </svg>
-
-                                                        <h3 className="mt-2 text-sm font-medium text-gray-900">
-                                                            No projects
-                                                        </h3>
-                                                        <p className="mt-1 text-sm text-gray-500">
-                                                            Get started by
-                                                            creating a new
-                                                            project.
-                                                        </p>
-                                                    </div>
+                                                    <RowNotFound name='packages' />
                                                 )}
                                             </>
                                         )}
@@ -290,4 +282,4 @@ export const Product = () => {
         </>
     );
 };
-export default Protected(Product);
+export default Protected(Package);

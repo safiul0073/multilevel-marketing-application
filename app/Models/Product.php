@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 class Product extends Model
@@ -10,7 +11,6 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
-
 
 
     public function category()
@@ -21,14 +21,13 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-        static::created(function ($product) {
-            $product->slug = $product->generateSlug($product->name);
+        static::creating(function ($product) {
+            $product->slug = $product->generateSlug(generateRandomString());
             $product->sku = $product->generateSlug(random_int(1000000, 9999999));
-            $product->save();
         });
     }
 
-    private function generateSlug($name)
+    function generateSlug($name)
     {
 
         if (static::whereSlug($slug = Str::slug($name))->exists()) {

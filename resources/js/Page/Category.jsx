@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import Pagination from "../components/common/Pagination";
+import RowNotFound from "../components/common/RowNotFound";
 import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/category/CreateModal";
 import DeleteCategory from "../components/modal/category/Delete";
@@ -7,9 +9,15 @@ import EditModal from "../components/modal/category/EditModal";
 import { getCategoryList } from "../hooks/queries/category/getCategoryList";
 
 const Category = () => {
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(10)
 
+    const handlePageChange = (pageNum, currentPageValue) => {
+        setPage(() => pageNum)
+        setPageSize(() => currentPageValue)
+    }
     // fetching category list using react query
-    const {data, isLoading, refetch} = getCategoryList()
+    const {data, isLoading, refetch} = getCategoryList(page, pageSize)
     // memorising getting data
     const categoriesList = useMemo(() => data?.data, [data])
 
@@ -90,101 +98,115 @@ const Category = () => {
                                 {isLoading ?
                                     <LoaderAnimation/>
                                     :
-                                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                    <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                                        <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                            <table className="min-w-full divide-y divide-gray-300">
-                                                <thead className="bg-gray-50">
-                                                    <tr>
-                                                        <th
-                                                            scope="col"
-                                                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                                        >
-                                                            Sr.
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Title
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                        >
-                                                            Status
-                                                        </th>
-                                                        <th
-                                                            scope="col"
-                                                            className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
-                                                        >
-                                                            Action
-                                                        </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody className="divide-y divide-gray-200 bg-white">
-                                                    {categoriesList?.map(
-                                                        (category) => (
-                                                            <tr
-                                                                key={Math.random()}
-                                                            >
-                                                                <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
-                                                                    <div className="text-gray-900">
-                                                                        {
-                                                                            category?.id
-                                                                        }
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    <div className="text-gray-900">
-                                                                        {category?.name ||
-                                                                            category?.title}
-                                                                    </div>
-                                                                </td>
-                                                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                    {category?.status ==
-                                                                    1 ? (
-                                                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
-                                                                            Active
-                                                                        </span>
-                                                                    ) : (
-                                                                        <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
-                                                                            Inactive
-                                                                        </span>
-                                                                    )}
-                                                                </td>
-                                                                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                                    <div className="flex gap-2 justify-end">
-                                                                        <button
-                                                                            className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
-                                                                            onClick={() =>
-                                                                                editCategory(
-                                                                                    category
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Edit
-                                                                        </button>
-                                                                        <button
-                                                                            className="text-red-600 font-normal hover:text-red-700 hover:underline"
-                                                                            onClick={() =>
-                                                                                delateCategory(
-                                                                                    category?.id
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            Delete
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
+                                    <>
+                                        {categoriesList?.length
+                                        ?
+                                        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                                                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                                                    <table className="min-w-full divide-y divide-gray-300">
+                                                        <thead className="bg-gray-50">
+                                                            <tr>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                                                                >
+                                                                    Sr.
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Title
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Status
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
+                                                                >
+                                                                    Action
+                                                                </th>
                                                             </tr>
-                                                        )
-                                                    )}
-                                                </tbody>
-                                            </table>
+                                                        </thead>
+                                                        <tbody className="divide-y divide-gray-200 bg-white">
+                                                            {categoriesList?.map(
+                                                                (category) => (
+                                                                    <tr
+                                                                        key={Math.random()}
+                                                                    >
+                                                                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
+                                                                            <div className="text-gray-900">
+                                                                                {
+                                                                                    category?.id
+                                                                                }
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {category?.name ||
+                                                                                    category?.title}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            {category?.status ==
+                                                                            1 ? (
+                                                                                <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
+                                                                                    Active
+                                                                                </span>
+                                                                            ) : (
+                                                                                <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
+                                                                                    Inactive
+                                                                                </span>
+                                                                            )}
+                                                                        </td>
+                                                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                                            <div className="flex gap-2 justify-end">
+                                                                                <button
+                                                                                    className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
+                                                                                    onClick={() =>
+                                                                                        editCategory(
+                                                                                            category
+                                                                                        )
+                                                                                    }
+                                                                                >
+                                                                                    Edit
+                                                                                </button>
+                                                                                <button
+                                                                                    className="text-red-600 font-normal hover:text-red-700 hover:underline"
+                                                                                    onClick={() =>
+                                                                                        delateCategory(
+                                                                                            category?.id
+                                                                                        )
+                                                                                    }
+                                                                                >
+                                                                                    Delete
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                            )}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div className="my-4">
+                                                    <Pagination
+                                                        total={data?.total}
+                                                        pageSize={pageSize}
+                                                        pageNumber={page}
+                                                        handlePageChange={handlePageChange}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
+                                        : (<RowNotFound name="categories"/>)
+                                        }
+                                    </>
                                     }
                             </div>
                         </div>

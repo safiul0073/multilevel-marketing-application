@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\File;
 
-class ProductController extends Controller
+class PackageController extends Controller
 {
     use Formatter, MediaOperator;
 
@@ -22,7 +22,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with(['category:id,title'])->orderBy('id', 'DESC')->paginate(10);
+        $perPage = 10;
+        if (request()->perPage) {
+            $perPage = request()->perPage;
+        }
+        $products = Product::with(['category:id,title'])->where('is_package',1)->orderBy('id', 'DESC')->paginate($perPage);
 
         return $this->withSuccess($products);
     }
@@ -71,6 +75,7 @@ class ProductController extends Controller
 
             // slug setting
             $att['slug'] = $att['name'];
+            $att['is_package'] = 1;
 
             DB::beginTransaction();
             $product = Product::create($att);
@@ -107,9 +112,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show(Product $package)
     {
-        return $this->withSuccess($product->load('images'));
+        if ($package->is_package) {
+            return $this->withSuccess($package->load('images'));
+        }
+        return $this->withNotFound('not found');
+
     }
 
     /**
@@ -133,7 +142,7 @@ class ProductController extends Controller
             'thamnail_image' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
             'status' => 'nullable|between:0,1',
         ]);
-        $product = Product::find($att['id']);
+        $product = Product::firstWhere(['id'=> $att['id'], 'is_package'=> 1]);
         unset($att['id']);
         $image_urls = [];
         $thamnail_image = null;
@@ -167,7 +176,7 @@ class ProductController extends Controller
         $p = $product->update($att);
 
         if (!$p) {
-            throw new Exception('Product not created');
+            throw new Exception('Package not created');
         }
 
         foreach ($image_urls as $url) {
@@ -189,7 +198,7 @@ class ProductController extends Controller
         //     return $this->withErrors($ex->getMessage());
         // }
 
-        return $this->withSuccess('Product Successfully updated.');
+        return $this->withSuccess('Package Successfully updated.');
     }
 
     /**
@@ -198,11 +207,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Product $package)
     {
-        $this->multiFileDelete($product->images);
-        $product->delete();
+        $this->multiFileDelete($package->images);
+        $package->delete();
 
-        return $this->withSuccess('Product successfully deleted.');
+        return $this->withSuccess('Package successfully deleted.');
     }
 }

@@ -7,9 +7,12 @@
 
 @endsection
 @section('content')
-    <div>
-        this is user dashboard
+<div class="flex p-5 md:p-10 lg:p-20 gap-10 flex-col xl:flex-row">
+    @include('frontend.contents.dashboard.sidebar')
+    <div class="w-full">
+    @yield('dashboard-page')
     </div>
+</div>
 @endsection
 
 @push('custom_scipt')

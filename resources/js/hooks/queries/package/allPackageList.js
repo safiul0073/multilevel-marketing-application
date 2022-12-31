@@ -1,11 +1,11 @@
 import { useQuery } from "react-query";
 import { getQuery } from "../getQuery";
 
-export const getProductList = () => {
+export const allPackageList = () => {
     return useQuery(
-        ["package-select-lists"],
+        ["all-package"],
         async () => {
-            let res = await getQuery("package-list");
+            let res = await getQuery(`all-package`);
             return res;
         },
         {
