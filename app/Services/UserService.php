@@ -36,38 +36,64 @@ class UserService {
     }
     /**
      * @position type string between left or right.
-     * @refferrenc_id type int perent id
-     * @referrer_id type int chiled id
+     * @refrrence_id type int parent id
+     * @referrer_id type int child id
      * @return void
      */
-    public function setReferPosition (int $sponsor_id, int $referrer_id, string $position = 'left',):void {
+    public function setReferPosition (int $sponsor_id, int $referrer_id, string $position = 'left',):User
 
-        if (!in_array($position, ['left', 'right'])) {
-            throw new Exception('please select left or right');
-        }
-
+    {
         $user = User::find((int) $sponsor_id);
+
         if ($position === 'left') {
             if ($user->left_ref_id) {
-                throw new Exception('Left is already fill up!');
+                $user = $this->findRealSponsor($user->left_ref_id, $referrer_id, $position);
             }else {
                 $user->left_ref_id = $referrer_id;
             }
         }else {
             if ($user->right_ref_id) {
-                throw new Exception('Right is already fill up!');
+                $user = $this->findRealSponsor($user->right_ref_id, $referrer_id, $position);
             }else {
                 $user->right_ref_id = $referrer_id;
             }
         }
 
         $user->save();
+        return $user;
+    }
+
+    private function findRealSponsor ($children_id, $referrer_id, $position) {
+
+        $children = User::find((int) $children_id);
+        if ($children->left_ref_id && $children->right_ref_id) {
+            if ($position == 'left') {
+                return $this->findRealSponsor($children->left_ref_id, $referrer_id, $position);
+            }else{
+                return $this->findRealSponsor($children->right_ref_id, $referrer_id, $position);
+            }
+        }else if (!$children->left_ref_id) {
+            $children->left_ref_id = $referrer_id;
+            return $children;
+        }else{
+            $children->right_ref_id = $referrer_id;
+            return $children;
+        }
+    }
+
+    public function findPosition ($sponsor, $user_id) {
+
+        if ($sponsor->left_ref_id === $user_id) {
+            return 'left';
+        }else{
+            return 'right';
+        }
     }
 
 
     /**
-     * @reneration looping from 1 - 10.
-     * @$sponser_id int
+     * @generation looping from 1 - 10.
+     * @$sponsor_id int
      * @user_id who joined
      * $i loop index
      * @return void
@@ -119,8 +145,8 @@ class UserService {
 
 
      /**
-     * @reneration looping from 1 - 10.
-     * @$sponser_id int
+     * @generation looping from 1 - 10.
+     * @$sponsor_id int
      * @user_id who joined
      * $i loop index
      * @return void
