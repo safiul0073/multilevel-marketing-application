@@ -34,6 +34,10 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $perPage = 10;
+        if ($request->perPage) {
+            $perPage = $request->perPage;
+        }
         $users = User::select(['id','first_name', 'sponsor_id','last_name','username', 'email', 'phone', 'country', 'created_at', 'balance'])
                        ->with('sponsor:id,username')
                        ->whereNotNull('sponsor_id')
@@ -43,7 +47,7 @@ class UserController extends Controller
             $users->whereLike(['username', 'email'], $request->search);
         }
 
-        return $this->withSuccess($users->paginate(10));
+        return $this->withSuccess($users->paginate($perPage));
     }
 
     /**

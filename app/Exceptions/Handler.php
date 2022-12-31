@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Traits\Formatter;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -43,7 +43,10 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->renderable(function (NotFoundHttpException $e) {
-            return $this->withNotFound('Route not found!');
+            return request()->wantsJson()
+            ? $this->withNotFound('Route not found!')
+            : redirect()->intended(route('not.found'));
+
         });
         $this->reportable(function (Throwable $e) {
             // Log::channel('slack')->error($e->getMessage(), [

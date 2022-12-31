@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\Media;
 use App\Models\Product;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
 
-class ProductHelperController extends Controller
+class PackageHelperController extends Controller
 {
     use Formatter;
 
@@ -26,6 +25,13 @@ class ProductHelperController extends Controller
 
         return $this->withSuccess($images);
 
+    }
+
+    public function getAllPackage () {
+
+        $packages = Product::where('is_package',1)->latest()->get();
+
+        return $this->withSuccess($packages);
     }
 
 

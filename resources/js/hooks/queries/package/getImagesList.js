@@ -3,9 +3,9 @@ import { getQuery } from "../getQuery";
 
 export const getImagesList = (props) => {
     return useQuery(
-        ["product-image-lists", props.product_id],
+        ["package-image-lists", props.product_id],
         async () => {
-            let res = await getQuery("product-images/" + props.product_id);
+            let res = await getQuery("package-images/" + props.product_id);
             return res;
         },
         {

@@ -1,11 +1,14 @@
 import { useQuery } from "react-query";
 import { getQuery } from "../getQuery";
 
-export const getProductList = () => {
+export const getPackageList = (page=1,perPage=10) => {
     return useQuery(
-        ["product-lists"],
+        ["package-lists", page,perPage],
         async () => {
-            let res = await getQuery("product");
+            let res = await getQuery(`package`,{
+                page:page,
+                perPage:perPage
+            });
             return res;
         },
         {
