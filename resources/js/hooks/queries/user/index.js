@@ -12,7 +12,7 @@ export const changePassword = async (inputData) => {
 
   export const userCreate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user/`,
+      `${APIURL}/staff/user`,
       inputData
     );
 
