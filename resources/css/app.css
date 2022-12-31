@@ -23,7 +23,7 @@
 }
 
 .form-control {
-    @apply w-full h-10 my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700;
+    @apply w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700;
 }
 
 .label-style {
