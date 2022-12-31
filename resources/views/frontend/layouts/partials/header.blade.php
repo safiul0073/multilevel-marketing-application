@@ -40,7 +40,7 @@
                     <button type="button" class="inline-flex items-center w-full justify-center rounded-md border border-indigo-600 bg-indigo-600 pl-1 pr-2 py-1 text-sm font-medium text-white shadow-sm focus:outline-none" id="menu-button" aria-expanded="true" aria-haspopup="true">
                         <div class="flex items-center gap-2">
                             <img src="https://img.freepik.com/premium-vector/woman-portrait-generic-female-avatar-gender-placeholder-isolated-white-background_543062-417.jpg?w=2000" class="w-7 h-7 rounded-full" alt="">
-                            <span>Anis</span>
+                            <span>{{ auth()->user()->username }}</span>
                         </div>
                         <svg class="-mr-1 ml-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
@@ -51,7 +51,7 @@
                 <div class="absolute right-0 z-10 w-56 origin-top-right divide-y divide-gray-300 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none invisible opacity-0 group-hover:visible group-hover:opacity-100" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="px-4 py-3" role="none">
                         <p class="text-sm" role="none">Signed in as</p>
-                        <p class="truncate text-sm font-medium text-gray-900" role="none">Anis</p>
+                        <p class="truncate text-sm font-medium text-gray-900" role="none">{{ auth()->user()->username }}</p>
                     </div>
                     <div class="py-1" role="none">
                         <a href="{{ route('user.dashboard') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Dasboard</a>
