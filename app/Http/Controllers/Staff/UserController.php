@@ -60,7 +60,7 @@ class UserController extends Controller
     {
         $att = $this->validate($request, [
             'sponsor_id' => 'required|numeric|exists:users,id',
-            'refer_position' => 'nullable|string',
+            'refer_position' => 'nullable|string|in:left,right',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
             'last_name' => 'nullable|string|max:100',
@@ -85,29 +85,24 @@ class UserController extends Controller
 
         try {
             DB::beginTransaction();
-            $isEpin = false;
 
             $user = User::create($userAtt);
 
             if ($request->epin_code) {
                 $this->user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
-                $isEpin = true;
             }
 
-            if (! $user) {
+            if (!$user) {
                 throw new Exception('User not create!');
             }
 
-            $user->purchases()->create([
-                'product_id' => $att['product_id'],
-                'amount' => $product->price,
-                'status' => $isEpin ? 1 : 0
-            ]);
             // position setting
-            $this->user_service->setReferPosition($att['sponsor_id'],
-            $user->id,
-            (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
-
+            $sponsor = $this->user_service->setReferPosition($sponsor->id,
+                        $user->id,
+                        (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
+            $user->sponsor_id = $sponsor->id;
+            $user->save();
+            $att['refer_position'] = $this->user_service->findPosition($sponsor, $user->id);
             // sponsor group incrementing
             if ($att['refer_position'] == 'left') {
                 $sponsor->left_group = $sponsor->left_group + 1;
