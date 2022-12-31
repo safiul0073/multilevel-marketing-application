@@ -5,9 +5,11 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { userCreate } from '../../../hooks/queries/user';
 import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 const OrderSummary = ({ setTab, setBackendError, backendError }) => {
 
+    let navigate = useNavigate();
     const {userRegister, product} = UseStore()
     const [epin, setEpin] = useState()
     const handleEpinValue = (e) => {
@@ -29,7 +31,7 @@ const OrderSummary = ({ setTab, setBackendError, backendError }) => {
             });
 
             setTimeout(() =>{
-                window.location.reload()
+                navigate('/staff/binary-tree')
             },
             1500)
         },

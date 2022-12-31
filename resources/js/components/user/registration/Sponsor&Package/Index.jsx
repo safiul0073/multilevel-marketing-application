@@ -35,7 +35,10 @@ const customStyles = {
 const Index = ({ setTab, backendError  }) => {
     let query = useQuery();
 
-    const sponsorId = query.get('sponsor_id')
+    const[sponsor] = useState({
+        id: query.get('sponsor_id'),
+        position: query.get('position')
+    })
     const {userRegister} = UseStore()
     const [username, setUsername] = useState()
     const [referPosition, setReferPosition] = useState('')
@@ -57,18 +60,12 @@ const Index = ({ setTab, backendError  }) => {
     }
 
     useEffect(() => {
-        if (sponsorId) {
-            let usern = users?.find((p) => p.value == sponsorId)
+        if (sponsor.id) {
+            let usern = users?.find((p) => p.value == sponsor.id)
             setUsername(usern)
-            userRegister.sponsor_id = sponsorId
-
-            if (!usern?.left_ref_id && usern?.right_ref_id) {
-                setReferPosition('left')
-                userRegister.refer_position = 'left'
-            } else if (usern?.left_ref_id && !usern?.right_ref_id) {
-                setReferPosition('right')
-                userRegister.refer_position = 'right'
-            }
+            userRegister.sponsor_id = sponsor.id
+            setReferPosition(sponsor.position)
+            userRegister.refer_position = sponsor.position
         }
         if (userRegister?.sponsorId) {
             let usern = users?.find((p) => p.value == userRegister?.sponsorId)
@@ -84,7 +81,7 @@ const Index = ({ setTab, backendError  }) => {
         }
 
         return () =>  {}
-    }, [sponsorId, productList, userRegister])
+    }, [sponsor.id, sponsor.position, productList, userRegister])
 
 
 
