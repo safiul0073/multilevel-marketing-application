@@ -1,4 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
+import moment from 'moment';
 import { Fragment } from 'react'
 import { getOneUser } from '../../../hooks/queries/user/getOneUser';
 export default function InfoModal({isOpen, setIsOpen, closeModal, userId}) {
@@ -57,6 +58,7 @@ export default function InfoModal({isOpen, setIsOpen, closeModal, userId}) {
                                 <h1>Username: {user?.username}</h1>
                                 <h1>Left: {user?.left}</h1>
                                 <h1>Right: {user?.right}</h1>
+                                <h1>Join Date: {moment(user?.joined_at).format("DD-MM-Y, h:mm a")}</h1>
                             </div>
                         </div>
                     </div>

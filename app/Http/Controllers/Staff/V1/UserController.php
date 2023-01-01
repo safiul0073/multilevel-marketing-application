@@ -122,7 +122,8 @@ class UserController extends Controller
             'right'     => $user->right_group,
             'left'      => $user->left_group,
             'reward'    => 'Silver',
-            'avatar'    => $user->image
+            'avatar'    => $user->image,
+            'joined_date' => $user->created_at
         ];
 
         return $this->withSuccess($values);
