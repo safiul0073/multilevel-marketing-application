@@ -57,7 +57,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $att = $this->validate($request, [
-            'sponsor_id' => 'required|numeric|exists:users,id',
+            'main_sponsor_id' => 'required|numeric|exists:users,id',
+            'select_sponsor_id'=>'required|numeric|exists:users,id',
             'refer_position' => 'nullable|string|in:left,right',
             'product_id' => 'required|numeric|exists:products,id',
             'first_name' => 'required|string|max:100',
@@ -66,49 +67,27 @@ class UserController extends Controller
             'email' => 'required|string',
             'phone' => 'required|min:11',
             'password' => 'required|string|min:8',
-            'avatar'    => ['nullable', File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
             'epin_code' => 'required|string|exists:epins,code'
         ]);
-        $sponsor = User::find((int) $att['sponsor_id']);
-        $userAtt = $att;
-        if (isset($userAtt['password'])) {
-            $userAtt['password'] = Hash::make($userAtt['username']);
-        }
 
-        $userAtt['password'] = Hash::make($request->password);
-        unset($userAtt['epin_code']);
-        unset($userAtt['product_id']);
-        unset($userAtt['refer_position']);
         $product = Product::find((int)$att['product_id']);
 
         try {
             DB::beginTransaction();
-
-            $user = User::create($userAtt);
+            if (!$this->user_service->checkTwoSponsorSamePosition($att['main_sponsor_id'],$att['select_sponsor_id'])){
+                throw new Exception('Please select valid sponsor!');
+            }
+            $user = $this->user_service->userCreate($att);
 
             if ($request->epin_code) {
                 $this->user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
             }
 
-            if (!$user) {
-                throw new Exception('User not create!');
-            }
-
             // position setting
-            $sponsor = $this->user_service->setReferPosition($sponsor->id,
+            $sponsor = $this->user_service->setReferPosition($att['select_sponsor_id'],
                         $user->id,
                         (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
-            $user->sponsor_id = $sponsor->id;
-            $user->save();
-            $att['refer_position'] = $this->user_service->findPosition($sponsor, $user->id);
-            // sponsor group incrementing
-            if ($att['refer_position'] == 'left') {
-                $sponsor->left_group = $sponsor->left_group + 1;
-            }else{
-                $sponsor->right_group = $sponsor->right_group + 1;
-            }
 
-            $sponsor->save();
             // generation label creating
             Generation::create([
                 'main_id' => $sponsor->id,
@@ -116,25 +95,11 @@ class UserController extends Controller
                 'gen_type' => 1
             ]);
 
-            MatchingPair::create([
-                'parent_id' => $sponsor->id,
-                'parent_position' => $att['refer_position'],
-                'count'     => 1,
-                'user_id'   => $user->id,
-                'position'  => $att['refer_position']
-            ]);
-
-            if ($request->avatar) {
-                $this->singleFileUpload(
-                $this->uploadFile($request->avatar),
-                $user,
-                'profile');
-            }
             // generation looping
             $i = 2;
             $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
             // bonus given'
-            $this->user_service->bonusGiven($att['sponsor_id'], $user->id,$att['refer_position']);
+            $this->user_service->bonusGiven($att['main_sponsor_id'], $user->id,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
