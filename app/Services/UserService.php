@@ -6,6 +6,7 @@ use App\Models\Bonuse;
 use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\MatchingPair;
+use App\Models\Reward;
 use App\Models\Transaction;
 use App\Models\User;
 use Exception;
@@ -249,4 +250,12 @@ class UserService {
         $sponsor->balance = $sponsor->balance + $amount;
         $sponsor->save();
     }
+
+    // public function checkReward($user):string {
+
+    //     $rewards = Reward::select('designation', 'left_count', 'right_count')->get();
+    //     foreach($rewards as $reward) {
+
+    //     }
+    // }
 }

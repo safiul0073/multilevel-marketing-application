@@ -116,8 +116,16 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $values = [
+            'full_name' => $user->first_name . ' ' . $user->last_name,
+            'username'  => $user->username,
+            'right'     => $user->right_group,
+            'left'      => $user->left_group,
+            'reward'    => 'Silver',
+            'avatar'    => $user->image
+        ];
 
-        return $this->withSuccess($user);
+        return $this->withSuccess($values);
     }
 
     /**
