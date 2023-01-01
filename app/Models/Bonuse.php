@@ -11,7 +11,7 @@ class Bonuse extends Model
 
     protected $guarded = [];
 
-    public function bonuseGot () {
+    public function bonusGot () {
         return $this->belongsTo(User::class, 'given_id', 'id');
     }
 }

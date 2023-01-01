@@ -56,21 +56,26 @@ const Index = ({ setTab, backendError  }) => {
     const handleSelectSearch = (e) => {
         let usern = users?.find((p) => p.value == e.value)
         setUsername(usern)
-        userRegister.sponsor_id = e.value
+        userRegister.main_sponsor_id = e.value
+        if (!sponsor.id) {
+            userRegister.select_sponsor_id = e.value
+        }
     }
 
     useEffect(() => {
         if (sponsor.id) {
             let usern = users?.find((p) => p.value == sponsor.id)
             setUsername(usern)
-            userRegister.sponsor_id = sponsor.id
+            userRegister.main_sponsor_id = sponsor.id
+            userRegister.select_sponsor_id = sponsor.id
             setReferPosition(sponsor.position)
             userRegister.refer_position = sponsor.position
         }
-        if (userRegister?.sponsorId) {
-            let usern = users?.find((p) => p.value == userRegister?.sponsorId)
+        if (userRegister?.main_sponsor_id) {
+            let usern = users?.find((p) => p.value == userRegister?.main_sponsor_id)
             setUsername(usern)
-            userRegister.sponsor_id = sponsorId
+            userRegister.main_sponsor_id = usern?.value
+            userRegister.select_sponsor_id = usern?.value
         }
         if (userRegister?.refer_position) {
             setReferPosition(userRegister?.refer_position)
@@ -103,7 +108,7 @@ const Index = ({ setTab, backendError  }) => {
 
     const checkValidation = () => {
 
-        if (!userRegister?.sponsor_id) {
+        if (!userRegister?.select_sponsor_id && !userRegister?.main_sponsor_id) {
             return 'Please select a sponsor username!';
         }
 

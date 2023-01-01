@@ -1,27 +1,27 @@
 import { userAxios } from "../../../config/axios.config";
 import { APIURL } from "../../../constent";
 
-export const changePassword = async (inputData) => {
+export const createReward = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user-password-reset`,
+      `${APIURL}/staff/reward`,
       inputData
     );
 
     return res?.data?.data?.string_data;
   };
 
-  export const userCreate = async (inputData) => {
+  export const updateReward = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user`,
-      inputData
+      `${APIURL}/staff/reward-update/`,
+        inputData
     );
 
     return res?.data?.data?.string_data;
   };
 
-  export const deleteSlider = async (id) => {
+  export const deleteReward = async (id) => {
     const res = await userAxios.delete(
-      `${API_URL}/staff/slider/${id}`);
+      `${APIURL}/staff/reward/${id}`);
 
     return res?.data?.data?.string_data;
   };

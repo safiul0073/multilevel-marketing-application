@@ -6,9 +6,11 @@ use App\Models\Bonuse;
 use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\MatchingPair;
+use App\Models\Reward;
 use App\Models\Transaction;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Hash;
 
 class UserService {
 
@@ -23,6 +25,34 @@ class UserService {
        $this->gen_bonus      = config('mlm.bonus.gen');
        $this->matching_bonus = config('mlm.bonus.matching');
        $this->join_bonus     = config('mlm.bonus.joining');
+    }
+
+    private function userAtt (array $att):Array {
+        return [
+            'email' => $att['email'],
+            'phone' => $att['phone'],
+            'password'  => Hash::make($att['password']),
+            'username'  => $att['username'],
+            'last_name' => $att['last_name'],
+            'first_name'    => $att['first_name'],
+            'sponsor_id'    => $att['select_sponsor_id'],
+        ];
+    }
+
+    public function userCreate (array $att):User {
+        return User::create($this->userAtt($att));
+    }
+
+    public function checkTwoSponsorSamePosition ($main_sponsor_id, $select_sponsor_id) {
+        $sponsor = User::find((int) $select_sponsor_id);
+        if (!$sponsor) return false;
+        if ($sponsor->id === (int) $main_sponsor_id) {
+            return true;
+        }else{
+            if ($sponsor) {
+                return $this->checkTwoSponsorSamePosition($main_sponsor_id, $sponsor->sponsor_id);
+            }
+        }
     }
 
     public function checkEpinAndUpdate ($epin_code, $product, $user) {
@@ -43,29 +73,33 @@ class UserService {
     public function setReferPosition (int $sponsor_id, int $referrer_id, string $position = 'left',):User
 
     {
-        $user = User::find((int) $sponsor_id);
+        $sponsor = User::find((int) $sponsor_id);
 
-        if ($position === 'left') {
-            if ($user->left_ref_id) {
-                $user = $this->findRealSponsor($user->left_ref_id, $referrer_id, $position);
+        if ($position === 'left' || $position === 'right') {
+            if ($position === 'left' && !$sponsor->left_ref_id) {
+                $sponsor->left_ref_id = $referrer_id;
+            }else if ($position === 'right' && !$sponsor->right_ref_id){
+                $sponsor->right_ref_id = $referrer_id;
             }else {
-                $user->left_ref_id = $referrer_id;
+                if ($position === 'left' && $sponsor->left_ref_id) {
+                    throw new Exception('left position already fill up!');
+                }else if ($position === 'right' && $sponsor->right_ref_id){
+                    throw new Exception('right position already fill up!');
+                }
+
             }
         }else {
-            if ($user->right_ref_id) {
-                $user = $this->findRealSponsor($user->right_ref_id, $referrer_id, $position);
-            }else {
-                $user->right_ref_id = $referrer_id;
-            }
+            $sponsor = $this->findRealSponsor($sponsor_id, $referrer_id, $position);
         }
-
-        $user->save();
-        return $user;
+        $this->referCount($sponsor, $referrer_id);
+        $this->checkMatchingPair($sponsor, $referrer_id);
+        return $sponsor;
     }
 
-    private function findRealSponsor ($children_id, $referrer_id, $position) {
+    private function findRealSponsor ($children_id, $referrer_id, $position):User {
 
         $children = User::find((int) $children_id);
+
         if ($children->left_ref_id && $children->right_ref_id) {
             if ($position == 'left') {
                 return $this->findRealSponsor($children->left_ref_id, $referrer_id, $position);
@@ -81,12 +115,32 @@ class UserService {
         }
     }
 
-    public function findPosition ($sponsor, $user_id) {
+    public function referCount ($sponsor, $user_id):void {
+        // sponsor group incrementing
+        if ($this->findPosition($sponsor, $user_id)  == 'left') {
+            $sponsor->left_group = $sponsor->left_group + 1;
+        }else{
+            $sponsor->right_group = $sponsor->right_group + 1;
+        }
+        $sponsor->save();
+    }
 
+    public function findPosition ($sponsor, $user_id):string {
         if ($sponsor->left_ref_id === $user_id) {
             return 'left';
         }else{
             return 'right';
+        }
+    }
+
+    public function checkMatchingPair ($sponsor, $user_id) {
+
+        if ($sponsor->left_group == $sponsor->right_group) {
+            MatchingPair::create([
+                'parent_id' => $sponsor->id,
+                'match_count'     => $sponsor->left_group,
+                'user_id'   => $user_id,
+            ]);
         }
     }
 
@@ -108,26 +162,14 @@ class UserService {
             // sponsor group incrementing
             if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
                 $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
-                    MatchingPair::create([
-                        'parent_id' => $sponsor_sponsor->id,
-                        'parent_position' => 'left',
-                        'count'     => $i,
-                        'user_id'   => $user_id,
-                        'position'  => $position
-                    ]);
             }else{
                 $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
-                    MatchingPair::create([
-                        'parent_id' => $sponsor_sponsor->id,
-                        'parent_position' => 'right',
-                        'count'     => $i,
-                        'user_id'   => $user_id,
-                        'position'  => $position
-                    ]);
             }
             $sponsor_sponsor->save();
-            // generation label creating
 
+            // checking matching pair
+            $this->checkMatchingPair($sponsor_sponsor, $user_id);
+            // generation label creating
             if (count($this->gen_bonus) >= $i) {
                 Generation::create([
                     'main_id' => $sponsor_sponsor_id,
@@ -143,7 +185,6 @@ class UserService {
         }
     }
 
-
      /**
      * @generation looping from 1 - 10.
      * @$sponsor_id int
@@ -151,38 +192,22 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function bonusGiven ($sponsor_id, $user_id, $side) {
-
-        // first joining bonus given
-        $sponsor = User::find((int) $sponsor_id);
-        $bonus = $this->join_bonus;
-        $sponsor->balance = $sponsor->balance + $bonus;
-        $sponsor->save();
-        $sponsor->bonuses()->create([
-            'bonus_type' => 'joining',
-            'for_given_id'=> $user_id,
-            'amount'      => $bonus
-        ]);
+    public function bonusGiven ($sponsor_id, $user_id, $side):void {
+        $this->joiningBonus($sponsor_id, $user_id);
         $this->matchingBonus($user_id, $side);
         $this->generationBonus($user_id);
     }
 
+    public function joiningBonus ($sponsor_id, $user_id):void {
+        $this->bonusSave($sponsor_id, $user_id, 'joining', $this->join_bonus);
+    }
+
     public function matchingBonus ($user_id, $side) {
 
-        $matching_pairs = MatchingPair::where('user_id', $user_id)->where('position', $side)->get();
-        if ($side === 'left') {
-            $side = 'right';
-        }else{
-            $side = 'left';
-        }
+        $matching_pairs = MatchingPair::where('user_id', $user_id)->get();
+
         foreach($matching_pairs as $user) {
-            $find_match = MatchingPair::where('parent_id', $user->parent_id)
-                                        ->where('count', $user->count)
-                                        ->where('parent_position', '!=', $user->parent_position)
-                                        ->where('position', $side)->first();
-            if ($find_match) {
-                $this->bonusSave($find_match->parent_id, $user->user_id, 'matching', $this->matching_bonus);
-            }
+            $this->bonusSave($user->parent_id, $user->user_id, 'matching', $this->matching_bonus);
         }
 
     }
@@ -225,4 +250,12 @@ class UserService {
         $sponsor->balance = $sponsor->balance + $amount;
         $sponsor->save();
     }
+
+    // public function checkReward($user):string {
+
+    //     $rewards = Reward::select('designation', 'left_count', 'right_count')->get();
+    //     foreach($rewards as $reward) {
+
+    //     }
+    // }
 }

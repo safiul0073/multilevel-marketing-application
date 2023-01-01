@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff\Auth;
+namespace App\Http\Controllers\Staff\V1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\ResetCodePassword;
@@ -35,7 +35,7 @@ class ResetPasswordController extends Controller
 
         try {
             DB::beginTransaction();
-            
+
             $user->password = Hash::make($request->password);
 
             $user->save();
