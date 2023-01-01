@@ -42,6 +42,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('reward', RewardController::class);
     // resource route end
 
+    Route::post('reward-update', [RewardController::class, 'update']);
     // epin helper
     Route::post('epin-update', [EpinController::class, 'update']);
     Route::post('store-epin', [EpinHelperController::class, 'storeEpin']);

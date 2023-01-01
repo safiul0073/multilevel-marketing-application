@@ -97,23 +97,60 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, rew
                         <div className='px-6'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className=" w-3/4 mx-auto">
-                                    <Textinput
-                                        label="Category Title"
-                                        placeholder="Man Fashion"
+                                <Textinput
+                                        label="Rank Designation"
+                                        placeholder="l1"
                                         register={register}
-                                        name="title"
+                                        name="designation"
                                         type="text"
-                                        backendValidationError={backendError?.title}
-                                        error={errors.title}
+                                        backendValidationError={backendError?.designation}
+                                        error={errors.designation}
                                     />
-                                    <div className='formGroup'>
-                                        <label className="label-style" htmlFor="status">Status</label>
-                                        <select {...register('status', { required: false })} className='form-control' name="status" id="status">
-                                            <option value="">Select a status</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
-                                        </select>
-                                    </div>
+                                    <Textinput
+                                        label="Right Count"
+                                        placeholder="30"
+                                        register={register}
+                                        name="right_count"
+                                        type="text"
+                                        backendValidationError={backendError?.right_count}
+                                        error={errors.right_count}
+                                    />
+                                     <Textinput
+                                        label="Left Count"
+                                        placeholder="30"
+                                        register={register}
+                                        name="left_count"
+                                        type="text"
+                                        backendValidationError={backendError?.left_count}
+                                        error={errors.left_count}
+                                    />
+                                    <Textinput
+                                        label="Travel Reward"
+                                        placeholder="India"
+                                        register={register}
+                                        name="travel_destination"
+                                        type="text"
+                                        backendValidationError={backendError?.travel_destination}
+                                        error={errors.travel_destination}
+                                    />
+                                    <Textinput
+                                        label="One Time Bonus"
+                                        placeholder="30k cash"
+                                        register={register}
+                                        name="one_time_bonus"
+                                        type="text"
+                                        backendValidationError={backendError?.one_time_bonus}
+                                        error={errors.one_time_bonus}
+                                    />
+                                    <Textinput
+                                        label="Salary"
+                                        placeholder="10,000"
+                                        register={register}
+                                        name="salary"
+                                        type="text"
+                                        backendValidationError={backendError?.salary}
+                                        error={errors.salary}
+                                    />
 
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>

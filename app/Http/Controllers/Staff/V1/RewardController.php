@@ -66,9 +66,10 @@ class RewardController extends Controller
      * @param  \App\Models\Reward  $reward
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reward $reward)
+    public function update(Request $request)
     {
         $att = $this->validate($request, [
+            'id'    => 'required|numeric|exists:rewards,id',
             'designation' => 'required|string|max:255',
             'right_count' => 'required|numeric',
             'left_count' => 'required|numeric',
@@ -76,7 +77,7 @@ class RewardController extends Controller
             'one_time_bonus' => 'required|string',
             'salary' => 'required|numeric'
         ]);
-
+        $reward = Reward::find((int) $att['id']);
         $reward->update($att);
 
         return $this->withSuccess('successfully updated.');

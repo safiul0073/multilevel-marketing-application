@@ -79,7 +79,7 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className=" w-3/4 mx-auto">
                                     <Textinput
-                                        label="Designation"
+                                        label="Rank Designation"
                                         placeholder="l1"
                                         register={register}
                                         name="designation"
@@ -106,8 +106,8 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
                                         error={errors.left_count}
                                     />
                                     <Textinput
-                                        label="Travel Destination"
-                                        placeholder="l1"
+                                        label="Travel Reward"
+                                        placeholder="India"
                                         register={register}
                                         name="travel_destination"
                                         type="text"

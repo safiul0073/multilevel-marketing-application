@@ -116,7 +116,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $this->withSuccess($user->load('purchases'));
+
+        return $this->withSuccess($user);
     }
 
     /**

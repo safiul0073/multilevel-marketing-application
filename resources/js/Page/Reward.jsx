@@ -81,7 +81,7 @@ const Reward = () => {
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
                                     <h1 className="text-xl font-semibold text-gray-900">
-                                        Category List
+                                        Reward List
                                     </h1>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -117,13 +117,37 @@ const Reward = () => {
                                                                     scope="col"
                                                                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                 >
-                                                                    Title
+                                                                    Rank Designation
                                                                 </th>
                                                                 <th
                                                                     scope="col"
                                                                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                 >
-                                                                    Status
+                                                                    Right
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Left
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Travel Reward
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    One Time Bonus
+                                                                </th>
+                                                                <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Yearly Salary
                                                                 </th>
                                                                 <th
                                                                     scope="col"
@@ -135,42 +159,55 @@ const Reward = () => {
                                                         </thead>
                                                         <tbody className="divide-y divide-gray-200 bg-white">
                                                             {data?.data?.map(
-                                                                (category) => (
+                                                                (reward) => (
                                                                     <tr
                                                                         key={Math.random()}
                                                                     >
                                                                         <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
                                                                             <div className="text-gray-900">
                                                                                 {
-                                                                                    category?.id
+                                                                                    reward?.id
                                                                                 }
                                                                             </div>
                                                                         </td>
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                             <div className="text-gray-900">
-                                                                                {category?.name ||
-                                                                                    category?.title}
+                                                                                {reward?.designation}
                                                                             </div>
                                                                         </td>
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            {category?.status ==
-                                                                            1 ? (
-                                                                                <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
-                                                                                    Active
-                                                                                </span>
-                                                                            ) : (
-                                                                                <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
-                                                                                    Inactive
-                                                                                </span>
-                                                                            )}
+                                                                            <div className="text-gray-900">
+                                                                                {reward?.right_count}
+                                                                            </div>
                                                                         </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {reward?.left_count}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {reward?.travel_destination}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {reward?.one_time_bonus}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900">
+                                                                                {reward?.salary}
+                                                                            </div>
+                                                                        </td>
+
                                                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                                             <div className="flex gap-2 justify-end">
                                                                                 <button
                                                                                     className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
                                                                                     onClick={() =>
                                                                                         editReward(
-                                                                                            category
+                                                                                            reward
                                                                                         )
                                                                                     }
                                                                                 >
@@ -180,7 +217,7 @@ const Reward = () => {
                                                                                     className="text-red-600 font-normal hover:text-red-700 hover:underline"
                                                                                     onClick={() =>
                                                                                         delateReward(
-                                                                                            category?.id
+                                                                                            reward?.id
                                                                                         )
                                                                                     }
                                                                                 >
