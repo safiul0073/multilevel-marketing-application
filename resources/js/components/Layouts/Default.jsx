@@ -11,6 +11,7 @@ import  Sidebar from '../Sidebar';
 import Epin from '../../Page/Epin';
 import Create from '../../Page/User/Create';
 import { useNavigate } from 'react-router-dom';
+import Reward from '../../Page/Reward';
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -31,7 +32,8 @@ const Layout =() =>{
                 <Route path="/staff/package" element={<Package />} />
                 <Route path="/staff/users" element={<User />} />
                 <Route path="/staff/binary-tree" element={<BinaryTree />} />
-                <Route path="staff/user/registration" element={<Create/>} />
+                <Route path="/staff/user/registration" element={<Create/>} />
+                <Route path="/staff/reward" element={<Reward/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>

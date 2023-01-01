@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const OrderSummary = ({ setTab, setBackendError, backendError }) => {
 
     let navigate = useNavigate();
-    const {userRegister, product} = UseStore()
+    const {userRegister,removeUserRegister, product} = UseStore()
     const [epin, setEpin] = useState()
     const handleEpinValue = (e) => {
         setEpin(e.target.value)
@@ -29,7 +29,7 @@ const OrderSummary = ({ setTab, setBackendError, backendError }) => {
             toast.success(data, {
                 position: 'top-right'
             });
-
+            removeUserRegister()
             setTimeout(() =>{
                 navigate('/staff/binary-tree')
             },
@@ -44,7 +44,7 @@ const OrderSummary = ({ setTab, setBackendError, backendError }) => {
             ...errorobj,
           });
 
-          if (errorobj?.sponsor_id || errorobj?.refer_position || errorobj?.product_id) {
+          if (errorobj?.main_sponsor_id || errorobj?.refer_position || errorobj?.product_id) {
             setTab('sponsor')
           } else if (
             errorobj?.first_name ||

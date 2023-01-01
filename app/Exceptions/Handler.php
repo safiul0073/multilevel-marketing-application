@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (NotFoundHttpException $e) {
             return request()->wantsJson()
-            ? $this->withNotFound('Route not found!')
+            ? $this->withNotFound($e)
             : redirect()->intended(route('not.found'));
 
         });

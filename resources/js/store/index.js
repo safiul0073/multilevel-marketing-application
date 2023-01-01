@@ -9,7 +9,8 @@ export const UseStore = create(set => ({
     removeUser: () => set({ user: null }),
 
     userRegister: {
-        sponsor_id: '',
+        main_sponsor_id: '',
+        select_sponsor_id:'',
         refer_position: '',
         product_id: '',
         first_name: '',
@@ -23,8 +24,8 @@ export const UseStore = create(set => ({
     product: {},
     setProduct: (input) => set({product: input}),
     removeUserRegister: () => set(() => ({userRegister:{
-        sponsor_id: '',
-        refer_position: '',
+        main_sponsor_id: '',
+        select_sponsor_id:'',
         product_id: '',
         first_name: '',
         last_name: '',

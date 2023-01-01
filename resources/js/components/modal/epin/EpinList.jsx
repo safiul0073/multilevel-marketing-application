@@ -11,7 +11,7 @@ import { createEpin, deleteOnlyEpin } from '../../../hooks/queries/epin';
 import { getEpinMain } from '../../../hooks/queries/epin/getEpinMain';
 import moment from 'moment';
 export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epinMainId}) {
-
+	const [copy, setCopy] = useState(false);
     const {data:epinMain, refetch:epinRefetch} = getEpinMain({epinMainId})
 
     const createNewEpin= () => {
@@ -78,6 +78,25 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
         }
     return randomString;
   }
+
+  	// copy Number to clipboard
+	const copyCode = (codes, isSingle=true) => {
+        if (isSingle) {
+            navigator.clipboard.writeText(codes);
+            // add a tooltip msg
+            setCopy(codes);
+        }else{
+            let codeArray = []
+            codes?.map((row) => codeArray.push(row.code))
+            navigator.clipboard.writeText(codeArray.join(','))
+            setCopy('helloworld')
+        }
+        setTimeout(() => {
+            setCopy(false);
+        }, 3000);
+
+
+	};
   return (
     <>
 
@@ -111,6 +130,9 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                         Epin List
                     </div>
                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                        <div>
+                            <button onClick={()=>copyCode(epinMain?.epins, false)} className={copy == 'helloworld' ? "btn btn-success" : "btn btn-secondary"}>Copy all code</button>
+                        </div>
                         <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
@@ -166,6 +188,24 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                                                             epin?.code
                                                         }
                                                     </div>
+                                                    <div
+															onClick={() =>
+																copyCode(
+																	epin.code
+																)
+															}
+															className={`${
+																copy == epin?.code
+																	? "bg-blue-500"
+																	: "bg-blue-800"
+															}  text-white  flex items-center justify-center cursor-pointer rounded-md transition-all duration-100`}
+														>
+															<div>
+																{copy == epin?.code
+																	? "Copied"
+																	: "Copy"}
+															</div>
+														</div>
                                                 </td>
 
                                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
