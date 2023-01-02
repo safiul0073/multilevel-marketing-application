@@ -13,9 +13,9 @@
                 </button>
             </div>
             <div class="flex flex-1 items-center ml-16 mobile:ml-12 lg:ml-0">
-                <a href="#" class="flex flex-shrink-0 items-center text-white">
-                    <!-- <img src="" alt="" class="h-16"> -->
-                    <p2 class="text-3xl mobile:text-3xl font-semibold uppercase tracking-tight">MLM Shop</p2>
+                <a href="{{url('/')}}" class="flex flex-shrink-0 items-center text-white">
+                    <img src="{{ asset('frontend/images/logo.png') }}" alt="main_logo" class="h-10 w-24">
+                    {{-- <p2 class="text-3xl mobile:text-3xl font-semibold uppercase tracking-tight">MLM Shop</p2> --}}
                 </a>
                 <div class="hidden lg:ml-auto lg:flex items-center">
                     <div class="flex space-x-4 wide-tablet:space-x-2">
