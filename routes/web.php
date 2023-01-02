@@ -20,6 +20,7 @@ use App\Http\Controllers\Frontend\NotFoundController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Frontend\UserInfoController;
 use App\Http\Controllers\Staff\V1\DashboardController;
 use App\Http\Controllers\Staff\UserHelperController;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +40,11 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact.page'
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.page');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [UserDashboardController::class, 'profile'])->name('user.profile');
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [UserInfoController::class, 'profile'])->name('user.profile');
+        Route::post('/update', [UserInfoController::class, 'update'])->name('user.profile.update');
+    });
+
     Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [UserDashboardController::class, 'userTeamView'])->name('user.my.team');
     Route::get('/change-password', [UserDashboardController::class, 'changePassView'])->name('user.change.password');

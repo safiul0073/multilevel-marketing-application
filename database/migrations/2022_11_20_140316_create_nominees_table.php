@@ -15,10 +15,16 @@ return new class extends Migration
     {
         Schema::create('nominees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('age');
+            $table->string('nominee_name');
             $table->string('relation');
-            $table->string('phone');
+            $table->string('nominee_profession');
+            $table->string('nominee_birthday');
+            $table->string('nominee_gender');
+            $table->string('nominee_nid');
+            $table->string('nominee_father');
+            $table->string('nominee_mother');
+            $table->string('nominee_phone');
+            $table->string('nominee_address');
         });
     }
 

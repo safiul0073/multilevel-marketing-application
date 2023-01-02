@@ -15,10 +15,7 @@ class UserDashboardController extends Controller
 
         return view('frontend.contents.dashboard.my_team');
     }
-    public function profile () {
 
-        return view('frontend.contents.profile.index');
-    }
     public function changePassView () {
 
         return view('frontend.contents.dashboard.change_password');
