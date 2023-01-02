@@ -102,6 +102,7 @@ class UserController extends Controller
             $this->user_service->bonusGiven($att['main_sponsor_id'], $user->id,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {
+            DB::rollBack();
             return $this->withErrors($ex->getMessage());
         }
 
@@ -138,34 +139,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $att = $this->validate($request, [
-            'referrance_id' => 'required|numeric|exists:users,id',
-            'refer_position' => 'nullable|between:"left","right"',
-            'product_id' => 'required|numeric|exists:products,id',
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'nullable|string|max:100',
-            'username' => 'required|string|min:4',
-            'email' => 'required|string',
-            'phone' => 'required|min:11',
-            'password' => 'required|string|min:8',
-        ]);
 
-        if (isset($att['password'])) {
-            $att['password'] = Hash::make($att['username']);
-        }
-
-        try {
-            DB::beginTransaction();
-            $u = $user->update($att);
-            if (! $u) {
-                throw new Exception('User not updated!');
-            }
-            DB::commit();
-        } catch (\Exception $ex) {
-            return $this->withErrors($ex->getMessage());
-        }
-
-        return $this->withCreated('User successfully updated');
     }
 
     /**

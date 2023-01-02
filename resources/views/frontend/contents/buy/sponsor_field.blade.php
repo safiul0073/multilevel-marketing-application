@@ -12,7 +12,7 @@
             {{-- error message show or success message show component --}}
             @include('frontend.layouts.partials.flash-alert')
             {{-- error show or success message shop composnent --}}
-            <form method="get" action="{{ route('check.sponsor.user', $slug) }}">
+            <form method="get" action="{{ route('check.sponsor.user') }}">
                 @csrf
                 <input type="hidden" name="slug" value="{{$slug}}" >
                 <div class="formGroup">
@@ -30,6 +30,7 @@
                         <option value="">Select position</option>
                         <option value="left">Left</option>
                         <option value="right">Right</option>
+                        <option value="auto">Auto</option>
                     </select>
                     @error('position')
                         <span class="error-message" role="alert">

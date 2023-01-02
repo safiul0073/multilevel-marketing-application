@@ -75,7 +75,7 @@ class UserService {
     {
         $sponsor = User::find((int) $sponsor_id);
 
-        if ($position === 'left' || $position === 'right') {
+        if ($position != 'auto') {
             if ($position === 'left' && !$sponsor->left_ref_id) {
                 $sponsor->left_ref_id = $referrer_id;
             }else if ($position === 'right' && !$sponsor->right_ref_id){
