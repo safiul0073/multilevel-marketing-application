@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('mother_name')->nullable();
             $table->date('birthday')->nullable();
             $table->longText('address')->nullable();
-            $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('left_ref_id')->index()->nullable();
             $table->string('right_ref_id')->index()->nullable();
             $table->unsignedBigInteger('left_group')->default(0);
@@ -40,7 +39,7 @@ return new class extends Migration
             $table->double('total_income', 15)->default(0);
             $table->float('total_withdraw')->default(0);
             $table->float('balance')->default(0);
-            $table->tinyInteger('isUpdate')->default(0)->comment('0=not updated, 2=update_pending, 1=updated');
+            $table->tinyInteger('isUpdated')->default(0)->comment('0=not updated, 2=update_pending, 1=updated');
             $table->rememberToken();
             $table->timestamps();
         });

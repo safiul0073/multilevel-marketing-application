@@ -15,42 +15,45 @@
 
         <div class="mt-10 w-full rounded-md bg-white px-6 py-4 leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10">
             <div class="flex flex-col items-center py-5">
-                {{-- <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://img.freepik.com/premium-vector/woman-portrait-generic-female-avatar-gender-placeholder-isolated-white-background_543062-417.jpg?w=2000" alt="Bonnie image" /> --}}
-                <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
-                    <!-- Photo File Input -->
-                    <input name="avater" type="file" class="hidden" x-ref="avatar" x-on:change="
-                                        photoName = $refs.avatar.files[0].name;
-                                        const reader = new FileReader();
-                                        reader.onload = (e) => {
-                                            photoPreview = e.target.result;
-                                        };
-                                        reader.readAsDataURL($refs.avatar.files[0]);
-                    ">
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->image->url }}" alt="Bonnie image" />
+                @if ($user->isUpdated == 1)
+                    <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+                        <!-- Photo File Input -->
 
-                    <label class="block text-gray-700 text-sm font-bold mb-2 text-center" for="photo">
-                        Profile Photo <span class="text-red-600"> </span>
-                    </label>
+                        <input type="file" name="avatar" class="opacity-0" x-ref="avatar" x-on:change="
+                                            photoName = $refs.avatar.files[0].name;
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                photoPreview = e.target.result;
+                                            };
+                                            reader.readAsDataURL($refs.avatar.files[0]);
+                        ">
 
-                    <div class="text-center">
-                        <!-- Current Profile Photo -->
-                        <div class="mt-2" x-show="! photoPreview">
-                            <img src="https://images.unsplash.com/photo-1531316282956-d38457be0993?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" class="w-24 h-24 m-auto rounded-full shadow">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 text-center" for="photo">
+                            Profile Photo <span class="text-red-600"> </span>
+                        </label>
+
+                        <div class="text-center">
+                            <!-- Current Profile Photo -->
+                            <div class="mt-2" x-show="! photoPreview">
+                                <img src="https://images.unsplash.com/photo-1531316282956-d38457be0993?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" class="w-24 h-24 m-auto rounded-full shadow">
+                            </div>
+                            <!-- New Profile Photo Preview -->
+                            <div class="mt-2" x-show="photoPreview" style="display: none;">
+                                <span class="block w-24 h-24 rounded-full m-auto shadow" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'" style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
+                                </span>
+                            </div>
+                            <button type="button" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3" x-on:click.prevent="$refs.avatar.click()">
+                                Select New Photo
+                            </button>
                         </div>
-                        <!-- New Profile Photo Preview -->
-                        <div class="mt-2" x-show="photoPreview" style="display: none;">
-                            <span class="block w-24 h-24 rounded-full m-auto shadow" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'" style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
+                        @error('avatar')
+                            <span class="error-message" role="alert">
+                                <strong>{{ $message }}</strong>
                             </span>
-                        </div>
-                        <button type="button" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3" x-on:click.prevent="$refs.avatar.click()">
-                            Select New Photo
-                        </button>
+                        @enderror
                     </div>
-                    @error('avater')
-                        <span class="error-message" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                @endif
             </div>
             <div class="flex flex-col lg:flex-row">
                 <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
@@ -182,42 +185,45 @@
         <h3 class="text-3xl mb-5 mt-7">Nominee's Information</h3>
         <div class="mt-10 w-full rounded-md bg-white px-6 py-4 leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10">
             <div class="flex flex-col items-center py-5">
-                {{-- <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="https://img.freepik.com/premium-vector/woman-portrait-generic-female-avatar-gender-placeholder-isolated-white-background_543062-417.jpg?w=2000" alt="Bonnie image" /> --}}
-                <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
-                    <!-- Photo File Input -->
-                    <input name="nominee_image" type="file" class="hidden" x-ref="nominee_image" x-on:change="
-                                        photoName = $refs.nominee_image.files[0].name;
-                                        const reader = new FileReader();
-                                        reader.onload = (e) => {
-                                            photoPreview = e.target.result;
-                                        };
-                                        reader.readAsDataURL($refs.nominee_image.files[0]);
-                    ">
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->nominee->image->url }}" alt="Bonnie image" />
+                @if ($user->isUpdated == 1)
+                    <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
+                        <!-- Photo File Input -->
+                        <input name="nominee_image" type="file" class="hidden" x-ref="nominee_image" x-on:change="
+                                            photoName = $refs.nominee_image.files[0].name;
+                                            const reader = new FileReader();
+                                            reader.onload = (e) => {
+                                                photoPreview = e.target.result;
+                                            };
+                                            reader.readAsDataURL($refs.nominee_image.files[0]);
+                        ">
 
-                    <label class="block text-gray-700 text-sm font-bold mb-2 text-center" for="photo">
-                        Profile Photo <span class="text-red-600"> </span>
-                    </label>
+                        <label class="block text-gray-700 text-sm font-bold mb-2 text-center" for="photo">
+                            Profile Photo <span class="text-red-600"> </span>
+                        </label>
 
-                    <div class="text-center">
-                        <!-- Current Profile Photo -->
-                        <div class="mt-2" x-show="! photoPreview">
-                            <img src="https://images.unsplash.com/photo-1531316282956-d38457be0993?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" class="w-24 h-24 m-auto rounded-full shadow">
+                        <div class="text-center">
+                            <!-- Current Profile Photo -->
+                            <div class="mt-2" x-show="! photoPreview">
+                                <img src="https://images.unsplash.com/photo-1531316282956-d38457be0993?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" class="w-24 h-24 m-auto rounded-full shadow">
+                            </div>
+                            <!-- New Profile Photo Preview -->
+                            <div class="mt-2" x-show="photoPreview" style="display: none;">
+                                <span class="block w-24 h-24 rounded-full m-auto shadow" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'" style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
+                                </span>
+                            </div>
+                            <button type="button" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3" x-on:click.prevent="$refs.nominee_image.click()">
+                                Select New Photo
+                            </button>
                         </div>
-                        <!-- New Profile Photo Preview -->
-                        <div class="mt-2" x-show="photoPreview" style="display: none;">
-                            <span class="block w-24 h-24 rounded-full m-auto shadow" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + photoPreview + '\');'" style="background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url('null');">
+                        @error('nominee_image')
+                            <span class="error-message" role="alert">
+                                <strong>{{ $message }}</strong>
                             </span>
-                        </div>
-                        <button type="button" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3" x-on:click.prevent="$refs.nominee_image.click()">
-                            Select New Photo
-                        </button>
+                        @enderror
                     </div>
-                    @error('nominee_image')
-                        <span class="error-message" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
+                @endif
+
             </div>
             <div class="flex flex-col lg:flex-row">
                 <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
@@ -267,7 +273,7 @@
                     <div class="w-full">
                         <select class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700"
                             name="nominee_gender"
-                            {{ $user->isUpdated ? "readonly" : '' }}
+                            {{ $user->isUpdated ? "disabled" : '' }}
                             id="nominee_gender">
                             <option value="">Select Gender</option>
                             <option {{ ($user->nominee? $user->nominee->nominee_gender : '') == 'Male' ? "selected" : '' }} value="Male">Male</option>
@@ -332,10 +338,10 @@
                 </div>
             </div>
         </div>
-        @if (!$user->isUpdate)
+        @if (!$user->isUpdated)
             <button type="submit" class="btn btn-primary w-full">Save</button>
         @endif
-        @if ($user->isUpdate == 2)
+        @if ($user->isUpdated == 2)
             <button class="btn btn-secondary w-full" disabled >Pending</button>
         @endif
     </form>

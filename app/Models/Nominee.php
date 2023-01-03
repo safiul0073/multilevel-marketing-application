@@ -11,6 +11,8 @@ class Nominee extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
     /**
      * Get the nominee's image.
      */

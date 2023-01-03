@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function nominee()
     {
-        return $this->belongsTo(Nominee::class);
+        return $this->hasOne(Nominee::class);
     }
 
     /**

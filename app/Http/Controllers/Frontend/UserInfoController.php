@@ -15,16 +15,17 @@ class UserInfoController extends Controller
 
     public function profile () {
         $user = User::find(auth()->id())->load(['nominee', 'image']);
+        // dd($user);
         return view('frontend.contents.profile.index', ['user' => $user]);
     }
 
     public function update (UserUpdateRequest $request) {
 
-        dd($request);
+
         $user = User::find(auth()->id());
 
-        // try {
-        //     DB::beginTransaction();
+        try {
+            DB::beginTransaction();
                 $user->update([
                     'first_name'    => $request->first_name,
                     'last_name' => $request->last_name,
@@ -71,11 +72,11 @@ class UserInfoController extends Controller
                         'nominee_image'
                     );
                 }
-            // DB::commit();
-        // } catch (\Exception $ex) {
-        //     DB::rollBack();
-        //     return redirect()->back()->with('error', $ex->getMessage());
-        // }
-
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $ex->getMessage());
+        }
+        return redirect()->back()->with('success', 'Successfully info update. Please wait to confirm.');
     }
 }
