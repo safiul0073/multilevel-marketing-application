@@ -37,8 +37,7 @@ class UserController extends Controller
         if ($request->perPage) {
             $perPage = $request->perPage;
         }
-        $users = User::select(['id','first_name', 'sponsor_id','last_name','username', 'email', 'phone', 'country', 'created_at', 'balance'])
-                       ->with('sponsor:id,username')
+        $users = User::with('sponsor:id,username')
                        ->orderBy('id', 'asc');
 
         if ($request->search) {
@@ -137,9 +136,32 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
+        $this->validate($request, [
+            'id' => 'required|exists:users,id',
+            'status' => 'required|in:1,0',
+            'email_verified' => 'required|in:1,0',
+            'sms_verified' => 'required|in:1,0',
+            'isUpdated' => 'required|in:1,0'
+        ]);
+        $user = User::find((int) $request->id);
 
+        try {
+            DB::beginTransaction();
+                $user->update([
+                    'status' => $request->status == '1'? true : false ,
+                    'email_verified_at' => $request->email_verified == '1'? now() : null,
+                    'sms_verified_at' => $request->sms_verified == '1'? now() : null,
+                    'isUpdated' => $request->isUpdated
+                ]);
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $this->withErrors('error', $ex->getMessage());
+        }
+
+        return $this->withSuccess('Successfully updated.');
     }
 
     /**

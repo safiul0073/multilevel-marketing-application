@@ -40,6 +40,7 @@ return new class extends Migration
             $table->float('total_withdraw')->default(0);
             $table->float('balance')->default(0);
             $table->tinyInteger('isUpdated')->default(0)->comment('0=not updated, 2=update_pending, 1=updated');
+            $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

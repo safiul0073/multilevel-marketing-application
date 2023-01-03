@@ -14,6 +14,7 @@ import { LIVE_URL } from "../../../constent";
 
 export default function UserDetails({ showUserDetails, setUserDetails }) {
 
+    const {data: details, refetch: detailsRefetch} = userDetails({id: showUserDetails?.id})
     const tabOptions = [
         {
             title: "User Profile",
@@ -22,7 +23,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Details userId={showUserDetails?.id} />
+                    <Details details={details} detailsRefetch={detailsRefetch} />
                 </>
             ),
         },

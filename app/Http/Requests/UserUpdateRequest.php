@@ -25,7 +25,7 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'required',
+            'avatar' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'profession' => 'required|string|max:255',
@@ -37,7 +37,7 @@ class UserUpdateRequest extends FormRequest
             'phone' => 'required|max:11|min:11',
             'address' => 'required|string|max:500',
             'birthday' => 'required|date',
-            'nominee_image' => 'required',
+            'nominee_image' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
             'nominee_name' => 'required|string|max:255',
             'relation' => 'required|string|max:255',
             'nominee_profession' => 'required|string|max:255',

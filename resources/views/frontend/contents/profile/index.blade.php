@@ -15,8 +15,8 @@
 
         <div class="mt-10 w-full rounded-md bg-white px-6 py-4 leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10">
             <div class="flex flex-col items-center py-5">
-                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->image->url }}" alt="Bonnie image" />
-                @if ($user->isUpdated == 1)
+
+                @if (!$user->isUpdated)
                     <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <!-- Photo File Input -->
 
@@ -53,6 +53,8 @@
                             </span>
                         @enderror
                     </div>
+                @else
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->image->url }}" alt="Bonnie image" />
                 @endif
             </div>
             <div class="flex flex-col lg:flex-row">
@@ -185,8 +187,8 @@
         <h3 class="text-3xl mb-5 mt-7">Nominee's Information</h3>
         <div class="mt-10 w-full rounded-md bg-white px-6 py-4 leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10">
             <div class="flex flex-col items-center py-5">
-                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->nominee->image->url }}" alt="Bonnie image" />
-                @if ($user->isUpdated == 1)
+
+                @if (!$user->isUpdated)
                     <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                         <!-- Photo File Input -->
                         <input name="nominee_image" type="file" class="hidden" x-ref="nominee_image" x-on:change="
@@ -222,6 +224,8 @@
                             </span>
                         @enderror
                     </div>
+                @else
+                    <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->nominee->image->url }}" alt="Bonnie image" />
                 @endif
 
             </div>
