@@ -10,4 +10,14 @@ class Nominee extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public $timestamps = false;
+
+    /**
+     * Get the nominee's image.
+     */
+    public function image()
+    {
+        return $this->morphOne(Media::class, 'media');
+    }
 }

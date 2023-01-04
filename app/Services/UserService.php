@@ -6,6 +6,7 @@ use App\Models\Bonuse;
 use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\MatchingPair;
+use App\Models\Product;
 use App\Models\Reward;
 use App\Models\Transaction;
 use App\Models\User;
@@ -55,14 +56,15 @@ class UserService {
         }
     }
 
-    public function checkEpinAndUpdate ($epin_code, $product, $user) {
+    public function checkEpinAndUpdate ($epin_code, $product, $user):Product {
         $epin = Epin::with('epin_main')->where('code', $epin_code)->first();
         if($epin && $epin->status == 1) throw new Exception('Epin already used. Please use new epin.');
-        if ($epin->epin_main->product_id != $product->id) throw new Exception('Sorry package not match! Please use valid package epin!');
+        if ($product && $epin->epin_main->product_id != $product->id) throw new Exception('Sorry package not match! Please use valid package epin!');
         $epin->status = 1;
         $epin->use_by = $user->id;
         $epin->activation_date = now();
         $epin->save();
+        return ($product ? $product : $epin->epin_main->product);
     }
     /**
      * @position type string between left or right.
@@ -75,7 +77,7 @@ class UserService {
     {
         $sponsor = User::find((int) $sponsor_id);
 
-        if ($position === 'left' || $position === 'right') {
+        if ($position != 'auto') {
             if ($position === 'left' && !$sponsor->left_ref_id) {
                 $sponsor->left_ref_id = $referrer_id;
             }else if ($position === 'right' && !$sponsor->right_ref_id){
@@ -92,7 +94,7 @@ class UserService {
             $sponsor = $this->findRealSponsor($sponsor_id, $referrer_id, $position);
         }
         $this->referCount($sponsor, $referrer_id);
-        $this->checkMatchingPair($sponsor, $referrer_id);
+
         return $sponsor;
     }
 
@@ -118,9 +120,13 @@ class UserService {
     public function referCount ($sponsor, $user_id):void {
         // sponsor group incrementing
         if ($this->findPosition($sponsor, $user_id)  == 'left') {
-            $sponsor->left_group = $sponsor->left_group + 1;
+            $increased_count = $sponsor->left_group + 1;
+            $sponsor->left_group = $increased_count;
+            $this->checkMatchingPair($increased_count, $sponsor->right_group, $sponsor->id, $user_id);
         }else{
-            $sponsor->right_group = $sponsor->right_group + 1;
+            $increased_count = $sponsor->right_group + 1;
+            $sponsor->right_group = $increased_count;
+            $this->checkMatchingPair($increased_count, $sponsor->left_group, $sponsor->id, $user_id);
         }
         $sponsor->save();
     }
@@ -133,12 +139,12 @@ class UserService {
         }
     }
 
-    public function checkMatchingPair ($sponsor, $user_id) {
+    public function checkMatchingPair ($increased_count, $opposit_count, $sponsor_id, $user_id) {
 
-        if ($sponsor->left_group == $sponsor->right_group) {
+        if ($increased_count <= $opposit_count) {
             MatchingPair::create([
-                'parent_id' => $sponsor->id,
-                'match_count'     => $sponsor->left_group,
+                'parent_id' => $sponsor_id,
+                'match_count'     => $increased_count,
                 'user_id'   => $user_id,
             ]);
         }
@@ -161,14 +167,16 @@ class UserService {
             $sponsor_sponsor = User::find((int) $sponsor_sponsor_id);
             // sponsor group incrementing
             if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
-                $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
+                $increased_count = $sponsor_sponsor->left_group + 1;
+                $sponsor_sponsor->left_group = $increased_count;
+                $this->checkMatchingPair($increased_count, $sponsor_sponsor->right_group, $sponsor_sponsor->id, $user_id);
             }else{
-                $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
+                $increased_count = $sponsor_sponsor->right_group + 1;
+                $sponsor_sponsor->right_group = $increased_count;
+                $this->checkMatchingPair($increased_count, $sponsor_sponsor->left_group, $sponsor_sponsor->id, $user_id);
             }
             $sponsor_sponsor->save();
 
-            // checking matching pair
-            $this->checkMatchingPair($sponsor_sponsor, $user_id);
             // generation label creating
             if (count($this->gen_bonus) >= $i) {
                 Generation::create([

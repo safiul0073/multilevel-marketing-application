@@ -41,7 +41,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::resource('epin', EpinController::class);
     Route::resource('reward', RewardController::class);
     // resource route end
-
+    Route::post('user-update', [UserController::class, 'update']);
     Route::post('reward-update', [RewardController::class, 'update']);
     // epin helper
     Route::post('epin-update', [EpinController::class, 'update']);
@@ -62,8 +62,6 @@ Route::middleware('auth:staff')->group(function () {
     Route::get('user-list', [UserHelperController::class, 'getUserList']);
     Route::get('user-details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
     Route::post('user-password-reset', [UserHelperController::class, 'passwordReset']);
-    Route::get('get-signle-user-tree/{user}', [UserHelperController::class, 'getOnlyUserBinaryTree']);
-
 
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);

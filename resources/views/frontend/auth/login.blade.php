@@ -5,12 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                @include('frontend.layouts.partials.flash-alert')
                 <h2 class="text-3xl font-medium leading-6 text-gray-900">{{ __('Login') }}</h2>
-
                 <div class="card-body mt-10">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <div class="row mb-3">
                             <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
                             <div class="col-md-6">

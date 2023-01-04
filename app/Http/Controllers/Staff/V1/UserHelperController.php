@@ -19,7 +19,7 @@ class UserHelperController extends Controller
             'username'   => 'nullable|string|exists:users,username'
         ]);
 
-        $users = User::query()->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children']);
+        $users = User::query()->with('image')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children' => fn ($q) => $q->with('image')]);
 
         if (isset($att['username'])) {
             $users->where('username',$att['username']);
@@ -45,6 +45,7 @@ class UserHelperController extends Controller
                         ->withSum(['bonuses as referral_bonus'
                             => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
                         ->withSum('transactions as total_transaction', 'amount')
+                        ->with('image')
                         ->where('id', (int) $id)->first();
         return $this->withSuccess($details);
     }

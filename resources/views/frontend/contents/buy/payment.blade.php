@@ -12,38 +12,41 @@
             {{-- error message show or success message show component --}}
             @include('frontend.layouts.partials.flash-alert')
             {{-- error show or success message shop composnent --}}
-            <div>
-                <table class="table-auto">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>{{$product->name}}</td>
-                            <td>{{$product->category->title}}</td>
-                            <td>{{$product->price}}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>Total</td>
-                            <td>{{$product->price}}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td>Total</td>
-                            <td>{{$product->price}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            @if ($product)
+                <div>
+                    <table class="table-auto">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->category->title}}</td>
+                                <td>{{$product->price}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td>{{$product->price}}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td>{{$product->price}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
             <div>
                 <form  action="{{ route('save.user') }}" method="POST">
                     @method("post")

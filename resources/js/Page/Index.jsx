@@ -19,6 +19,7 @@ import { CheckerOTP } from '../components/Auth/CheckerOTP';
 import { ResetPassword } from '../components/Auth/ResetPassword';
 import { Toaster } from 'react-hot-toast';
 
+
 function Index() {
 
     const progress = new ProgressBar({
