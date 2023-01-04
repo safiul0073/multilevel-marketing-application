@@ -19,7 +19,7 @@
                 <input type="hidden" name="position" value="{{ $position }}" >
                 <div class="formGroup">
                     <label for="first_name">First name</label>
-                    <input type="text" name="first_name" class="form-control @error('first_name') has-error @enderror">
+                    <input type="text" name="first_name" value="{{ old('first_name') }}" class="form-control @error('first_name') has-error @enderror">
                     @error('first_name')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="formGroup">
                     <label for="last_name">Last Name</label>
-                    <input type="text" name="last_name" class="form-control @error('last_name') has-error @enderror">
+                    <input type="text" name="last_name" value="{{ old('last_name') }}"  class="form-control @error('last_name') has-error @enderror">
                     @error('last_name')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="formGroup">
                     <label for="username">Enter username</label>
-                    <input type="text" name="username" class="form-control @error('username') has-error @enderror">
+                    <input type="text" name="username" value="{{ old('username') }}"  class="form-control @error('username') has-error @enderror">
                     @error('username')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="formGroup">
                     <label for="email">Email</label>
-                    <input type="text" name="email" class="form-control @error('email') has-error @enderror">
+                    <input type="text" name="email" value="{{ old('email') }}"  class="form-control @error('email') has-error @enderror">
                     @error('email')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
@@ -55,7 +55,7 @@
                 </div>
                 <div class="formGroup">
                     <label for="phone">Phone</label>
-                    <input type="text" name="phone" class="form-control @error('phone') has-error @enderror">
+                    <input type="text" name="phone" value="{{ old('phone') }}"  class="form-control @error('phone') has-error @enderror">
                     @error('phone')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="formGroup">
                     <label for="password">Password</label>
-                    <input type="text" name="password" class="form-control @error('password') has-error @enderror">
+                    <input type="text" name="password" value="{{ old('password') }}" class="form-control @error('password') has-error @enderror">
                     @error('password')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>

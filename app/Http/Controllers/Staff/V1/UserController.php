@@ -37,8 +37,7 @@ class UserController extends Controller
         if ($request->perPage) {
             $perPage = $request->perPage;
         }
-        $users = User::select(['id','first_name', 'sponsor_id','last_name','username', 'email', 'phone', 'country', 'created_at', 'balance'])
-                       ->with('sponsor:id,username')
+        $users = User::with('sponsor:id,username')
                        ->orderBy('id', 'asc');
 
         if ($request->search) {
@@ -95,6 +94,12 @@ class UserController extends Controller
                 'gen_type' => 1
             ]);
 
+            $user->purchases()->create([
+                'product_id'    => $product->id,
+                'amount'        => $product->price,
+                'status'        => 1
+            ]);
+
             // generation looping
             $i = 2;
             $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
@@ -102,6 +107,7 @@ class UserController extends Controller
             $this->user_service->bonusGiven($att['main_sponsor_id'], $user->id,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {
+            DB::rollBack();
             return $this->withErrors($ex->getMessage());
         }
 
@@ -136,36 +142,32 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        $att = $this->validate($request, [
-            'referrance_id' => 'required|numeric|exists:users,id',
-            'refer_position' => 'nullable|between:"left","right"',
-            'product_id' => 'required|numeric|exists:products,id',
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'nullable|string|max:100',
-            'username' => 'required|string|min:4',
-            'email' => 'required|string',
-            'phone' => 'required|min:11',
-            'password' => 'required|string|min:8',
+        $this->validate($request, [
+            'id' => 'required|exists:users,id',
+            'status' => 'required|in:1,0',
+            'email_verified' => 'required|in:1,0',
+            'sms_verified' => 'required|in:1,0',
+            'isUpdated' => 'required|in:1,0'
         ]);
-
-        if (isset($att['password'])) {
-            $att['password'] = Hash::make($att['username']);
-        }
+        $user = User::find((int) $request->id);
 
         try {
             DB::beginTransaction();
-            $u = $user->update($att);
-            if (! $u) {
-                throw new Exception('User not updated!');
-            }
+                $user->update([
+                    'status' => $request->status == '1'? true : false ,
+                    'email_verified_at' => $request->email_verified == '1'? now() : null,
+                    'sms_verified_at' => $request->sms_verified == '1'? now() : null,
+                    'isUpdated' => $request->isUpdated
+                ]);
             DB::commit();
         } catch (\Exception $ex) {
-            return $this->withErrors($ex->getMessage());
+            DB::rollBack();
+            return $this->withErrors('error', $ex->getMessage());
         }
 
-        return $this->withCreated('User successfully updated');
+        return $this->withSuccess('Successfully updated.');
     }
 
     /**

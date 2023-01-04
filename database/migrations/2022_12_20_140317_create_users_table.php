@@ -25,12 +25,13 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('sms_verified_at')->nullable();
             $table->string('password');
+            $table->string('profession')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('nid_number')->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->date('birthday')->nullable();
             $table->longText('address')->nullable();
-            $table->string('city')->index()->nullable();
-            $table->string('state')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('country')->nullable();
-            $table->foreignIdFor(Nominee::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('left_ref_id')->index()->nullable();
             $table->string('right_ref_id')->index()->nullable();
             $table->unsignedBigInteger('left_group')->default(0);
@@ -38,6 +39,8 @@ return new class extends Migration
             $table->double('total_income', 15)->default(0);
             $table->float('total_withdraw')->default(0);
             $table->float('balance')->default(0);
+            $table->tinyInteger('isUpdated')->default(0)->comment('0=not updated, 2=update_pending, 1=updated');
+            $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

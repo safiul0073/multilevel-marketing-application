@@ -100,6 +100,7 @@ class PackageController extends Controller
 
             DB::commit();
         } catch (\Exception $ex) {
+            DB::rollBack();
             return $this->withErrors($ex->getMessage());
         }
 

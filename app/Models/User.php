@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -43,7 +46,7 @@ class User extends Authenticatable
 
     public function nominee()
     {
-        return $this->belongsTo(Nominee::class);
+        return $this->hasOne(Nominee::class);
     }
 
     /**
@@ -69,12 +72,12 @@ class User extends Authenticatable
     /**
      * Get the user's bonuses.
      */
-    public function bonuses()
+    public function bonuses():HasMany
     {
         return $this->hasMany(Bonuse::class, 'given_id', 'id');
     }
 
-    public function generations () {
+    public function generations ():HasMany {
         return $this->hasMany(Generation::class, 'main_id', 'id');
     }
 
@@ -86,16 +89,16 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'right_ref_id', 'id')->with('right_children');
     }
 
-    public function children () {
-        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with('children');
+    public function children ():HasMany {
+        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children' => fn ($q) => $q->with('image')]);
     }
 
-    public function sponsor () {
+    public function sponsor ():BelongsTo {
         return $this->belongsTo(User::class, 'sponsor_id');
     }
 
-    public function epin () {
+    public function epin ():HasOne {
         return $this->hasOne(Epin::class, 'use_by', 'id');
-
     }
+
 }
