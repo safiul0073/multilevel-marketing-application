@@ -18,14 +18,14 @@ export default function UserView({ user, before }) {
                             : ""
                     } `}
                 >
-                    <h1 className="bg-green-600 p-0.5 w-full">
+                    <h1 className="bg-green-600 p-0.5 w-full overflow-auto">
                         {user?.username}
                     </h1>
                     <img
-                        src="https://xsgames.co/randomusers/assets/avatars/male/24.jpg"
+                        src={user?.image ? user?.image?.url : 'https://xsgames.co/randomusers/assets/avatars/male/24.jpg'}
                         width={100}
                         height={100}
-                        className="p-3"
+                        className="p-1"
                         alt=""
                     />
                 </div>

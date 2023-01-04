@@ -14,7 +14,6 @@ const UpdateForm = ({ details, detailsRefetch }) => {
             ...data,
             id: details?.id
         })
-
     }
 
   const {
@@ -211,7 +210,6 @@ const UpdateForm = ({ details, detailsRefetch }) => {
                                 :
                                 <button type="submit" className="btn btn-primary w-full">Confirm</button>
                             }
-
                         </div>
                     </div>
 

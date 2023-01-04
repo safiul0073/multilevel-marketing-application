@@ -122,7 +122,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                         <div className="flex flex-1 flex-col p-8">
                             <img
                                 className="mx-auto h-32 w-32 flex-shrink-0 rounded-full"
-                                src="https://via.placeholder.com/150"
+                                src={details?.image ? details?.image?.url : 'https://via.placeholder.com/150'}
                                 alt=""
                             />
                             <h3 className="mt-6 text-sm font-medium text-gray-900">

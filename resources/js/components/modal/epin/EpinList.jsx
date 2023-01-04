@@ -4,7 +4,6 @@ import { Fragment, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from 'react-query';
-import * as yup from "yup";
 import  toast  from 'react-hot-toast';
 import Textinput from '../../common/Textinput';
 import { createEpin, deleteOnlyEpin } from '../../../hooks/queries/epin';
@@ -133,7 +132,7 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                         <div>
                             <button onClick={()=>copyCode(epinMain?.epins, false)} className={copy == 'helloworld' ? "btn btn-success" : "btn btn-secondary"}>Copy all code</button>
                         </div>
-                        <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <div className="overflow-y-auto h-[400px] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
                                     <tr>

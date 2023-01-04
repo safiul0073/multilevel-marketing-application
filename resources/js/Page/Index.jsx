@@ -18,6 +18,7 @@ import { OtpRequest } from '../components/Auth/OtpRequest';
 import { CheckerOTP } from '../components/Auth/CheckerOTP';
 import { ResetPassword } from '../components/Auth/ResetPassword';
 import { Toaster } from 'react-hot-toast';
+import './customSrollStyle.css'
 
 function Index() {
 

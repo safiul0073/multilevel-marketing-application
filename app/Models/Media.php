@@ -25,9 +25,6 @@ class Media extends Model
     function getUrlAttribute($value) {
         if ($value && request()->method() === 'GET') {
             $url = config('app.url');
-            if (app()->environment('local')) {
-                 $url .= ':8000';
-            }
             return  $url . '/storage/'. $value;
         }
         return $value;

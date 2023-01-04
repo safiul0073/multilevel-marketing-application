@@ -19,7 +19,7 @@ class UserHelperController extends Controller
             'username'   => 'nullable|string|exists:users,username'
         ]);
 
-        $users = User::query()->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children']);
+        $users = User::query()->with('image')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children' => fn ($q) => $q->with('image')]);
 
         if (isset($att['username'])) {
             $users->where('username',$att['username']);

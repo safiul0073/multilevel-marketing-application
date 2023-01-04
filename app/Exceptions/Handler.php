@@ -46,7 +46,6 @@ class Handler extends ExceptionHandler
             return request()->wantsJson()
             ? $this->withNotFound($e)
             : redirect()->intended(route('not.found'));
-
         });
         $this->reportable(function (Throwable $e) {
             // Log::channel('slack')->error($e->getMessage(), [

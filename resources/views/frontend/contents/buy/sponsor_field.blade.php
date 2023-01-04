@@ -17,7 +17,7 @@
                 <input type="hidden" name="slug" value="{{$slug}}" >
                 <div class="formGroup">
                     <label for="sponsor_id">Enter Sponser code/username</label>
-                    <input type="text" name="username" class="form-control @error('username') has-error @enderror">
+                    <input type="text" name="username" value="{{ $sponsor_id ? $sponsor_id : old('username') }}" {{ $sponsor_id ? "readonly" : '' }} class="form-control @error('username') has-error @enderror">
                     @error('username')
                         <span class="error-message" role="alert">
                             <strong>{{ $message }}</strong>
@@ -25,12 +25,13 @@
                     @enderror
                 </div>
                 <div class="formGroup">
+
                     <label for="sponsor_id">Set Position</label>
-                    <select name="position" class="form-control @error('position') has-error @enderror" id="">
+                    <select name="position" value="{{ $position ? $position : old('position') }}" class="form-control @error('position') has-error @enderror" id="">
                         <option value="">Select position</option>
-                        <option value="left">Left</option>
-                        <option value="right">Right</option>
-                        <option value="auto">Auto</option>
+                        <option {{ $position && $position == 'left' ? "selected" : '' }} value="left">Left</option>
+                        <option {{ $position && $position == 'right' ? "selected" : '' }} value="right">Right</option>
+                        <option {{ $position && $position == 'auto' ? "selected" : '' }} value="auto">Auto</option>
                     </select>
                     @error('position')
                         <span class="error-message" role="alert">

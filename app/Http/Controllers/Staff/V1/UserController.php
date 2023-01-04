@@ -94,6 +94,12 @@ class UserController extends Controller
                 'gen_type' => 1
             ]);
 
+            $user->purchases()->create([
+                'product_id'    => $product->id,
+                'amount'        => $product->price,
+                'status'        => 1
+            ]);
+
             // generation looping
             $i = 2;
             $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);

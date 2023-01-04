@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\MatchingPair;
 use App\Models\Product;
@@ -19,19 +20,26 @@ class RegisterController extends Controller
     public function setSponsor(Request $request) {
 
         $this->validate($request, [
-            'slug'  => ['required', 'string', 'exists:products,slug']
+            'slug'  => ['nullable', 'string', 'exists:products,slug'],
+            'sponsor_id' => ['nullable', 'string', 'exists:users,username'],
+            'position' => ['nullable', 'string', 'in:left,right,auto'],
         ]);
 
-        return view('frontend.contents.buy.sponsor_field', ['slug' => $request->slug]);
+        if (!$request->slug && !$request->sponsor_id){
+            return redirect()->route('not.found');
+        }
+
+        return view('frontend.contents.buy.sponsor_field', [
+            'slug' => $request->slug,
+            'sponsor_id' => $request->sponsor_id,
+            'position'  => $request->position
+        ]);
     }
 
     public function checkSponsor (Request $request) {
 
-        if (!$request->slug) {
-            return back();
-        }
         $this->validate($request, [
-            'slug' => ['required', 'string', 'exists:products,slug'],
+            'slug' => ['nullable', 'string', 'exists:products,slug'],
             'username' => ['required', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto']
         ]);
@@ -62,12 +70,9 @@ class RegisterController extends Controller
 
     public function checkUser (Request $request) {
 
-        if (!$request->slug) {
-            return back();
-        }
 
         $this->validate($request, [
-            'slug' => ['required', 'string', 'exists:products,slug'],
+            'slug' => ['nullable', 'string', 'exists:products,slug'],
             'sponsor_id' => ['required', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto'],
             'email'    => ['required', 'string', 'email', 'max:255'],
@@ -78,7 +83,11 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $product = Product::with('category')->where('slug', $request->slug)->first();
+        $product = null;
+        if ($request->slug) {
+            $product = Product::with('category')->where('slug', $request->slug)->first();
+        }
+
         return view('frontend.contents.buy.payment', [
             'product' => $product,
             'slug'    => $request->slug,
@@ -94,11 +103,9 @@ class RegisterController extends Controller
     }
 
     public function saveUser (Request $request) {
-        if (!$request->slug) {
-            return back();
-        }
+
         $att = $this->validate($request, [
-                    'slug' => ['required', 'string', 'exists:products,slug'],
+                    'slug' => ['nullable', 'string', 'exists:products,slug'],
                     'sponsor_id' => ['required', 'string', 'exists:users,username'],
                     'refer_position' => ['required', 'string', 'in:left,right,auto'],
                     'first_name'  => 'required|string',
@@ -107,14 +114,18 @@ class RegisterController extends Controller
                     'phone'    => ['required', 'string', 'max:11'],
                     'username' => ['required', 'string', 'unique:users'],
                     'password' => ['required', 'string', 'min:8'],
-                    'epin_code' => 'required|string|exists:epins,code'
+                    'epin_code' => 'nullable|string|exists:epins,code'
                 ]);
-
+            if (!$request->epin_code && !$request->product_id) {
+                return redirect()->back()->with('error', 'Please use E-pin code. for create a new user.');
+            }
             $user_service = new UserService();
 
             $sponsor = User::where('username', $att['sponsor_id'])->first();
             $att['select_sponsor_id'] = $sponsor->id;
+
             $product = Product::where('slug', $att['slug'])->first();
+
         try {
             DB::beginTransaction();
 
@@ -122,7 +133,7 @@ class RegisterController extends Controller
             $user = $user_service->userCreate($att);
 
             if ($request->epin_code) {
-                $user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
+             $product = $user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
             }
 
             $sponsor = $user_service->setReferPosition($sponsor->id, $user->id, $att['refer_position']);
@@ -137,6 +148,11 @@ class RegisterController extends Controller
                 'gen_type' => 1
             ]);
 
+            $user->purchases()->create([
+                'product_id'    => $product->id,
+                'amount'        => $product->price,
+                'status'        => 1
+            ]);
             // generation looping
             $i = 2;
             $user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
