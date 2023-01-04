@@ -172,25 +172,33 @@
  <script>
     function copyClickInput (position) {
         var copyText = null
-        var autoClickButton = null
+        var ClickButton = null
         if (position == 'auto') {
             copyText = document.getElementById("autoInput");
-            autoClickButton = document.getElementById("autoClickButton")
+            ClickButton = document.getElementById("autoClickButton")
         }else if (position == 'left'){
             copyText = document.getElementById("leftInput");
-            autoClickButton = document.getElementById("leftClickButton")
+            ClickButton = document.getElementById("leftClickButton")
         }else {
             copyText = document.getElementById("rightInput");
-            autoClickButton = document.getElementById("righClickButton")
+            ClickButton = document.getElementById("rightClickButton")
         }
 
         // Copy the text inside the text field
-        navigator.clipboard.writeText(copyText.value);
+        // navigator.clipboard.writeText(copyText.value);
+        navigator.clipboard.writeText(copyText.value).then(
+                () => {
+                    ClickButton.classList.add('bg-blue-600')
+                    setTimeout(() => {
+                        ClickButton.classList.remove('bg-blue-600')
+                    }, 2000);
+                },
+                () => {
+                    console.log("failed!")
+                }
+        );
 
-        autoClickButton.classList.add('bg-blue-600')
-        setTimeout(() => {
-            autoClickButton.classList.remove('bg-blue-600')
-        }, 2000);
+
     }
  </script>
 @endpush
