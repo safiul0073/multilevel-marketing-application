@@ -122,11 +122,11 @@ class UserService {
         if ($this->findPosition($sponsor, $user_id)  == 'left') {
             $increased_count = $sponsor->left_group + 1;
             $sponsor->left_group = $increased_count;
-            $this->checkMatchingPair($increased_count, $sponsor->right_group, $sponsor->id, $user_id);
+            $this->checkMatchingPair('left', $increased_count, $sponsor->id, $user_id);
         }else{
             $increased_count = $sponsor->right_group + 1;
             $sponsor->right_group = $increased_count;
-            $this->checkMatchingPair($increased_count, $sponsor->left_group, $sponsor->id, $user_id);
+            $this->checkMatchingPair('right', $increased_count, $sponsor->id, $user_id);
         }
         $sponsor->save();
     }
@@ -139,15 +139,14 @@ class UserService {
         }
     }
 
-    public function checkMatchingPair ($increased_count, $opposit_count, $sponsor_id, $user_id) {
+    public function checkMatchingPair ($position, $increased_count, $sponsor_id, $user_id) {
 
-        if ($increased_count <= $opposit_count) {
-            MatchingPair::create([
-                'parent_id' => $sponsor_id,
-                'match_count'     => $increased_count,
-                'user_id'   => $user_id,
-            ]);
-        }
+        MatchingPair::create([
+            'parent_id' => $sponsor_id,
+            'parent_position' => $position,
+            'match_count'     => $increased_count,
+            'user_id'   => $user_id,
+        ]);
     }
 
 
@@ -169,22 +168,21 @@ class UserService {
             if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
                 $increased_count = $sponsor_sponsor->left_group + 1;
                 $sponsor_sponsor->left_group = $increased_count;
-                $this->checkMatchingPair($increased_count, $sponsor_sponsor->right_group, $sponsor_sponsor->id, $user_id);
+                $this->checkMatchingPair('left', $increased_count, $sponsor_sponsor->id, $user_id);
             }else{
                 $increased_count = $sponsor_sponsor->right_group + 1;
                 $sponsor_sponsor->right_group = $increased_count;
-                $this->checkMatchingPair($increased_count, $sponsor_sponsor->left_group, $sponsor_sponsor->id, $user_id);
+                $this->checkMatchingPair('right', $increased_count, $sponsor_sponsor->id, $user_id);
             }
             $sponsor_sponsor->save();
 
             // generation label creating
-            if (count($this->gen_bonus) >= $i) {
-                Generation::create([
-                    'main_id' => $sponsor_sponsor_id,
-                    'member_id' => $user_id,
-                    'gen_type' => $i
-                ]);
-            }
+
+            Generation::create([
+                'main_id' => $sponsor_sponsor_id,
+                'member_id' => $user_id,
+                'gen_type' => $i
+            ]);
 
             $i = $i + 1;
 
@@ -212,10 +210,20 @@ class UserService {
 
     public function matchingBonus ($user_id, $side) {
 
-        $matching_pairs = MatchingPair::where('user_id', $user_id)->get();
+        $matching_pairs = MatchingPair::where('user_id', $user_id)->where('parent_position', 'left')->get();
 
         foreach($matching_pairs as $user) {
-            $this->bonusSave($user->parent_id, $user->user_id, 'matching', $this->matching_bonus);
+            $match = MatchingPair::where('parent_position' , 'right')
+                                ->where('parent_id', $user->parent_id,)
+                                ->where('match_count', $user->match_count,)
+                                ->first();
+            if ($match) {
+                $main = $match->matchMain;
+                if ($main->left_group >= $match->match_count && $main->right_group >= $match->match_count) {
+                    $this->bonusSave($user->parent_id, $user->user_id, 'matching', $this->matching_bonus);
+                }
+            }
+
         }
 
     }

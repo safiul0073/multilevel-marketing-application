@@ -14,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('matching_pairs', function (Blueprint $table) {
+        Schema::create('login_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'parent_id')->constrained('users')->cascadeOnDelete();
-            $table->string('parent_position');
-            $table->unsignedInteger('match_count')->default(1);
-            $table->foreignIdFor(User::class, 'user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->string('ip');
+            $table->longText('location');
+            $table->longText('agent');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('matching_pairs');
+        Schema::dropIfExists('login_logs');
     }
 };
