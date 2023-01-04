@@ -1,14 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Fragment, useState } from 'react'
-import { useForm } from 'react-hook-form';
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
-import { useMutation } from 'react-query';
 import  toast  from 'react-hot-toast';
-import Textinput from '../../common/Textinput';
 import { createEpin, deleteOnlyEpin } from '../../../hooks/queries/epin';
 import { getEpinMain } from '../../../hooks/queries/epin/getEpinMain';
 import moment from 'moment';
+import './customSrollStyle.css'
+import { useMutation } from 'react-query';
+
 export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epinMainId}) {
 	const [copy, setCopy] = useState(false);
     const {data:epinMain, refetch:epinRefetch} = getEpinMain({epinMainId})

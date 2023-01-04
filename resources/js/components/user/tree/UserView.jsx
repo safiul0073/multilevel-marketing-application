@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InfoModal from "./InfoModal";
 
+
 export default function UserView({ user, before }) {
     const [isOpen, setOpen] = useState(false)
     const [userId, setUserId] = useState()
@@ -18,7 +19,7 @@ export default function UserView({ user, before }) {
                             : ""
                     } `}
                 >
-                    <h1 className="bg-green-600 p-0.5 w-full overflow-auto">
+                    <h1 className="bg-green-600 p-0.5 w-full overflow-hidden">
                         {user?.username}
                     </h1>
                     <img
