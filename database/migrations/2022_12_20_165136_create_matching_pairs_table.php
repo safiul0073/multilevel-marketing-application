@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'parent_id')->constrained('users')->cascadeOnDelete();
             $table->string('parent_position');
             $table->unsignedInteger('match_count')->default(1);
+            $table->tinyInteger('status')->default(0)->comment('0=matched, 1=unmatched');
             $table->foreignIdFor(User::class, 'user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
