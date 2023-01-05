@@ -184,20 +184,25 @@
             copyText = document.getElementById("rightInput");
             ClickButton = document.getElementById("rightClickButton")
         }
-
+        copyText.select();
+        document.execCommand("copy");
         // Copy the text inside the text field
         // navigator.clipboard.writeText(copyText.value);
-        navigator.clipboard.writeText(copyText.value).then(
-                () => {
-                    ClickButton.classList.add('bg-blue-600')
-                    setTimeout(() => {
-                        ClickButton.classList.remove('bg-blue-600')
-                    }, 2000);
-                },
-                () => {
-                    console.log("failed!")
-                }
-        );
+        ClickButton.classList.add('bg-blue-600')
+        setTimeout(() => {
+            ClickButton.classList.remove('bg-blue-600')
+        }, 2000);
+        // navigator.clipboard.writeText(copyText.value).then(
+        //         () => {
+        //             ClickButton.classList.add('bg-blue-600')
+        //             setTimeout(() => {
+        //                 ClickButton.classList.remove('bg-blue-600')
+        //             }, 2000);
+        //         },
+        //         () => {
+        //             console.log("failed!")
+        //         }
+        // );
 
 
     }
