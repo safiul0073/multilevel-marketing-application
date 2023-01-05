@@ -1,16 +1,27 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import  toast  from 'react-hot-toast';
 import { createEpin, deleteOnlyEpin } from '../../../hooks/queries/epin';
 import { getEpinMain } from '../../../hooks/queries/epin/getEpinMain';
 import moment from 'moment';
 import './customSrollStyle.css'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { useMutation } from 'react-query';
 
 export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epinMainId}) {
-	const [copy, setCopy] = useState(false);
+	const [copy, setCopy] = useState({
+        value: '',
+        copied: false,
+        allCopied: false
+    });
     const {data:epinMain, refetch:epinRefetch} = getEpinMain({epinMainId})
+
+    const epins_array_string = useMemo(() => {
+        let codeArray = []
+        epinMain?.epins?.map((row) => codeArray.push(row.code))
+        return codeArray.join(',');
+    }, [epinMain])
 
     const createNewEpin= () => {
         createEpinMutate({
@@ -79,19 +90,20 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
 
   	// copy Number to clipboard
 	const copyCode = (codes, isSingle=true) => {
-        if (isSingle) {
-            navigator.clipboard.writeText(codes);
-            // add a tooltip msg
-            setCopy(codes);
-        }else{
-            let codeArray = []
-            codes?.map((row) => codeArray.push(row.code))
-            navigator.clipboard.writeText(codeArray.join(','))
-            setCopy('helloworld')
-        }
+            // navigator.clipboard.writeText(codes);
+            setCopy({
+                value: codes,
+                copied: true,
+                allCopied: !isSingle ? true : false
+            })
+
         setTimeout(() => {
-            setCopy(false);
-        }, 3000);
+            setCopy({
+                value: '',
+                copied: false,
+                allCopied: false
+            });
+        }, 2000);
 
 
 	};
@@ -129,9 +141,12 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                     </div>
                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                         <div>
-                            <button onClick={()=>copyCode(epinMain?.epins, false)} className={copy == 'helloworld' ? "btn btn-success" : "btn btn-secondary"}>Copy all code</button>
+                        <CopyToClipboard text={epins_array_string}
+                            onCopy={() => copyCode(epinMain?.epins, false)}>
+                            <button  className={(copy.allCopied ? "btn btn-success" : "btn btn-secondary")}>Copy all code</button>
+                        </CopyToClipboard>
                         </div>
-                        <div className="overflow-y-auto h-[400px] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <div className="overflow-y-auto overflow-x-auto h-[400px] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
                                     <tr>
@@ -187,22 +202,19 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                                                         }
                                                     </div>
                                                     <div
-															onClick={() =>
-																copyCode(
-																	epin.code
-																)
-															}
+
 															className={`${
-																copy == epin?.code
+																copy.value == epin?.code
 																	? "bg-blue-500"
 																	: "bg-blue-800"
 															}  text-white  flex items-center justify-center cursor-pointer rounded-md transition-all duration-100`}
 														>
-															<div>
-																{copy == epin?.code
+                                                        <CopyToClipboard text={epin?.code}
+                                                        onCopy={() => copyCode(epin?.code)}>
+                                                        <span>{copy.value == epin?.code
 																	? "Copied"
-																	: "Copy"}
-															</div>
+																	: "Copy"}</span>
+                                                        </CopyToClipboard>
 														</div>
                                                 </td>
 
