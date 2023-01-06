@@ -101,4 +101,8 @@ class User extends Authenticatable
         return $this->hasOne(Epin::class, 'use_by', 'id');
     }
 
+    public function referrals ():HasMany {
+        return $this->hasMany(Bonuse::class, 'given_id', 'id')->where('bonus_type', 'joining')->select('given_id', 'for_given_id');
+    }
+
 }

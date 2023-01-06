@@ -63,6 +63,10 @@ Route::middleware('auth:staff')->group(function () {
     Route::get('user-details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
     Route::post('user-password-reset', [UserHelperController::class, 'passwordReset']);
 
+    // user route list
+    Route::prefix('user')->name('user')->group(function () {
+        Route::get('referral-list/{user}', [UserHelperController::class, 'userReferrals']);
+    });
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
     Route::delete('image-delete/{image}', [MediaController::class, 'deleteImage']);

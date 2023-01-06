@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bonuse;
 use App\Models\User;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
@@ -54,19 +55,15 @@ class UserHelperController extends Controller
 
         $request->validate([
             'id'   => 'required|numeric|exists:users,id',
-            'old_password' => 'required|string',
             'password' => 'required|string|min:8|confirmed'
         ]);
 
         $user = User::find((int) $request->id);
 
-        if (Hash::check($request->old_password, $user->password)) {
-            $user->password = Hash::make($request->password);
-            $user->save();
-            return $this->withSuccess('Successfully changed password.');
-        }
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return $this->withSuccess('Successfully changed password.');
 
-        return $this->withErrors('Old password not match! Please enter valid old password.');
     }
 
     public function getOnlyUserBinaryTree ($id) {
@@ -80,5 +77,15 @@ class UserHelperController extends Controller
 
         Auth::login($user);
         return redirect()->route('login');
+    }
+
+    public function userReferrals ($id) {
+
+        $perPage = 10;
+        if (request()->perPage) {
+            $perPage = request()->perPage;
+        }
+        $referrals = Bonuse::with('bonus_for:id,first_name,last_name,username,phone,email,balance,created_at')->where('given_id', $id)->where('bonus_type', 'joining')->paginate($perPage);
+        return $this->withSuccess($referrals);
     }
 }

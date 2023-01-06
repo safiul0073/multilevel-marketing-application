@@ -23,11 +23,13 @@ use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserInfoController;
 use App\Http\Controllers\Staff\V1\DashboardController;
-use App\Http\Controllers\Staff\UserHelperController;
+use App\Http\Controllers\Staff\V1\UserHelperController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
+// dashboard page route
+Route::get('/staff/{path?}', [DashboardController::class, 'index'])->where('path', '.*');
+// end dashboard page route
 Route::get('user-login/{user}', [UserHelperController::class, 'userLoginFromDashboard']);
 Auth::routes();
 Route::get('/', [HomeCotroller::class, 'index'])->name('hello.world.home.page');
@@ -61,6 +63,4 @@ Route::post('save-user', [RegisterController::class, 'saveUser'])->name('save.us
 // not found route
 Route::get('not-found', [NotFoundController::class, 'index'])->name('not.found');
 
-// dashboard page route
-Route::get('/staff/{path?}', [DashboardController::class, 'index'])->where('path', '.*');
-// end dashboard page route
+
