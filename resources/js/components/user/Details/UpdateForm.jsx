@@ -130,12 +130,17 @@ const UpdateForm = ({ details, detailsRefetch }) => {
                             />
                         </div>
                         <div className="col-span-12 sm:col-span-6">
-                            <InputField
-                                label="Gender"
-                                name="gender"
-                                backendError={backendError?.gender}
-                                register={register}
-                            />
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="">
+                                Gender
+                            </label>
+                            <select
+                                {...register('gender')}
+                                className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                 id="">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div className="col-span-12 sm:col-span-6">
                             <InputField
@@ -252,12 +257,17 @@ const UpdateForm = ({ details, detailsRefetch }) => {
                             />
                         </div>
                         <div className="col-span-12 sm:col-span-6">
-                            <InputField
-                                label="nominee_gender"
-                                name="nominee_gender"
-                                backendError={backendError?.nominee_gender}
-                                register={register}
-                            />
+                            <label className="block text-sm font-medium text-gray-700" htmlFor="">
+                                Gender
+                            </label>
+                            <select
+                                {...register('nominee_gender')}
+                                className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                 id="">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div className="col-span-12 sm:col-span-6">
                             <InputField
