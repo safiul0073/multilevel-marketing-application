@@ -46,7 +46,8 @@ class UserHelperController extends Controller
                         ->withSum(['bonuses as referral_bonus'
                             => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
                         ->withSum('transactions as total_transaction', 'amount')
-                        ->with('image')
+                        ->with(['image', 'nominee'])
+
                         ->where('id', (int) $id)->first();
         return $this->withSuccess($details);
     }
@@ -66,12 +67,6 @@ class UserHelperController extends Controller
 
     }
 
-    public function getOnlyUserBinaryTree ($id) {
-
-        $users = User::select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children'])->where('id', $id)->first();
-
-        return $this->withSuccess($users);
-    }
 
     public function userLoginFromDashboard (User $user) {
 

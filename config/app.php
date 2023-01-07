@@ -182,6 +182,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -212,6 +213,7 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'LoginActivity' => App\Helpers\LoginActivity::class,
         'Location' => 'Stevebauman\Location\Facades\Location',
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ])->toArray(),
 
 ];

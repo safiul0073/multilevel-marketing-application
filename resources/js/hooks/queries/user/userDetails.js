@@ -8,7 +8,7 @@ export const userDetails = ({id}) => {
       id
     ],
     async () => {
-      let res = await getQuery(`user-details/${id}`);
+      let res = await getQuery(`user/details/${id}`);
 
       return res;
     },
