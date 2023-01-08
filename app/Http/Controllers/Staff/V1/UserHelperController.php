@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserHelperController extends Controller
@@ -82,5 +83,36 @@ class UserHelperController extends Controller
         }
         $referrals = Bonuse::with('bonus_for:id,first_name,last_name,username,phone,email,balance,created_at')->where('given_id', $id)->where('bonus_type', 'joining')->paginate($perPage);
         return $this->withSuccess($referrals);
+    }
+
+    public function userBalanceUpdate (Request $request, User $user) {
+
+        $att = $this->validate($request, [
+                    'type'  => 'required|string|in:add,sub',
+                    'amount'=> 'required|numeric|min:50',
+                    'message' => 'required|string|max:256'
+                ]);
+        try {
+            DB::beginTransaction();
+
+            $user->transactions()->create($att);
+            $success_message = '';
+            if ($request->type == 'add') {
+                $user->balance = $user->balance + $request->amount;
+                $success_message = 'Amount successfully added into main balance.';
+
+            }else {
+                $user->balance = $user->balance - $request->amount;
+                $success_message = 'Amount successfully subtract from main balance.';
+            }
+            $user->save();
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $this->withErrors($ex->getMessage());
+        }
+
+        return $this->withSuccess($success_message);
     }
 }

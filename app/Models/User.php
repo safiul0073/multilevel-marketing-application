@@ -65,7 +65,7 @@ class User extends Authenticatable
         return $this->hasMany(Purchase::class);
     }
 
-    public function transactions () {
+    public function transactions ():HasMany {
         return $this->hasMany(Transaction::class);
     }
 

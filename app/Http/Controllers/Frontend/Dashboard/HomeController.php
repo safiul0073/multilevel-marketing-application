@@ -30,11 +30,6 @@ class HomeController extends Controller
         return view('frontend.contents.dashboard.my_team');
     }
 
-    public function changePassView () {
-
-        return view('frontend.contents.dashboard.change_password');
-    }
-
     public function productPurchaseView () {
 
         return view('frontend.contents.dashboard.product_purchase');

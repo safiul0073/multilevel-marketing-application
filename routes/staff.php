@@ -69,6 +69,8 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('list', [UserHelperController::class, 'getUserList']);
         Route::get('details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
         Route::post('password-reset', [UserHelperController::class, 'passwordReset']);
+        // balance increment or decrement
+        Route::post('balance/add-sub/{user}', [UserHelperController::class, 'userBalanceUpdate']);
     });
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);

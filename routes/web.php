@@ -45,9 +45,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [UserInfoController::class, 'profile'])->name('user.profile');
         Route::post('/update', [UserInfoController::class, 'update'])->name('user.profile.update');
     });
+
+    Route::prefix('change/password')->group(function () {
+        Route::get('/', [UserInfoController::class, 'changePassView'])->name('user.change.password');
+        Route::post('/', [UserInfoController::class, 'changePassword'])->name('user.change.password');
+    });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [HomeController::class, 'userTeamView'])->name('user.my.team');
-    Route::get('/change-password', [HomeController::class, 'changePassView'])->name('user.change.password');
+
     Route::get('/user-purchase-product', [HomeController::class, 'productPurchaseView'])->name('user.purchase.product');
     Route::get('/user-deposit', [HomeController::class, 'depositView'])->name('user.deposit');
     Route::get('/user-balance-transfer', [HomeController::class, 'balanceTransferView'])->name('user.balance.transfer');
