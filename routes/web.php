@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\Dashboard\HomeController;
 use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
+use App\Http\Controllers\Frontend\MyTeamController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\NotFoundController;
 use App\Http\Controllers\Frontend\ProductController;
@@ -51,7 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [UserInfoController::class, 'changePassword'])->name('user.change.password');
     });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
-    Route::get('/user-my-team', [HomeController::class, 'userTeamView'])->name('user.my.team');
+    Route::get('/user-my-team', [MyTeamController::class, 'userTeamView'])->name('user.my.team');
 
     Route::get('/user-purchase-product', [HomeController::class, 'productPurchaseView'])->name('user.purchase.product');
     Route::get('/user-deposit', [HomeController::class, 'depositView'])->name('user.deposit');
