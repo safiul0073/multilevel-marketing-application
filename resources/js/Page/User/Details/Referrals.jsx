@@ -1,42 +1,8 @@
 import React from "react";
-const people = [
-    {
-        name: "Lindsay Walton",
-        email: "lindsay.walton@example.com",
-        country: "Bangladesh",
-        time: "2022-10-13 12?30 PM",
-        balance: 20000,
-    },
-    {
-        name: "Lindsay Walton",
-        email: "lindsay.walton@example.com",
-        country: "Bangladesh",
-        time: "2022-10-13 12?30 PM",
-        balance: 20000,
-    },
-    {
-        name: "Lindsay Walton",
-        email: "lindsay.walton@example.com",
-        country: "Bangladesh",
-        time: "2022-10-13 12?30 PM",
-        balance: 20000,
-    },
-    {
-        name: "Lindsay Walton",
-        email: "lindsay.walton@example.com",
-        country: "Bangladesh",
-        time: "2022-10-13 12?30 PM",
-        balance: 20000,
-    },
-    {
-        name: "Lindsay Walton",
-        email: "lindsay.walton@example.com",
-        country: "Bangladesh",
-        time: "2022-10-13 12?30 PM",
-        balance: 20000,
-    },
-];
-const Referrals = () => {
+import { getUserReferrals } from "../../../hooks/queries/user/getUserReferrals";
+
+const Referrals = ({id}) => {
+    const {data: peoples} = getUserReferrals(id)
     return (
         <div className="mt-10">
             <div className="sm:flex sm:items-center">
@@ -81,7 +47,7 @@ const Referrals = () => {
                                             scope="col"
                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                         >
-                                            Country
+                                            Username
                                         </th>
                                         <th
                                             scope="col"
@@ -104,7 +70,7 @@ const Referrals = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {people.map((person) => (
+                                    {peoples?.map((person) => (
                                         <tr key={Math.random()}>
                                             <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                 {person?.name}
@@ -113,7 +79,7 @@ const Referrals = () => {
                                                 {person?.email}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {person?.country}
+                                                {person?.username}
                                             </td>
                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {person?.time}

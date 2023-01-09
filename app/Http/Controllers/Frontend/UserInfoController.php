@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\MediaOperator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserInfoController extends Controller
 {
@@ -78,5 +79,27 @@ class UserInfoController extends Controller
             return redirect()->back()->with('error', $ex->getMessage());
         }
         return redirect()->back()->with('success', 'Successfully info update. Please wait to confirm.');
+    }
+
+    public function changePassView () {
+
+        return view('frontend.contents.dashboard.change_password');
+    }
+
+    public function changePassword (Request $request) {
+
+        $this->validate($request, [
+            'old_password' => 'required|string',
+            'password' => 'required|string|min:8|confirmed'
+        ]);
+        $user = User::find(auth()->id());
+        if (Hash::check($request->old_password, $user->password)){
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return redirect()->back()->with('success', 'Successfully changed your password.');
+        }
+
+        return redirect()->back()->with('error', "Old password doesn't match! Please enter your old password.");
+
     }
 }

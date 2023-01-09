@@ -99,7 +99,7 @@ async function  getOneProduct (id) {
     //     checkout url setting
     var checkoutButton = document.getElementById('checkout_button');
     checkoutButton.setAttribute('href', `set-sponsor/?slug=${data?.slug}`)
-    
+
     var description = document.getElementById('description')
     description.innerText = data.description
     document.getElementById('product_name').innerText = data.name
@@ -107,15 +107,21 @@ async function  getOneProduct (id) {
     document.getElementById("category").innerText ="Category: " + data?.category?.title
     document.getElementById("referral_commission").innerText = "Referral Commission: " + data?.refferral_commission + "%"
     document.getElementById("vedio_link").src = data?.video_url
-    var imageDiv =  document.getElementById("small-img-roll")
-    var imageShowSlide = document.getElementById("image-shop-slid")
+    var sliderInputDiv =  document.getElementById("swiper-images")
     if (data?.images?.length > 0) {
         var images = ''
        data?.images?.map((image) => {
-         images += `<img src="${image?.url}" class="show-small-img" alt="">`
-         imageShowSlide.innerHTML = `<img src="${image?.url}" id="show-img">`
+
+         images += `<div class="swiper-slide">
+         <img
+           class="object-cover w-full h-full"
+           src="${image?.url}"
+           alt="image"
+         />
+       </div>`
+
        })
-       imageDiv.innerHTML = images
+       sliderInputDiv.innerHTML = images
     }
 
 

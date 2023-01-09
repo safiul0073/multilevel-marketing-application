@@ -1,11 +1,14 @@
 @extends('frontend.layouts.app')
 @push('custom_style')
 {{-- here some custome style --}}
+<link
+rel="stylesheet"
+href="https://unpkg.com/swiper/swiper-bundle.min.css"
+/>
 @endpush
 @section('custome_style')
 {{-- here some style --}}
 <link rel="stylesheet" href="{{ asset('frontend/css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('frontend/css/slider-zoom/main.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/splide-skyblue.min.css') }}">
 @endsection
 @section('content')
@@ -351,22 +354,14 @@
 
             <div class="mx-auto py-8 px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8">
                 <div class="lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pr-8">
-                    <div id="image-shop-slid" class="show"></div>
-                    <div class="small-img">
-                        <img src="{{ asset("frontend/images/icon/online_icon_right@2x.png") }}" class="icon-left" alt="" id="prev-img">
-                        <div class="small-container">
-                            <div id="small-img-roll">
-                                {{-- <img src="https://placeimg.com/1000/1000/animals" class="show-small-img" alt="">
-                            <img src="https://placeimg.com/1000/1000/arch" class="show-small-img" alt="">
-                            <img src="https://placeimg.com/1000/1000/nature" class="show-small-img" alt="">
-                            <img src="https://placeimg.com/1000/1000/people" class="show-small-img" alt="">
-                            <img src="https://placeimg.com/1000/1000/tech" class="show-small-img" alt="">
-                            <img src="https://picsum.photos/1000/1000/?random" class="show-small-img" alt=""> --}}
-                            </div>
-                        </div>
-                        <img src="{{ asset("frontend/images/icon/online_icon_right@2x.png") }}" class="icon-right" alt="" id="next-img">
-                    </div>
+                    <div class="w-full h-[400px] swiper mySwiper">
+                        <div id="swiper-images" class="swiper-wrapper">
 
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-pagination"></div>
+                      </div>
                     <div class="mt-10">
                         <h2 class="text-sm font-medium text-gray-900">Details</h2>
 
@@ -405,12 +400,30 @@
 
 @push('custom_scipt')
 {{-- some sort js you can write here --}}
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.mySwiper', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        loop: false,
+        // autoplay: {
+        //   delay: 2500,
+        //   disableOnInteraction: false,
+        // },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+    });
+  </script>
 
 @endpush
 
 @section('custome_scipt')
 <script src="{{ asset('frontend/script/home.js') }}"></script>
-<script src="{{ asset('frontend/script/slider-zoom/zoom-image.js') }}"></script>
-<script src="{{ asset('frontend/script/slider-zoom/main.js') }}"></script>
 <script src="{{ asset('frontend/script/splide.min.js') }}"></script>
 @endsection

@@ -202,16 +202,16 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                                                         }
                                                     </div>
                                                     <div
-
+														>
+                                                        <CopyToClipboard text={epin?.code}
+                                                        onCopy={() => copyCode(epin?.code)}>
+                                                        <span
 															className={`${
 																copy.value == epin?.code
 																	? "bg-blue-500"
 																	: "bg-blue-800"
 															}  text-white  flex items-center justify-center cursor-pointer rounded-md transition-all duration-100`}
-														>
-                                                        <CopyToClipboard text={epin?.code}
-                                                        onCopy={() => copyCode(epin?.code)}>
-                                                        <span>{copy.value == epin?.code
+                                                        >{copy.value == epin?.code
 																	? "Copied"
 																	: "Copy"}</span>
                                                         </CopyToClipboard>

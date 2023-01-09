@@ -56,7 +56,13 @@ class UserService {
         }
     }
 
-    public function checkEpinAndUpdate ($epin_code, $product, $user):Product {
+    /**
+     * @epin_code type string.
+     * @product type Product
+     * @user type User
+     * @return Product
+     **/
+    public function checkEpinAndUpdate (string $epin_code, Product $product, User $user):Product {
         $epin = Epin::with('epin_main')->where('code', $epin_code)->first();
         if($epin && $epin->status == 1) throw new Exception('Epin already used. Please use new epin.');
         if ($product && $epin->epin_main->product_id != $product->id) throw new Exception('Sorry package not match! Please use valid package epin!');
@@ -68,10 +74,10 @@ class UserService {
     }
     /**
      * @position type string between left or right.
-     * @refrrence_id type int parent id
+     * @sponsor_id type int parent id
      * @referrer_id type int child id
-     * @return void
-     */
+     * @return User
+     **/
     public function setReferPosition (int $sponsor_id, int $referrer_id, string $position = 'left',):User
 
     {
@@ -118,15 +124,15 @@ class UserService {
     }
 
     public function referCount ($sponsor, $user_id):void {
-        // sponsor group incrementing
+
         if ($this->findPosition($sponsor, $user_id)  == 'left') {
             $increased_count = $sponsor->left_group + 1;
             $sponsor->left_group = $increased_count;
-            $this->checkMatchingPair('left', $increased_count, $sponsor->id, $user_id);
+            $this->checkMatchingPair($sponsor->right_group, $increased_count, $sponsor->id, $user_id);
         }else{
             $increased_count = $sponsor->right_group + 1;
             $sponsor->right_group = $increased_count;
-            $this->checkMatchingPair('right', $increased_count, $sponsor->id, $user_id);
+            $this->checkMatchingPair($sponsor->left_group, $increased_count, $sponsor->id, $user_id);
         }
         $sponsor->save();
     }
@@ -139,16 +145,18 @@ class UserService {
         }
     }
 
-    public function checkMatchingPair ($position, $increased_count, $sponsor_id, $user_id) {
+    public function checkMatchingPair ($opposite_count, $increased_count, $sponsor_id, $user_id) {
 
-        MatchingPair::create([
-            'parent_id' => $sponsor_id,
-            'parent_position' => $position,
-            'match_count'     => $increased_count,
-            'user_id'   => $user_id,
-        ]);
+        if ($opposite_count >= $increased_count) {
+            // MatchingPair::create([
+            //     'parent_id' => $sponsor_id,
+            //     'match_count'     => $increased_count,
+            //     'user_id'   => $user_id,
+            // ]);
+            $this->matchingBonus($sponsor_id, $user_id);
+        }
+
     }
-
 
     /**
      * @generation looping from 1 - 10.
@@ -157,7 +165,7 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function generationLoop (int $sponsor_id, int $user_id, $position,  $i) {
+    public function generationLoop (int $sponsor_id, int $user_id, string $position, int $i) {
 
         $sponsor = User::find((int) $sponsor_id);
         $sponsor_sponsor_id = $sponsor->sponsor_id;
@@ -168,11 +176,11 @@ class UserService {
             if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
                 $increased_count = $sponsor_sponsor->left_group + 1;
                 $sponsor_sponsor->left_group = $increased_count;
-                $this->checkMatchingPair('left', $i, $sponsor_sponsor->id, $user_id);
+                $this->checkMatchingPair($sponsor_sponsor->right_group, $increased_count, $sponsor_sponsor->id, $user_id);
             }else{
                 $increased_count = $sponsor_sponsor->right_group + 1;
                 $sponsor_sponsor->right_group = $increased_count;
-                $this->checkMatchingPair('right', $i, $sponsor_sponsor->id, $user_id);
+                $this->checkMatchingPair($sponsor_sponsor->left_group, $increased_count, $sponsor_sponsor->id, $user_id);
             }
             $sponsor_sponsor->save();
 
@@ -192,48 +200,38 @@ class UserService {
     }
 
      /**
-     * @generation looping from 1 - 10.
-     * @$sponsor_id int
-     * @user_id who joined
-     * $i loop index
+     * @sponsor_id type int.
+     * @user_id type int
      * @return void
-     */
-    public function bonusGiven ($sponsor_id, $user_id, $side):void {
+     **/
+    public function bonusGiven (int $sponsor_id, int $user_id):void {
         $this->joiningBonus($sponsor_id, $user_id);
-        $this->matchingBonus($user_id, $side);
         $this->generationBonus($user_id);
     }
 
-    public function joiningBonus ($sponsor_id, $user_id):void {
+     /**
+     * @sponsor_id type int.
+     * @user_id type int
+     * @return void
+     **/
+    public function joiningBonus (int $sponsor_id, int $user_id):void {
         $this->bonusSave($sponsor_id, $user_id, 'joining', $this->join_bonus);
     }
 
-    public function matchingBonus ($user_id, $side) {
+     /**
+     * @sponsor_id type int.
+     * @user_id type int
+     * @return void
+     **/
+    public function matchingBonus (int $parent_id, int $user_id) {
 
-        $matching_pairs = MatchingPair::where('user_id', $user_id)->where('status', 0)->get();
-        $position = [
-            'left' => 'right',
-            'right'=> 'left'
-        ];
-        foreach($matching_pairs as $user) {
-            $match = MatchingPair::where('parent_position' , $position[$user->parent_position])
-                                ->where('status', 0)
-                                ->where('user_id', '!=', $user_id)
-                                ->where('parent_id', $user->parent_id,)
-                                ->where('match_count', $user->match_count,)
-                                ->first();
-            if ($match) {
-                $main = $match->matchMain;
-                if ($main->left_group >= $match->match_count && $main->right_group >= $match->match_count) {
-                    $this->bonusSave($user->parent_id, $user->user_id, 'matching', $this->matching_bonus);
-                    $user->status = 1;
-                    $user->save();
-                    $match->status = 1;
-                    $match->save();
-                }
-            }
+        // $matching_pairs = MatchingPair::where('user_id', $user_id)->get();
 
-        }
+        // foreach($matching_pairs as $user) {
+
+        $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus);
+
+        // }
 
     }
 

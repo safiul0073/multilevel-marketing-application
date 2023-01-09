@@ -7,70 +7,134 @@
 
 @endsection
 @section('content')
-    <div class="lg:flex xl:flex justify-center items-center ">
-        <div class="lg:w-1/2 xl:w-1/2 mx-auto">
-            {{-- error message show or success message show component --}}
-            @include('frontend.layouts.partials.flash-alert')
-            {{-- error show or success message shop composnent --}}
-            @if ($product)
-                <div>
-                    <table class="table-auto">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Balance</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>{{$product->name}}</td>
-                                <td>{{$product->category->title}}</td>
-                                <td>{{$product->price}}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td>{{$product->price}}</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>Total</td>
-                                <td>{{$product->price}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            @endif
 
-            <div>
-                <form  action="{{ route('save.user') }}" method="POST">
+<div class="relative overflow-hidden bg-white h-full">
+    <div class="hidden lg:absolute lg:inset-0 lg:block" aria-hidden="true">
+        <svg class="absolute top-0 left-1/2 translate-x-64 -translate-y-8 transform" width="640" height="784" fill="none" viewBox="0 0 640 784">
+            <defs>
+                <pattern id="9ebea6f4-a1f5-4d96-8c4e-4c2abf658047" x="118" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <rect x="0" y="0" width="4" height="4" class="text-gray-200" fill="currentColor" />
+                </pattern>
+            </defs>
+            <rect y="72" width="640" height="640" class="text-gray-50" fill="currentColor" />
+            <rect x="118" width="404" height="784" fill="url(#9ebea6f4-a1f5-4d96-8c4e-4c2abf658047)" />
+        </svg>
+    </div>
+    <div class="relative py-8 sm:py-12 lg:py-16">
+        <main class="mx-auto max-w-7xl px-4 sm:px-6">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full align-middle">
+                    <div class="overflow-hidden">
+                        {{-- error message show or success message show component --}}
+                        @include('frontend.layouts.partials.flash-alert')
+                        {{-- error show or success message shop composnent --}}
+                        @if ($product)
+                        <table class="min-w-full">
+                            <thead class="bg-gray-50">
+                                <tr class="">
+                                    <th scope="col" class="border border-gray-300 py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">SR.</th>
+                                    <th scope="col" class="border border-gray-300 px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+                                    <th scope="col" class="border border-gray-300 px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
+                                    <th scope="col" class="border border-gray-300 py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pr-6">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white">
+                                <tr class="">
+                                    <td class="border border-gray-300 whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6">1</td>
+                                    <td class="border border-gray-300 whitespace-nowrap p-4 text-sm text-gray-500">{{$product->name}}</td>
+                                    <td class="border border-gray-300 whitespace-nowrap p-4 text-sm text-gray-500">{{$product->category->title}}</td>
+                                    <td class="border border-gray-300 whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-6">{{$product->price}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="">
+                                <tr>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-6"></td>
+                                    <td class="whitespace-nowrap p-4 text-sm text-gray-500"></td>
+                                    <td class="border border-gray-300 bg-white whitespace-nowrap p-4 text-sm text-gray-900 font-bold">Total</td>
+                                    <td class="border border-gray-300 bg-white whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-900 font-bold sm:pr-6">{{$product->price}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="mt-10">
+                <h4 class="text-3xl text-gray-900 mb-5">Payment Method</h4>
+                <div role="list" class="grid grid-cols-1 gap-x-4 gap-y-4 text-sm sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-6">
+                    <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-300 px-5 py-3 bg-gray-100">
+                        <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z" fill="#737373"></path>
+                            <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
+                            <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
+                        </svg>
+                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                    </button>
+                    <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-200 px-5 py-3 bg-white">
+                        <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z" fill="#737373"></path>
+                            <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
+                            <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
+                        </svg>
+                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                    </button>
+                    <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-200 px-5 py-3 bg-white">
+                        <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z" fill="#737373"></path>
+                            <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
+                            <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
+                        </svg>
+                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                    </button>
+                    <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-200 px-5 py-3 bg-white">
+                        <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z" fill="#737373"></path>
+                            <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
+                            <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
+                        </svg>
+                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                    </button>
+                    <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-200 px-5 py-3 bg-white">
+                        <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z" fill="#737373"></path>
+                            <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
+                            <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
+                        </svg>
+                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                    </button>
+                    <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-200 px-5 py-3 bg-white">
+                        <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0a4 4 0 00-4 4v24a4 4 0 004 4h14a4 4 0 004-4V4a4 4 0 00-4-4H9zm0 2a2 2 0 00-2 2v24a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2h-1.382a1 1 0 00-.894.553l-.448.894a1 1 0 01-.894.553h-6.764a1 1 0 01-.894-.553l-.448-.894A1 1 0 0010.382 2H9z" fill="#737373"></path>
+                            <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
+                            <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
+                        </svg>
+                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                    </button>
+                </div>
+                <form action="{{ route('save.user') }}" method="POST">
                     @method("post")
                     @csrf
-                    <input type="hidden" name="slug" value="{{ $slug }}" >
-                    <input type="hidden" name="sponsor_id" value="{{ $sponsor_id }}" >
-                    <input type="hidden" name="refer_position" value="{{ $position }}" >
-                    <input type="hidden" name="first_name" value="{{ $first_name }}" >
-                    <input type="hidden" name="last_name" value="{{ $last_name }}" >
-                    <input type="hidden" name="email" value="{{ $email }}" >
-                    <input type="hidden" name="phone" value="{{ $phone }}" >
-                    <input type="hidden" name="username" value="{{ $username }}" >
-                    <input type="hidden" name="password" value="{{ $password }}" >
+                    <input type="hidden" name="slug" value="{{ $slug }}">
+                    <input type="hidden" name="sponsor_id" value="{{ $sponsor_id }}">
+                    <input type="hidden" name="refer_position" value="{{ $position }}">
+                    <input type="hidden" name="first_name" value="{{ $first_name }}">
+                    <input type="hidden" name="last_name" value="{{ $last_name }}">
+                    <input type="hidden" name="email" value="{{ $email }}">
+                    <input type="hidden" name="phone" value="{{ $phone }}">
+                    <input type="hidden" name="username" value="{{ $username }}">
+                    <input type="hidden" name="password" value="{{ $password }}">
                     <div class="form-group">
                         <label for="epin_id">E-Pin Code</label>
-                        <input type="text" name="epin_code" class="form-control">
+                        <input type="text" name="epin_code" class="form-control !ring-1 !ring-indigo-600">
                     </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="flex justify-center items-center">
+                        <button type="submit" class="mt-3 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Continue</button>
                     </div>
                 </form>
             </div>
-        </div>
+        </main>
     </div>
+</div>
 @endsection
 
 @push('custom_scipt')

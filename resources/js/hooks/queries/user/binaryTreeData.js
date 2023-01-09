@@ -8,7 +8,7 @@ export const binaryTreeData = ({username}) => {
       username
     ],
     async () => {
-      let res = await getQuery('binary-user', {username:username} );
+      let res = await getQuery('user/binary', {username:username} );
 
       return res;
     },
