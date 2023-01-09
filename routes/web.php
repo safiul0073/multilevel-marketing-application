@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('change/password')->group(function () {
-        Route::get('/', [UserInfoController::class, 'changePassView'])->name('user.change.password');
+        Route::get('/', [UserInfoController::class, 'changePassView'])->name('user.show.change.password');
         Route::post('/', [UserInfoController::class, 'changePassword'])->name('user.change.password');
     });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
