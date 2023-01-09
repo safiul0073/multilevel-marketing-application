@@ -21,7 +21,7 @@ export const changePassword = async (inputData) => {
 
   export const userUpdate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user/update`,
+      `${APIURL}/staff/user/info/update`,
       inputData
     );
 
