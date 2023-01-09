@@ -1,7 +1,7 @@
 @extends('frontend.contents.dashboard.index')
 
 @section('dashboard-page')
-<form method="POST" action="{{ route('user.change.password') }}">
+<form method="POST" action="{{ route('user.update.password') }}">
     @csrf
     @include('frontend.layouts.partials.flash-alert')
     <div class="row mb-3">
