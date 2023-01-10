@@ -6,8 +6,7 @@ echo "Deploying application ..."
 # Enter maintenance mode
 (php artisan down --message 'The app is being (quickly!) updated. Please try again in a minute.') || true
     # Update codebase
-    git fetch origin deploy
-    git reset --hard origin/deploy
+    git pull origin production
 
     # Install dependencies based on lock file
     composer install --no-interaction --prefer-dist --optimize-autoloader
@@ -22,7 +21,7 @@ echo "Deploying application ..."
     php artisan optimize
 
     # Reload PHP to update opcache
-    echo "" | sudo -S service php7.4-fpm reload
+    echo "" | sudo -S service php8.1-fpm reload
 # Exit maintenance mode
 php artisan up
 
