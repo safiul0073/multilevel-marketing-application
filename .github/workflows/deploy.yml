@@ -34,10 +34,18 @@ jobs:
 
         run: npm run build
 
-      - name: 📂 FTP deploy files
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      - name: Commit built assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "safiul-dev"
+          git checkout -B deploy
+          git add -f public/
+          git commit -m "Build front-end assets"
+          git push -f origin deploy
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-
+          username: ${{ secrets.VPS_USERNAME }}
+          host: ${{ secrets.VPS_IP }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          script: 'cd /var/www/html/aqebbd.com && ./server_deploy.sh'
