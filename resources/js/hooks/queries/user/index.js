@@ -3,7 +3,7 @@ import { APIURL } from "../../../constent";
 
 export const changePassword = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user-password-reset`,
+      `${APIURL}/staff/user/password-reset`,
       inputData
     );
 
@@ -21,7 +21,7 @@ export const changePassword = async (inputData) => {
 
   export const userUpdate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user-update`,
+      `${APIURL}/staff/user/info/update`,
       inputData
     );
 
@@ -30,7 +30,7 @@ export const changePassword = async (inputData) => {
 
   export const deleteSlider = async (id) => {
     const res = await userAxios.delete(
-      `${API_URL}/staff/slider/${id}`);
+      `${API_URL}/staff/user/${id}`);
 
     return res?.data?.data?.string_data;
   };

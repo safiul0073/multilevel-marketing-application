@@ -7,7 +7,7 @@ export const getUserList = () => {
       'user-select-lists'
     ],
     async () => {
-      let res = await getQuery('user-list');
+      let res = await getQuery('user/list');
 
       return res;
     },

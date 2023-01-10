@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Staff\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Generation;
 use App\Models\MatchingPair;
+use App\Models\Nominee;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
@@ -142,29 +144,47 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
-        $this->validate($request, [
-            'id' => 'required|exists:users,id',
-            'status' => 'required|in:1,0',
-            'email_verified' => 'required|in:1,0',
-            'sms_verified' => 'required|in:1,0',
-            'isUpdated' => 'required|in:1,0'
-        ]);
+
         $user = User::find((int) $request->id);
 
         try {
             DB::beginTransaction();
                 $user->update([
+                    'first_name'    => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'profession'    => $request->profession,
+                    'gender'    => $request->gender,
+                    'nid_number'    => $request->nid_number,
+                    'father_name'   => $request->father_name,
+                    'mother_name'   => $request->mother_name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address'   => $request->address,
+                    'birthday'  => $request->birthday,
                     'status' => $request->status == '1'? true : false ,
                     'email_verified_at' => $request->email_verified == '1'? now() : null,
                     'sms_verified_at' => $request->sms_verified == '1'? now() : null,
                     'isUpdated' => $request->isUpdated
                 ]);
+
+                $user->nominee()->updateOrCreate(['user_id' => $request->id],[
+                        'nominee_name' => $request->nominee_name,
+                        'relation' => $request->relation,
+                        'nominee_profession' => $request->nominee_profession,
+                        'nominee_birthday' => $request->nominee_birthday,
+                        'nominee_gender' => $request->nominee_gender,
+                        'nominee_nid' => $request->nominee_nid,
+                        'nominee_father' => $request->nominee_father,
+                        'nominee_mother' => $request->nominee_mother,
+                        'nominee_phone' => $request->nominee_phone,
+                        'nominee_address' => $request->nominee_address
+                    ]);
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();
-            return $this->withErrors('error', $ex->getMessage());
+            return $this->withErrors($ex->getMessage());
         }
 
         return $this->withSuccess('Successfully updated.');

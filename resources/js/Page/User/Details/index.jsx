@@ -11,6 +11,7 @@ import Password from "./Password";
 import Referrals from "./Referrals";
 import moment from "moment";
 import { LIVE_URL } from "../../../constent";
+import ReferralTree from "./ReferralTree";
 
 export default function UserDetails({ showUserDetails, setUserDetails }) {
 
@@ -85,7 +86,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Referrals />
+                    <Referrals  />
                 </>
             ),
         },
@@ -96,10 +97,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. At
-                    repellat corrupti, facere, qui eius optio veniam enim animi nam
-                    incidunt illo? Consectetur nemo dolor excepturi laborum omnis
-                    quae veniam ad.
+                    <ReferralTree username={showUserDetails?.username} />
                 </>
             ),
         },

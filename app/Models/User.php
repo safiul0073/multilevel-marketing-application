@@ -65,7 +65,7 @@ class User extends Authenticatable
         return $this->hasMany(Purchase::class);
     }
 
-    public function transactions () {
+    public function transactions ():HasMany {
         return $this->hasMany(Transaction::class);
     }
 
@@ -99,6 +99,10 @@ class User extends Authenticatable
 
     public function epin ():HasOne {
         return $this->hasOne(Epin::class, 'use_by', 'id');
+    }
+
+    public function referrals ():HasMany {
+        return $this->hasMany(Bonuse::class, 'given_id', 'id')->where('bonus_type', 'joining')->select('given_id', 'for_given_id');
     }
 
 }

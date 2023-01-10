@@ -8,17 +8,12 @@ import { changePassword } from "../../../hooks/queries/user";
 
 
 const Password = ({userId}) => {
-    console.log("password change page");
-    const [oldPassword, setOldPassword] = useState();
-    const [newPassword, setNewPassword] = useState();
-    const [confirmPassword, setConfirmPassword] = useState();
 
     const [backendError, setBackendError] = useState([])
 
     const {
         register,
         handleSubmit,
-        control,
         reset,
         formState: { errors },
     } = useForm();
@@ -27,7 +22,7 @@ const Password = ({userId}) => {
         changePasswordFunction(data);
     };
 
-    
+
     const {
         mutate: changePasswordFunction,
         isLoading,
@@ -49,7 +44,7 @@ const Password = ({userId}) => {
         },
     });
 
-    
+
 
     return (
         <form className="space-y-8 mt-10 divide-y divide-gray-200" onSubmit={handleSubmit(onSubmit)}>
@@ -63,27 +58,7 @@ const Password = ({userId}) => {
                             Use a permanent address where you can receive mail.
                         </p>
                     </div>
-                    <div className="space-y-6 sm:space-y-5">
-                        <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label
-                                htmlFor="first-name"
-                                className="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                            >
-                                Current Password
-                            </label>
-                            <div className="mt-1 sm:col-span-2 sm:mt-0">
-                                <input
-                                    type="password"
-                                    name="first-name"
-                                    id="first-name"
-                                    autoComplete="given-name"
-                                    {...register("old_password", { required: "Please enter your current Password." })} 
-                                    className="block py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                />
-                                {backendError && <span className="error-message">{backendError?.old_password}</span>}
-                            </div>
-                        </div>
-                    </div>
+
                     <div className="space-y-6 sm:space-y-5">
                         <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
                             <label
@@ -98,8 +73,8 @@ const Password = ({userId}) => {
                                     name="first-name"
                                     id="first-name"
                                     autoComplete="given-name"
-                                    {...register("password", { required: "Please enter your new Password." })} 
-                                    className="block py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    {...register("password", { required: "Please enter your new Password." })}
+                                    className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 />
                                 {backendError && <span className="error-message">{backendError?.password}</span>}
                             </div>
@@ -116,11 +91,9 @@ const Password = ({userId}) => {
                             <div className="mt-1 sm:col-span-2 sm:mt-0">
                                 <input
                                     type="password"
-                                    name="first-name"
-                                    id="first-name"
                                     autoComplete="given-name"
-                                    {...register("password_confirmation", { required: "Please enter your new confirm Password." })} 
-                                    className="block py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    {...register("password_confirmation", { required: "Please enter your new confirm Password." })}
+                                    className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 />
                                 {backendError && <span className="error-message">{backendError?.password_confirmation}</span>}
                             </div>

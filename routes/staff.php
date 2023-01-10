@@ -35,13 +35,13 @@ Route::middleware('auth:staff')->group(function () {
 
     // resource route start
     Route::resource('category', CategoryController::class);
-    Route::resource('user', UserController::class);
+
     Route::resource('package', PackageController::class);
     Route::resource('slider', SliderController::class);
     Route::resource('epin', EpinController::class);
     Route::resource('reward', RewardController::class);
     // resource route end
-    Route::post('user-update', [UserController::class, 'update']);
+
     Route::post('reward-update', [RewardController::class, 'update']);
     // epin helper
     Route::post('epin-update', [EpinController::class, 'update']);
@@ -57,12 +57,21 @@ Route::middleware('auth:staff')->group(function () {
     Route::get('category-list', [PackageHelperController::class, 'getCategoryList']);
     Route::post('slider-update', [SliderController::class, 'update']);
     Route::post('category-update', [CategoryController::class, 'update']);
-    // user Helper
-    Route::get('binary-user', [UserHelperController::class, 'userBinaryTreeData']);
-    Route::get('user-list', [UserHelperController::class, 'getUserList']);
-    Route::get('user-details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
-    Route::post('user-password-reset', [UserHelperController::class, 'passwordReset']);
 
+
+    // user route list
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('/', UserController::class);
+        Route::post('info/update', [UserController::class, 'update'])->name('info.update');
+        Route::get('referral-list/{user}', [UserHelperController::class, 'userReferrals']);
+        // user Helper
+        Route::get('binary', [UserHelperController::class, 'userBinaryTreeData']);
+        Route::get('list', [UserHelperController::class, 'getUserList']);
+        Route::get('details/{id}', [UserHelperController::class, 'userDetailsCalculation']);
+        Route::post('password-reset', [UserHelperController::class, 'passwordReset']);
+        // balance increment or decrement
+        Route::post('balance/add-sub/{user}', [UserHelperController::class, 'userBalanceUpdate']);
+    });
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
     Route::delete('image-delete/{image}', [MediaController::class, 'deleteImage']);

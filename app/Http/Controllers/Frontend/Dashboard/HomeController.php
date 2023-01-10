@@ -25,15 +25,7 @@ class HomeController extends Controller
                     ->where('id', auth()->id())->first();
         return view('frontend.contents.dashboard.home', ['user' => $user]);
     }
-    public function userTeamView () {
 
-        return view('frontend.contents.dashboard.my_team');
-    }
-
-    public function changePassView () {
-
-        return view('frontend.contents.dashboard.change_password');
-    }
 
     public function productPurchaseView () {
 
