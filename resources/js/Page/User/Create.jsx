@@ -66,9 +66,9 @@ const Create = () => {
                             className="relative md:flex md:flex-1"
                         >
                             {step.status === "complete" ? (
-                                <button className="group flex w-full items-center">
+                                <div className="group flex w-full items-center">
                                     <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
+                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600">
                                             <CheckIcon
                                                 className="h-6 w-6 text-white"
                                                 aria-hidden="true"
@@ -78,9 +78,9 @@ const Create = () => {
                                             {step.name}
                                         </span>
                                     </span>
-                                </button>
+                                </div>
                             ) : step.status === "current" ? (
-                                <button
+                                <div
                                     className="flex items-center px-6 py-4 text-sm font-medium"
                                     aria-current="step"
                                 >
@@ -92,20 +92,20 @@ const Create = () => {
                                     <span className="ml-4 text-sm font-medium text-indigo-600">
                                         {step.name}
                                     </span>
-                                </button>
+                                </div>
                             ) : (
-                                <button className="group flex items-center">
+                                <div className="group flex items-center">
                                     <span className="flex items-center px-6 py-4 text-sm font-medium">
-                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300 group-hover:border-gray-400">
-                                            <span className="text-gray-500 group-hover:text-gray-900">
+                                        <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300">
+                                            <span className="text-gray-500">
                                                 {step.id}
                                             </span>
                                         </span>
-                                        <span className="ml-4 text-sm font-medium text-gray-500 group-hover:text-gray-900">
+                                        <span className="ml-4 text-sm font-medium text-gray-500">
                                             {step.name}
                                         </span>
                                     </span>
-                                </button>
+                                </div>
                             )}
 
                             {stepIdx !== steps.length - 1 ? (

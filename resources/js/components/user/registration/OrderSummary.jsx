@@ -197,17 +197,16 @@ const OrderSummary = ({ setTab, setBackendError, backendError }) => {
                     selectedIndex={tabIndex}
                     onSelect={(i) => setTabIndex(i)}
                 >
-                    {console.log(tabIndex)}
                     <TabList className="w-44 bg-gray-300 flex md:flex-col bg-transparent gap-1">
                         <Tab
-                            className={`border-none !rounded-md px-5 py-1 ${
+                            className={`border-none !rounded-md px-5 py-1 cursor-pointer ${
                                 tabIndex == 0 ? "!bg-indigo-200 !text-black" : "!bg-gray-300"
                             }`}
                         >
                             E-Pin
                         </Tab>
                         <Tab
-                            className={`border-none !rounded-md px-5 py-1 ${
+                            className={`border-none !rounded-md px-5 py-1 cursor-pointer ${
                                 tabIndex == 1 ? "!bg-indigo-200 !text-black" : "!bg-gray-300"
                             }`}
                         >

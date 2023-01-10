@@ -46,7 +46,6 @@ const UserInfo = ({ setTab, backendError }) => {
     }, [userRegister]);
 
     const onSubmit = (data) => {
-        console.log(data);
         userRegister.first_name = data.first_name;
         userRegister.last_name = data.last_name;
         userRegister.email = data.email;
