@@ -36,7 +36,7 @@ jobs:
 
       - name: Commit built assets
         run: |
-          git config --local user.email "action@github.com"
+          git config --local user.email "parsonal494@gmail.com"
           git config --local user.name "safiul-dev"
           git checkout -B deploy
           git add -f public/
