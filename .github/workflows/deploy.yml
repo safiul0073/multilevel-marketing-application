@@ -1,46 +1,32 @@
-name: Laravel
+name: Deploy
 
-on:
-  push:
-    branches: [ "production" ]
-  pull_request:
-    branches: [ "production" ]
+on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v1
 
-      - name: Checkout
-
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-
-        uses: actions/setup-node@v2-beta
-
+      - name: Copy repository contents via scp
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.VPS_IP }}
+          USERNAME: ${{ secrets.VPS_USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
         with:
+          source: "."
+          target: "/var/www/html/aqebbd.com"
 
-          node-version: '18'
-
-          check-latest: true
-
-      - name: Install NPM dependencies
-
-        run: npm install
-
-      - name: Compile assets for production
-
-        run: npm run build
-
-      - uses: actions/checkout@v2
-      - name: Deploy to server
+      - name: Executing remote command
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USERNAME }}
-          port: ${{ secrets.PORT }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          script: 'cd /var/www/html/aqebbd.com && ./server_deploy.sh'
+          USERNAME: ${{ secrets.VPS_USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: 'npm run build'
 
