@@ -41,7 +41,6 @@ jobs:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USERNAME }}
           port: ${{ secrets.PORT }}
-          key: ${{ secrets.SSHKEY }}
           password: ${{ secrets.VPS_PASSWORD }}
           script: 'cd /var/www/html/aqebbd.com && ./server_deploy.sh'
 
