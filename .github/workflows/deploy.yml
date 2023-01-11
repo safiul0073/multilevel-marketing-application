@@ -34,18 +34,13 @@ jobs:
 
         run: npm run build
 
-      - name: Commit built assets
-        run: |
-          git config --local user.email "parsonal494@gmail.com"
-          git config --local user.name "safiul-dev"
-          git checkout -B deploy
-          git add -f public/
-          git commit -m "Build front-end assets"
-          git push -f origin deploy
-      - name: Deploy to production
+      - uses: actions/checkout@v2
+      - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
-          username: ${{ secrets.VPS_USERNAME }}
           host: ${{ secrets.VPS_IP }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          username: ${{ secrets.VPS_USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
           script: 'cd /var/www/html/aqebbd.com && ./server_deploy.sh'
+

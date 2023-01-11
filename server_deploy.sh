@@ -1,29 +1,31 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-echo "Deploying application ..."
+echo "Deployment started ..."
 
-# Enter maintenance mode
-(php artisan down --message 'The app is being (quickly!) updated. Please try again in a minute.') || true
-    # Update codebase
-    git fetch origin deploy
-    git reset --hard origin/deploy
+# Enter maintenance mode or return true
+# if already is in maintenance mode
+(php artisan down) || true
 
-    # Install dependencies based on lock file
-    composer install --no-interaction --prefer-dist --optimize-autoloader
+# Pull the latest version of the app
+git pull origin production
 
-    # Migrate database
-    php artisan migrate --force
+# Install composer dependencies
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-    # Note: If you're using queue workers, this is the place to restart them.
-    # ...
+# Clear the old cache
+php artisan clear-compiled
 
-    # Clear cache
-    php artisan optimize
+# Recreate cache
+php artisan optimize
 
-    # Reload PHP to update opcache
-    echo "" | sudo -S service php8.1-fpm reload
+# Compile npm assets
+npm run prod
+
+# Run database migrations
+php artisan migrate --force
+
 # Exit maintenance mode
 php artisan up
 
-echo "Application deployed!"
+echo "Deployment finished!"
