@@ -14,4 +14,5 @@
 <div class="overflow-x-scroll overflow-y-auto grow">
     @include('frontend.contents.dashboard.tree_node', ['node' => $trees[0], 'this_parent' => true])
 </div>
+
 @endsection
