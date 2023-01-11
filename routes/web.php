@@ -66,7 +66,6 @@ Route::get('check-sponsor/', [RegisterController::class, 'checkSponsor'])->name(
 Route::get('check-user/', [RegisterController::class, 'checkUser'])->name('check.user');
 Route::post('save-user', [RegisterController::class, 'saveUser'])->name('save.user');
 
-
 // not found route
 Route::get('not-found', [NotFoundController::class, 'index'])->name('not.found');
 
