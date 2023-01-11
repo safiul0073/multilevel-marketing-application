@@ -28,5 +28,5 @@ jobs:
           USERNAME: ${{ secrets.VPS_USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-          script: 'npm run build'
+          script: 'npm install && npm run build'
 
