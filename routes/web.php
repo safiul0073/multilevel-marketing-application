@@ -41,7 +41,6 @@ Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.page'
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.page');
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.page');
 
-// please work it
 Route::middleware('auth')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [UserInfoController::class, 'profile'])->name('user.profile');
