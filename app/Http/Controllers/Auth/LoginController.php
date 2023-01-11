@@ -73,7 +73,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        LoginActivity::addToLog();
+        // LoginActivity::addToLog();
     }
     /**
      * Create a new controller instance.
