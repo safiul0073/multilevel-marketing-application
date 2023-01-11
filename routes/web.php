@@ -59,7 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-balance-transfer', [HomeController::class, 'balanceTransferView'])->name('user.balance.transfer');
     Route::get('/user-invoice', [HomeController::class, 'invoiceView'])->name('user.invoice');
 });
-
 // registration process
 Route::get('set-sponsor', [RegisterController::class, 'setSponsor'])->name('set.sponsor.user');
 Route::get('check-sponsor/', [RegisterController::class, 'checkSponsor'])->name('check.sponsor.user');
