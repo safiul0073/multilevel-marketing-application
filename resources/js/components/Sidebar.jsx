@@ -22,10 +22,18 @@ import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
- const Sidebar = () => {
+
+const Sidebar = () => {
     const navigate = useNavigate();
     const { removeAuth, removeUser } = UseStore();
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [activeDropdown, setActiveDropdown] = useState(null);
+
+    const handleActiveDropdown = (click) => {
+        if (click === activeDropdown) {
+            setActiveDropdown(null);
+        } else setActiveDropdown(click);
+    };
 
     const navigation = [
         { name: "Dashboard", href: "/staff/dashboard", icon: HomeIcon },
@@ -33,11 +41,35 @@ function classNames(...classes) {
         { name: "Package", href: "/staff/package", icon: ScaleIcon },
         { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
         { name: "Users", href: "/staff/users", icon: CreditCardIcon },
-        { name: "Add New Member", href: "/staff/user/registration", icon: ClockIcon},
-        { name: "Users Tree", href: "/staff/binary-tree", icon: CreditCardIcon },
+        {
+            name: "Dropdown 1",
+            icon: ClockIcon,
+            children: [
+                { name: "Package", href: "/staff/package" },
+                { name: "Slider", href: "/staff/slider" },
+            ],
+        },
+        {
+            name: "Add New Member",
+            href: "/staff/user/registration",
+            icon: ClockIcon,
+        },
+        {
+            name: "Users Tree",
+            href: "/staff/binary-tree",
+            icon: CreditCardIcon,
+        },
         { name: "Epin", href: "/staff/epin", icon: CreditCardIcon },
-        { name: "Reward", href: "/staff/reward", icon: CreditCardIcon},
+        { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
         { name: "Settings", href: "/staff/settings", icon: CreditCardIcon },
+        {
+            name: "Dropdown 2",
+            icon: CreditCardIcon,
+            children: [
+                { name: "Epin", href: "/staff/epin" },
+                { name: "Reward", href: "/staff/reward" },
+            ],
+        },
     ];
     const logoutOption = () => {
         getLoggedOut();
@@ -113,37 +145,89 @@ function classNames(...classes) {
                                     aria-label="Sidebar"
                                 >
                                     <div className="space-y-1 px-2">
-                                        {navigation.map((item) => (
-                                            <Link
-                                                key={item.name}
-                                                to={item.href}
-                                                className={classNames(
-                                                    useMatch({
-                                                        path: useResolvedPath(
-                                                            item.href
-                                                        ).pathname,
-                                                    })
-                                                        ? "bg-cyan-800 text-white"
-                                                        : "text-cyan-100 hover:text-white hover:bg-cyan-600",
-                                                    "group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                                                )}
-                                                aria-current={
-                                                    useMatch({
-                                                        path: useResolvedPath(
-                                                            item.href
-                                                        ).pathname,
-                                                    })
-                                                        ? "page"
-                                                        : undefined
-                                                }
-                                            >
-                                                <item.icon
-                                                    className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
-                                                    aria-hidden="true"
-                                                />
-                                                {item.name}
-                                            </Link>
-                                        ))}
+                                        {navigation.map((item) =>
+                                            item?.children?.length ? (
+                                                <div
+                                                    className="relative flex flex-col gap-0.5"
+                                                    key={Math.random()}
+                                                >
+                                                    <button
+                                                        className="relative text-gray-100 hover:text-white hover:bg-cyan-600 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md w-full"
+                                                        onClick={() =>
+                                                            handleActiveDropdown(
+                                                                item?.name
+                                                            )
+                                                        }
+                                                    >
+                                                        <item.icon
+                                                            className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                                                            aria-hidden="true"
+                                                        />
+                                                        {item.name}
+                                                        <span
+                                                            className={`absolute right-2 bg-white w-4 h-4 rounded text-black ${
+                                                                activeDropdown ==
+                                                                item?.name
+                                                                    ? "rotate-180"
+                                                                    : "rotate-0"
+                                                            }`}
+                                                        >
+                                                            <ChevronDownIcon />
+                                                        </span>
+                                                    </button>
+                                                    {activeDropdown ==
+                                                    item?.name ? (
+                                                        <span className="flex flex-col pl-10 pr-1 gap-0.5">
+                                                            {item?.children?.map(
+                                                                (subItem) => (
+                                                                    <Link
+                                                                        key={Math.random()}
+                                                                        to={
+                                                                            subItem.href
+                                                                        }
+                                                                        className="text-gray-300/80 hover:text-gray-300 hover:bg-cyan-600 group flex items-center px-2 py-0 text-sm leading-6 font-medium rounded-md"
+                                                                    >
+                                                                        {
+                                                                            subItem.name
+                                                                        }
+                                                                    </Link>
+                                                                )
+                                                            )}
+                                                        </span>
+                                                    ) : null}
+                                                </div>
+                                            ) : (
+                                                <Link
+                                                    key={item.name}
+                                                    to={item.href}
+                                                    className={classNames(
+                                                        useMatch({
+                                                            path: useResolvedPath(
+                                                                item.href
+                                                            ).pathname,
+                                                        })
+                                                            ? "bg-cyan-800 text-white"
+                                                            : "text-cyan-100 hover:text-white hover:bg-cyan-600",
+                                                        "group flex items-center px-2 py-2 text-base font-medium rounded-md"
+                                                    )}
+                                                    aria-current={
+                                                        useMatch({
+                                                            path: useResolvedPath(
+                                                                item.href
+                                                            ).pathname,
+                                                        })
+                                                            ? "page"
+                                                            : undefined
+                                                    }
+                                                >
+                                                    <item.icon
+                                                        className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                                                        aria-hidden="true"
+                                                    />
+                                                    {item.name}
+                                                </Link>
+                                            )
+                                        )}
                                     </div>
                                 </nav>
                             </Dialog.Panel>
@@ -193,35 +277,79 @@ function classNames(...classes) {
                         aria-label="Sidebar"
                     >
                         <div className="space-y-1 px-2">
-                            {navigation.map((item) => (
-                                <Link
-                                    key={item.name}
-                                    to={item.href}
-                                    className={classNames(
-                                        useMatch({
-                                            path: useResolvedPath(item.href)
-                                                .pathname,
-                                        })
-                                            ? "bg-indigo-600 text-white"
-                                            : "text-gray-100 hover:text-white hover:bg-indigo-600",
-                                        "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
-                                    )}
-                                    aria-current={
-                                        useMatch({
-                                            path: useResolvedPath(item.href)
-                                                .pathname,
-                                        })
-                                            ? "page"
-                                            : undefined
-                                    }
-                                >
-                                    <item.icon
-                                        className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
-                                        aria-hidden="true"
-                                    />
-                                    {item.name}
-                                </Link>
-                            ))}
+                            {navigation.map((item) =>
+                                item?.children?.length ? (
+                                    <div
+                                        className="relative flex flex-col gap-0.5"
+                                        key={Math.random()}
+                                    >
+                                        <button
+                                            className="relative text-gray-100 hover:text-white hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md w-full"
+                                            onClick={() =>
+                                                handleActiveDropdown(item?.name)
+                                            }
+                                        >
+                                            <item.icon
+                                                className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                                                aria-hidden="true"
+                                            />
+                                            {item.name}
+                                            <span
+                                                className={`absolute right-2 bg-white w-4 h-4 rounded text-black ${
+                                                    activeDropdown == item?.name
+                                                        ? "rotate-180"
+                                                        : "rotate-0"
+                                                }`}
+                                            >
+                                                <ChevronDownIcon />
+                                            </span>
+                                        </button>
+                                        {activeDropdown == item?.name ? (
+                                            <span className="flex flex-col pl-10 pr-1 gap-0.5">
+                                                {item?.children?.map(
+                                                    (subItem) => (
+                                                        <Link
+                                                            key={Math.random()}
+                                                            to={subItem.href}
+                                                            className="text-gray-300/80 hover:text-gray-300 hover:bg-indigo-600 group flex items-center px-2 py-0 text-sm leading-6 font-medium rounded-md"
+                                                        >
+                                                            {subItem.name}
+                                                        </Link>
+                                                    )
+                                                )}
+                                            </span>
+                                        ) : null}
+                                    </div>
+                                ) : (
+                                    <Link
+                                        key={item.name}
+                                        to={item.href}
+                                        className={classNames(
+                                            useMatch({
+                                                path: useResolvedPath(item.href)
+                                                    .pathname,
+                                            })
+                                                ? "bg-indigo-600 text-white"
+                                                : "text-gray-100 hover:text-white hover:bg-indigo-600",
+                                            "group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md"
+                                        )}
+                                        aria-current={
+                                            useMatch({
+                                                path: useResolvedPath(item.href)
+                                                    .pathname,
+                                            })
+                                                ? "page"
+                                                : undefined
+                                        }
+                                    >
+                                        <item.icon
+                                            className="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200"
+                                            aria-hidden="true"
+                                        />
+                                        {item.name}
+                                    </Link>
+                                )
+                            )}
                         </div>
                     </nav>
                 </div>

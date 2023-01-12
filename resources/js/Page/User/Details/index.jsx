@@ -14,8 +14,9 @@ import { LIVE_URL } from "../../../constent";
 import ReferralTree from "./ReferralTree";
 
 export default function UserDetails({ showUserDetails, setUserDetails }) {
-
-    const {data: details, refetch: detailsRefetch} = userDetails({id: showUserDetails?.id})
+    const { data: details, refetch: detailsRefetch } = userDetails({
+        id: showUserDetails?.id,
+    });
     const tabOptions = [
         {
             title: "User Profile",
@@ -24,7 +25,10 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Details details={details} detailsRefetch={detailsRefetch} />
+                    <Details
+                        details={details}
+                        detailsRefetch={detailsRefetch}
+                    />
                 </>
             ),
         },
@@ -42,7 +46,8 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
         {
             title: "User Login Logs",
             placeholder: "Login Logs",
-            colorClass: "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
+            colorClass:
+                "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
             isTab: true,
             content: (
                 <>
@@ -75,25 +80,27 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Password userId={showUserDetails?.id}/>
+                    <Password userId={showUserDetails?.id} />
                 </>
             ),
         },
         {
             title: "User Referrals List",
             placeholder: "User Referrals",
-            colorClass: "bg-orange-600 hover:bg-orange-600 focus:ring-orange-600",
+            colorClass:
+                "bg-orange-600 hover:bg-orange-600 focus:ring-orange-600",
             isTab: true,
             content: (
                 <>
-                    <Referrals  />
+                    <Referrals />
                 </>
             ),
         },
         {
             title: "User Referrals Tree",
             placeholder: "User Tree",
-            colorClass: "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
+            colorClass:
+                "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500",
             isTab: true,
             content: (
                 <>
@@ -107,60 +114,72 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
         setTabIndex(index);
     };
 
-
     return (
         <>
             <Tabs
                 selectedIndex={tabIndex}
                 onSelect={(index) => handleTab(index)}
-                className="container md:flex gap-8"
+                className="container flex flex-col md:flex-row gap-8"
             >
-                <TabList className="w-44 bg-gray-300 screen basis-[250px] shrink-0 p-5 gap-2.5 flex md:flex-col">
-                    <div className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow mb-2">
+                <div className="bg-gray-300 screen basis-full md:basis-[250px] shrink-0 p-5 gap-2.5 flex md:flex-col">
+                    <div className="col-span-1 shrink-0 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
                         <div className="flex flex-1 flex-col p-8">
                             <img
                                 className="mx-auto h-32 w-32 flex-shrink-0 rounded-full"
-                                src={details?.image ? details?.image?.url : 'https://via.placeholder.com/150'}
+                                src={
+                                    details?.image
+                                        ? details?.image?.url
+                                        : "https://via.placeholder.com/150"
+                                }
                                 alt=""
                             />
                             <h3 className="mt-6 text-sm font-medium text-gray-900">
-                                {showUserDetails?.first_name + " " + (showUserDetails?.last_name??'')}
+                                {showUserDetails?.first_name +
+                                    " " +
+                                    (showUserDetails?.last_name ?? "")}
                             </h3>
                             <dl className="mt-1 flex flex-grow flex-col justify-between">
                                 <dt className="sr-only">Title</dt>
                                 <dd className="text-[10px] text-gray-500">
-                                    Joined At: <span className="text-gray-900">{moment(showUserDetails?.created_at).format('d MMM, Y h:mm a ')}</span>
+                                    Joined At:{" "}
+                                    <span className="text-gray-900">
+                                        {moment(
+                                            showUserDetails?.created_at
+                                        ).format("d MMM, Y h:mm a ")}
+                                    </span>
                                 </dd>
                             </dl>
                         </div>
                     </div>
-                    {tabOptions?.map((tabLink) => {
-                        return (
-                            <React.Fragment key={Math.random()}>
-                                {tabLink?.isTab ? (
-                                    <Tab
-                                        className="betterdocs-analytics-tab-item w-full"
-                                        selectedClassName="active"
-                                    >
-                                        <button
-                                            type="button"
-                                            className={`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 w-full ${tabLink?.colorClass}`}
+                    <TabList className="flex flex-row flex-wrap md:flex-col gap-2.5 items-end content-end">
+                        {tabOptions?.map((tabLink) => {
+                            return (
+                                <React.Fragment key={Math.random()}>
+                                    {tabLink?.isTab ? (
+                                        <Tab
+                                            className="betterdocs-analytics-tab-item md:w-full"
+                                            selectedClassName="active"
+                                        >
+                                            <button
+                                                type="button"
+                                                className={`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 w-full ${tabLink?.colorClass}`}
+                                            >
+                                                {tabLink?.placeholder}
+                                            </button>
+                                        </Tab>
+                                    ) : (
+                                        <a
+                                            href={tabLink?.link}
+                                            className={`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 md:w-full ${tabLink?.colorClass}`}
                                         >
                                             {tabLink?.placeholder}
-                                        </button>
-                                    </Tab>
-                                ) : (
-                                    <a
-                                        href={tabLink?.link}
-                                        className={`inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 w-full ${tabLink?.colorClass}`}
-                                    >
-                                        {tabLink?.placeholder}
-                                    </a>
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
-                </TabList>
+                                        </a>
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
+                    </TabList>
+                </div>
                 <div className="flex flex-col grow">
                     <div className="sm:flex sm:items-center">
                         <div className="sm:flex-auto flex items-center">
@@ -187,7 +206,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                         return (
                             <React.Fragment key={Math.random()}>
                                 {tabContent?.isTab ? (
-                                    <TabPanel  >
+                                    <TabPanel>
                                         <div>{tabContent?.content}</div>
                                     </TabPanel>
                                 ) : null}
