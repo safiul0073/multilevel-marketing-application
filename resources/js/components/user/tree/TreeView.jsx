@@ -17,7 +17,7 @@ const TreeView = ({ username }) => {
                     <LoaderAnimation/>
                 )
                 :
-                    <main className="overflow-x-scroll overflow-y-auto grow">
+                    <main className="overflow-x-auto overflow-y-auto grow pb-10">
                         <TreeNode
                             style={{ display: "flex", flexDirection: "column" }}
                             node={root}

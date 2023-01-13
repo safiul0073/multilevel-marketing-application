@@ -1,13 +1,14 @@
-name: Laravel
+name: Deploy
 
 on:
   push:
-    branches: [ "production" ]
-  pull_request:
-    branches: [ "production" ]
+      branches: [ "production" ]
+    pull_request:
+      branches: [ "production" ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -34,13 +35,24 @@ jobs:
 
         run: npm run build
 
-      - uses: actions/checkout@v2
-      - name: Deploy to server
+      - name: Copy repository contents via scp
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.VPS_IP }}
+          USERNAME: ${{ secrets.VPS_USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+        with:
+          source: "."
+          target: "/var/www/html/aqebbd.com"
+
+      - name: Executing remote command
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
-          username: ${{ secrets.VPS_USERNAME }}
-          port: ${{ secrets.PORT }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          script: 'cd /var/www/html/aqebbd.com && ./server_deploy.sh'
+          USERNAME: ${{ secrets.VPS_USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: 'composer install --ignore-platform-reqs'
+          # script: 'sudo chown -R www-data.www-data /var/www/html/aqebbd.com/bootstrap/cache/'
 

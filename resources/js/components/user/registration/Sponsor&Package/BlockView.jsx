@@ -8,7 +8,6 @@ const BlockView = ({ productId, setProductId, lists }) => {
         setProduct(product)
         setSelectedId(product?.id)
         setProductId(product?.id)
-        console.log(product)
     }
   return (
     <>
