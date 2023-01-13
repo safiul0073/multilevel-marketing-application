@@ -51,6 +51,6 @@ jobs:
           USERNAME: ${{ secrets.VPS_USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-          script: './server_deploy.sh'
+          script: 'cd /var/www/html/aqebbd.com && ./server_deploy.sh'
           # script: 'sudo chown -R www-data.www-data /var/www/html/aqebbd.com/bootstrap/cache/'
 
