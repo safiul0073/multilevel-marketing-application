@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     use Formatter;
+    
     /**
      * Display a listing of the resource.
      *
