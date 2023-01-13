@@ -8,7 +8,7 @@ php artisan down
     # Update codebase
 
     # Install dependencies based on lock file
-    composer install --no-interaction --prefer-dist --optimize-autoloader
+     COMPOSER_ALLOW_SUPERUSER=1 composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs
 
     # Migrate database
     php artisan migrate --force
