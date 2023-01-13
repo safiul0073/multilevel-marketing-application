@@ -1,6 +1,10 @@
 name: Deploy
 
-on: [push]
+on:
+  push:
+      branches: [ "production" ]
+    pull_request:
+      branches: [ "production" ]
 
 jobs:
   build:
@@ -49,5 +53,6 @@ jobs:
           USERNAME: ${{ secrets.VPS_USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-          script: ls
+          script: 'composer install --ignore-platform-reqs'
+          # script: 'sudo chown -R www-data.www-data /var/www/html/aqebbd.com/bootstrap/cache/'
 
