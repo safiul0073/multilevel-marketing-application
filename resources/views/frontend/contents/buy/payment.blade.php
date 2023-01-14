@@ -68,7 +68,7 @@
                             <path d="M12 25l8-8m0 0h-6m6 0v6" stroke="#171717" stroke-width="2" stroke-linecap="round"></path>
                             <circle cx="16" cy="16" r="16" fill="#A3A3A3" fill-opacity="0.2"></circle>
                         </svg>
-                        <h3 class="font-semibold text-gray-900">Wallet</h3>
+                        <h3 class="font-semibold text-gray-900">E-pin</h3>
                     </button>
                     <button class="rounded-2xl border flex items-center gap-5 flex-wrap border-gray-200 px-5 py-3 bg-white">
                         <svg viewBox="0 0 32 32" aria-hidden="true" class="h-8 w-8">

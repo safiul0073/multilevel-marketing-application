@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import { userBalanceUpdate } from "../../../hooks/queries/user";
 
-const Balance = ({ id }) => {
+const Balance = ({ id, detailsRefetch }) => {
     const [transferTypes, setTransferTypes] = useState([
         {
             name: "Add Balance",
@@ -31,7 +31,7 @@ const Balance = ({ id }) => {
 
     const [backendError, setBackendError] = React.useState()
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, reset, handleSubmit, formState: { errors } } = useForm()
     const onSubmit= (data) => {
         updateUserMutate({
             ...data,
@@ -48,6 +48,8 @@ const Balance = ({ id }) => {
             toast.success(data, {
                 position: 'top-right'
             });
+            reset()
+            detailsRefetch()
         },
         onError: (err) => {
             let error_obj = err?.response?.data?.data?.json_object;

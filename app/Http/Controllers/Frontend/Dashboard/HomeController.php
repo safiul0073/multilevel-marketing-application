@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -38,8 +39,8 @@ class HomeController extends Controller
     }
 
     public function balanceTransferView () {
-
-        return view('frontend.contents.dashboard.balance_transfer');
+        $transactions = Transaction::with('member')->where('user_id', auth()->id())->latest('id')->paginate(10);
+        return view('frontend.contents.dashboard.balance_transfer', ['transactions' => $transactions]);
     }
 
     public function invoiceView () {

@@ -12,7 +12,7 @@ const UserInfo = ({ setTab, backendError }) => {
         .object({
             first_name: yup
                 .string()
-                .min(4, "Too Short!")
+                .min(2, "Too Short!")
                 .required("Enter first name!")
                 .max(50, "Too Long!"),
             last_name: yup.string(),
