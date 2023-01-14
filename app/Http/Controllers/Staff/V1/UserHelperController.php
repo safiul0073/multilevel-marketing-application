@@ -30,7 +30,7 @@ class UserHelperController extends Controller
         }
         return $this->withSuccess($users->get());
     }
-    
+
     public function getUserList () {
 
         $users = User::select(['id as value', 'username as label', 'left_ref_id', 'right_ref_id'])->get();
@@ -42,11 +42,13 @@ class UserHelperController extends Controller
 
         $details = User::withSum(['bonuses as gen_bonus'
                             => fn ($query) => $query->where('bonus_type', 'gen') ],'amount')
+                        ->withSum('purchases as purchase_amount', 'amount')
+                        ->withSum(['bonuses as total_today_bonus'
+                            => fn ($query) => $query->whereDate('created_at', today()) ],'amount')
                         ->withSum(['bonuses as matching_bonus'
                             => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
                         ->withSum(['bonuses as referral_bonus'
                             => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
-                        ->withSum('transactions as total_transaction', 'amount')
                         ->with(['image', 'nominee'])
 
                         ->where('id', (int) $id)->first();
@@ -81,7 +83,7 @@ class UserHelperController extends Controller
         if (request()->perPage) {
             $perPage = request()->perPage;
         }
-        $referrals = Bonuse::with('bonus_for:id,first_name,last_name,username,phone,email,balance,created_at')->where('given_id', $id)->where('bonus_type', 'joining')->paginate($perPage);
+        $referrals = Bonuse::with('bonus_for:id,first_name,last_name,username,phone,email,created_at')->where('given_id', $id)->where('bonus_type', 'joining')->paginate($perPage);
         return $this->withSuccess($referrals);
     }
 

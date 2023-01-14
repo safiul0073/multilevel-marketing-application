@@ -153,6 +153,7 @@ const Index = ({ setTab, backendError }) => {
                     id="sponsor_id"
                     filterOption={selectFilter}
                     onChange={handleSelectSearch}
+
                 />
             </div>
             <div className="formGroup !mt-4">
@@ -168,6 +169,7 @@ const Index = ({ setTab, backendError }) => {
                     )}
                     id="refer_position"
                     onChange={(e) => handlePosition(e)}
+                    isDisabled={sponsor?.position ? true : false}
                 />
             </div>
             {/* package table */}

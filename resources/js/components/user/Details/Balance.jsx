@@ -20,17 +20,17 @@ const Balance = ({ details }) => {
             bgColor: "bg-rose-600",
         },
         {
-            name: "Total Transaction",
-            count: details?.total_transaction??0.00,
+            name: "Package Purchase",
+            count: details?.purchase_amount??0.00,
             suffix: "",
-            initials: "TT",
+            initials: "PP",
             bgColor: "bg-gray-800",
         },
         {
-            name: "Total Invest",
-            count: 0,
+            name: "Total Daily Commission",
+            count: details?.total_today_bonus??0.00,
             suffix: "TK",
-            initials: "TI",
+            initials: "TDC",
             bgColor: "bg-sky-500",
         },
         {

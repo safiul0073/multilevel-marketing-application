@@ -56,7 +56,7 @@ const TableView = ({ productId, setProductId, lists }) => {
                                 <tr
                                     key={Math.random()}
                                     onClick={() => handleTRClick(product)}
-                                    className={(selectedId == product?.id) ? 'bg-gray-200' : ''}
+                                    className={(selectedId == product?.id) ? 'bg-gray-300' : ''}
                                 >
 
                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

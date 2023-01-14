@@ -3,7 +3,7 @@
 @section('dashboard-page')
 <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Balanse Transfer List</h1>
+        <h1 class="text-xl font-semibold text-gray-900">Referral List</h1>
     </div>
     {{-- <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
@@ -21,38 +21,30 @@
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Sr.</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Type</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Member</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Amount</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Full Name</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Phone</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Username</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Joined At</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
-                        @forelse ($transactions as $key => $transaction)
+                        @forelse ($referrals as $referral)
                         <tr>
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                                {{ $key+1 }}
+                                {{ $referral->bonus_for->first_name . ' ' . $referral->bonus_for->last_name }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                @php
-                                    $status = 'Add';
-                                    $style = 'text-green-800';
-                                    if ($transaction->type == "sub") {
-                                        $status = "Subtruct";
-                                        $style = 'text-red-800';
-                                    }
-                                @endphp
-                                <span class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 {{ $style }}">{{ $status }}</span>
+                                {{ $referral->bonus_for->email }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ $transaction->member ? $transaction->member->username : '' }}
+                                {{ $referral->bonus_for->phone }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ $transaction->amount }}
+                                {{ $referral->bonus_for->username }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ $transaction->created_at->format('D-m-Y') }}
+                                {{ $referral->bonus_for->created_at->format('D-M-Y') }}
                             </td>
 
                         </tr>
@@ -66,7 +58,7 @@
                 </table>
                 <div class="row">
                     <div class="col-md-12">
-                        {{ $transactions->links('pagination::tailwind') }}
+                        {{ $referrals->links('pagination::tailwind') }}
                     </div>
                 </div>
             </div>
@@ -75,5 +67,3 @@
 </div>
 
 @endsection
-
-

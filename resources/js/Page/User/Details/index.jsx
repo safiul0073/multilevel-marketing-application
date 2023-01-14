@@ -39,7 +39,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Balance />
+                    <Balance id={showUserDetails?.id} detailsRefetch={detailsRefetch} />
                 </>
             ),
         },
@@ -92,7 +92,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <Referrals />
+                    <Referrals id={showUserDetails?.id} />
                 </>
             ),
         },

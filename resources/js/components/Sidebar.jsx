@@ -41,14 +41,7 @@ const Sidebar = () => {
         { name: "Package", href: "/staff/package", icon: ScaleIcon },
         { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
         { name: "Users", href: "/staff/users", icon: CreditCardIcon },
-        {
-            name: "Dropdown 1",
-            icon: ClockIcon,
-            children: [
-                { name: "Package", href: "/staff/package" },
-                { name: "Slider", href: "/staff/slider" },
-            ],
-        },
+
         {
             name: "Add New Member",
             href: "/staff/user/registration",
@@ -61,9 +54,16 @@ const Sidebar = () => {
         },
         { name: "Epin", href: "/staff/epin", icon: CreditCardIcon },
         { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
-        { name: "Settings", href: "/staff/settings", icon: CreditCardIcon },
         {
-            name: "Dropdown 2",
+            name: "Report",
+            icon: ClockIcon,
+            children: [
+                { name: "Package", href: "/staff/package" },
+                { name: "Slider", href: "/staff/slider" },
+            ],
+        },
+        {
+            name: "Settings",
             icon: CreditCardIcon,
             children: [
                 { name: "Epin", href: "/staff/epin" },
