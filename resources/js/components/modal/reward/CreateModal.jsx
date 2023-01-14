@@ -105,33 +105,62 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
                                         backendValidationError={backendError?.left_count}
                                         error={errors.left_count}
                                     />
-                                    <Textinput
-                                        label="Travel Reward"
-                                        placeholder="India"
-                                        register={register}
-                                        name="travel_destination"
-                                        type="text"
-                                        backendValidationError={backendError?.travel_destination}
-                                        error={errors.travel_destination}
-                                    />
-                                    <Textinput
-                                        label="One Time Bonus"
-                                        placeholder="30k cash"
-                                        register={register}
-                                        name="one_time_bonus"
-                                        type="text"
-                                        backendValidationError={backendError?.one_time_bonus}
-                                        error={errors.one_time_bonus}
-                                    />
-                                    <Textinput
-                                        label="Salary"
-                                        placeholder="10,000"
-                                        register={register}
-                                        name="salary"
-                                        type="text"
-                                        backendValidationError={backendError?.salary}
-                                        error={errors.salary}
-                                    />
+                                <div className="col-span-12">
+                                    <label
+                                        htmlFor="message"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Travel Reward
+                                    </label>
+                                    <textarea
+                                        type="number"
+                                        name="message"
+                                        id="message"
+                                        rows="5"
+                                        {...register('travel_destination')}
+                                        autoComplete="Travel Reward"
+                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    ></textarea>
+                                    <span className="error-message">{backendError?.travel_destination}</span>
+                                </div>
+
+                                <div className="col-span-12">
+                                    <label
+                                        htmlFor="message"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        One Time Bonus
+                                    </label>
+                                    <textarea
+                                        type="number"
+                                        name="message"
+                                        id="message"
+                                        rows="5"
+                                        {...register('one_time_bonus')}
+                                        autoComplete="Travel Reward"
+                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    ></textarea>
+                                    <span className="error-message">{backendError?.one_time_bonus}</span>
+                                </div>
+  
+                                <div className="col-span-12">
+                                    <label
+                                        htmlFor="message"
+                                        className="block text-sm font-medium text-gray-700"
+                                    >
+                                        Salary
+                                    </label>
+                                    <textarea
+                                        type="number"
+                                        name="message"
+                                        id="message"
+                                        rows="5"
+                                        {...register('salary')}
+                                        autoComplete="Travel Reward"
+                                        className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                    ></textarea>
+                                    <span className="error-message">{backendError?.salary}</span>
+                                </div>
                                     <div className='flex justify-end mt-4'>
                                         <div className='mr-3'>
                                         {isLoading ? (

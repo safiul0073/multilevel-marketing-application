@@ -14,6 +14,7 @@
 use App\Http\Controllers\Frontend\AboutUsController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\Dashboard\HomeController;
+use App\Http\Controllers\Frontend\Dashboard\ReferralController;
 use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
 use App\Http\Controllers\Frontend\MyTeamController;
@@ -53,7 +54,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [MyTeamController::class, 'userTeamView'])->name('user.my.team');
-
+    Route::get('/user-referrals', [ReferralController::class, 'index'])->name('user.referral.list.view');
     Route::get('/user-purchase-product', [HomeController::class, 'productPurchaseView'])->name('user.purchase.product');
     Route::get('/user-deposit', [HomeController::class, 'depositView'])->name('user.deposit');
     Route::get('/user-balance-transfer', [HomeController::class, 'balanceTransferView'])->name('user.balance.transfer');

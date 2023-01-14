@@ -40,7 +40,7 @@ class RewardController extends Controller
             'left_count' => 'required|numeric',
             'travel_destination' => 'required|string|max:255',
             'one_time_bonus' => 'required|string',
-            'salary' => 'required|numeric'
+            'salary' => 'required|string'
         ]);
 
         Reward::create($att);
@@ -75,7 +75,7 @@ class RewardController extends Controller
             'left_count' => 'required|numeric',
             'travel_destination' => 'required|string|max:255',
             'one_time_bonus' => 'required|string',
-            'salary' => 'required|numeric'
+            'salary' => 'required|string'
         ]);
         $reward = Reward::find((int) $att['id']);
         $reward->update($att);
