@@ -75,9 +75,9 @@ class UserController extends Controller
 
         try {
             DB::beginTransaction();
-            if (!$this->user_service->checkTwoSponsorSamePosition($att['main_sponsor_id'],$att['select_sponsor_id'])){
-                throw new Exception('Please select valid sponsor!');
-            }
+            // if (!$this->user_service->checkTwoSponsorSamePosition($att['main_sponsor_id'],$att['select_sponsor_id'])){
+            //     throw new Exception('Please select valid sponsor!');
+            // }
             $user = $this->user_service->userCreate($att);
 
             if ($request->epin_code) {

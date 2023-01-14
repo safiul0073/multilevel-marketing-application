@@ -19,6 +19,16 @@ export const changePassword = async (inputData) => {
     return res?.data?.data?.string_data;
   };
 
+
+  export const userBalanceUpdate = async (inputData) => {
+    const res = await userAxios.post(
+      `${APIURL}/staff/user/balance/add-sub/${inputData.id}`,
+      inputData
+    );
+
+    return res?.data?.data?.string_data;
+  };
+
   export const userUpdate = async (inputData) => {
     const res = await userAxios.post(
       `${APIURL}/staff/user/info/update`,
