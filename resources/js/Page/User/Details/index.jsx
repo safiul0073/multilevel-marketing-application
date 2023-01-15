@@ -119,7 +119,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             <Tabs
                 selectedIndex={tabIndex}
                 onSelect={(index) => handleTab(index)}
-                className="container flex flex-col md:flex-row gap-8"
+                className="container flex flex-col md:flex-row gap-8 max-w-full"
             >
                 <div className="bg-gray-300 screen basis-full md:basis-[250px] shrink-0 p-5 gap-2.5 flex md:flex-col">
                     <div className="col-span-1 shrink-0 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
@@ -180,7 +180,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                         })}
                     </TabList>
                 </div>
-                <div className="flex flex-col grow">
+                <div className="flex flex-col grow overflow-x-auto">
                     <div className="sm:flex sm:items-center">
                         <div className="sm:flex-auto flex items-center">
                             <button
