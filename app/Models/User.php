@@ -77,6 +77,14 @@ class User extends Authenticatable
         return $this->hasMany(Bonuse::class, 'given_id', 'id');
     }
 
+    /**
+     * Get the user main sponsor.
+     */
+    public function mainSponsor():HasOne
+    {
+        return $this->hasOne(Bonuse::class, 'for_given_id', 'id')->where('bonus_type', 'joining')->with('sponsor:id,username');
+    }
+
     public function generations ():HasMany {
         return $this->hasMany(Generation::class, 'main_id', 'id');
     }
@@ -103,6 +111,10 @@ class User extends Authenticatable
 
     public function referrals ():HasMany {
         return $this->hasMany(Bonuse::class, 'given_id', 'id')->where('bonus_type', 'joining')->select('given_id', 'for_given_id');
+    }
+
+    public function incentiveBonusGive ():HasMany {
+        return $this->hasMany(Bonuse::class, 'for_given_id');
     }
 
 }

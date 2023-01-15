@@ -16,6 +16,10 @@ class Bonuse extends Model
         return $this->belongsTo(User::class, 'given_id', 'id');
     }
 
+    public function sponsor ():BelongsTo {
+        return $this->belongsTo(User::class, 'given_id', 'id');
+    }
+
     public function bonus_for ():BelongsTo {
         return $this->belongsTo(User::class, 'for_given_id', 'id');
     }
