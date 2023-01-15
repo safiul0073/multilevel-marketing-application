@@ -13,7 +13,7 @@ export default function UserView({ user, before }) {
         <>
             <div onClick={() => infoView(user)} className="flex justify-center items-center cursor-pointer">
                 <div
-                    className={`flex flex-col justify-evenly m-2 mt-3 items-center border-2 border-green-600 w-20 shrink-0 ${
+                    className={`flex flex-col justify-evenly mx-5 my-3 items-center border-2 border-green-600 w-20 shrink-0 ${
                         before
                             ? "relative before:absolute before:h-3.5 before:bottom-full before:w-1 before:bg-gray-400"
                             : ""

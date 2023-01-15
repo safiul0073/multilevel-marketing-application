@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { NewAddView } from "./NewAddView";
 import UserView from "./UserView";
 
-export default function TreeNode({ node, before = false, sponsor = null, position = '' }) {
+export default function TreeNode({
+    node,
+    before = false,
+    sponsor = null,
+    position = "",
+}) {
     const [firstChild, setFirstChild] = useState();
     const [secondChild, setSecondChild] = useState();
 
@@ -19,11 +24,29 @@ export default function TreeNode({ node, before = false, sponsor = null, positio
     }, [node]);
 
     return node ? (
-        <div className="flex flex-col justify-start items-center basis-1/2 shrink-0 min-w-max w-full">
+        <div
+            className={`flex flex-col w-auto justify-start relative before:absolute before:h-1 before:top-0 before:bg-gray-400 ${
+                position === "right"
+                    ? "before:left-[0%] before:right-[50%]"
+                    : position === "left"
+                    ? "before:left-[50%] before:right-[0%]"
+                    : ""
+            }`}
+        >
             <UserView user={node} before={before} />
-            <div className="w-full grid grid-cols-2 shrink-0 relative after:absolute after:bottom-full after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-2.5 after:bg-gray-400 before:absolute before:h-1 before:top-0 before:left-[25%] before:right-[25%] before:bg-gray-400">
-                <TreeNode node={firstChild} before={true} position="left" sponsor={node?.id} />
-                <TreeNode node={secondChild} before={true} position="right" sponsor={node?.id} />
+            <div className="flex relative after:absolute after:bottom-full after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-3 after:bg-gray-400">
+                <TreeNode
+                    node={firstChild}
+                    before={true}
+                    position="left"
+                    sponsor={node?.id}
+                />
+                <TreeNode
+                    node={secondChild}
+                    before={true}
+                    position="right"
+                    sponsor={node?.id}
+                />
             </div>
         </div>
     ) : (
