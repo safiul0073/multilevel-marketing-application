@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bonuses', function (Blueprint $table) {
+        Schema::create('incentive_bonuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'given_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(User::class, 'for_given_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->string('bonus_type')->index()->default('joining');
+            $table->date('from_date');
+            $table->date('to_date');
             $table->float('amount')->default(0);
             $table->timestamps();
         });
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bonuses');
+        Schema::dropIfExists('incentive_bonuses');
     }
 };

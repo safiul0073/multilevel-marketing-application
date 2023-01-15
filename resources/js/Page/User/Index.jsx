@@ -149,9 +149,8 @@ const Index = () => {
                                                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                 <div className="text-center">
                                                                                     {
-                                                                                        user
-                                                                                            ?.sponsor
-                                                                                            ?.username
+                                                                                        user?.main_sponsor?.sponsor?.username
+
                                                                                     }
                                                                                 </div>
                                                                             </td>
