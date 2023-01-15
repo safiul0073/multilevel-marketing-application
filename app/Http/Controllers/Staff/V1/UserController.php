@@ -39,7 +39,7 @@ class UserController extends Controller
         if ($request->perPage) {
             $perPage = $request->perPage;
         }
-        $users = User::with('sponsor:id,username')
+        $users = User::with('mainSponsor:id,given_id,for_given_id,bonus_type')
                        ->orderBy('id', 'asc');
 
         if ($request->search) {

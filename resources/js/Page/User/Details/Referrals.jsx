@@ -1,9 +1,11 @@
 import moment from "moment";
 import React from "react";
+import LoaderAnimation from "../../../components/common/LoaderAnimation";
+import RowNotFound from "../../../components/common/RowNotFound";
 import { getUserReferrals } from "../../../hooks/queries/user/getUserReferrals";
 
 const Referrals = ({id}) => {
-    const {data: peoples} = getUserReferrals(id)
+    const {data: peoples, isLoading} = getUserReferrals(id)
     return (
         <div className="mt-10">
             {/* <div className="sm:flex sm:items-center">
@@ -28,6 +30,11 @@ const Referrals = ({id}) => {
             <div className="mt-8 flex flex-col">
                 <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    {isLoading ? (
+                        <LoaderAnimation />
+                    ) : (
+                        <>
+                            {peoples?.data?.length ? (
                         <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
@@ -86,12 +93,17 @@ const Referrals = ({id}) => {
                                                     "MMMM Do YYYY"
                                                 )}
                                             </td>
-                                            
+
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
+                           ): (
+                            <RowNotFound name='referrals' />
+                        )}
+                        </>
+                    )}
                     </div>
                 </div>
             </div>
