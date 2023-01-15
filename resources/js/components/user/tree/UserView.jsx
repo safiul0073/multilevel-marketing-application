@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import InfoModal from "./InfoModal";
 
-
 export default function UserView({ user, before }) {
-    const [isOpen, setOpen] = useState(false)
-    const [userId, setUserId] = useState()
+    const [isOpen, setOpen] = useState(false);
+    const [userId, setUserId] = useState();
     const infoView = (user) => {
-        setUserId(user?.id)
-        setOpen(true)
-    }
+        setUserId(user?.id);
+        setOpen(true);
+    };
     return (
         <>
-            <div onClick={() => infoView(user)} className="flex justify-center items-center cursor-pointer">
+            <div className="flex justify-center items-center">
                 <div
-                    className={`flex flex-col justify-evenly mx-5 my-3 items-center border-2 border-green-600 w-20 shrink-0 ${
+                    onClick={() => infoView(user)}
+                    className={`flex cursor-pointer flex-col justify-evenly mx-5 my-3 items-center border-2 border-green-600 w-20 shrink-0 ${
                         before
                             ? "relative before:absolute before:h-3.5 before:bottom-full before:w-1 before:bg-gray-400"
                             : ""
@@ -23,7 +23,11 @@ export default function UserView({ user, before }) {
                         {user?.username}
                     </h1>
                     <img
-                        src={user?.image ? user?.image?.url : 'https://xsgames.co/randomusers/assets/avatars/male/24.jpg'}
+                        src={
+                            user?.image
+                                ? user?.image?.url
+                                : "https://xsgames.co/randomusers/assets/avatars/male/24.jpg"
+                        }
                         width={100}
                         height={100}
                         className="p-1"
@@ -31,11 +35,7 @@ export default function UserView({ user, before }) {
                     />
                 </div>
             </div>
-            <InfoModal
-                isOpen={isOpen}
-                setIsOpen={setOpen}
-                userId={userId}
-            />
+            <InfoModal isOpen={isOpen} setIsOpen={setOpen} userId={userId} />
         </>
     );
 }
