@@ -38,8 +38,8 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
             <div class="mx-auto px-4 sm:px-6">
                 <div class="text-center">
                     <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                        <span class="block">Data to enrich your</span>
-                        <span class="block text-indigo-600">online business</span>
+                        <span class="block">We will start at the root.</span>
+                        <span class="block text-indigo-600">We will reach the peak.</span>
                     </h1>
                     <p class="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
                 </div>
