@@ -44,8 +44,9 @@ const Reward = () => {
         setIsEditModalOpen(false)
     }
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [rewardDelete, setRewardDelete] = useState()
     const delateReward = (id) => {
-        setReward(id)
+        setRewardDelete(id)
         setIsDeleteModalOpen(true)
     };
 
@@ -72,7 +73,7 @@ const Reward = () => {
         setIsOpen={setIsDeleteModalOpen}
         closeModal={closeDeleteModal}
         refatcher={refetch}
-        reward={reward}
+        reward={rewardDelete}
         />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
