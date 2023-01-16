@@ -11,7 +11,10 @@ import {
     UsersIcon,
     Cog8ToothIcon,
     BookOpenIcon,
-    GifIcon
+    GifIcon,
+    PhotoIcon,
+    ClipboardDocumentListIcon,
+    ShieldCheckIcon
 } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
@@ -43,9 +46,9 @@ const Sidebar = () => {
     const navigation = [
         { name: "Dashboard", href: "/staff/dashboard", icon: HomeIcon },
         { name: "Category", href: "/staff/category", icon: ClockIcon },
-        { name: "Package", href: "/staff/package", icon: ScaleIcon },
-        { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
-        { name: "Epin", href: "/staff/epin", icon: CreditCardIcon },
+        { name: "Package", href: "/staff/package", icon: ClipboardDocumentListIcon },
+        { name: "Slider", href: "/staff/slider", icon: PhotoIcon },
+        { name: "Epin", href: "/staff/epin", icon: ShieldCheckIcon },
         { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
         {
             name: "Users",
@@ -301,7 +304,12 @@ const Sidebar = () => {
                                         key={Math.random()}
                                     >
                                         <button
-                                            className="relative text-gray-100 hover:text-white hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md w-full"
+                                            className={
+                                                classNames(
+                                                    (activeDropdown == item?.name ? "bg-indigo-600 text-white" : "text-gray-100 hover:text-white hover:bg-indigo-600"),
+                                                    "relative  group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md w-full"
+                                                )
+                                            }
                                             onClick={() =>
                                                 handleActiveDropdown(item?.name)
                                             }
