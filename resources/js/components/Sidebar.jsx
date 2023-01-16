@@ -8,9 +8,12 @@ import {
     HomeIcon,
     ScaleIcon,
     XMarkIcon,
+    UsersIcon,
+    Cog8ToothIcon,
+    BookOpenIcon,
+    GifIcon
 } from "@heroicons/react/24/outline";
 import {
-    EnvelopeIcon,
     ChevronDownIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
@@ -18,6 +21,7 @@ import { getLoggedOut } from "../hooks/queries/auth/auth";
 import { Logout } from "../helper/functions";
 import { UseStore } from "../store";
 import { Link, useMatch, useNavigate, useResolvedPath } from "react-router-dom";
+import { useEffect } from "react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -25,6 +29,7 @@ function classNames(...classes) {
 
 const Sidebar = () => {
     const navigate = useNavigate();
+    const activePatch = window.location.pathname
     const { removeAuth, removeUser } = UseStore();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -40,37 +45,43 @@ const Sidebar = () => {
         { name: "Category", href: "/staff/category", icon: ClockIcon },
         { name: "Package", href: "/staff/package", icon: ScaleIcon },
         { name: "Slider", href: "/staff/slider", icon: CreditCardIcon },
-        { name: "Users", href: "/staff/users", icon: CreditCardIcon },
-
-        {
-            name: "Add New Member",
-            href: "/staff/user/registration",
-            icon: ClockIcon,
-        },
-        {
-            name: "Users Tree",
-            href: "/staff/binary-tree",
-            icon: CreditCardIcon,
-        },
         { name: "Epin", href: "/staff/epin", icon: CreditCardIcon },
         { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
         {
-            name: "Report",
-            icon: ClockIcon,
+            name: "Users",
+            icon: UsersIcon,
             children: [
-                { name: "Package", href: "/staff/package" },
-                { name: "Slider", href: "/staff/slider" },
+                { name: "Users", href: "/staff/users" },
+                { name: "Add New Member", href: "/staff/users/registration" },
+                { name: "Users Tree", href: "/staff/users/binary-tree" },
+            ],
+        },
+        {
+            name: "Bonus",
+            icon: GifIcon,
+            children: [
+                { name: "Incentive", href: "/staff/bonus/incentive" }
+            ],
+        },
+        {
+            name: "Report",
+            icon: BookOpenIcon,
+            children: [
+                { name: "Transaction", href: "/staff/reports/transaction" }
             ],
         },
         {
             name: "Settings",
-            icon: CreditCardIcon,
+            icon: Cog8ToothIcon,
             children: [
-                { name: "Epin", href: "/staff/epin" },
-                { name: "Reward", href: "/staff/reward" },
+                { name: "Generation", href: "/staff/settings/generation" }
             ],
         },
     ];
+
+    useEffect(() => {
+        setActiveDropdown(navigation.find(n => n?.children?.find(d => d.href == activePatch))?.name)
+    }, [activePatch])
     const logoutOption = () => {
         getLoggedOut();
         Logout();
@@ -175,8 +186,8 @@ const Sidebar = () => {
                                                             <ChevronDownIcon />
                                                         </span>
                                                     </button>
-                                                    {activeDropdown ==
-                                                    item?.name ? (
+                                                    {(activeDropdown ==
+                                                    item?.name)  ? (
                                                         <span className="flex flex-col pl-10 pr-1 gap-0.5">
                                                             {item?.children?.map(
                                                                 (subItem) => (
@@ -185,7 +196,13 @@ const Sidebar = () => {
                                                                         to={
                                                                             subItem.href
                                                                         }
-                                                                        className="text-gray-300/80 hover:text-gray-300 hover:bg-cyan-600 group flex items-center px-2 py-0 text-sm leading-6 font-medium rounded-md"
+                                                                        className={classNames(
+                                                                            (activePatch == subItem.href
+                                                                                ? "text-gray-300 bg-indigo-600"
+                                                                                : "text-gray-300/80 hover:text-gray-300 hover:bg-indigo-600"
+                                                                            ),
+                                                                            "group flex items-center px-2 py-0 text-sm leading-6 font-medium rounded-md"
+                                                                        )}
                                                                     >
                                                                         {
                                                                             subItem.name
@@ -311,7 +328,15 @@ const Sidebar = () => {
                                                         <Link
                                                             key={Math.random()}
                                                             to={subItem.href}
-                                                            className="text-gray-300/80 hover:text-gray-300 hover:bg-indigo-600 group flex items-center px-2 py-0 text-sm leading-6 font-medium rounded-md"
+                                                            className={
+                                                                classNames(
+                                                                    (activePatch == subItem.href
+                                                                        ? "text-gray-300 bg-indigo-600"
+                                                                        : "text-gray-300/80 hover:text-gray-300 hover:bg-indigo-600"
+                                                                    ),
+                                                                    " group flex items-center px-2 py-0 text-sm leading-6 font-medium rounded-md"
+                                                                )
+                                                            }
                                                         >
                                                             {subItem.name}
                                                         </Link>
