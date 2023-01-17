@@ -18,6 +18,8 @@ class HomeController extends Controller
                         => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
                     ->withSum(['bonuses as referral_bonus'
                         => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
+                    ->withSum(['bonuses as gen_bonus'
+                        => fn ($query) => $query->where('bonus_type', 'gen') ],'amount')
                     ->withSum(['transactions as withdraw_amount'
                         => fn ($query) => $query->where('type', 'withdraw') ], 'amount')
                         ->withSum(['transactions as deposit_amount'
