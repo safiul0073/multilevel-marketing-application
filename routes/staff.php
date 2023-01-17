@@ -7,6 +7,7 @@ use App\Http\Controllers\Staff\V1\Auth\StaffController;
 use App\Http\Controllers\Staff\V1\CategoryController;
 use App\Http\Controllers\Staff\V1\EpinController;
 use App\Http\Controllers\Staff\V1\EpinHelperController;
+use App\Http\Controllers\Staff\V1\InceptiveBonusController;
 use App\Http\Controllers\Staff\V1\MediaController;
 use App\Http\Controllers\Staff\V1\OptionController;
 use App\Http\Controllers\Staff\V1\PackageController;
@@ -74,6 +75,13 @@ Route::middleware('auth:staff')->group(function () {
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
     Route::delete('image-delete/{image}', [MediaController::class, 'deleteImage']);
+
+    // incentive bonus
+    Route::prefix('incentive/')->group(function () {
+        Route::post('search', [InceptiveBonusController::class, 'getCountForInceptiveUser']);
+        Route::post('bonus-give', [InceptiveBonusController::class, 'distributeInceptiveBonus']);
+        Route::get('bonus', [InceptiveBonusController::class, 'getIncentive']);
+    });
 
     // settings
     Route::prefix('settings/')->group(function () {

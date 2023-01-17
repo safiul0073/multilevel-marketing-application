@@ -1,6 +1,6 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useMemo, useState } from 'react'
-import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
+import { AiFillCloseCircle } from "react-icons/ai";
 import  toast  from 'react-hot-toast';
 import { createEpin, deleteOnlyEpin } from '../../../hooks/queries/epin';
 import { getEpinMain } from '../../../hooks/queries/epin/getEpinMain';
@@ -135,7 +135,7 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <div className="inline-block w-full max-w-2xl pb-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-[3px]">
+                <div className="inline-block w-full max-w-[800px] pb-4 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-[3px]">
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         Epin List
                     </div>
@@ -146,7 +146,7 @@ export default function EpinList({isOpen, setIsOpen, closeModal, refetcher, epin
                             <button  className={(copy.allCopied ? "btn btn-success" : "btn btn-secondary")}>Copy all code</button>
                         </CopyToClipboard>
                         </div>
-                        <div className="overflow-y-auto overflow-x-auto h-[400px] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <div className="overflow-y-auto overflow-x-auto  h-[400px] shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
                                     <tr>

@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('incentive_bonuses', function (Blueprint $table) {
-            $table->id();
-            $table->date('from_date');
-            $table->date('to_date');
-            $table->bigInteger('count')->default(0);
-            $table->float('amount')->default(0);
-            $table->timestamps();
+        Schema::table('bonuses', function (Blueprint $table) {
+            $table->boolean('status')->default(true)->comment('true == added user balance, false == not added to user balance');
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incentive_bonuses');
+        Schema::table('bonuses', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

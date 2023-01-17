@@ -8,6 +8,7 @@ use App\Models\Generation;
 use App\Models\MatchingPair;
 use App\Models\Product;
 use App\Models\Reward;
+use App\Models\RewardUser;
 use App\Models\Transaction;
 use App\Models\User;
 use Exception;
@@ -100,7 +101,7 @@ class UserService {
             $sponsor = $this->findRealSponsor($sponsor_id, $referrer_id, $position);
         }
         $this->referCount($sponsor, $referrer_id);
-
+        $this->checkReward($sponsor);
         return $sponsor;
     }
 
@@ -192,6 +193,9 @@ class UserService {
                 'gen_type' => $i
             ]);
 
+            // reword checking
+            $this->checkReward($sponsor_sponsor);
+
             $i = $i + 1;
 
             return $this->generationLoop($sponsor_sponsor_id, $user_id,$position, $i);
@@ -257,11 +261,25 @@ class UserService {
         $sponsor->save();
     }
 
-    // public function checkReward($user):string {
+    public function checkReward($user) {
 
-    //     $rewards = Reward::select('designation', 'left_count', 'right_count')->get();
-    //     foreach($rewards as $reward) {
+        $rewards = Reward::select('id','designation','left_count', 'right_count')->get();
+        if (count($rewards)) {
+            foreach($rewards as $reward) {
 
-    //     }
-    // }
+                if ($reward->left_count <= $user->left_group
+                    &&
+                    $reward->right_count <= $user->right_group){
+                        RewardUser::firstOrCreate([
+                            'reward_id' => $reward->id,
+                            'user_id'   => $user->id,
+                            'name'  => $reward->designation
+                        ],
+                        [
+                            'status' => false
+                        ]);
+                    }
+            }
+        }
+    }
 }
