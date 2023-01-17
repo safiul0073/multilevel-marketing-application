@@ -29,7 +29,7 @@ const OrderSummary = ({ setTab, setBackendError, backendError }) => {
             });
             removeUserRegister();
             setTimeout(() => {
-                navigate("/staff/binary-tree");
+                navigate("/staff/users/binary-tree");
             }, 1500);
         },
         onError: (err) => {

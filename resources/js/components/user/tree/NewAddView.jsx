@@ -5,7 +5,7 @@ export const NewAddView = ({ referral, position }) => {
     let navigator = useNavigate();
     const newUserCreate = (referral) => {
         navigator(
-            `/staff/user/registration?sponsor_id=${referral}&position=${position}`
+            `/staff/users/registration?sponsor_id=${referral}&position=${position}`
         );
     };
     return (
