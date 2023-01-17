@@ -4,7 +4,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { useMutation } from "react-query";
 import { incentiveBonusGive, incentiveSearch } from "../../hooks/queries/bonus";
 import toast from "react-hot-toast";
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 const reducer = (state, action) => {
     switch (action.type) {
