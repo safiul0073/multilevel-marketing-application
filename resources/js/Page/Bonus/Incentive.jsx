@@ -3,7 +3,7 @@ import Protected from "../../components/HOC/Protected";
 import { useMutation } from "react-query";
 import { incentiveBonusGive, incentiveSearch } from "../../hooks/queries/bonus";
 import toast from "react-hot-toast";
-
+import moment from "moment";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -17,11 +17,15 @@ const reducer = (state, action) => {
                 ...state,
                 amount: action.value
             }
-        case "date_inputed":
+        case "from_inputed":
             return {
                 ...state,
-                from_date: action.value.startDate,
-                to_date: action.value.endDate
+                from_date: action.value
+            }
+        case "to_inputed":
+            return {
+                ...state,
+                to_date: action.value
             }
         case "reset_all":
             return {
@@ -35,26 +39,15 @@ const reducer = (state, action) => {
   };
 const Incentive = () => {
     const [backendError, setBackendError] = useState()
-    // const [dateValue, setDate] = useState({
-    //     startDate: new Date(),
-    //     endDate: new Date().setMonth(11)
-    // });
     const [incentive, dispatch] = useReducer(reducer,{
-        from_date: new Date(),
-        to_date: new Date(),
+        from_date: moment(new Date()).format('YYYY-MM-DD'),
+        to_date: moment(new Date()).format('YYYY-MM-DD'),
         count: 0,
         amount: 0
     });
 
-    // const handleValueChange = (newValue) => {
-    //     setDate(() => newValue);
-    //     dispatch({
-    //         type: 'date_inputed',
-    //         value: newValue
-    //     })
-    // }
-
     const getMemberCount = () => {
+
         incentiveSearchMutate({
             from_date: incentive.from_date,
             to_date: incentive.to_date
@@ -116,13 +109,20 @@ const Incentive = () => {
                         <div className="container ">
                             <div className="w-1/2 mx-auto px-2 py-2 border border-indigo-400 ">
                                 <label className="label-style" >Select from date and to date: </label>
-                                {/* <Datepicker
-                                    primaryColor={"indigo"}
-                                    value={dateValue}
-                                    onChange={handleValueChange}
-                                    showShortcuts={true}
-                                    inputClassName="outline-indigo-500 my-3"
-                                /> */}
+                                <div className="grid grid-cols-2 gap-2">
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        value={incentive.from_date}
+                                        onChange={(e) => dispatch({type: 'from_inputed', value: e.target.value})}
+                                    />
+                                    <input
+                                        type="date"
+                                        className="form-control"
+                                        value={incentive.to_date}
+                                        onChange={(e) => dispatch({type: 'to_inputed', value: e.target.value})}
+                                    />
+                                </div>
                                 {
                                     searchLoading
                                     ? <>
@@ -144,7 +144,7 @@ const Incentive = () => {
                                     <label className="label-style">Total Member</label>
                                     <input
                                         type="number"
-                                        // disabled
+                                        disabled
                                         className="form-control"
                                         value={incentive.count}
                                         onChange={(e) => dispatch({type:'count_inputed', value:e.target.value})}
