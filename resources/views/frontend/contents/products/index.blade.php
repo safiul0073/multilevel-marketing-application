@@ -4,9 +4,7 @@
 @endpush
 @section('custome_style')
 {{-- here some style --}}
-<link rel="stylesheet" href="{{ asset('frontend/css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('frontend/css/slider-zoom/main.css') }}">
-<link rel="stylesheet" href="{{ asset('frontend/css/splide-skyblue.min.css') }}">
+
 @endsection
 @section('content')
 
@@ -193,8 +191,5 @@
 @endpush
 
 @section('custome_scipt')
-<script src="{{ asset('frontend/script/home.js') }}"></script>
-<script src="{{ asset('frontend/script/slider-zoom/zoom-image.js') }}"></script>
-<script src="{{ asset('frontend/script/slider-zoom/main.js') }}"></script>
-<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
+
 @endsection
