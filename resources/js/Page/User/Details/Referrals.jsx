@@ -1,11 +1,19 @@
 import moment from "moment";
 import React from "react";
 import LoaderAnimation from "../../../components/common/LoaderAnimation";
+import Pagination from "../../../components/common/Pagination";
 import RowNotFound from "../../../components/common/RowNotFound";
 import { getUserReferrals } from "../../../hooks/queries/user/getUserReferrals";
 
 const Referrals = ({id}) => {
-    const {data: peoples, isLoading} = getUserReferrals(id)
+    const [page, setPage] = React.useState(1)
+    const [pageSize, setPageSize] = React.useState(10)
+
+    const handlePageChange = (pageNum, currentPageValue) => {
+        setPage(() => pageNum)
+        setPageSize(() => currentPageValue)
+    }
+    const {data: peoples, isLoading} = getUserReferrals(id, page, pageSize)
     return (
         <div className="mt-10">
             {/* <div className="sm:flex sm:items-center">
@@ -35,6 +43,7 @@ const Referrals = ({id}) => {
                     ) : (
                         <>
                             {peoples?.data?.length ? (
+                        <>
                         <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
@@ -99,6 +108,15 @@ const Referrals = ({id}) => {
                                 </tbody>
                             </table>
                         </div>
+                        <div className="my-4">
+                            <Pagination
+                                total={peoples?.total}
+                                pageSize={pageSize}
+                                pageNumber={page}
+                                handlePageChange={handlePageChange}
+                            />
+                        </div>
+                        </>
                            ): (
                             <RowNotFound name='referrals' />
                         )}

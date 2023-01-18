@@ -8,8 +8,7 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
 @endpush
 @section('custome_style')
 {{-- here some style --}}
-<link rel="stylesheet" href="{{ asset('frontend/css/home.css') }}">
-<link rel="stylesheet" href="{{ asset('frontend/css/splide-skyblue.min.css') }}">
+
 @endsection
 @section('content')
 <div class="relative overflow-hidden">
@@ -424,6 +423,5 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
 @endpush
 
 @section('custome_scipt')
-<script src="{{ asset('frontend/script/home.js') }}"></script>
-<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
+
 @endsection
