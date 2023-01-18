@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useReducer, useState } from "react";
 import Protected from "../../components/HOC/Protected";
-import Datepicker from "react-tailwindcss-datepicker";
 import { useMutation } from "react-query";
 import { incentiveBonusGive, incentiveSearch } from "../../hooks/queries/bonus";
 import toast from "react-hot-toast";
-import dayjs from 'dayjs'
+
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -36,24 +35,24 @@ const reducer = (state, action) => {
   };
 const Incentive = () => {
     const [backendError, setBackendError] = useState()
-    const [dateValue, setDate] = useState({
-        startDate: new Date(),
-        endDate: new Date().setMonth(11)
-    });
+    // const [dateValue, setDate] = useState({
+    //     startDate: new Date(),
+    //     endDate: new Date().setMonth(11)
+    // });
     const [incentive, dispatch] = useReducer(reducer,{
-        from_date: dayjs(dateValue.startDate).format("YYYY-MM-DD"),
-        to_date: dayjs(dateValue.endDate).format("YYYY-MM-DD"),
+        from_date: new Date(),
+        to_date: new Date(),
         count: 0,
         amount: 0
     });
 
-    const handleValueChange = (newValue) => {
-        setDate(() => newValue);
-        dispatch({
-            type: 'date_inputed',
-            value: newValue
-        })
-    }
+    // const handleValueChange = (newValue) => {
+    //     setDate(() => newValue);
+    //     dispatch({
+    //         type: 'date_inputed',
+    //         value: newValue
+    //     })
+    // }
 
     const getMemberCount = () => {
         incentiveSearchMutate({
@@ -117,13 +116,13 @@ const Incentive = () => {
                         <div className="container ">
                             <div className="w-1/2 mx-auto px-2 py-2 border border-indigo-400 ">
                                 <label className="label-style" >Select from date and to date: </label>
-                                <Datepicker
+                                {/* <Datepicker
                                     primaryColor={"indigo"}
                                     value={dateValue}
                                     onChange={handleValueChange}
                                     showShortcuts={true}
                                     inputClassName="outline-indigo-500 my-3"
-                                />
+                                /> */}
                                 {
                                     searchLoading
                                     ? <>
