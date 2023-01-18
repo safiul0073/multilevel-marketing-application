@@ -17,6 +17,7 @@ use App\Http\Controllers\Frontend\Dashboard\HomeController;
 use App\Http\Controllers\Frontend\Dashboard\ReferralController;
 use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
+use App\Http\Controllers\Frontend\IncentiveBonusController;
 use App\Http\Controllers\Frontend\MyTeamController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\NotFoundController;
@@ -51,6 +52,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('change/password')->group(function () {
         Route::get('/', [UserInfoController::class, 'changePassView'])->name('user.show.change.password');
         Route::post('/', [UserInfoController::class, 'changePassword'])->name('user.update.password');
+    });
+
+    Route::prefix('incentive')->name('incentive.')->group(function() {
+        Route::get('view', [IncentiveBonusController::class, 'index'])->name('view');
     });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [MyTeamController::class, 'userTeamView'])->name('user.my.team');

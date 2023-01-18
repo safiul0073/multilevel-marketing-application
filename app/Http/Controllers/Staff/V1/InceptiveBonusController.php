@@ -23,11 +23,11 @@ class InceptiveBonusController extends Controller
         if ($request->perPage) {
             $perPage = $request->perPage;
         }
-        $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-        $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
-
+        
         $incentive = IncentiveBonus::query();
         if ($request->from_date && $request->to_date) {
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+            $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
             $incentive->whereBetween('created_at', [$startDate, $endDate]);
         }
 

@@ -70,7 +70,7 @@ const Sidebar = () => {
             name: "Report",
             icon: BookOpenIcon,
             children: [
-                { name: "Transaction", href: "/staff/reports/transaction" }
+                { name: "Incentive", href: "/staff/reports/incentive" }
             ],
         },
         {

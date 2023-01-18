@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import Reward from '../../Page/Reward';
 import Incentive from '../../Page/Bonus/Incentive';
 import Generation from '../../Page/Settings/Generation';
-import Transaction from '../../Page/Report/Transaction';
+import IncentiveReport from '../../Page/Report/Incentive';
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -39,7 +39,7 @@ const Layout =() =>{
                 <Route path="/staff/reward" element={<Reward/>} />
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
                 <Route path="/staff/settings/generation" element={<Generation/>} />
-                <Route path="/staff/reports/transaction" element={<Transaction/>} />
+                <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>
