@@ -134,7 +134,7 @@ class UserController extends Controller
             'joined_date' => $user->created_at
         ];
 
-        return $this->withSuccess($values);
+        return $this->withSuccess($user);
     }
 
     /**

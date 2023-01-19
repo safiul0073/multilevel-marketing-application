@@ -7,7 +7,7 @@ export const getOneUser = (id) => {
       'get-one-user', id
     ],
     async () => {
-      let res = await getQuery(`user/${id}`);
+      let res = await getQuery(`user/reward/${id}`);
 
       return res;
     },

@@ -15,6 +15,20 @@ class UserHelperController extends Controller
 {
     use Formatter;
 
+    public function getUserReward ($id) {
+        $user = User::with(['image', 'rewards' => fn ($q) => $q->orderBy('id', 'desc')])->where('id', $id)->first();
+        $values = [
+            'full_name' => $user->first_name . ' ' . $user->last_name,
+            'username'  => $user->username,
+            'right'     => $user->right_group,
+            'left'      => $user->left_group,
+            'reward'    => count($user->rewards) ? $user->rewards[0]->designation : '',
+            'avatar'    => $user->image,
+            'joined_date' => $user->created_at
+        ];
+        return $this->withSuccess($values);
+    }
+
     public function userBinaryTreeData (Request $request) {
 
         $att = $this->validate($request, [
