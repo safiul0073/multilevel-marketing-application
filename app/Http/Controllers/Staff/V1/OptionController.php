@@ -20,11 +20,11 @@ class OptionController extends Controller
     public function storeOption (Request $request) {
 
         $this->validate($request, [
-            'name' => 'required|string',
+            'name' => 'required',
             'value'=> 'required'
         ]);
 
-        Option::updateOption( $request->name, $request->value );
+        Option::updateOption( $request->name, is_array($request->value) ? json_encode($request->value) : $request->value);
 
         return $this->withSuccess('Successfully saved setting.');
     }

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Traits\Formatter;
 use App\Traits\MediaOperator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\File;
 
 class MediaController extends Controller
@@ -31,27 +32,34 @@ class MediaController extends Controller
         }else {
             $model = User::findOrFail((int) $request->id);
         }
-        $image = $this->uploadFile($request->file('image'));
-        if ($request->type == 'thamnail') {
-            $thamnail_file = $model->images()->where('type', 'thamnail')->first();
-            if ($thamnail_file) {
-                $this->deleteFile($thamnail_file);
-                $model->images()->where('type', 'thamnail')->delete();
+        try {
+            DB::beginTransaction();
+            if ($request->type == 'thamnail') {
+                $thamnail = $model->images()->where('type', 'thamnail')->first();
+                if ($thamnail && $this->deleteFile($thamnail->url)) {
+                    $model->images()->where('type', 'thamnail')->delete();
+                }else{
+                    if ($thamnail) return $this->withErrors('Something want wrong.');
+                }
             }
+
+            $image = $this->uploadFile($request->file('image'));
+            $model->images()->create([
+                'url' => $image,
+                'type' => $request->type,
+            ]);
+            DB::commit();
+        } catch (\Exception $ex) {
+            return $this->withErrors($ex->getMessage());
         }
-        $model->images()->create([
-            'url' => $image,
-            'type' => $request->type,
-        ]);
+
 
         return $this->withSuccess("Image uploaded.");
     }
 
     public function deleteImage (Media $image) {
 
-
-        if ($image->url) {
-            $this->deleteFile($image->url);
+        if ($image->url && $this->deleteFile($image->url)) {
             $image->delete();
             return $this->withSuccess("Successfully deleted.");
         }

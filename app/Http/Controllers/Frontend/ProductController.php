@@ -15,6 +15,9 @@ class ProductController extends Controller
         $category_id = $request->category_id;
         $query = Product::query()->orderBy('id', "desc");
 
+        if (auth()->check()) {
+            $query->where('is_package', 0);
+        }
         if ($request->search) {
             $query->whereLike(['name', 'price', 'refferral_commission'], $request->search);
         }

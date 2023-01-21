@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->float('amount')->default(0);
             $table->tinyInteger('status')->default(0)->comment('0=pending, 1=complete');
+            $table->tinyInteger('type')->default(0);
             $table->timestamps();
         });
     }

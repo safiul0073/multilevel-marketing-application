@@ -6,10 +6,12 @@ use Illuminate\Support\Facades\Storage;
 
 trait MediaOperator
 {
-    public function uploadFile($file, $path = 'uploads/')
+    protected $path = "uploads/";
+
+    public function uploadFile($file)
     {
 
-        $file_name = $path.'_'.time().'_'.rand(50000, 9999).'.'.$file->getClientOriginalExtension();
+        $file_name = $this->path.'_'.time().'_'.rand(50000, 9999).'.'.$file->getClientOriginalExtension();
 
         Storage::disk('public')->put($file_name, file_get_contents($file));
 
@@ -18,7 +20,7 @@ trait MediaOperator
 
     public function deleteFile($file_name)
     {
-        Storage::disk('public')->delete($file_name);
+        return Storage::disk("public")->delete($file_name);
     }
 
     public function getFile($file_name)

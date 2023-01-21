@@ -13,7 +13,7 @@ class HomeController extends Controller
         $user = User::with('sponsor','nominee')
                     ->withSum('purchases as purchase_amount', 'amount')
                     ->withSum(['bonuses as total_bonus'
-                        => fn ($query) => $query->whereDate('created_at', today()) ],'amount')
+                        => fn ($query) => $query->where('bonus_type', 'incentive') ],'amount')
                     ->withSum(['bonuses as matching_bonus'
                         => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
                     ->withSum(['bonuses as referral_bonus'

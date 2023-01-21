@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'for_given_id')->index()->constrained('users')->cascadeOnDelete();
             $table->string('bonus_type')->index()->default('joining');
             $table->float('amount')->default(0);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

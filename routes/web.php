@@ -36,6 +36,7 @@ Route::get('/staff/{path?}', [DashboardController::class, 'index'])->where('path
 Route::get('user-login/{user}', [UserHelperController::class, 'userLoginFromDashboard']);
 Auth::routes();
 Route::get('/', [HomeCotroller::class, 'index'])->name('hello.world.home.page');
+Route::get('/packages', [ProductController::class, 'index'])->name('package.page');
 Route::get('/products', [ProductController::class, 'index'])->name('product.page');
 Route::get('get-one-product-res', [HomeCotroller::class, 'responseProductData'])->name('product.get.one.res');
 Route::get('/news', [NewsController::class, 'index'])->name('news.page');
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('incentive')->name('incentive.')->group(function() {
         Route::get('view', [IncentiveBonusController::class, 'index'])->name('view');
+        Route::post('add-bonus', [IncentiveBonusController::class, 'addToWallet'])->name('add.bonus');
     });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [MyTeamController::class, 'userTeamView'])->name('user.my.team');
