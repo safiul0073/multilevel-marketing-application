@@ -77,7 +77,9 @@ const Sidebar = () => {
             name: "Settings",
             icon: Cog8ToothIcon,
             children: [
-                { name: "Generation", href: "/staff/settings/generation" }
+                { name: "Matching", href: "/staff/settings/matching" },
+                { name: "Generation", href: "/staff/settings/generation" },
+                { name: "Incentive", href: "/staff/settings/incentive"}
             ],
         },
     ];

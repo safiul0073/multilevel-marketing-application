@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Bonuse;
 use App\Models\Epin;
 use App\Models\Generation;
-use App\Models\MatchingPair;
 use App\Models\Product;
 use App\Models\Reward;
 use App\Models\RewardUser;
@@ -26,7 +25,7 @@ class UserService {
     {
        $this->gen_bonus      = config('mlm.bonus.gen');
        $this->matching_bonus = config('mlm.bonus.matching');
-       $this->join_bonus     = config('mlm.bonus.joining');
+       $this->join_bonus     = 0;
     }
 
     private function userAtt (array $att):Array {
@@ -71,7 +70,14 @@ class UserService {
         $epin->use_by = $user->id;
         $epin->activation_date = now();
         $epin->save();
-        return ($product ? $product : $epin->epin_main->product);
+        $product = ($product ? $product : $epin->epin_main->product);
+        if ($product->referral_type == User::PERCENT){
+            // calculate percentage for joining bonus
+            $this->join_bonus = ($product->price * $product->refferral_commission) / 100;
+        }else{
+            $this->join_bonus = $product->refferral_commission;
+        }
+        return $product;
     }
     /**
      * @position type string between left or right.
@@ -149,11 +155,6 @@ class UserService {
     public function checkMatchingPair ($opposite_count, $increased_count, $sponsor_id, $user_id) {
 
         if ($opposite_count >= $increased_count) {
-            // MatchingPair::create([
-            //     'parent_id' => $sponsor_id,
-            //     'match_count'     => $increased_count,
-            //     'user_id'   => $user_id,
-            // ]);
             $this->matchingBonus($sponsor_id, $user_id);
         }
 
@@ -229,14 +230,14 @@ class UserService {
      **/
     public function matchingBonus (int $parent_id, int $user_id) {
 
-        // $matching_pairs = MatchingPair::where('user_id', $user_id)->get();
-
-        // foreach($matching_pairs as $user) {
-
-        $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus);
-
-        // }
-
+        $bonus_count = Bonuse::whereDate('created_at', today())
+                               ->where('given_id', $parent_id)
+                               ->where('bonus_type', 'matching')->count();
+        if ($this->matching_bonus['pair_type'] == 'Auto') {
+            if ($bonus_count < $this->matching_bonus['pair_value']) {
+                $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus['pair_amount']);
+            }
+        }
     }
 
     private function generationBonus ($user_id) {

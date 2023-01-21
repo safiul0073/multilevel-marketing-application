@@ -36,6 +36,8 @@ return new class extends Migration
             $table->string('right_ref_id')->index()->nullable();
             $table->unsignedBigInteger('left_group')->default(0);
             $table->unsignedBigInteger('right_group')->default(0);
+            $table->unsignedBigInteger('left_count')->default(0);
+            $table->unsignedBigInteger('right_count')->default(0);
             $table->double('total_income', 15)->default(0);
             $table->float('total_withdraw')->default(0);
             $table->float('balance')->default(0);

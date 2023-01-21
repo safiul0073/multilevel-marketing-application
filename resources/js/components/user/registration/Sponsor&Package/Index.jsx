@@ -176,7 +176,7 @@ const Index = ({ setTab, backendError }) => {
             <div className="mt-4">
                 <div className="flex justify-between flex-wrap items-center">
                     <label htmlFor="refer_position" className="label-style">
-                        Select position (Left or Right)
+                        Select a package
                     </label>
                     <div className="flex py-2 my-1">
                         <button

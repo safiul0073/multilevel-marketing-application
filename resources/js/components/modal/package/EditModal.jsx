@@ -19,6 +19,7 @@ export default function EditModal({
     product
 }) {
     const [backendError, setBackendError] = useState([])
+    const [commissionType, setCommissionType] = useState('direct')
 
     const {data:categories} = getCategorySelectList()
 
@@ -46,10 +47,12 @@ export default function EditModal({
         let formData = {}
         formData.id = product.id
         formData.name = data.name
+        formData.sku = data.sku
         formData.category_id = data.category_id
         formData.price = data.price
+        formData.referral_type = commissionType
         formData.refferral_commission = data.refferral_commission
-        formData.video_url = data.video_url.replace("watch?v=", "embed/")
+        formData.video_url = data.video_url.replace("watch?v=", "embed/") ?? null
         formData.description = data.description
         if (data.thamnail_image[0]) {
             formData.thamnail_image = data.thamnail_image[0]
@@ -140,6 +143,16 @@ export default function EditModal({
                                                 error={errors.name}
                                             />
 
+                                            <Textinput
+                                                label="SKU"
+                                                placeholder="sku"
+                                                register={register}
+                                                name="sku"
+                                                type="text"
+                                                backendValidationError={backendError?.sku}
+                                                error={errors.sku}
+                                            />
+
                                             <SelectInput
                                                 label="Select Category"
                                                 labelFor="category_id"
@@ -160,7 +173,7 @@ export default function EditModal({
                                                 error={errors.price}
                                             />
 
-                                            <Textinput
+                                            {/* <Textinput
                                                 label="Reference Commission (%)"
                                                 placeholder="20"
                                                 type="number"
@@ -168,7 +181,27 @@ export default function EditModal({
                                                 name="refferral_commission"
                                                 backendValidationError={backendError?.refferral_commission}
                                                 error={errors.refferral_commission}
-                                            />
+                                            /> */}
+
+                                            <div className="formGroup">
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    <label className="label-style">Reference Commission</label>
+                                                    <div  onClick={() => setCommissionType(commissionType == 'direct' ? 'percent' : 'direct')} className={(commissionType == 'direct' ? 'btn btn-primary cursor-pointer text-center' : 'btn btn-success cursor-pointer text-center')}>{commissionType == 'direct' ? 'Direct' : 'Percent'}</div>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    {...register('refferral_commission')}
+                                                    className="form-control"
+                                                />
+                                               {backendError && backendError?.refferral_commission && (
+                                                    <p className="error-message">
+                                                    {backendError?.refferral_commission}
+                                                    </p>
+                                                )}
+                                                {
+                                                    errors && errors?.refferral_commission && <div className="error-message"> {errors?.description?.message}</div>
+                                                }
+                                            </div>
 
                                             <Textinput
                                                 label="Video URL (#)"

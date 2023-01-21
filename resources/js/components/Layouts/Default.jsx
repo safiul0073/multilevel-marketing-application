@@ -15,6 +15,8 @@ import Reward from '../../Page/Reward';
 import Incentive from '../../Page/Bonus/Incentive';
 import Generation from '../../Page/Settings/Generation';
 import IncentiveReport from '../../Page/Report/Incentive';
+import Matching from '../../Page/Settings/Matching';
+import IncentiveSettings from '../../Page/Settings/Incentive'
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -39,6 +41,8 @@ const Layout =() =>{
                 <Route path="/staff/reward" element={<Reward/>} />
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
                 <Route path="/staff/settings/generation" element={<Generation/>} />
+                <Route path="/staff/settings/matching" element={<Matching/>} />
+                <Route path="/staff/settings/incentive" element={<IncentiveSettings/>} />
                 <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />

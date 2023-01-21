@@ -58,7 +58,7 @@ class UserHelperController extends Controller
                             => fn ($query) => $query->where('bonus_type', 'gen') ],'amount')
                         ->withSum('purchases as purchase_amount', 'amount')
                         ->withSum(['bonuses as total_today_bonus'
-                            => fn ($query) => $query->whereDate('created_at', today()) ],'amount')
+                            => fn ($query) => $query->whereDate('bonus_type', 'incentive') ],'amount')
                         ->withSum(['bonuses as matching_bonus'
                             => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
                         ->withSum(['bonuses as referral_bonus'

@@ -17,6 +17,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const DIRECT = 'direct';
+    const PERCENT = 'percent';
 
     /**
      * The attributes that are mass assignable.

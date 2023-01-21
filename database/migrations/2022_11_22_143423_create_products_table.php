@@ -18,9 +18,10 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Category::class)->index()->constrained()->cascadeOnDelete();
             $table->string('name')->index();
-            $table->string('slug');
-            $table->string('sku');
+            $table->string('slug')->unique();
+            $table->string('sku')->unique();
             $table->longText('description')->nullable();
+            $table->string('referral_type')->default('percent')->comment('percent means % and direct means direct');
             $table->unsignedInteger('refferral_commission')->default(0);
             $table->double('price', 15)->default(0);
             $table->string('video_url')->nullable();

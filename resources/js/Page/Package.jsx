@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
 import Pagination from "../components/common/Pagination";
 import RowNotFound from "../components/common/RowNotFound";
 import Protected from "../components/HOC/Protected";
-import CreateModal from "../components/modal/product/CreateModal";
-import DeleteProduct from "../components/modal/product/Delete";
-import EditModal from "../components/modal/product/EditModal";
+import CreateModal from "../components/modal/package/CreateModal";
+import DeleteProduct from "../components/modal/package/Delete";
+import EditModal from "../components/modal/package/EditModal";
 import ProductView from "../components/Product";
 import { getPackageList } from "../hooks/queries/package/getPackageList";
 
@@ -17,6 +17,7 @@ export const Package = () => {
         setPage(() => pageNum)
         setPageSize(() => currentPageValue)
     }
+
     // fetching product list using react query
     const { data, isLoading, refetch } = getPackageList(page,pageSize);
     // memorizing getting data
@@ -194,7 +195,7 @@ export const Package = () => {
                                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                         <div className="text-gray-900">
                                                                                             {
-                                                                                                product?.refferral_commission
+                                                                                                product?.refferral_commission + (product?.referral_type == 'percent'? '%' : '')
                                                                                             }
                                                                                         </div>
                                                                                     </td>
