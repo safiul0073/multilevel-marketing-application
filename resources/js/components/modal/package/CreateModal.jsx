@@ -18,6 +18,7 @@ export default function CreateModal({
     refatcher,
 }) {
     const [backendError, setBackendError] = useState([])
+    const [commissionType, setCommissionType] = useState('direct')
 
     const {data:categories} = getCategorySelectList()
 
@@ -26,9 +27,9 @@ export default function CreateModal({
             name: yup.string().min(4, "Too Short!").max(500, "Too Long!").required(),
             category_id: yup.number("Select a category").required("Please select a Category!"),
             price: yup.number('Please enter package price!').required("Enter a price!"),
-            refferral_commission: yup.number("Please enter referel commission!").required("Enter a price!"),
+            refferral_commission: yup.number("Please enter referral commission!").required("Enter a price!"),
             video_url: yup.string("Video url must a link").url("Please enter a video link"),
-            description: yup.string("Only string").required("Please enter package details")
+            description: yup.string("Only string").required("Please enter package description")
         })
         .required();
 
@@ -44,10 +45,12 @@ export default function CreateModal({
     const onSubmit = (data) => {
         let formData = {}
         formData.name = data.name
+        formData.sku = data.sku
         formData.category_id = data.category_id
         formData.price = data.price
+        formData.referral_type = commissionType
         formData.refferral_commission = data.refferral_commission
-        formData.video_url = data.video_url.replace("watch?v=", "embed/")
+        formData.video_url = data.video_url.replace("watch?v=", "embed/") ?? null
         formData.description = data.description
         formData.thamnail_image = data.thamnail_image[0]
 
@@ -129,6 +132,16 @@ export default function CreateModal({
                                                 error={errors.name}
                                             />
 
+                                            <Textinput
+                                                label="SKU"
+                                                placeholder="sku"
+                                                register={register}
+                                                name="sku"
+                                                type="text"
+                                                backendValidationError={backendError?.sku}
+                                                error={errors.sku}
+                                            />
+
                                             <SelectInput
                                                 label="Select Category"
                                                 labelFor="category_id"
@@ -149,15 +162,35 @@ export default function CreateModal({
                                                 error={errors.price}
                                             />
 
-                                            <Textinput
-                                                label="Reference Commission (%)"
+                                            {/* <Textinput
+                                                label=" (%)"
                                                 placeholder="20"
                                                 type="number"
                                                 register={register}
                                                 name="refferral_commission"
                                                 backendValidationError={backendError?.refferral_commission}
                                                 error={errors.refferral_commission}
-                                            />
+                                            /> */}
+
+                                            <div className="formGroup">
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    <label className="label-style">Reference Commission</label>
+                                                    <div  onClick={() => setCommissionType(commissionType == 'direct' ? 'percent' : 'direct')} className={(commissionType == 'direct' ? 'btn btn-primary cursor-pointer text-center' : 'btn btn-success cursor-pointer text-center')}>{commissionType == 'direct' ? 'Direct' : 'Percent'}</div>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    {...register('refferral_commission')}
+                                                    className="form-control"
+                                                />
+                                                {backendError && backendError?.refferral_commission && (
+                                                    <p className="error-message">
+                                                    {backendError?.refferral_commission}
+                                                    </p>
+                                                )}
+                                                {
+                                                    errors && errors?.refferral_commission && <div className="error-message"> {errors?.description?.message}</div>
+                                                }
+                                            </div>
 
                                             <Textinput
                                                 label="Video URL (#)"

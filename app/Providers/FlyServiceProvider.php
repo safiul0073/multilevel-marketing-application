@@ -26,9 +26,9 @@ class FlyServiceProvider extends ServiceProvider
     public function boot()
     {
         try {
-            config()->set('mlm.bonus.joining', get_option('mlm_joining_bonus', config('mlm.bonus.joining')));
-            config()->set('mlm.bonus.matching', get_option('mlm_matching_bonus', config('mlm.bonus.matching')));
-            config()->set('mlm.bonus.gen', get_option('mlm_gen_bonus', config('mlm.bonus.gen')));
+            config()->set('mlm.bonus.incentive', get_option('mlm_incentive', config('mlm.bonus.incentive')));
+            config()->set('mlm.bonus.matching', is_string(get_option('mlm_matching_bonus', config('mlm.bonus.matching'))) ? json_decode(get_option('mlm_matching_bonus', config('mlm.bonus.matching'))) : get_option('mlm_matching_bonus', config('mlm.bonus.matching')));
+            config()->set('mlm.bonus.gen', is_string(get_option('mlm_gen_bonus', config('mlm.bonus.gen'))) ? json_decode(get_option('mlm_gen_bonus', config('mlm.bonus.gen'))) : get_option('mlm_gen_bonus', config('mlm.bonus.gen')));
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
         }

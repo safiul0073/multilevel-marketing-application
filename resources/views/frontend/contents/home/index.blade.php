@@ -74,7 +74,7 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
     <div class=" container">
         <h1 class="text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl md:text-6xl mb-10 md:mb-12 lg:mb-20 text-center">
             <span class="block">Some of Our</span>
-            <span class="block text-indigo-500">Trending Products</span>
+            <span class="block text-indigo-500">Trending {{ auth()->check() ? "Products" : "Package" }}</span>
         </h1>
         <div class="bg-indigo-600/20 rounded-xl">
             <div class="mx-auto p-4 sm:p-8">

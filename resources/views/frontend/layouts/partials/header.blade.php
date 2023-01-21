@@ -20,9 +20,11 @@
                 <div class="hidden lg:ml-auto lg:flex items-center">
                     <div class="flex space-x-4 wide-tablet:space-x-2">
                         <a href="{{url('/')}}" class="{{ request()->routeIs('hello.world.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Home</a>
-
+                        @if (auth()->check())
                         <a href="{{url('/products')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Product</a>
-
+                        @else
+                        <a href="{{url('/packages')}}" class="{{ request()->routeIs('package.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Package</a>
+                        @endif
                         <a href="{{url('/news')}}" class="{{ request()->routeIs('news.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">News</a>
 
                         <a href="{{url('/gallery')}}" class="{{ request()->routeIs('gallery.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Gallery</a>

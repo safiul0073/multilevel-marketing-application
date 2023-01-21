@@ -10,12 +10,14 @@ class HomeCotroller extends Controller
 {
     public function index()
     {
-        $products = Product::with(['images' => function ($q) {
+        $products = Product::query()->with(['images' => function ($q) {
             $q->where('type', 'thamnail');
-        }])->orderBy('id', 'desc')->take(8)->get();
+        }]);
+        if (auth()->check()) {
+            $products->where('is_package', 0);
+        }
 
-
-        return view('frontend.contents.home.index', compact('products'));
+        return view('frontend.contents.home.index', ['products' => $products->orderBy('id', 'desc')->take(8)->get()]);
     }
 
     public function responseProductData (Request $request) {

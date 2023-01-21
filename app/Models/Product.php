@@ -23,7 +23,6 @@ class Product extends Model
         parent::boot();
         static::creating(function ($product) {
             $product->slug = $product->generateSlug(generateRandomString());
-            $product->sku = $product->generateSlug(random_int(1000000, 9999999));
         });
     }
 

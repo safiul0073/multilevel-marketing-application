@@ -106,7 +106,7 @@ async function  getOneProduct (id) {
     document.getElementById("price").innerText ="Price: " + data.price + "TK"
     document.getElementById("category").innerText ="Category: " + data?.category?.title
     document.getElementById("referral_commission").innerText = "Referral Commission: " + data?.refferral_commission + "%"
-    document.getElementById("vedio_link").src = data?.video_url
+    document.getElementById("vedio_link").src = data?.video_url ?? ''
     var sliderInputDiv =  document.getElementById("swiper-images")
     if (data?.images?.length > 0) {
         var images = ''

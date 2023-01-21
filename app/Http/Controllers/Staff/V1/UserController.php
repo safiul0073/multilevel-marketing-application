@@ -99,7 +99,8 @@ class UserController extends Controller
             $user->purchases()->create([
                 'product_id'    => $product->id,
                 'amount'        => $product->price,
-                'status'        => 1
+                'status'        => 1,
+                'type'          => 1
             ]);
 
             // generation looping
