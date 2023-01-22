@@ -227,7 +227,7 @@ const OrderSummary = ({ setTab, setBackendError, backendError }) => {
                             {isLoading ? (
                                 <>
                                     <button
-                                        className="btn btn-primary flex justify-center align-center"
+                                        className="btn btn-primary flex justify-center items-center"
                                         type="button"
                                         disabled
                                     >

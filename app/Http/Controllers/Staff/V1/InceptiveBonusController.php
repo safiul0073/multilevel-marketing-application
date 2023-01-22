@@ -23,7 +23,7 @@ class InceptiveBonusController extends Controller
         if ($request->perPage) {
             $perPage = $request->perPage;
         }
-        
+
         $incentive = IncentiveBonus::query();
         if ($request->from_date && $request->to_date) {
             $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
@@ -91,11 +91,11 @@ class InceptiveBonusController extends Controller
                 // now create inceptive table new row
                 IncentiveBonus::create($att);
 
-                return $this->withSuccess('Successfully given.');
             DB::commit();
         } catch (\Exception $ex) {
+            DB::rollBack();
             return $this->withErrors($ex->getMessage());
         }
-
+        return $this->withSuccess('Successfully given.');
     }
 }

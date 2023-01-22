@@ -133,13 +133,15 @@ class UserService {
     public function referCount ($sponsor, $user_id):void {
 
         if ($this->findPosition($sponsor, $user_id)  == 'left') {
-            $increased_count = $sponsor->left_group + 1;
-            $sponsor->left_group = $increased_count;
-            $this->checkMatchingPair($sponsor->right_group, $increased_count, $sponsor->id, $user_id);
+            $increased_count = $sponsor->left_count + 1;
+            $sponsor->left_group = $sponsor->left_group + 1;
+            $sponsor->left_count = $increased_count;
+            $this->checkMatchingPair($sponsor->right_count, $increased_count, $sponsor->id, $user_id);
         }else{
-            $increased_count = $sponsor->right_group + 1;
-            $sponsor->right_group = $increased_count;
-            $this->checkMatchingPair($sponsor->left_group, $increased_count, $sponsor->id, $user_id);
+            $increased_count = $sponsor->right_count + 1;
+            $sponsor->right_group = $sponsor->right_group + 1;
+            $sponsor->right_count = $increased_count;
+            $this->checkMatchingPair($sponsor->left_count, $increased_count, $sponsor->id, $user_id);
         }
         $sponsor->save();
     }
@@ -176,13 +178,15 @@ class UserService {
             $sponsor_sponsor = User::find((int) $sponsor_sponsor_id);
             // sponsor group incrementing
             if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
-                $increased_count = $sponsor_sponsor->left_group + 1;
-                $sponsor_sponsor->left_group = $increased_count;
-                $this->checkMatchingPair($sponsor_sponsor->right_group, $increased_count, $sponsor_sponsor->id, $user_id);
+                $increased_count = $sponsor_sponsor->left_count + 1;
+                $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
+                $sponsor_sponsor->left_count = $increased_count;
+                $this->checkMatchingPair($sponsor_sponsor->right_count, $increased_count, $sponsor_sponsor->id, $user_id);
             }else{
-                $increased_count = $sponsor_sponsor->right_group + 1;
-                $sponsor_sponsor->right_group = $increased_count;
-                $this->checkMatchingPair($sponsor_sponsor->left_group, $increased_count, $sponsor_sponsor->id, $user_id);
+                $increased_count = $sponsor_sponsor->right_count + 1;
+                $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
+                $sponsor_sponsor->right_count = $increased_count;
+                $this->checkMatchingPair($sponsor_sponsor->left_count, $increased_count, $sponsor_sponsor->id, $user_id);
             }
             $sponsor_sponsor->save();
 

@@ -25,6 +25,10 @@ class IncentiveBonusController extends Controller
            'amount' => 'required|numeric'
         ]);
 
+        if (!$request->amount) {
+            return redirect()->back()->with(['error' => "Doesn't have any bonus at this time."]);
+        }
+
         $incentive_bonus = Bonuse::where('given_id', auth()->id())
                                    ->where('bonus_type', 'incentive')
                                    ->first();
