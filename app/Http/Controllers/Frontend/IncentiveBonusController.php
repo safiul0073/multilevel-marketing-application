@@ -31,22 +31,26 @@ class IncentiveBonusController extends Controller
 
         $incentive_bonus = Bonuse::where('given_id', auth()->id())
                                    ->where('bonus_type', 'incentive')
-                                   ->first();
-        if ($incentive_bonus->amount != $request->amount){
+                                   ->where('status', false)
+                                   ->sum('amount');
+        if ($incentive_bonus != $request->amount){
             return redirect()->back()->with(['error' => 'Bonus not match']);
         }
 
-        if (config('mlm.bonus.incentive') > $incentive_bonus->amount) {
+        if (config('mlm.bonus.incentive') > $incentive_bonus) {
             return redirect()->back()->with(['error' => 'Incentive bonus not full fil.']);
         }
         try {
            DB::beginTransaction();
            $user = User::find(auth()->id());
-           $user->balance = $user->balance + $incentive_bonus->amount;
+           $user->balance = $user->balance + $incentive_bonus;
            $user->save();
 
-           $incentive_bonus->status = true;
-           $incentive_bonus->save();
+          // updating bonus status
+           Bonuse::where('given_id', auth()->id())
+           ->where('bonus_type', 'incentive')
+           ->where('status', false)
+           ->update(['status' => true]);
            DB::commit();
         } catch (\Exception $ex) {
             return redirect()->back()->with(['error' => $ex->getMessage()]);
