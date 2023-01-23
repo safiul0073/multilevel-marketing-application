@@ -12,6 +12,7 @@ use App\Http\Controllers\Staff\V1\MediaController;
 use App\Http\Controllers\Staff\V1\OptionController;
 use App\Http\Controllers\Staff\V1\PackageController;
 use App\Http\Controllers\Staff\V1\PackageHelperController;
+use App\Http\Controllers\Staff\V1\PaymentMethodController;
 use App\Http\Controllers\Staff\V1\RewardController;
 use App\Http\Controllers\Staff\V1\SliderController;
 use App\Http\Controllers\Staff\V1\UserController;
@@ -35,14 +36,15 @@ Route::middleware('auth:staff')->group(function () {
     Route::post('/logout', [StaffController::class, 'logout'])->name('logout');
 
     // resource route start
-    Route::resource('category', CategoryController::class);
-
-    Route::resource('package', PackageController::class);
-    Route::resource('slider', SliderController::class);
-    Route::resource('epin', EpinController::class);
-    Route::resource('reward', RewardController::class);
+    Route::apiResource('category', CategoryController::class);
+    Route::apiResource('payment-method', PaymentMethodController::class);
+    Route::apiResource('package', PackageController::class);
+    Route::apiResource('slider', SliderController::class);
+    Route::apiResource('epin', EpinController::class);
+    Route::apiResource('reward', RewardController::class);
     // resource route end
 
+    Route::post('payment-method-update', [PaymentMethodController::class, 'update']);
     Route::post('reward-update', [RewardController::class, 'update']);
     // epin helper
     Route::post('epin-update', [EpinController::class, 'update']);
