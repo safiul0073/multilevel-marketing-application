@@ -17,6 +17,7 @@ import Generation from '../../Page/Settings/Generation';
 import IncentiveReport from '../../Page/Report/Incentive';
 import Matching from '../../Page/Settings/Matching';
 import IncentiveSettings from '../../Page/Settings/Incentive'
+import PaymentMethod from '../../Page/PaymentMethod';
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -39,6 +40,7 @@ const Layout =() =>{
                 <Route path="/staff/users/binary-tree" element={<BinaryTree />} />
                 <Route path="/staff/users/registration" element={<Create/>} />
                 <Route path="/staff/reward" element={<Reward/>} />
+                <Route path="/staff/payment-method" element={<PaymentMethod/>} />
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
                 <Route path="/staff/settings/generation" element={<Generation/>} />
                 <Route path="/staff/settings/matching" element={<Matching/>} />
