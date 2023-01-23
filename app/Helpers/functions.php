@@ -20,3 +20,10 @@ if (!function_exists('generateRandomString')) {
         return $randomString;
     }
 }
+
+if (!function_exists('geMatchingSchedulerDateTime')) {
+    function geMatchingSchedulerDateTime () {
+        $matching_date = new \Carbon\Carbon(config('mlm.bonus.matching.end_time'));
+        return $matching_date->add(config('mlm.bonus.matching.in_day') - 1, 'day');
+    }
+}

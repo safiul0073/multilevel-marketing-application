@@ -43,8 +43,9 @@ export const Package = () => {
         setIsEditModalOpen(false);
     };
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [packageDelete, setPackageDelete] = useState()
     const delateProduct = (id) => {
-        setProduct(id);
+        setPackageDelete(id);
         setIsDeleteModalOpen(true);
     };
 
@@ -72,7 +73,7 @@ export const Package = () => {
                 setIsOpen={setIsDeleteModalOpen}
                 closeModal={closeDeleteModal}
                 refatcher={refetch}
-                product={product}
+                product={packageDelete}
             />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
