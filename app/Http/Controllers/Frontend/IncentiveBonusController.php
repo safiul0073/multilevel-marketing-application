@@ -36,7 +36,7 @@ class IncentiveBonusController extends Controller
             return redirect()->back()->with(['error' => 'Bonus not match']);
         }
 
-        if (config('mlm.bonus.incentive') > $incentive_bonus) {
+        if (config('mlm.bonus.incentive') > $incentive_bonus->amount) {
             return redirect()->back()->with(['error' => 'Incentive bonus not full fil.']);
         }
         try {
