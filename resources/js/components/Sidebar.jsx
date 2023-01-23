@@ -6,7 +6,6 @@ import {
     ClockIcon,
     CreditCardIcon,
     HomeIcon,
-    ScaleIcon,
     XMarkIcon,
     UsersIcon,
     Cog8ToothIcon,
@@ -14,7 +13,8 @@ import {
     GifIcon,
     PhotoIcon,
     ClipboardDocumentListIcon,
-    ShieldCheckIcon
+    ShieldCheckIcon,
+    BanknotesIcon
 } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
@@ -50,6 +50,7 @@ const Sidebar = () => {
         { name: "Slider", href: "/staff/slider", icon: PhotoIcon },
         { name: "Epin", href: "/staff/epin", icon: ShieldCheckIcon },
         { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
+        { name: "Payment Method", href: "/staff/payment-method", icon: BanknotesIcon },
         {
             name: "Users",
             icon: UsersIcon,
