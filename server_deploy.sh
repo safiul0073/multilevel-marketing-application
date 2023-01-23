@@ -16,6 +16,9 @@ php artisan down
     # Clear cache
     php artisan optimize
 
+    # scheduler work run
+    php artisan schedule:run >> /dev/null 2>&1
+
     # permisson set storage && bootstrap folder
      sudo -S chown -R www-data.www-data /var/www/html/aqebbd.com/bootstrap/cache/
 

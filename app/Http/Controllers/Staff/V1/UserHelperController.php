@@ -22,6 +22,8 @@ class UserHelperController extends Controller
             'username'  => $user->username,
             'right'     => $user->right_group,
             'left'      => $user->left_group,
+            'left_count' => $user->left_count,
+            'right_count' => $user->right_count,
             'reward'    => count($user->rewards) ? $user->rewards[0]->designation : '',
             'avatar'    => $user->image,
             'joined_date' => $user->created_at
