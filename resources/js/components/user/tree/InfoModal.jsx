@@ -60,7 +60,7 @@ export default function InfoModal({isOpen, setIsOpen, closeModal, userId}) {
                                 <h1>Right: {user?.right}</h1>
                                 <h1>Left Carry: {user?.left_count}</h1>
                                 <h1>Right Carry: {user?.right_count}</h1>
-                                <h1>Join Date: {moment(user?.joined_at).format("DD-MM-YYYY, h:mm a")}</h1>
+                                <h1>Join Date: {moment(user?.joined_date).format("DD-MM-YYYY, h:mm a")}</h1>
                             </div>
                         </div>
                     </div>
