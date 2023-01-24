@@ -16,7 +16,7 @@ class UserHelperController extends Controller
     use Formatter;
 
     public function getUserReward ($id) {
-        $user = User::with(['image', 'rewards' => fn ($q) => $q->orderBy('id', 'desc')])->where('id', $id)->first();
+        $user = User::with(['image', 'reward_users' => fn ($q) => $q->orderBy('status', 'asc')])->where('id', $id)->first();
         $values = [
             'full_name' => $user->first_name . ' ' . $user->last_name,
             'username'  => $user->username,
@@ -24,7 +24,7 @@ class UserHelperController extends Controller
             'left'      => $user->left_group,
             'left_count' => $user->left_count,
             'right_count' => $user->right_count,
-            'reward'    => count($user->rewards) ? $user->rewards[0]->designation : '',
+            'reward'    => count($user->reward_users) ? $user->reward_users[0]->name : '',
             'avatar'    => $user->image,
             'joined_date' => $user->created_at
         ];
