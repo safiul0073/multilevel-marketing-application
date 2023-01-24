@@ -97,6 +97,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Reward::class, 'reward_users');
     }
 
+        /**
+     * Get the user's reword user.
+     */
+    public function reward_users():HasMany
+    {
+        return $this->hasMany(RewardUser::class);
+    }
+
     public function generations ():HasMany {
         return $this->hasMany(Generation::class, 'main_id', 'id');
     }
