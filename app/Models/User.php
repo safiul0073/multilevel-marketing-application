@@ -137,4 +137,8 @@ class User extends Authenticatable
         return $this->hasMany(Bonuse::class, 'for_given_id');
     }
 
+    public function withdraws ():HasMany {
+        return $this->hasMany(Withdraw::class);
+    }
+
 }

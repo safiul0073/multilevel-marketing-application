@@ -25,6 +25,7 @@ use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserInfoController;
+use App\Http\Controllers\Frontend\WithdrawController;
 use App\Http\Controllers\Staff\V1\DashboardController;
 use App\Http\Controllers\Staff\V1\UserHelperController;
 use Illuminate\Support\Facades\Auth;
@@ -58,6 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('incentive')->name('incentive.')->group(function() {
         Route::get('view', [IncentiveBonusController::class, 'index'])->name('view');
         Route::post('add-bonus', [IncentiveBonusController::class, 'addToWallet'])->name('add.bonus');
+    });
+
+    Route::prefix('withdraw')->name('withdraw.')->group(function () {
+        Route::get('/request', [WithdrawController::class, 'index'])->name('request');
+        Route::post('/balance', [WithdrawController::class, 'withdrawBalance'])->name('balance');
+        Route::get('/list', [WithdrawController::class, 'withdrawList'])->name('list');
     });
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [MyTeamController::class, 'userTeamView'])->name('user.my.team');
