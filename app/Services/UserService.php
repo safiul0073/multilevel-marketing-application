@@ -10,6 +10,7 @@ use App\Models\Reward;
 use App\Models\RewardUser;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 
@@ -194,14 +195,16 @@ class UserService {
                 $increased_count = $sponsor_sponsor->left_count + 1;
                 $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
                 $sponsor_sponsor->left_count = $increased_count;
+                $sponsor_sponsor->save();
                 $this->checkMatchingPair($sponsor_sponsor->right_count, $increased_count, $sponsor_sponsor->id, $user_id);
             }else{
                 $increased_count = $sponsor_sponsor->right_count + 1;
                 $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
                 $sponsor_sponsor->right_count = $increased_count;
+                $sponsor_sponsor->save();
                 $this->checkMatchingPair($sponsor_sponsor->left_count, $increased_count, $sponsor_sponsor->id, $user_id);
             }
-            $sponsor_sponsor->save();
+
 
             // generation label creating
 
@@ -247,7 +250,9 @@ class UserService {
      **/
     public function matchingBonus (int $parent_id, int $user_id) {
 
-        $bonus_count = Bonuse::whereDate('created_at', today())
+        $matching_date = new Carbon(config('mlm.bonus.matching.end_time'));
+        $present_date = new Carbon(config('mlm.bonus.matching.end_time'));
+        $bonus_count = Bonuse::whereBetween('created_at', [ $matching_date->subDay(),  $present_date])
                                ->where('given_id', $parent_id)
                                ->where('bonus_type', 'matching')->count();
         if ($this->matching_bonus['pair_type'] == 'Auto') {
