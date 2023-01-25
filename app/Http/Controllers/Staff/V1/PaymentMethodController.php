@@ -67,7 +67,7 @@ class PaymentMethodController extends Controller
      * @param  \App\Models\PaymentMethod  $paymentMethod
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PaymentMethod $paymentMethod)
+    public function update(Request $request)
     {
         $attributes = $this->validate($request, [
             'id'    => 'required|numeric|exists:payment_methods,id',
@@ -80,7 +80,7 @@ class PaymentMethodController extends Controller
             'status' => 'integer',
         ]);
 
-        $paymentMethod->update($attributes);
+        PaymentMethod::find((int) $request->id)->update($attributes);
         return $this->withSuccess('Successfully updated.');
     }
 

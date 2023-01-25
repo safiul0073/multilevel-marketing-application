@@ -54,15 +54,22 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
             <div id="splide1" class="splide" aria-label="Splide Basic HTML Example">
                 <div class="splide__track">
                     <ul class="splide__list">
-                        <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                        </li>
-                        <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                        </li>
-                        <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                        </li>
+                        @forelse ($sliders as $slider)
+                            <li class="splide__slide">
+                                <img class="relative rounded-lg shadow-lg" src="{{ $slider?->image?->url }}" alt="App screenshot">
+                            </li>
+                        @empty
+                            <li class="splide__slide">
+                                <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            </li>
+                            <li class="splide__slide">
+                                <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            </li>
+                            <li class="splide__slide">
+                                <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            </li>
+                        @endforelse
+
                     </ul>
                 </div>
             </div>

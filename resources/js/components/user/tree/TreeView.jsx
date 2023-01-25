@@ -21,7 +21,6 @@ const TreeView = ({ username }) => {
                 <main className="overflow-x-auto overflow-y-auto grow p-5 pt-0 flex flex-col">
                     <div className="mx-auto">
                         <TreeNode
-                            style={{ display: "flex", flexDirection: "column" }}
                             node={root}
                         />
                     </div>
