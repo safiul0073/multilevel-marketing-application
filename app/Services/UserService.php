@@ -8,6 +8,7 @@ use App\Models\Generation;
 use App\Models\Product;
 use App\Models\Reward;
 use App\Models\RewardUser;
+use App\Models\TaskScheduler;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -250,9 +251,8 @@ class UserService {
      **/
     public function matchingBonus (int $parent_id, int $user_id) {
 
-        $matching_date = new Carbon(config('mlm.bonus.matching.end_time'));
-        $present_date = new Carbon(config('mlm.bonus.matching.end_time'));
-        $bonus_count = Bonuse::whereBetween('created_at', [ $present_date,  $matching_date->add(1, 'day')])
+        $task = TaskScheduler::where('title', 'matching')->first();
+        $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
                                ->where('given_id', $parent_id)
                                ->where('bonus_type', 'matching')->count();
         if ($this->matching_bonus['pair_type'] == 'Auto') {

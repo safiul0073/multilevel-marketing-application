@@ -30,8 +30,9 @@ class Kernel extends ConsoleKernel
                 (new Carbon($task->date_time)) == $matching_date
             );
         })->onSuccess(function () use($task) {
-            $matching_date = new \Carbon\Carbon(config('mlm.bonus.matching.end_time'));
-            $task->date_time = $matching_date->add(config('mlm.bonus.matching.in_day'), 'day');
+            $next_end = new \Carbon\Carbon(config('mlm.bonus.matching.end_time'));
+            $task->previous_date = $task->date_time;
+            $task->date_time = $next_end->add(config('mlm.bonus.matching.in_day'), 'day');
             $task->save();
         });
 
