@@ -56,6 +56,19 @@ class UserService {
         }
     }
 
+
+    public function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
+
+        $sponsor = User::select('sponsor_id','username')->find((int) $sponsor_id);
+
+        if (!$sponsor) return false;
+        if ($sponsor->user_name == auth()->user()->username) {
+            return true;
+        }else{
+            $this->checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
+        }
+    }
+
     /**
      * @epin_code type string.
      * @product type Product

@@ -11,8 +11,16 @@
         </button>
     </div>
 </form>
-<div class="overflow-x-scroll overflow-y-auto grow">
-    @include('frontend.contents.dashboard.tree_node', ['node' => $trees[0], 'this_parent' => true])
-</div>
+<main className="overflow-x-auto overflow-y-auto grow p-5 pt-0 flex flex-col">
+    <div className="mx-auto">
+    @include('frontend.contents.dashboard.tree_node', [
+        'node' => $trees[0],
+        'this_parent' => true,
+        'position'  => '',
+        'referrar_position' => 'auto',
+        'referrar_username' => $trees[0]->username,
+        ])
+    </div>
+</main>
 
 @endsection
