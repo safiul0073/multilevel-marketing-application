@@ -14,6 +14,7 @@ class OptionController extends Controller
     use Formatter;
 
     public function getBonus (Request $request) {
+
         return $this->withSuccess(config('mlm.bonus'));
     }
 
