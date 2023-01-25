@@ -252,7 +252,7 @@ class UserService {
 
         $matching_date = new Carbon(config('mlm.bonus.matching.end_time'));
         $present_date = new Carbon(config('mlm.bonus.matching.end_time'));
-        $bonus_count = Bonuse::whereBetween('created_at', [ $matching_date->subDay(),  $present_date])
+        $bonus_count = Bonuse::whereBetween('created_at', [ $present_date,  $matching_date->add(1, 'day')])
                                ->where('given_id', $parent_id)
                                ->where('bonus_type', 'matching')->count();
         if ($this->matching_bonus['pair_type'] == 'Auto') {
