@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('task_schedulers', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
+            $table->string('previous_date')->default(now());
             $table->string('date_time');
             $table->timestamps();
         });
