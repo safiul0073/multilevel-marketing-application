@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Staff\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reward;
+use App\Services\RewardService;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RewardController extends Controller
 {
@@ -42,8 +44,18 @@ class RewardController extends Controller
             'one_time_bonus' => 'required|string',
             'salary' => 'required|string'
         ]);
+        try {
+            DB::beginTransaction();
 
-        Reward::create($att);
+            $reward = Reward::create($att);
+
+            RewardService::checkUserForReward($reward);
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $this->withErrors($ex->getMessage());
+        }
 
         return $this->withSuccess('successfully created.');
     }
@@ -77,8 +89,20 @@ class RewardController extends Controller
             'one_time_bonus' => 'required|string',
             'salary' => 'required|string'
         ]);
-        $reward = Reward::find((int) $att['id']);
-        $reward->update($att);
+
+        try {
+            DB::beginTransaction();
+
+            $reward = Reward::find((int) $att['id']);
+            $reward->update($att);
+
+            RewardService::checkUserForReward($reward);
+            
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $this->withErrors($ex->getMessage());
+        }
 
         return $this->withSuccess('successfully updated.');
     }
