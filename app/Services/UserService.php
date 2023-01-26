@@ -172,7 +172,7 @@ class UserService {
     public function checkMatchingPair ($opposite_count, $increased_count, $sponsor_id, $user_id) {
 
         if ($opposite_count >= $increased_count) {
-            $this->matchingBonus($sponsor_id, $user_id);
+            $this->matchingBonus($increased_count, $sponsor_id, $user_id);
         }
 
     }
@@ -249,17 +249,16 @@ class UserService {
      * @user_id type int
      * @return void
      **/
-    public function matchingBonus (int $parent_id, int $user_id) {
+    public function matchingBonus ($matching_count, int $parent_id, int $user_id) {
 
-        $task = TaskScheduler::where('title', 'matching')->first();
-        $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
-                               ->where('given_id', $parent_id)
-                               ->where('bonus_type', 'matching')->count();
-        if ($this->matching_bonus['pair_type'] == 'Auto') {
-            if ($bonus_count < $this->matching_bonus['pair_value']) {
-                $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus['pair_amount']);
-            }
+        // $task = TaskScheduler::where('title', 'matching')->first();
+        // $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
+        //                        ->where('given_id', $parent_id)
+        //                        ->where('bonus_type', 'matching')->count();
+        if ($matching_count <= $this->matching_bonus['pair_value']) {
+            $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus['pair_amount']);
         }
+
     }
 
     private function generationBonus ($user_id) {
