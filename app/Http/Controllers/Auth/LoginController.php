@@ -73,7 +73,12 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // LoginActivity::addToLog();
+        if (!$user->status) {
+            $this->logout($request);
+        }else {
+            LoginActivity::addToLog();
+        }
+
     }
     /**
      * Create a new controller instance.

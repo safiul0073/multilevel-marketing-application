@@ -122,7 +122,7 @@ class UserService {
             $sponsor = $this->findRealSponsor($sponsor_id, $referrer_id, $position);
         }
         $this->referCount($sponsor, $referrer_id);
-        $this->checkReward($sponsor);
+        RewardService::checkReward($sponsor);
         return $sponsor;
     }
 
@@ -216,7 +216,7 @@ class UserService {
             ]);
 
             // reword checking
-            $this->checkReward($sponsor_sponsor);
+            RewardService::checkReward($sponsor_sponsor);
 
             $i = $i + 1;
 
@@ -283,25 +283,4 @@ class UserService {
         $sponsor->save();
     }
 
-    public function checkReward($user) {
-
-        $rewards = Reward::select('id','designation','left_count', 'right_count')->get();
-        if (count($rewards)) {
-            foreach($rewards as $reward) {
-
-                if ($reward->left_count <= $user->left_group
-                    &&
-                    $reward->right_count <= $user->right_group){
-                        RewardUser::firstOrCreate([
-                            'reward_id' => $reward->id,
-                            'user_id'   => $user->id,
-                            'name'  => $reward->designation
-                        ],
-                        [
-                            'status' => false
-                        ]);
-                    }
-            }
-        }
-    }
 }
