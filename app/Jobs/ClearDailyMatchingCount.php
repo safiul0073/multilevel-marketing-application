@@ -48,7 +48,7 @@ class ClearDailyMatchingCount implements ShouldQueue
                         $user->left_count = 0;
                         $user->right_count = $rt_count;
                     }else {
-                        $user->left_count = $lf_count;
+                        $user->left_count = 0;
                         $user->right_count = $rt_count;
                     }
                     $user->save();
