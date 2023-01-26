@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('bonuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'given_id')->index()->constrained('users')->cascadeOnDelete();
-            $table->foreignIdFor(User::class, 'for_given_id')->index()->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'given_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'for_given_id')->constrained('users')->cascadeOnDelete();
             $table->string('bonus_type')->index()->default('joining');
             $table->float('amount')->default(0);
             $table->boolean('status')->default(true);

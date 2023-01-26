@@ -8,11 +8,14 @@ use App\Http\Controllers\Staff\V1\CategoryController;
 use App\Http\Controllers\Staff\V1\EpinController;
 use App\Http\Controllers\Staff\V1\EpinHelperController;
 use App\Http\Controllers\Staff\V1\InceptiveBonusController;
+use App\Http\Controllers\Staff\V1\LoginInfo;
 use App\Http\Controllers\Staff\V1\MediaController;
 use App\Http\Controllers\Staff\V1\OptionController;
 use App\Http\Controllers\Staff\V1\PackageController;
 use App\Http\Controllers\Staff\V1\PackageHelperController;
 use App\Http\Controllers\Staff\V1\PaymentMethodController;
+use App\Http\Controllers\Staff\V1\Reports\BonusController;
+use App\Http\Controllers\Staff\V1\Reports\WithdrawController;
 use App\Http\Controllers\Staff\V1\RewardController;
 use App\Http\Controllers\Staff\V1\SliderController;
 use App\Http\Controllers\Staff\V1\UserController;
@@ -74,6 +77,8 @@ Route::middleware('auth:staff')->group(function () {
         Route::post('password-reset', [UserHelperController::class, 'passwordReset']);
         // balance increment or decrement
         Route::post('balance/add-sub/{user}', [UserHelperController::class, 'userBalanceUpdate']);
+        // login info activity
+        Route::get('login-activity', LoginInfo::class);
     });
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
@@ -84,6 +89,12 @@ Route::middleware('auth:staff')->group(function () {
         Route::post('search', [InceptiveBonusController::class, 'getCountForInceptiveUser']);
         Route::post('bonus-give', [InceptiveBonusController::class, 'distributeInceptiveBonus']);
         Route::get('bonus', [InceptiveBonusController::class, 'getIncentive']);
+    });
+
+    // report
+    Route::prefix('report')->group(function () {
+        Route::get('bonus', [BonusController::class, 'bonusList']);
+        Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
     });
 
     // settings

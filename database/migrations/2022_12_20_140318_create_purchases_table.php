@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->float('amount')->default(0);
-            $table->tinyInteger('status')->default(0)->comment('0=pending, 1=complete');
-            $table->tinyInteger('type')->default(0);
+            $table->tinyInteger('status')->index()->default(0)->comment('0=pending, 1=complete');
+            $table->tinyInteger('type')->index()->default(0);
             $table->timestamps();
         });
     }
