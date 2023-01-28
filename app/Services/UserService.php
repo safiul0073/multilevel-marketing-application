@@ -264,7 +264,7 @@ class UserService {
     private function generationBonus ($user) {
 
         $gen_bonuses = $this->gen_bonus;
-        $generations = Generation::where('member_id', $user->id)->where('gen_type', '<=', count($gen_bonuses))->get()->toArray();
+        $generations = Generation::where('member_id', $user->id)->where('gen_type', '<=', count($gen_bonuses))->get();
 
         // $user->generationBonusGive()->createMany(
         //     array_map(function ($gen) use ($gen_bonuses) {

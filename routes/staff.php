@@ -92,6 +92,9 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('bonus', [InceptiveBonusController::class, 'getIncentive']);
     });
 
+    // withdraw confirm
+    Route::post('withdraw/confirm', App\Http\Controllers\Staff\V1\WithdrawController::class);
+
     // report
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
