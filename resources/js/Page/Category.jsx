@@ -50,8 +50,6 @@ const Category = () => {
         setIsDeleteModalOpne(false)
     }
 
-
-
     return (
         <>
         <CreateModal

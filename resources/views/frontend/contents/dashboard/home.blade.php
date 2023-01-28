@@ -115,7 +115,7 @@
         <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
             <span class="w-1/2 flex-none font-bold">Joining Date</span>
             <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username"
-            value="{{ $user->created_at->format('dd-mm-Y') }}" readonly autofocus />
+            value="{{ $user->created_at->format('d-m-Y') }}" readonly autofocus />
         </div>
         <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3">
             <span class="w-1/2 flex-none font-bold">Nominee Name</span>
@@ -155,7 +155,7 @@
                 {{ __('Copy Link') }}
             </button>
         </div>
-        @if (!$user->left_ref_id)
+        {{-- @if (!$user->left_ref_id) --}}
             <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
                 <input id="leftInput" type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700"
                        value="{{ config('app.url') }}/set-sponsor/?sponsor_id={{ $user->username }}&position=left" autofocus />
@@ -163,8 +163,8 @@
                     {{ __('Copy Link') }}
                 </button>
             </div>
-        @endif
-        @if (!$user->right_ref_id)
+        {{-- @endif --}}
+        {{-- @if (!$user->right_ref_id) --}}
             <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
                 <input id="rightInput" type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username"
                 value="{{ config('app.url') }}/set-sponsor/?sponsor_id={{ $user->username }}&position=right" autofocus />
@@ -172,7 +172,7 @@
                     {{ __('Copy Link') }}
                 </button>
             </div>
-        @endif
+        {{-- @endif --}}
     </div>
 </div>
 @endsection

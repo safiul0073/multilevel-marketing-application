@@ -16,4 +16,8 @@ class Withdraw extends Model
     public function payment_method ():BelongsTo {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+    public function user ():BelongsTo {
+        return $this->belongsTo(User::class);
+    }
 }

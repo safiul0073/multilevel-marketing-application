@@ -58,7 +58,7 @@
                     <div class="py-1" role="none">
                         <a href="{{ route('user.dashboard') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Dasboard</a>
                         <a href="{{ route('user.profile') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-1">Profile</a>
-                        <a href="{{ route('withdraw.request') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Requst Withdraw</a>
+                        <a href="{{ route('withdraw.request') }}" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-2">Withdraw Request</a>
                     </div>
                     <div class="py-1" role="none">
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();

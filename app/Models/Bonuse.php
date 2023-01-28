@@ -24,4 +24,8 @@ class Bonuse extends Model
         return $this->belongsTo(User::class, 'for_given_id', 'id');
     }
 
+    public function generation () {
+        return $this->belongsTo(Generation::class);
+    }
+
 }
