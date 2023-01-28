@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->index()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(PaymentMethod::class, 'payment_method_id')->index()->constrained('payment_methods')->cascadeOnDelete();
+            $table->string('account_number')->nullable();
             $table->float('amount')->default(0);
             $table->float('charge')->default(0);
             $table->tinyInteger('status')->index()->default(0)->comment('0=pending, 1=approved, 2=refunded');

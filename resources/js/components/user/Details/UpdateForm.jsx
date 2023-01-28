@@ -2,11 +2,12 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useMutation } from 'react-query';
-import { userUpdate } from '../../../hooks/queries/user';
+import { updateUserStatus, userUpdate } from '../../../hooks/queries/user';
 import InputField from './InputField';
 
 const UpdateForm = ({ details, detailsRefetch }) => {
     const [backendError, setBackendError] = React.useState()
+    const [isActivate, setActivate] = React.useState(false)
 
     const { register, reset, handleSubmit, formState: { errors } } = useForm()
     const onSubmit= (data) => {
@@ -14,6 +15,10 @@ const UpdateForm = ({ details, detailsRefetch }) => {
             ...data,
             id: details?.id
         })
+    }
+
+    const updateStatus = () => {
+        updateUserStatusMutate(details?.id)
     }
 
   const {
@@ -34,6 +39,23 @@ const UpdateForm = ({ details, detailsRefetch }) => {
         ...backendError,
         ...errorobj,
       });
+    },
+  });
+
+  const {
+    mutate: updateUserStatusMutate,
+    isLoading:userStatusUpdateLoading,
+  } = useMutation(updateUserStatus, {
+    onSuccess: (data) => {
+        toast.success(data, {
+            position: 'top-right'
+        });
+
+        detailsRefetch()
+    },
+    onError: (err) => {
+
+        console.log(err)
     },
   });
 
@@ -65,16 +87,43 @@ const UpdateForm = ({ details, detailsRefetch }) => {
         sms_verified: details?.sms_verified_at ? '1' : '0',
         isUpdated: details?.isUpdated
     })
+    setActivate(details?.status ? true : false)
   },[details])
   return (
     <>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
             <div className="shadow sm:overflow-hidden sm:rounded-md">
                 <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
-                    <div>
+                    <div className="flex sm:flex-row flex-col justify-between items-center">
                         <h3 className="text-lg font-medium leading-6 text-gray-900">
                             Personal Information
                         </h3>
+                        {
+                            userStatusUpdateLoading
+                            ?
+                            <>
+                                <button
+                                    className={isActivate ?
+                                                "btn btn-secondary flex justify-center align-center"
+                                                : "btn btn-success flex justify-center align-center"}
+                                    type="button" disabled
+                                >
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Processing ...
+                                </button>
+                            </>
+                            :
+                            <div
+                                onClick={updateStatus}
+                                className={isActivate ? "btn btn-secondary cursor-pointer" : "btn btn-success cursor-pointer"}
+                            >
+                            {isActivate ? "De-Active" : "Active"}
+                            </div>
+                        }
+
                     </div>
 
                     <div className="grid grid-cols-12 gap-6">

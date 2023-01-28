@@ -71,6 +71,7 @@ Route::middleware('auth:staff')->group(function () {
         Route::post('info/update', [UserController::class, 'update'])->name('info.update');
         Route::get('referral-list/{user}', [UserHelperController::class, 'userReferrals']);
         // user Helper
+        Route::post('status/update/{user}', [UserHelperController::class, 'userStatusUpdate']);
         Route::get('binary', [UserHelperController::class, 'userBinaryTreeData']);
         Route::get('list', [UserHelperController::class, 'getUserList']);
         Route::get('details/{id}', [UserHelperController::class, 'userDetailsCalculation']);

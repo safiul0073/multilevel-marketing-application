@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Generation;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class, 'given_id')->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'for_given_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(Generation::class)->nullable()->constrained('generations')->cascadeOnDelete();
             $table->string('bonus_type')->index()->default('joining');
             $table->float('amount')->default(0);
             $table->boolean('status')->default(true);

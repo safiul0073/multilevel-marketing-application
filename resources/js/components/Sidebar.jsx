@@ -64,14 +64,17 @@ const Sidebar = () => {
             name: "Bonus",
             icon: GifIcon,
             children: [
-                { name: "Incentive", href: "/staff/bonus/incentive" }
+                { name: "Incentive", href: "/staff/bonus/incentive" },
             ],
         },
         {
             name: "Report",
             icon: BookOpenIcon,
             children: [
-                { name: "Incentive", href: "/staff/reports/incentive" }
+                { name: "Incentive", href: "/staff/reports/incentive" },
+                { name: "Matching", href: "/staff/reports/matching" },
+                { name: "Generation", href: "/staff/reports/generation" },
+                { name: "Joining", href: "/staff/reports/joining" }
             ],
         },
         {

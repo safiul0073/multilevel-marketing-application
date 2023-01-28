@@ -230,9 +230,9 @@ class UserService {
      * @user_id type int
      * @return void
      **/
-    public function bonusGiven (int $sponsor_id, int $user_id):void {
-        $this->joiningBonus($sponsor_id, $user_id);
-        $this->generationBonus($user_id);
+    public function bonusGiven (int $sponsor_id, $user):void {
+        $this->joiningBonus($sponsor_id, $user->id);
+        $this->generationBonus($user);
     }
 
      /**
@@ -261,22 +261,32 @@ class UserService {
 
     }
 
-    private function generationBonus ($user_id) {
+    private function generationBonus ($user) {
 
         $gen_bonuses = $this->gen_bonus;
-        $generations = Generation::where('member_id', $user_id)->where('gen_type', '<=', count($gen_bonuses))->get();
+        $generations = Generation::where('member_id', $user->id)->where('gen_type', '<=', count($gen_bonuses))->get()->toArray();
 
+        // $user->generationBonusGive()->createMany(
+        //     array_map(function ($gen) use ($gen_bonuses) {
+        //     return [
+        //         'given_id'   => $gen['main_id'],
+        //         'bonus_type' => 'gen',
+        //         'amount'      => $gen_bonuses[$gen->gen_type-1],
+        //         'generation_id' => $gen['id']
+        //     ];
+        // }, $generations));
         foreach($generations as $gen) {
-            $this->bonusSave($gen->main_id, $user_id, 'gen', $gen_bonuses[$gen->gen_type-1]);
+            $this->bonusSave($gen->main_id, $user->id, 'gen', $gen_bonuses[$gen->gen_type-1], $gen->id);
         }
     }
 
-    private function bonusSave ($sponsor_id, $user_id, $type, $amount) {
+    private function bonusSave ($sponsor_id, $user_id, $type, $amount, $gen_id = null) {
         Bonuse::create([
             'given_id'   => $sponsor_id,
             'bonus_type' => $type,
             'for_given_id'=> $user_id,
-            'amount'      => $amount
+            'amount'      => $amount,
+            'generation_id' => $gen_id
         ]);
         $sponsor = User::find((int) $sponsor_id);
         $sponsor->balance = $sponsor->balance + $amount;

@@ -10,4 +10,5 @@ class Generation extends Model
     use HasFactory;
 
     protected $guarded = [];
+
 }

@@ -26,7 +26,7 @@ class WithdrawController extends Controller
         ]);
 
         if (is_array($request->ids)) {
-            Withdraw::whereIn($request->ids)->update(['status' => $$request->status]);
+            Withdraw::whereIn($request->ids)->update(['status' => $request->status]);
             $withdraws = Withdraw::whereIn($request->ids)->get();
             $withdraws->map(function ($with) use($request) {
                 $user = User::find($with->user_id);
@@ -34,11 +34,11 @@ class WithdrawController extends Controller
                 $user->save();
             });
         }else{
-            Withdraw::find((int) $request->ids)->update(['status' => $$request->status]);
-            $withdraws = Withdraw::find((int)$request->ids);
-            $user = User::find($with->user_id);
-            $user->balance = $request->status == 1 ?  $user->balance - $with->amount : $user->balance;
+            $withdraw = Withdraw::find((int)$request->ids);
+            $user = User::find($withdraw->user_id);
+            $user->balance = $request->status == 1 ?  $user->balance - $withdraw->amount : $user->balance;
             $user->save();
+            $withdraw->update(['status' => $request->status]);
         }
         $message = '';
         if ($request->status == 2) {
