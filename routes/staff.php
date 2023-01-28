@@ -99,6 +99,9 @@ Route::middleware('auth:staff')->group(function () {
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
         Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
+        Route::get('to-earned', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'topEarned']);
+        Route::get('to-sponsor', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'topSponsor']);
+        Route::get('package-purchase', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'packagePurchaseList']);
     });
 
     // settings

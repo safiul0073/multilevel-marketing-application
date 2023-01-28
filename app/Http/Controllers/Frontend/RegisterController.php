@@ -44,28 +44,28 @@ class RegisterController extends Controller
             'position' => ['required', 'string', 'in:left,right,auto']
         ]);
 
-        $sponsor = User::where('username', $request->username)->first();
-        $position = $request->position;
-        $isNotError = false;
-        if ($position != 'auto') {
-            if ($position == 'left' && $sponsor->left_ref_id) {
-                return redirect()->back()->with('error', 'left already fill up!');
-            } else if ($position == 'right' && $sponsor->right_ref_id) {
-                return redirect()->back()->with('error', 'right already fill up!');
-            }else {
-                $isNotError = true;
-            }
-        }else {
-            $isNotError = true;
-        }
+        // $sponsor = User::where('username', $request->username)->first();
+        // $position = $request->position;
+        // $isNotError = false;
+        // if ($position != 'auto') {
+        //     if ($position == 'left' && $sponsor->left_ref_id) {
+        //         return redirect()->back()->with('error', 'left already fill up!');
+        //     } else if ($position == 'right' && $sponsor->right_ref_id) {
+        //         return redirect()->back()->with('error', 'right already fill up!');
+        //     }else {
+        //         $isNotError = true;
+        //     }
+        // }else {
+        //     $isNotError = true;
+        // }
 
-        if ($isNotError) {
+        // if ($isNotError) {
             return view('frontend.contents.buy.user_field', [
                 'slug' => $request->slug,
                 'sponsor_id'    => $request->username,
                 'position'  => $request->position
             ]);
-        }
+        // }
     }
 
     public function checkUser (Request $request) {
