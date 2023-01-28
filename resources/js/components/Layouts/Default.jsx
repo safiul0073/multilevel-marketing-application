@@ -15,6 +15,10 @@ import Reward from '../../Page/Reward';
 import Incentive from '../../Page/Bonus/Incentive';
 import Generation from '../../Page/Settings/Generation';
 import IncentiveReport from '../../Page/Report/Incentive';
+import GenerationReport from '../../Page/Report/Generation';
+import JoiningReport from '../../Page/Report/Joining';
+import MatchingReport from '../../Page/Report/Matching';
+import WithdrawReport from '../../Page/Report/Withdraw';
 import Matching from '../../Page/Settings/Matching';
 import IncentiveSettings from '../../Page/Settings/Incentive'
 import PaymentMethod from '../../Page/PaymentMethod';
@@ -46,6 +50,10 @@ const Layout =() =>{
                 <Route path="/staff/settings/matching" element={<Matching/>} />
                 <Route path="/staff/settings/incentive" element={<IncentiveSettings/>} />
                 <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
+                <Route path="/staff/reports/matching" element={<MatchingReport/>} />
+                <Route path="/staff/reports/joining" element={<JoiningReport/>} />
+                <Route path="/staff/reports/withdraw" element={<WithdrawReport/>} />
+                <Route path="/staff/reports/generation" element={<GenerationReport/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>

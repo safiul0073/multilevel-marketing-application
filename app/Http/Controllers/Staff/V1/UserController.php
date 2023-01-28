@@ -107,7 +107,7 @@ class UserController extends Controller
             $i = 2;
             $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
             // bonus given'
-            $this->user_service->bonusGiven($att['main_sponsor_id'], $user->id,$att['refer_position']);
+            $this->user_service->bonusGiven($att['main_sponsor_id'], $user ,$att['refer_position']);
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();

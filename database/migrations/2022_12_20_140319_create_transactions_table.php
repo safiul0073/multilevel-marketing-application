@@ -17,12 +17,12 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->index()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'member_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string('type')->default('transfer')->comment('transfer, withdraw, add, sub');
+            $table->string('type')->index()->default('transfer')->comment('transfer, withdraw, add, sub');
             $table->double('amount', 15)->default(0);
             $table->longText('message')->nullable();
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->index()->default(true);
             $table->timestamps();
         });
     }

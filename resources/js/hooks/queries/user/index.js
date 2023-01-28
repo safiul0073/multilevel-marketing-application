@@ -40,7 +40,14 @@ export const changePassword = async (inputData) => {
 
   export const deleteSlider = async (id) => {
     const res = await userAxios.delete(
-      `${API_URL}/staff/user/${id}`);
+      `${APIURL}/staff/user/${id}`);
+
+    return res?.data?.data?.string_data;
+  };
+
+  export const updateUserStatus = async (id) => {
+    const res = await userAxios.post(
+      `${APIURL}/staff/user/status/update/${id}`);
 
     return res?.data?.data?.string_data;
   };

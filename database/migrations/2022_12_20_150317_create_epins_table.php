@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('epins', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(EpinMain::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(User::class, 'use_by')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(EpinMain::class)->index()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'use_by')->index()->nullable()->constrained('users')->cascadeOnDelete();
             $table->string('code');
             $table->tinyInteger('status')->default(0)->comment('0=unused, 1=used');
             $table->timestamp('activation_date')->nullable();

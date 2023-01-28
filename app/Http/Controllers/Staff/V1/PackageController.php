@@ -58,6 +58,7 @@ class PackageController extends Controller
         $thamnail_image = null;
 
         try {
+            DB::beginTransaction();
             // multiple image uplaod and validation checking
             if (isset($att['images'])) {
                 foreach ($request->images as $image) {
@@ -79,7 +80,6 @@ class PackageController extends Controller
             $att['slug'] = $att['name'];
             $att['is_package'] = 1;
 
-            DB::beginTransaction();
             $product = Product::create($att);
 
             if (!$product) {
@@ -174,32 +174,33 @@ class PackageController extends Controller
         // slug setting
         $att['slug'] = $att['name'];
 
-        // try {
-        DB::beginTransaction();
-        $p = $product->update($att);
+        try {
+            DB::beginTransaction();
+            $p = $product->update($att);
 
-        if (!$p) {
-            throw new Exception('Package not created');
+            if (!$p) {
+                throw new Exception('Package not created');
+            }
+
+            $product->images()->cerateMany(array_map(function ($url) {
+                return [
+                    'url' => $url,
+                    'type' => 'gellary',
+                ];
+            },$image_urls));
+
+
+            if ($thamnail_image) {
+                $product->images()->create([
+                    'url' => $thamnail_image,
+                    'type' => 'thamnail',
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            return $this->withErrors($ex->getMessage());
         }
-
-        foreach ($image_urls as $url) {
-            $product->images()->create([
-                'url' => $url,
-                'type' => 'gellary',
-            ]);
-        }
-
-        if ($thamnail_image) {
-            $product->images()->create([
-                'url' => $thamnail_image,
-                'type' => 'thamnail',
-            ]);
-        }
-
-        DB::commit();
-        // } catch (\Exception $ex) {
-        //     return $this->withErrors($ex->getMessage());
-        // }
 
         return $this->withSuccess('Package Successfully updated.');
     }

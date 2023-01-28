@@ -50,6 +50,14 @@ class UserHelperController extends Controller
         return $this->withSuccess($users->get());
     }
 
+    public function userStatusUpdate (User $user) {
+
+        $user->status = $user->status ? 0 : 1;
+        $user->save();
+
+        return $this->withSuccess("User status updated.");
+    }
+
     public function getUserList () {
 
         $users = User::select(['id as value', 'username as label', 'left_ref_id', 'right_ref_id'])->get();
