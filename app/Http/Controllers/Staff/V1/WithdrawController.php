@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Withdraw;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
@@ -26,8 +27,18 @@ class WithdrawController extends Controller
 
         if (is_array($request->ids)) {
             Withdraw::whereIn($request->ids)->update(['status' => $$request->status]);
+            $withdraws = Withdraw::whereIn($request->ids)->get();
+            $withdraws->map(function ($with) use($request) {
+                $user = User::find($with->user_id);
+                $user->balance = $request->status == 1 ?  $user->balance - $with->amount : $user->balance;
+                $user->save();
+            });
         }else{
             Withdraw::find((int) $request->ids)->update(['status' => $$request->status]);
+            $withdraws = Withdraw::find((int)$request->ids);
+            $user = User::find($with->user_id);
+            $user->balance = $request->status == 1 ?  $user->balance - $with->amount : $user->balance;
+            $user->save();
         }
         $message = '';
         if ($request->status == 2) {
