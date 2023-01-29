@@ -27,8 +27,8 @@ class WithdrawController extends Controller
             $query->whereBetween('created_at', [$startDate, $endDate]);
         }
 
-        if ($request->status) {
-            $query->where('status', $request->status);
+        if (in_array($request->status, [0,1,2])) {
+            $query->where('status', '=', $request->status);
         }
 
         $withdraws = $query->orderByDesc('id')->paginate($perPage);

@@ -12,8 +12,9 @@ import { getWithdraws } from "../../hooks/queries/withdraw/getWithdraws";
 const Withdraw = () => {
     const [page, setPage] = React.useState(1)
     const [pageSize, setPageSize] = React.useState(10)
-    const [status, setStatus] = React.useState('')
+    const [status, setStatus] = React.useState('all')
     const [confirmLoadingId, setConfirmLoading] = React.useState()
+    const [cancelLoadingId, setCancelLoading] = React.useState()
 
     const handlePageChange = (pageNum, currentPageValue) => {
         setPage(() => pageNum)
@@ -23,7 +24,7 @@ const Withdraw = () => {
     const {data: withdraws, isLoading, refetch} = getWithdraws({
         from_date: '',
         to_date: '',
-        status: status == 'all' ? '' : status,
+        status: status,
         page: page,
         perPage: pageSize
     })
@@ -34,6 +35,13 @@ const Withdraw = () => {
             status: 1
         })
         setConfirmLoading(withdraw?.id)
+    }
+    const cancelWithdrawAction = (withdraw) => {
+        confirmMutate({
+            ids: withdraw?.id,
+            status: 2
+        })
+        setCancelLoading(withdraw?.id)
     }
     const {
         mutate: confirmMutate,
@@ -153,7 +161,7 @@ const Withdraw = () => {
                                                             {withdraw?.amount}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {withdraw?.status
+                                                            {  !withdraw?.status
                                                                 ?
                                                                 <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Pending</span>
                                                                 :
@@ -200,6 +208,26 @@ const Withdraw = () => {
                                                                             onClick={() => confirmWithdrawAction(withdraw)}
                                                                         >
                                                                             Confirm
+                                                                        </button>
+                                                                    }
+
+                                                                   {
+                                                                        confirmLoading && cancelLoadingId == withdraw?.id ?
+                                                                        <>
+                                                                            <button className="text-red-600 font-normal hover:text-sky-700 hover:underline" type="button" disabled>
+                                                                                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                            </svg>
+                                                                            Processing ...
+                                                                            </button>
+                                                                        </>
+                                                                        :
+                                                                        <button
+                                                                            className="text-red-600 font-normal hover:text-red-700 hover:underline"
+                                                                            onClick={() => cancelWithdrawAction(withdraw)}
+                                                                        >
+                                                                            Cancel
                                                                         </button>
                                                                     }
 
