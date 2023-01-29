@@ -76,7 +76,7 @@ class UserHelperController extends Controller
                             => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
                         ->withSum(['bonuses as referral_bonus'
                             => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
-                        ->with(['image', 'nominee'])
+                        ->with(['image', 'nominee', 'info'])
 
                         ->where('id', (int) $id)->first();
         return $this->withSuccess($details);

@@ -32,15 +32,17 @@ class RegisterController extends Controller
         return view('frontend.contents.buy.sponsor_field', [
             'slug' => $request->slug,
             'sponsor_id' => $request->sponsor_id,
-            'position'  => $request->position
+            'position'  => $request->position,
+            'map'   => $request->map
         ]);
     }
 
     public function checkSponsor (Request $request) {
 
         $this->validate($request, [
+            'main_sponsor_username' => ['nullable', 'string', 'exists:users,username'],
             'slug' => ['nullable', 'string', 'exists:products,slug'],
-            'username' => ['required', 'string', 'exists:users,username'],
+            'sponsor_username' => ['required', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto']
         ]);
 
@@ -62,7 +64,8 @@ class RegisterController extends Controller
         // if ($isNotError) {
             return view('frontend.contents.buy.user_field', [
                 'slug' => $request->slug,
-                'sponsor_id'    => $request->username,
+                'sponsor_username'    => $request->sponsor_username,
+                'main_sponsor_username' => $request->main_sponsor_username,
                 'position'  => $request->position
             ]);
         // }
@@ -73,7 +76,8 @@ class RegisterController extends Controller
 
         $this->validate($request, [
             'slug' => ['nullable', 'string', 'exists:products,slug'],
-            'sponsor_id' => ['required', 'string', 'exists:users,username'],
+            'main_sponsor_username' => ['nullable', 'string', 'exists:users,username'],
+            'sponsor_username' => ['required', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto'],
             'email'    => ['required', 'string', 'email', 'max:255'],
             'first_name'    => 'required|string',
@@ -89,9 +93,10 @@ class RegisterController extends Controller
         }
 
         return view('frontend.contents.buy.payment', [
+            'main_sponsor_username' => $request->main_sponsor_username,
             'product' => $product,
             'slug'    => $request->slug,
-            'sponsor_id'   => $request->sponsor_id,
+            'sponsor_username'   => $request->sponsor_username,
             'position'  => $request->position,
             'first_name'  => $request->first_name,
             'last_name' => $request->last_name,
@@ -106,7 +111,8 @@ class RegisterController extends Controller
 
         $att = $this->validate($request, [
                     'slug' => ['nullable', 'string', 'exists:products,slug'],
-                    'sponsor_id' => ['required', 'string', 'exists:users,username'],
+                    'main_sponsor_username' => ['nullable', 'string', 'exists:users,username'],
+                    'sponsor_username' => ['required', 'string', 'exists:users,username'],
                     'refer_position' => ['required', 'string', 'in:left,right,auto'],
                     'first_name'  => 'required|string',
                     'last_name' => 'required|string',
@@ -121,8 +127,11 @@ class RegisterController extends Controller
             }
             $user_service = new UserService();
 
-            $sponsor = User::where('username', $att['sponsor_id'])->first();
+            $sponsor = User::where('username', $att['sponsor_username'])->first();
+
             $att['select_sponsor_id'] = $sponsor->id;
+
+            $main_sponsor = User::where('username', $att['main_sponsor_username'])->first();
 
             $product = Product::where('slug', $att['slug'])->first();
 
@@ -158,7 +167,7 @@ class RegisterController extends Controller
             $i = 2;
             $user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
             // bonus given'
-            $user_service->bonusGiven($att['select_sponsor_id'], $user->id, $att['refer_position']);
+            $user_service->bonusGiven($main_sponsor->id, $user, $att['refer_position']);
 
             DB::commit();
         } catch (\Exception $ex) {
