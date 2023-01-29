@@ -12,5 +12,6 @@ return [
         ],
         "gen"      => [10,9,8,7,6,2,2,2,2,2],
         "incentive"=> 100
-        ]
+    ],
+    "balance_transfer" => 50
 ];
