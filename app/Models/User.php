@@ -48,9 +48,14 @@ class User extends Authenticatable
     ];
 
 
-    public function nominee()
+    public function nominee():HasOne
     {
         return $this->hasOne(Nominee::class);
+    }
+
+    public function info():HasOne
+    {
+        return $this->hasOne(UserInfo::class, 'user_id');
     }
 
     /**

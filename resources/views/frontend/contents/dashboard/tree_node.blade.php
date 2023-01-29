@@ -52,7 +52,7 @@
 <div class="flex justify-center items-start relative before:absolute before:h-1 before:top-0 before:bg-gray-400 {{ $position }}" >
     <a
         class="flex flex-col justify-center items-center border-2 border-green-600 mx-1 my-3 w-20 shrink-0 cursor-pointer relative before:absolute before:h-3.5 before:bottom-full before:w-1 before:bg-gray-400"
-        href="{{ url("/set-sponsor/?sponsor_id=$referrar_username&position=$referrar_position")}}"
+        href="{{ url("/set-sponsor/?sponsor_id=$referrar_username&position=$referrar_position&map=1")}}"
     >
         <h1 class="bg-green-600 p-0.5 w-full">Add new</h1>
         <img

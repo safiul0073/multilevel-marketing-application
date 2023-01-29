@@ -115,7 +115,8 @@
                     @method("post")
                     @csrf
                     <input type="hidden" name="slug" value="{{ $slug }}">
-                    <input type="hidden" name="sponsor_id" value="{{ $sponsor_id }}">
+                    <input type="hidden" name="main_sponsor_username" value="{{ $main_sponsor_username }}">
+                    <input type="hidden" name="sponsor_username" value="{{ $sponsor_username }}">
                     <input type="hidden" name="refer_position" value="{{ $position }}">
                     <input type="hidden" name="first_name" value="{{ $first_name }}">
                     <input type="hidden" name="last_name" value="{{ $last_name }}">

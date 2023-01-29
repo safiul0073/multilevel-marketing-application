@@ -83,7 +83,7 @@
                     @include('frontend.contents.profile.inputFiels',
                     [
                         'name' => 'profession',
-                        'value' => $user->profession,
+                        'value' =>$user->info ? $user->info->profession : '',
                         'isUpdated' => (isset($user->isUpdated) &&  $user->isUpdated),
                     ])
                 </div>
@@ -95,9 +95,9 @@
                             {{ $user->isUpdated ? "readonly" : '' }}
                             id="gender">
                             <option value="">Select Gender</option>
-                            <option {{ $user->gender == 'Male' ? "selected" : '' }} value="Male">Male</option>
-                            <option {{ $user->gender == 'Female' ? "selected" : '' }} value="Female">Female</option>
-                            <option {{ $user->gender == 'Other' ? "selected" : '' }} value="Other">Other</option>
+                            <option {{ ($user->info ? $user->info->gender : '') == 'Male' ? "selected" : '' }} value="Male">Male</option>
+                            <option {{ ($user->info ? $user->info->gender : '') == 'Female' ? "selected" : '' }} value="Female">Female</option>
+                            <option {{ ($user->info ? $user->info->gender : '') == 'Other' ? "selected" : '' }} value="Other">Other</option>
                         </select>
                         @error('gender')
                             <span class="error-message" role="alert">
@@ -113,7 +113,7 @@
                     @include('frontend.contents.profile.inputFiels',
                     [
                         'name' => 'nid_number',
-                        'value' => $user->nid_number,
+                        'value' => $user->info ? $user->info->nid_number : '',
                         'isUpdated' => (isset($user->isUpdated) &&  $user->isUpdated),
                     ])
                 </div>
@@ -122,7 +122,7 @@
                     @include('frontend.contents.profile.inputFiels',
                     [
                         'name' => 'father_name',
-                        'value' => $user->father_name,
+                        'value' => $user->info ? $user->info->father_name : '',
                         'isUpdated' => (isset($user->isUpdated) &&  $user->isUpdated),
                     ])
                 </div>
@@ -133,7 +133,7 @@
                     @include('frontend.contents.profile.inputFiels',
                     [
                         'name' => 'mother_name',
-                        'value' => $user->mother_name,
+                        'value' => $user->info ? $user->info->mother_name : '',
                         'isUpdated' => (isset($user->isUpdated) &&  $user->isUpdated),
                     ])
                 </div>
@@ -162,7 +162,7 @@
                     @include('frontend.contents.profile.inputFiels',
                     [
                         'name' => 'address',
-                        'value' => $user->address,
+                        'value' => $user->info ? $user->info->nid_number : '',
                         'isUpdated' => (isset($user->isUpdated) &&  $user->isUpdated),
                     ])
                 </div>
@@ -177,7 +177,7 @@
                     @include('frontend.contents.profile.inputFiels',
                     [
                         'name' => 'birthday',
-                        'value' => $user->birthday,
+                        'value' => $user->info ? $user->info->birthday : '',
                         'type' => 'date',
                         'isUpdated' => (isset($user->isUpdated) &&  $user->isUpdated),
                     ])
