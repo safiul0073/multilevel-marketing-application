@@ -251,11 +251,11 @@ class UserService {
      **/
     public function matchingBonus ($matching_count, int $parent_id, int $user_id) {
 
-        // $task = TaskScheduler::where('title', 'matching')->first();
-        // $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
-        //                        ->where('given_id', $parent_id)
-        //                        ->where('bonus_type', 'matching')->count();
-        if ($matching_count <= $this->matching_bonus['pair_value']) {
+        $task = TaskScheduler::where('title', 'matching')->first();
+        $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
+                               ->where('given_id', $parent_id)
+                               ->where('bonus_type', 'matching')->count();
+        if ($bonus_count < $this->matching_bonus['pair_value']) {
             $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus['pair_amount']);
         }
 
