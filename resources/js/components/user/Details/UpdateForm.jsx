@@ -63,15 +63,15 @@ const UpdateForm = ({ details, detailsRefetch }) => {
     reset({
         first_name: details?.first_name,
         last_name: details?.last_name,
-        profession: details?.profession,
-        gender: details?.gender,
-        nid_number: details?.nid_number,
-        father_name: details?.father_name,
-        mother_name: details?.mother_name,
+        profession: details?.info?.profession,
+        gender: details?.info?.gender,
+        nid_number: details?.info?.nid_number,
+        father_name: details?.info?.father_name,
+        mother_name: details?.info?.mother_name,
         email: details?.email,
         phone: details?.phone,
-        address: details?.address,
-        birthday: details?.birthday,
+        address: details?.info?.address,
+        birthday: details?.info?.birthday,
         nominee_name: details?.nominee?.nominee_name,
         relation: details?.nominee?.relation,
         nominee_profession: details?.nominee?.nominee_profession,
@@ -217,6 +217,7 @@ const UpdateForm = ({ details, detailsRefetch }) => {
                         </div>
                         <div className="col-span-12 sm:col-span-6">
                             <InputField
+                                type='date'
                                 label="Birthday"
                                 name="birthday"
                                 backendError={backendError?.birthday}

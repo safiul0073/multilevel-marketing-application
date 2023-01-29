@@ -1,6 +1,6 @@
 import React from 'react'
 
-const InputField = ({ label, name, backendError, register }) => {
+const InputField = ({ label, name, backendError, register, type = 'text' }) => {
   return (
     <>
         <label
@@ -10,7 +10,7 @@ const InputField = ({ label, name, backendError, register }) => {
             {label}
         </label>
         <input
-            type="text"
+            type={type}
             id={name}
             {...register(name)}
             autoComplete="family-name"

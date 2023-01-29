@@ -15,7 +15,7 @@ class UserInfoController extends Controller
     use MediaOperator;
 
     public function profile () {
-        $user = User::find(auth()->id())->load(['nominee', 'image']);
+        $user = User::find(auth()->id())->load(['nominee', 'image', 'info']);
         // dd($user);
         return view('frontend.contents.profile.index', ['user' => $user]);
     }
@@ -28,18 +28,22 @@ class UserInfoController extends Controller
         try {
             DB::beginTransaction();
                 $user->update([
-                    'first_name'    => $request->first_name,
+                    'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'isUpdated' => 2
+                ]);
+
+                // update user info
+                $user->info()->create([
                     'profession'    => $request->profession,
                     'gender'    => $request->gender,
                     'nid_number'    => $request->nid_number,
                     'father_name'   => $request->father_name,
                     'mother_name'   => $request->mother_name,
-                    'email' => $request->email,
-                    'phone' => $request->phone,
                     'address'   => $request->address,
                     'birthday'  => $request->birthday,
-                    'isUpdated' => 2
                 ]);
 
                 // user image upload

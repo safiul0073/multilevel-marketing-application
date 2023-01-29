@@ -155,22 +155,30 @@ class UserController extends Controller
                 $user->update([
                     'first_name'    => $request->first_name,
                     'last_name' => $request->last_name,
-                    'profession'    => $request->profession,
-                    'gender'    => $request->gender,
-                    'nid_number'    => $request->nid_number,
-                    'father_name'   => $request->father_name,
-                    'mother_name'   => $request->mother_name,
                     'email' => $request->email,
                     'phone' => $request->phone,
-                    'address'   => $request->address,
-                    'birthday'  => $request->birthday,
                     'status' => $request->status == '1'? true : false ,
                     'email_verified_at' => $request->email_verified == '1'? now() : null,
                     'sms_verified_at' => $request->sms_verified == '1'? now() : null,
                     'isUpdated' => $request->isUpdated
                 ]);
 
-                $user->nominee()->updateOrCreate(['user_id' => $request->id],[
+                // update user info
+                $user->info()->updateOrCreate([
+                    'user_id' => $request->id
+                ],[
+                    'profession'    => $request->profession,
+                    'gender'    => $request->gender,
+                    'nid_number'    => $request->nid_number,
+                    'father_name'   => $request->father_name,
+                    'mother_name'   => $request->mother_name,
+                    'address'   => $request->address,
+                    'birthday'  => $request->birthday,
+                ]);
+
+                $user->nominee()->updateOrCreate(
+                    ['user_id' => $request->id],
+                    [
                         'nominee_name' => $request->nominee_name,
                         'relation' => $request->relation,
                         'nominee_profession' => $request->nominee_profession,

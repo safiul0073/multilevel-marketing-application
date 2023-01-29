@@ -103,7 +103,7 @@ const Index = ({ setTab, backendError }) => {
         }
 
         return () => {};
-    }, [sponsor.id, sponsor.position, productList, userRegister]);
+    }, [sponsor, productList, userRegister]);
 
     const handlePosition = (e) => {
         setReferPosition(e.value);

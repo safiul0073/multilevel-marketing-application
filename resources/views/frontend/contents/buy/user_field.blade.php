@@ -30,7 +30,8 @@
                     <form method="get" action="{{ route('check.user', $slug) }}">
                         @csrf
                         <input type="hidden" name="slug" value="{{ $slug }}">
-                        <input type="hidden" name="sponsor_id" value="{{ $sponsor_id }}">
+                        <input type="hidden" name="sponsor_username" value="{{ $sponsor_username }}">
+                        <input type="hidden" name="main_sponsor_username" value="{{ $main_sponsor_username }}">
                         <input type="hidden" name="position" value="{{ $position }}">
                         <div class="formGroup">
                             <label for="first_name">First name</label>

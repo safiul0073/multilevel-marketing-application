@@ -30,9 +30,13 @@
                     <form method="get" action="{{ route('check.sponsor.user') }}">
                         @csrf
                         <input type="hidden" name="slug" value="{{$slug}}">
+
+                        <input type="hidden" name="sponsor_username" value="{{ $sponsor_id }}" >
+
+
                         <div class="formGroup">
                             <label for="sponsor_id">Enter Sponser code/username</label>
-                            <input type="text" name="username" value="{{ $sponsor_id ? $sponsor_id : old('username') }}" {{ $sponsor_id ? "readonly" : '' }} class="form-control !ring-1 !ring-indigo-600 @error('username') has-error @enderror">
+                            <input type="text" name="main_sponsor_username" value="{{ $sponsor_id ? $sponsor_id : old('username') }}" {{ $sponsor_id && !isset($map) ? "readonly" : '' }} class="form-control !ring-1 !ring-indigo-600 @error('username') has-error @enderror">
                             @error('username')
                             <span class="error-message" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -40,14 +44,17 @@
                             @enderror
                         </div>
                         <div class="formGroup">
-
+                            @if (isset($map) && $map)
+                              <input type="hidden" value="{{ $position }}" name="position">
+                            @endif
                             <label for="sponsor_id">Set Position</label>
-                            <select name="position" value="{{ $position ? $position : old('position') }}" class="form-control !ring-1 !ring-indigo-600  @error('position') has-error @enderror" id="">
+                            <select {{ isset($map) ? "disabled" : '' }} name="position" value="{{ $position ? $position : old('position') }}" class="form-control !ring-1 !ring-indigo-600  @error('position') has-error @enderror" id="">
                                 <option value="">Select position</option>
                                 <option {{ $position && $position == 'left' ? "selected" : '' }} value="left">Left</option>
                                 <option {{ $position && $position == 'right' ? "selected" : '' }} value="right">Right</option>
                                 <option {{ $position && $position == 'auto' ? "selected" : '' }} value="auto">Auto</option>
                             </select>
+
                             @error('position')
                             <span class="error-message" role="alert">
                                 <strong>{{ $message }}</strong>
