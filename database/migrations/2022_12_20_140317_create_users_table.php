@@ -38,6 +38,7 @@ return new class extends Migration
             $table->unsignedBigInteger('right_group')->default(0);
             $table->unsignedBigInteger('left_count')->index()->default(0);
             $table->unsignedBigInteger('right_count')->index()->default(0);
+            $table->unsignedBigInteger('carry')->default(0);
             $table->double('total_income', 15)->default(0);
             $table->float('total_withdraw')->default(0);
             $table->float('balance')->default(0);
