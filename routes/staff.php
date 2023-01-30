@@ -79,7 +79,7 @@ Route::middleware('auth:staff')->group(function () {
         // balance increment or decrement
         Route::post('balance/add-sub/{user}', [UserHelperController::class, 'userBalanceUpdate']);
         // login info activity
-        Route::get('login-activity', LoginInfo::class);
+        Route::get('login-activity/{user}', LoginInfo::class);
     });
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);

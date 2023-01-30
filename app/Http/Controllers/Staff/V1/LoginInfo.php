@@ -16,13 +16,13 @@ class LoginInfo extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, $id)
     {
         $perPage = 10;
         if ($request->perPage) {
             $perPage = $request->perPage;
         }
-        $infos = LoginLog::latest()->paginate($perPage);
+        $infos = LoginLog::where('user_id', $id)->latest()->paginate($perPage);
 
         return $this->withSuccess($infos);
     }

@@ -51,7 +51,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
             isTab: true,
             content: (
                 <>
-                    <LoginLog />
+                    <LoginLog id={showUserDetails?.id} />
                 </>
             ),
         },
@@ -137,6 +137,9 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                                 {showUserDetails?.first_name +
                                     " " +
                                     (showUserDetails?.last_name ?? "")}
+                            </h3>
+                            <h3 className="mt-1 text-sm font-light text-gray-900">
+                                {showUserDetails?.username}
                             </h3>
                             <dl className="mt-1 flex flex-grow flex-col justify-between">
                                 <dt className="sr-only">Title</dt>
