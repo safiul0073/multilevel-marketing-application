@@ -27,7 +27,7 @@ jobs:
 
       - name: Install NPM dependencies
 
-        run: npm install
+        run: npm install --force
 
       - name: Compile assets for production
 
