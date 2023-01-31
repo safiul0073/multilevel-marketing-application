@@ -15,4 +15,12 @@ class Reward extends Model
     public function reward_users ():HasMany {
         return $this->hasMany(RewardUser::class);
     }
+
+        /**
+     * Get the user's images.
+     */
+    public function images()
+    {
+        return $this->morphMany(Media::class, 'media');
+    }
 }

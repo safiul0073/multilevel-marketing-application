@@ -116,12 +116,11 @@ class UserService {
                 }else if ($position === 'right' && $sponsor->right_ref_id){
                     throw new Exception('right position already fill up!');
                 }
-
             }
         }else {
             $sponsor = $this->findRealSponsor($sponsor_id, $referrer_id, $position);
         }
-        $this->referCount($sponsor, $referrer_id);
+        $sponsor->save();
         RewardService::checkReward($sponsor);
         return $sponsor;
     }
@@ -145,23 +144,29 @@ class UserService {
         }
     }
 
-    public function referCount ($sponsor, $user_id):void {
+    public function referCount ($sponsor, $sponsor_user_id, $user_id):void {
 
-        if ($this->findPosition($sponsor, $user_id)  == 'left') {
-            $increased_count = $sponsor->left_count + 1;
-            $sponsor->left_group = $sponsor->left_group + 1;
-            $sponsor->left_count = $increased_count;
-            $this->checkMatchingPair($sponsor->right_count, $increased_count, $sponsor->id, $user_id);
-        }else{
-            $increased_count = $sponsor->right_count + 1;
-            $sponsor->right_group = $sponsor->right_group + 1;
-            $sponsor->right_count = $increased_count;
-            $this->checkMatchingPair($sponsor->left_count, $increased_count, $sponsor->id, $user_id);
-        }
+           if ($sponsor->left_ref_id == $sponsor_user_id) {
+
+                $increased_count = $sponsor->left_count + 1;
+                $sponsor->left_group = $sponsor->left_group + 1;
+                $sponsor->left_count = $increased_count;
+
+                $this->checkMatchingPair($sponsor->right_count, $increased_count, $sponsor->id, $user_id);
+            }else{
+
+                $increased_count = $sponsor->right_count + 1;
+                $sponsor->right_group = $sponsor->right_group + 1;
+                $sponsor->right_count = $increased_count;
+
+                $this->checkMatchingPair($sponsor->left_count, $increased_count, $sponsor->id, $user_id);
+            }
+
         $sponsor->save();
     }
 
     public function findPosition ($sponsor, $user_id):string {
+
         if ($sponsor->left_ref_id === $user_id) {
             return 'left';
         }else{
@@ -184,43 +189,29 @@ class UserService {
      * $i loop index
      * @return void
      */
-    public function generationLoop (int $sponsor_id, int $user_id, string $position, int $i) {
+    public function generationLoop ($sponsor_sponsor_id, int $sponsor_id, int $user_id, string $position, int $i = 0) {
 
-        $sponsor = User::find((int) $sponsor_id);
-        $sponsor_sponsor_id = $sponsor->sponsor_id;
+        $sponsor = User::find($sponsor_sponsor_id);
 
-        if ($sponsor_sponsor_id) {
-            $sponsor_sponsor = User::find((int) $sponsor_sponsor_id);
+        if ($sponsor) {
+
             // sponsor group incrementing
-            if ($sponsor_sponsor->left_ref_id == $sponsor->id) {
-                $increased_count = $sponsor_sponsor->left_count + 1;
-                $sponsor_sponsor->left_group = $sponsor_sponsor->left_group + 1;
-                $sponsor_sponsor->left_count = $increased_count;
-                $sponsor_sponsor->save();
-                $this->checkMatchingPair($sponsor_sponsor->right_count, $increased_count, $sponsor_sponsor->id, $user_id);
-            }else{
-                $increased_count = $sponsor_sponsor->right_count + 1;
-                $sponsor_sponsor->right_group = $sponsor_sponsor->right_group + 1;
-                $sponsor_sponsor->right_count = $increased_count;
-                $sponsor_sponsor->save();
-                $this->checkMatchingPair($sponsor_sponsor->left_count, $increased_count, $sponsor_sponsor->id, $user_id);
-            }
-
+            $this->referCount($sponsor, $sponsor_id, $user_id);
 
             // generation label creating
 
             Generation::create([
-                'main_id' => $sponsor_sponsor_id,
+                'main_id' => $sponsor->id,
                 'member_id' => $user_id,
-                'gen_type' => $i
+                'gen_type' => $i + 1
             ]);
 
-            // reword checking
-            RewardService::checkReward($sponsor_sponsor);
+            // reward checking
+            RewardService::checkReward($sponsor);
 
             $i = $i + 1;
 
-            return $this->generationLoop($sponsor_sponsor_id, $user_id,$position, $i);
+            return $this->generationLoop($sponsor->sponsor_id, $sponsor->id, $user_id,$position, $i);
 
         }
     }

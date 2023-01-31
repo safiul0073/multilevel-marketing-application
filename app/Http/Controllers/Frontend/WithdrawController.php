@@ -43,9 +43,13 @@ class WithdrawController extends Controller
             return redirect()->back()->with(['error' => "This payment method support minimum amount $payment_method->min and maximum amount $payment_method->max . "]);
         }
 
+        // charge calculation
+        $amount = ($request->amount / 100 ) * $payment_method->percent_charge; // percentage calculation
+        $final_amount = $amount - $payment_method->fixed_charge; // fixed charge calculation
+
         $user->withdraws()->create([
             'payment_method_id' => $payment_method->id,
-            'amount' => $request->amount,
+            'amount' => $final_amount,
             'account_number' => $request->phone
         ]);
 
