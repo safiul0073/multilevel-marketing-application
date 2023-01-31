@@ -39,6 +39,7 @@
         "react-select": "^5.7.0",
         "react-tabs": "^6.0.0",
         "sweetalert2": "^11.4.8",
+        "use-pan-and-zoom": "^0.6.5",
         "yup": "^0.32.11",
         "zustand": "^4.1.4"
     }
