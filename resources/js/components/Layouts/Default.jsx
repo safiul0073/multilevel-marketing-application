@@ -20,7 +20,7 @@ import JoiningReport from '../../Page/Report/Joining';
 import MatchingReport from '../../Page/Report/Matching';
 import WithdrawReport from '../../Page/Report/Withdraw';
 import Matching from '../../Page/Settings/Matching';
-import IncentiveSettings from '../../Page/Settings/Incentive'
+import SingleAmountSettings from '../../Page/Settings/SingleAmount'
 import PaymentMethod from '../../Page/PaymentMethod';
 
 const Layout =() =>{
@@ -48,7 +48,7 @@ const Layout =() =>{
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
                 <Route path="/staff/settings/generation" element={<Generation/>} />
                 <Route path="/staff/settings/matching" element={<Matching/>} />
-                <Route path="/staff/settings/incentive" element={<IncentiveSettings/>} />
+                <Route path="/staff/settings/single-amount" element={<SingleAmountSettings/>} />
                 <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
                 <Route path="/staff/reports/matching" element={<MatchingReport/>} />
                 <Route path="/staff/reports/joining" element={<JoiningReport/>} />

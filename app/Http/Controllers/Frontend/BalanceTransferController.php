@@ -11,7 +11,7 @@ class BalanceTransferController extends Controller
 {
     public function index () {
 
-        return view('frontend.contents.dashboard.user_balance_transfer');
+        return view('frontend.contents.dashboard.user_balance_transfer', ['charge' => config('mlm.balance_transfer')]);
     }
 
     public function transferBalance (Request $request) {
@@ -53,7 +53,7 @@ class BalanceTransferController extends Controller
             $user->save();
 
             // increasing member balance
-            $member->balance = $user->balance + $final_amount;
+            $member->balance = $member->balance + $final_amount;
             $member->save();
 
             DB::commit();
