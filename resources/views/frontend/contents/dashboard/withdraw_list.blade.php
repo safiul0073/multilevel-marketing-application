@@ -6,7 +6,7 @@
         <h1 class="text-xl font-semibold text-gray-900">Withdraw List</h1>
     </div>
     <div>
-        <a class="btn btn-primary" href="{{ route('withdraw.request') }}">Send a withdraw request </a>
+        <a class="btn btn-primary inline-flex" href="{{ route('withdraw.request') }}">Send a withdraw request </a>
     </div>
 </div>
 <div class="mt-8 flex flex-col">

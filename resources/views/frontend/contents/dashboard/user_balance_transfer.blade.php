@@ -26,7 +26,7 @@
             @enderror
         </div>
 
-        <button type="submit" class="rounded-full mt-3 h-[50px] w-[300px] bg-indigo-800 text-white hover:bg-indigo-600 ">Submit</button>
+        <button type="submit" class="rounded-full mt-3 h-[50px] w-full max-w-[300px] bg-indigo-800 text-white hover:bg-indigo-600 ">Submit</button>
     </form>
 </div>
 @endsection

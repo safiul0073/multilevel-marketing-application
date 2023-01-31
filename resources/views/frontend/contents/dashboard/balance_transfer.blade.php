@@ -3,7 +3,7 @@
 @section('dashboard-page')
 <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Balanse Transfer List</h1>
+        <h1 class="text-xl font-semibold text-gray-900">Balance Transfer List</h1>
     </div>
     {{-- <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
@@ -16,7 +16,7 @@
 </div>
 <div class="mt-8 flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+        <div class="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <table class="min-w-full divide-y divide-gray-300">
                     <thead class="bg-gray-50">
