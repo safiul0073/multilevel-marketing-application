@@ -75,7 +75,9 @@ const Sidebar = () => {
                 { name: "Matching", href: "/staff/reports/matching" },
                 { name: "Generation", href: "/staff/reports/generation" },
                 { name: "Referral", href: "/staff/reports/joining" },
-                { name: "Withdraw", href: "/staff/reports/withdraw" }
+                { name: "Withdraw", href: "/staff/reports/withdraw" },
+                { name: "Top Earned", href: "/staff/reports/top-earned" },
+                { name: "Top Sponsor", href: "/staff/reports/top-sponsor" }
             ],
         },
         {
