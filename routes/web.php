@@ -16,14 +16,18 @@ use App\Http\Controllers\Frontend\BalanceTransferController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\Dashboard\HomeController;
 use App\Http\Controllers\Frontend\Dashboard\ReferralController;
+use App\Http\Controllers\Frontend\DisclaimerPolicyController;
 use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
 use App\Http\Controllers\Frontend\IncentiveBonusController;
 use App\Http\Controllers\Frontend\MyTeamController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\NotFoundController;
+use App\Http\Controllers\Frontend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\RegisterController;
+use App\Http\Controllers\Frontend\SpamPolicyController;
+use App\Http\Controllers\Frontend\TramsAndConditionController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserInfoController;
 use App\Http\Controllers\Frontend\WithdrawController;
@@ -82,6 +86,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-balance-transfer', [HomeController::class, 'balanceTransferView'])->name('user.balance.transfer');
     Route::get('/user-invoice', [HomeController::class, 'invoiceView'])->name('user.invoice');
 });
+
+Route::get('trams-condition', [TramsAndConditionController::class, 'index'])->name('trams.condition');
+Route::get('spam-policy', [SpamPolicyController::class, 'index'])->name('spam.policy');
+Route::get('privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy.policy');
+Route::get('disclaimer-policy', [DisclaimerPolicyController::class, 'index'])->name('disclaimer.policy');
 // registration process
 Route::get('set-sponsor', [RegisterController::class, 'setSponsor'])->name('set.sponsor.user');
 Route::get('check-sponsor/', [RegisterController::class, 'checkSponsor'])->name('check.sponsor.user');
