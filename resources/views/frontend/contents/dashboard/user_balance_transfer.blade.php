@@ -2,12 +2,11 @@
 
 @section('dashboard-page')
     <div class="sm:w-full w-1/2 mx-auto py-2 px-1">
-        <p class=" font-bold text-gray-600 text-center">Select a method and enter some info for withdraw your amount.</p>
+        <p class=" font-bold text-gray-600 text-center">Transfer user balance</p>
         @include('frontend.layouts.partials.flash-alert')
 
         <form class="my-2" method="POST" action="{{ route('withdraw.balance') }}">
             @csrf
-
             <div class="formGroup">
                 <label class="label-style">Username</label>
                 <input

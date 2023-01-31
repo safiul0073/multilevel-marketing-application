@@ -18,6 +18,11 @@ class OptionController extends Controller
         return $this->withSuccess(config('mlm.bonus'));
     }
 
+    public function getTransferCharge (Request $request) {
+
+        return $this->withSuccess(config('mlm.balance_transfer'));
+    }
+
     public function storeOption (Request $request) {
 
         $this->validate($request, [

@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\Frontend\AboutUsController;
+use App\Http\Controllers\Frontend\BalanceTransferController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\Dashboard\HomeController;
 use App\Http\Controllers\Frontend\Dashboard\ReferralController;
@@ -66,6 +67,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/balance', [WithdrawController::class, 'withdrawBalance'])->name('balance');
         Route::get('/list', [WithdrawController::class, 'withdrawList'])->name('list');
     });
+
+    // user balance transfer
+    Route::prefix('transfer')->name('transfer.')->group(function () {
+        Route::get('page', [BalanceTransferController::class, 'index'])->name('page');
+    });
+
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
     Route::get('/user-my-team', [MyTeamController::class, 'userTeamView'])->name('user.my.team');
     Route::get('/user-referrals', [ReferralController::class, 'index'])->name('user.referral.list.view');
