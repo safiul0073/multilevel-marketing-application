@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\PurchaseEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Epin;
 use App\Models\Generation;
@@ -150,23 +151,14 @@ class RegisterController extends Controller
             // again sponsor_id save for original sponsor
             $user->sponsor_id = $sponsor->id;
             $user->save();
-            // generation label creating
-            Generation::create([
-                'main_id' => $sponsor->id,
-                'member_id' => $user->id,
-                'gen_type' => 1
-            ]);
 
-            $user->purchases()->create([
-                'product_id'    => $product->id,
-                'amount'        => $product->price,
-                'status'        => 1,
-                'type'          => 1
-            ]);
+            // purchase creating
+            PurchaseEvent::dispatch($user, $product);
+
             // generation looping
-            $i = 2;
-            $user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
-            // bonus given'
+            $user_service->generationLoop($sponsor->id, $user->id, $user->id, $att['refer_position']);
+
+            // bonus given
             $user_service->bonusGiven($main_sponsor->id, $user, $att['refer_position']);
 
             DB::commit();
