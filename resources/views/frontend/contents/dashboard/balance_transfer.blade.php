@@ -10,9 +10,9 @@
             <input id="username" type="search" class="w-full max-w-[250px] h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" />
             <button type="button" class=" rounded-md h-12 px-3 py-2 bg-indigo-600 whitespace-nowrap text-white text-sm">
                 {{ __('Search') }}
-            </button>
-        </div>
-    </div> --}}
+    </button>
+</div>
+</div> --}}
 </div>
 <div class="mt-8 flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -36,12 +36,12 @@
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 @php
-                                    $status = 'Add';
-                                    $style = 'text-green-800';
-                                    if ($transaction->type == "sub") {
-                                        $status = "Subtruct";
-                                        $style = 'text-red-800';
-                                    }
+                                $status = 'Add';
+                                $style = 'text-green-800';
+                                if ($transaction->type == "sub") {
+                                $status = "Subtruct";
+                                $style = 'text-red-800';
+                                }
                                 @endphp
                                 <span class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 {{ $style }}">{{ $status }}</span>
                             </td>
@@ -75,5 +75,3 @@
 </div>
 
 @endsection
-
-

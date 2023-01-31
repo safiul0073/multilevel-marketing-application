@@ -23,12 +23,12 @@ class DatabaseSeeder extends Seeder
             'title' => "matching",
             'date_time' => geMatchingSchedulerDateTime()
         ]);
-        // $cats = \App\Models\Category::factory(10)->create();
+        $cats = \App\Models\Category::factory(10)->create();
 
-        // foreach ($cats as $cat) {
-        //     \App\Models\Product::factory()->create([
-        //         'category_id' => $cat->id,
-        //     ]);
-        // }
+        foreach ($cats as $cat) {
+            \App\Models\Product::factory()->create([
+                'category_id' => $cat->id,
+            ]);
+        }
     }
 }
