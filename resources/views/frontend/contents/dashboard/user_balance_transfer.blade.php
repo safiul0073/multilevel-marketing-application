@@ -2,10 +2,10 @@
 
 @section('dashboard-page')
     <div class="sm:w-full w-1/2 mx-auto py-2 px-1">
-        <p class=" font-bold text-gray-600 text-center">Transfer user balance</p>
+        <p class=" font-bold text-gray-600 text-center">You can transfer amount to other peaple from you wallet ({{ $charge }}TK charge for every transfer)</p>
         @include('frontend.layouts.partials.flash-alert')
 
-        <form class="my-2" method="POST" action="{{ route('withdraw.balance') }}">
+        <form class="my-2" method="POST" action="{{ route('transfer.balance') }}">
             @csrf
             <div class="formGroup">
                 <label class="label-style">Username</label>

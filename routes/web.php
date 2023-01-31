@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     // user balance transfer
     Route::prefix('transfer')->name('transfer.')->group(function () {
         Route::get('page', [BalanceTransferController::class, 'index'])->name('page');
+        Route::post('send', [BalanceTransferController::class, 'transferBalance'])->name('balance');
     });
 
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');

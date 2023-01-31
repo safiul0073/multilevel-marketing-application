@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { getQuery } from '../getQuery';
 
-export const getBonusSettings = () => {
+export const getTransferCharge = () => {
   return useQuery(
     [
       'transfer-charge-settings'
