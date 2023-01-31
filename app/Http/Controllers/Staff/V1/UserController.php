@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Staff\V1;
 
+use App\Events\PurchaseEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Generation;
@@ -75,11 +76,11 @@ class UserController extends Controller
 
         try {
             DB::beginTransaction();
-            // if (!$this->user_service->checkTwoSponsorSamePosition($att['main_sponsor_id'],$att['select_sponsor_id'])){
-            //     throw new Exception('Please select valid sponsor!');
-            // }
+
+            // user creating
             $user = $this->user_service->userCreate($att);
 
+            // E-pin validation checking and updating
             if ($request->epin_code) {
                 $this->user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
             }
@@ -89,25 +90,15 @@ class UserController extends Controller
                         $user->id,
                         (isset($att['refer_position']) ? $att['refer_position'] : 'left'));
 
-            // generation label creating
-            Generation::create([
-                'main_id' => $sponsor->id,
-                'member_id' => $user->id,
-                'gen_type' => 1
-            ]);
-
-            $user->purchases()->create([
-                'product_id'    => $product->id,
-                'amount'        => $product->price,
-                'status'        => 1,
-                'type'          => 1
-            ]);
+            // purchase creating
+            PurchaseEvent::dispatch($user, $product);
 
             // generation looping
-            $i = 2;
-            $this->user_service->generationLoop($sponsor->id, $user->id, $att['refer_position'], $i);
+            $this->user_service->generationLoop($sponsor->id, $user->id, $user->id, $att['refer_position']);
+
             // bonus given'
             $this->user_service->bonusGiven($att['main_sponsor_id'], $user ,$att['refer_position']);
+
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();

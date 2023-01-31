@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bonuse;
+use App\Models\LoginLog;
 use App\Models\User;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
@@ -16,10 +17,11 @@ class UserHelperController extends Controller
     use Formatter;
 
     public function getUserReward ($id) {
-        $user = User::with(['image', 'rewards' =>
-        fn ($q) => $q->orderBy('left_count', 'desc')])
 
-        ->where('id', $id)->first();
+        $user = User::with(['image', 'rewards' =>
+                        fn ($q) => $q->orderBy('left_count', 'desc')])
+                        ->where('id', $id)->first();
+
         $values = [
             'full_name' => $user->first_name . ' ' . $user->last_name,
             'username'  => $user->username,
@@ -144,4 +146,5 @@ class UserHelperController extends Controller
 
         return $this->withSuccess($success_message);
     }
+
 }

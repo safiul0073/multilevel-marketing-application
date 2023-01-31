@@ -68,6 +68,7 @@ class UserController extends Controller
         }
 
         $purchases = Purchase::with(['user:id,username', 'product' => fn ($q) => $q->with('category:id,title')])
+                              ->latest('id')
                               ->paginate($perPage);
 
         return $this->withSuccess($purchases);
