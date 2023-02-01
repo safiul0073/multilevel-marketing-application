@@ -37,6 +37,10 @@ class BalanceTransferController extends Controller
 
         $member = User::where('username', $request->username)->first();
 
+        if ($member->id == $user->id) {
+            return redirect()->back()->with(['error' => "Ops! account same."]);
+        }
+
         $final_amount = $amount - $charge;
 
         try {
@@ -46,10 +50,11 @@ class BalanceTransferController extends Controller
                 'member_id' => $member->id,
                 'type' => 'transfer',
                 'amount' => $final_amount,
+                'charge' => $charge
             ]);
 
             // decreasing user balance
-            $user->balance = $user->balance - $final_amount;
+            $user->balance = $user->balance - $amount;
             $user->save();
 
             // increasing member balance

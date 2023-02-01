@@ -210,7 +210,7 @@ const ProductView = ({ viewProduct, setViewProduct }) => {
                         </div>
 
                         <div className="mt-6">
-                            <h3 className="text-lg text-gray-600">Referral Commission : {viewProduct?.refferral_commission + "%"} </h3>
+                            <h3 className="text-lg text-gray-600">Referral Commission : {viewProduct?.refferral_commission + (viewProduct?.referral_type == 'percent' ? "%" : '')} </h3>
                         </div>
 
                         <div className="mt-6">
