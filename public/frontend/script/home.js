@@ -123,7 +123,7 @@ async function getOneProduct(id) {
     document.getElementById("category").innerHTML =
         "<b>Category:</b> " + data?.category?.title;
     document.getElementById("referral_commission").innerHTML =
-        "<b>Referral Commission:</b> " + data?.refferral_commission + "%";
+        "<b>Referral Commission:</b> " + data?.refferral_commission + (data?.referral_type == 'percent' ? "%" : '');
     document.getElementById("vedio_link").src = data?.video_url ?? "";
     var sliderInputDiv = document.getElementById("swiper-images");
     if (data?.images?.length > 0) {
