@@ -10,16 +10,16 @@ import ProductView from "../components/Product";
 import { getPackageList } from "../hooks/queries/package/getPackageList";
 
 export const Package = () => {
-    const [page, setPage] = useState(1)
-    const [pageSize, setPageSize] = useState(10)
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
 
     const handlePageChange = (pageNum, currentPageValue) => {
-        setPage(() => pageNum)
-        setPageSize(() => currentPageValue)
-    }
+        setPage(() => pageNum);
+        setPageSize(() => currentPageValue);
+    };
 
     // fetching product list using react query
-    const { data, isLoading, refetch } = getPackageList(page,pageSize);
+    const { data, isLoading, refetch } = getPackageList(page, pageSize);
     // memorizing getting data
     const productList = useMemo(() => data?.data, [data]);
     // create product modal calling
@@ -43,7 +43,7 @@ export const Package = () => {
         setIsEditModalOpen(false);
     };
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-    const [packageDelete, setPackageDelete] = useState()
+    const [packageDelete, setPackageDelete] = useState();
     const delateProduct = (id) => {
         setPackageDelete(id);
         setIsDeleteModalOpen(true);
@@ -109,7 +109,7 @@ export const Package = () => {
                                             <>
                                                 {productList?.length ? (
                                                     <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                                        <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                                                        <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
                                                             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                                                                 <table className="min-w-full divide-y divide-gray-300">
                                                                     <thead className="bg-gray-50">
@@ -195,9 +195,11 @@ export const Package = () => {
 
                                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                         <div className="text-gray-900">
-                                                                                            {
-                                                                                                product?.refferral_commission + (product?.referral_type == 'percent'? '%' : '')
-                                                                                            }
+                                                                                            {product?.refferral_commission +
+                                                                                                (product?.referral_type ==
+                                                                                                "percent"
+                                                                                                    ? "%"
+                                                                                                    : "")}
                                                                                         </div>
                                                                                     </td>
                                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -261,16 +263,24 @@ export const Package = () => {
                                                             </div>
                                                             <div className="my-4">
                                                                 <Pagination
-                                                                    total={data?.total}
-                                                                    pageSize={pageSize}
-                                                                    pageNumber={page}
-                                                                    handlePageChange={handlePageChange}
+                                                                    total={
+                                                                        data?.total
+                                                                    }
+                                                                    pageSize={
+                                                                        pageSize
+                                                                    }
+                                                                    pageNumber={
+                                                                        page
+                                                                    }
+                                                                    handlePageChange={
+                                                                        handlePageChange
+                                                                    }
                                                                 />
                                                             </div>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <RowNotFound name='packages' />
+                                                    <RowNotFound name="packages" />
                                                 )}
                                             </>
                                         )}

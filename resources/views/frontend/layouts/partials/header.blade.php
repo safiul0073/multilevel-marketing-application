@@ -31,6 +31,8 @@
 
                         <a href="{{url('/about-us')}}" class="{{ request()->routeIs('about.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">About Us</a>
 
+                        <a href="{{url('/faq')}}" class="{{ request()->routeIs('faq.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
+
                         <a href="{{url('/contact')}}" class="{{ request()->routeIs('contact.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} px-3 py-2 rounded-md text-sm font-medium">Contact</a>
                     </div>
                 </div>
@@ -94,6 +96,8 @@
             <a href="{{url('/gallery')}}" class="{{ request()->routeIs('gallery.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
 
             <a href="{{url('/about-us')}}" class="{{ request()->routeIs('about.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">About Us</a>
+
+            <a href="{{url('/faq')}}" class="{{ request()->routeIs('faq.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">FAQ</a>
 
             <a href="{{url('/contact')}}" class="{{ request()->routeIs('contact.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Contact</a>
         </div>

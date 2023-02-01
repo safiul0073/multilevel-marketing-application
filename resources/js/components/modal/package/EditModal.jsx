@@ -184,9 +184,9 @@ export default function EditModal({
                                             /> */}
 
                                             <div className="formGroup">
-                                                <div className="grid grid-cols-2 gap-3">
+                                                <div className="flex flex-wrap gap-3">
                                                     <label className="label-style">Reference Commission</label>
-                                                    <div  onClick={() => setCommissionType(commissionType == 'direct' ? 'percent' : 'direct')} className={(commissionType == 'direct' ? 'btn btn-primary cursor-pointer text-center' : 'btn btn-success cursor-pointer text-center')}>{commissionType == 'direct' ? 'Direct' : 'Percent'}</div>
+                                                    <div  onClick={() => setCommissionType(commissionType == 'direct' ? 'percent' : 'direct')} className={(commissionType == 'direct' ? 'btn btn-primary cursor-pointer text-xs text-center ml-auto' : 'btn btn-success cursor-pointer text-xs text-center ml-auto')}>{commissionType == 'direct' ? 'Direct' : 'Percent'}</div>
                                                 </div>
                                                 <input
                                                     type="text"
