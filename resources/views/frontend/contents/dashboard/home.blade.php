@@ -100,7 +100,7 @@
         <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->image ? $user->image->url : 'https://img.freepik.com/premium-vector/woman-portrait-generic-female-avatar-gender-placeholder-isolated-white-background_543062-417.jpg?w=2000' }}" alt="Bonnie image" />
     </div>
     <div class="flex flex-col lg:flex-row">
-        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
+        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 lg:pr-5">
             <span class="w-1/2 flex-none font-bold">User name</span>
             <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username"
             value="{{ $user->username }}" readonly autofocus />
@@ -112,7 +112,7 @@
         </div>
     </div>
     <div class="flex flex-col lg:flex-row">
-        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
+        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 lg:pr-5">
             <span class="w-1/2 flex-none font-bold">Joining Date</span>
             <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username"
             value="{{ $user->created_at->format('d-m-Y') }}" readonly autofocus />
@@ -124,7 +124,7 @@
         </div>
     </div>
     <div class="flex flex-col lg:flex-row">
-        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
+        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 lg:pr-5">
             <span class="w-1/2 flex-none font-bold">Sponsor Id</span>
             <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username"
             value="{{ $user->sponsor ? $user->sponsor->username : '' }}" readonly autofocus />
@@ -136,7 +136,7 @@
         </div>
     </div>
     <div class="flex flex-col lg:flex-row">
-        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 pr-5">
+        <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 lg:pr-5">
             <span class="w-1/2 flex-none font-bold">Mobile No</span>
             <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username"
             value="{{ $user->phone }}" readonly autofocus />

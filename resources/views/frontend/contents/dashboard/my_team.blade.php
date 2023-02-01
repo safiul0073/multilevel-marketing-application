@@ -11,8 +11,8 @@
         </button>
     </div>
 </form>
-<main className="overflow-x-auto overflow-y-auto grow p-5 pt-0 flex flex-col">
-    <div className="mx-auto">
+<main class="overflow-x-auto overflow-y-auto grow p-5 pt-0 flex flex-col">
+    <div class="mx-auto">
     @include('frontend.contents.dashboard.tree_node', [
         'node' => $trees[0],
         'this_parent' => true,

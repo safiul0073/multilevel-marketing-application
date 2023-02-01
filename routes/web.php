@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\HomeCotroller;
 use App\Http\Controllers\Frontend\IncentiveBonusController;
 use App\Http\Controllers\Frontend\MyTeamController;
 use App\Http\Controllers\Frontend\NewsController;
+use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\NotFoundController;
 use App\Http\Controllers\Frontend\PrivacyPolicyController;
 use App\Http\Controllers\Frontend\ProductController;
@@ -46,6 +47,7 @@ Route::get('/packages', [ProductController::class, 'index'])->name('package.page
 Route::get('/products', [ProductController::class, 'index'])->name('product.page');
 Route::get('get-one-product-res', [HomeCotroller::class, 'responseProductData'])->name('product.get.one.res');
 Route::get('/news', [NewsController::class, 'index'])->name('news.page');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.page');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.page');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.page');
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.page');
@@ -61,7 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/', [UserInfoController::class, 'changePassword'])->name('user.update.password');
     });
 
-    Route::prefix('incentive')->name('incentive.')->group(function() {
+    Route::prefix('incentive')->name('incentive.')->group(function () {
         Route::get('view', [IncentiveBonusController::class, 'index'])->name('view');
         Route::post('add-bonus', [IncentiveBonusController::class, 'addToWallet'])->name('add.bonus');
     });
@@ -99,5 +101,3 @@ Route::post('save-user', [RegisterController::class, 'saveUser'])->name('save.us
 
 // not found route
 Route::get('not-found', [NotFoundController::class, 'index'])->name('not.found');
-
-

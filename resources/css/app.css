@@ -31,7 +31,7 @@
 }
 
 .form-control {
-    @apply w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 hover:border-[1px] hover:border-indigo-700;
+    @apply w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-200 hover:border-indigo-700;
 }
 
 .label-style {
@@ -61,4 +61,71 @@
 
 .alert-error {
     @apply p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800;
+}
+
+.accordion_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+}
+
+.accordion_head {
+    display: flex;
+    align-items: center;
+    @apply bg-gray-400 cursor-pointer;
+    color: #000;
+    padding: 10px 20px;
+    min-height: 40px;
+    gap: 10px;
+    border: 1px solid #f1f1f1;
+}
+
+.accordion_head_title {
+    font-size: 20px;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+.accordion_head_toggler {
+    font-size: 18px;
+    height: 24px;
+    width: 24px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.accordion_head_toggler svg {
+    transition: transform 0.1s ease-in-out;
+    transform: rotate(0deg);
+    transform-origin: center center;
+    display: block;
+}
+
+.accordion_head.active .accordion_head_toggler svg {
+    transform: rotate(-180deg);
+}
+
+.accordion_body {
+    transition: max-height 0.1s ease-in-out;
+}
+
+.accordion_body:not(.show) {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.accordion_content {
+    padding: 20px;
+    border: 1px solid #f1f1f1;
+    background: #fff;
+    border-top: none;
 }

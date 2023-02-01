@@ -1,10 +1,7 @@
 @extends('frontend.layouts.app')
 @push('custom_style')
 {{-- here some custome style --}}
-<link
-rel="stylesheet"
-href="https://unpkg.com/swiper/swiper-bundle.min.css"
-/>
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 @endpush
 @section('custome_style')
 {{-- here some style --}}
@@ -55,19 +52,19 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
                 <div class="splide__track">
                     <ul class="splide__list">
                         @forelse ($sliders as $slider)
-                            <li class="splide__slide">
-                                <img class="relative rounded-lg shadow-lg" src="{{ $slider?->image?->url }}" alt="App screenshot">
-                            </li>
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="{{ $slider?->image?->url }}" alt="App screenshot">
+                        </li>
                         @empty
-                            <li class="splide__slide">
-                                <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                            </li>
-                            <li class="splide__slide">
-                                <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                            </li>
-                            <li class="splide__slide">
-                                <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
-                            </li>
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                        </li>
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                        </li>
+                        <li class="splide__slide">
+                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                        </li>
                         @endforelse
 
                     </ul>
@@ -202,32 +199,41 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
             </h1>
             <div class="w-full bg-indigo-300/10 border rounded-lg shadow-md border-indigo-900/20">
                 <div class="p-4 rounded-lg md:p-8">
-                    <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto sm:grid-cols-3 text-white sm:p-8">
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">73M+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Developers</dd>
+                    <div class="relative container">
+                        <div id="splide3" class="splide" aria-label="Splide Basic HTML Example">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <a href="#">Bonnie Green</a>
+                                            </h3>
+                                            <p>CEO/Co-founder</p>
+                                        </div>
+                                    </li>
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <a href="#">Bonnie Green</a>
+                                            </h3>
+                                            <p>CEO/Co-founder</p>
+                                        </div>
+                                    </li>
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <a href="#">Bonnie Green</a>
+                                            </h3>
+                                            <p>CEO/Co-founder</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">100M+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Public repositories</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">1000s</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Open source projects</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">1B+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Contributors</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">90+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Top Forbes companies</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">4M+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Organizations</dd>
-                        </div>
-                    </dl>
+                    </div>
                 </div>
             </div>
         </div>
@@ -348,7 +354,7 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
 <div class="fixed inset-0 flex z-50 modal overflow-y-auto p-10" id="modal-one">
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity modal-exit"></div>
     <div class="flex flex-col m-auto transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:p-6">
-        <div class="absolute top-0 right-0 hidden pt-2 pr-2 sm:block">
+        <div class="absolute top-0 right-0 pt-2 pr-2">
             <button type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 modal-exit">
                 <span class="sr-only">Close</span>
                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -367,7 +373,7 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
                         <div class="swiper-button-next"></div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-pagination"></div>
-                      </div>
+                    </div>
                     <div class="mt-10">
                         <h2 class="text-sm font-medium text-gray-900">Details</h2>
 
@@ -389,11 +395,11 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
                         <h3 id="referral_commission" class="text-lg text-gray-600"> </h3>
                     </div>
                     <div class="mt-6">
-                        <h1 class="text-lg text-gray-600">Video</h1>
+                        <h1 class="text-lg text-gray-600 mb-1 font-bold">Video</h1>
                         <iframe class="w-full aspect-video" id="vedio_link" frameBorder="0"></iframe>
                     </div>
-                    <div>
-                        <a class="btn btn-primary" id="checkout_button" >Checkout</a>
+                    <div class="pt-4">
+                        <a class="btn btn-primary" id="checkout_button">Checkout</a>
                     </div>
                 </div>
             </div>
@@ -417,15 +423,15 @@ href="https://unpkg.com/swiper/swiper-bundle.min.css"
         //   disableOnInteraction: false,
         // },
         pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
+            el: '.swiper-pagination',
+            clickable: true,
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
         },
     });
-  </script>
+</script>
 
 @endpush
 

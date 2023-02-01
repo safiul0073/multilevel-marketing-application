@@ -114,10 +114,10 @@ const Index = ({ setTab, backendError }) => {
         userRegister.product_id = productId;
         if (checkValidation()) {
             toast.error(checkValidation(), {
-                position: 'top-center'
+                position: "top-center",
             });
-        }else {
-        setTab("userInfo");
+        } else {
+            setTab("userInfo");
         }
     };
 
@@ -153,7 +153,6 @@ const Index = ({ setTab, backendError }) => {
                     id="sponsor_id"
                     filterOption={selectFilter}
                     onChange={handleSelectSearch}
-
                 />
             </div>
             <div className="formGroup !mt-4">
