@@ -19,8 +19,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->index()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'member_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->string('type')->index()->default('transfer')->comment('transfer, withdraw, add, sub');
+            $table->string('type')->index()->default('transfer')->comment('transfer, add, sub');
             $table->double('amount', 15)->default(0);
+            $table->float('charge')->default(0);
             $table->longText('message')->nullable();
             $table->boolean('status')->index()->default(true);
             $table->timestamps();

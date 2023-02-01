@@ -50,7 +50,8 @@ class WithdrawController extends Controller
         $user->withdraws()->create([
             'payment_method_id' => $payment_method->id,
             'amount' => $final_amount,
-            'account_number' => $request->phone
+            'account_number' => $request->phone,
+            'charge' => $request->amount - $final_amount
         ]);
 
         return redirect()->back()->with(['success' => 'Successfully withdraw request sended.']);
