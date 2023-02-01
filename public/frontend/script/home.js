@@ -22,6 +22,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     splide2.mount();
 
+    var splide3 = new Splide("#splide3", {
+        type: "loop",
+        speed: 1000,
+        pagination: false,
+        // arrows: false,
+        autoplay: true,
+        interval: 3000,
+        perPage: 3,
+        perMove: 1,
+        clones: true,
+        focus: true,
+
+    });
+    splide3.mount();
+
     var main = new Splide("#main-slider", {
         type: "fade",
         heightRatio: 0.5,

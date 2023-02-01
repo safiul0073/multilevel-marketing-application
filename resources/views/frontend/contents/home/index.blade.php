@@ -199,32 +199,41 @@
             </h1>
             <div class="w-full bg-indigo-300/10 border rounded-lg shadow-md border-indigo-900/20">
                 <div class="p-4 rounded-lg md:p-8">
-                    <dl class="grid max-w-screen-xl grid-cols-2 gap-8 p-4 mx-auto sm:grid-cols-3 text-white sm:p-8">
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">73M+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Developers</dd>
+                    <div class="relative container">
+                        <div id="splide3" class="splide" aria-label="Splide Basic HTML Example">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <a href="#">Bonnie Green</a>
+                                            </h3>
+                                            <p>CEO/Co-founder</p>
+                                        </div>
+                                    </li>
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <a href="#">Bonnie Green</a>
+                                            </h3>
+                                            <p>CEO/Co-founder</p>
+                                        </div>
+                                    </li>
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <a href="#">Bonnie Green</a>
+                                            </h3>
+                                            <p>CEO/Co-founder</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">100M+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Public repositories</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">1000s</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Open source projects</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">1B+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Contributors</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">90+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Top Forbes companies</dd>
-                        </div>
-                        <div class="flex flex-col items-center justify-center">
-                            <dt class="mb-2 text-3xl font-extrabold">4M+</dt>
-                            <dd class="font-light text-gray-300 dark:text-gray-400">Organizations</dd>
-                        </div>
-                    </dl>
+                    </div>
                 </div>
             </div>
         </div>
