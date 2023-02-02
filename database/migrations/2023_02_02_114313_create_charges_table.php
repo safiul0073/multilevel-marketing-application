@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\PaymentMethod;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,15 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('withdraws', function (Blueprint $table) {
+        Schema::create('charges', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->index()->constrained()->cascadeOnDelete();
-            $table->string('method_name')->nullable();
-            $table->string('account_number')->nullable();
+            $table->morphs('holder');
             $table->float('amount')->default(0);
-            $table->float('charge')->default(0);
-            $table->tinyInteger('status')->index()->default(0)->comment('0=pending, 1=approved, 2=refunded');
-            $table->softDeletes();
+            $table->string('type')->default('transfer');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('withdraws');
+        Schema::dropIfExists('charges');
     }
 };

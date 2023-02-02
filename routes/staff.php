@@ -95,6 +95,10 @@ Route::middleware('auth:staff')->group(function () {
     // withdraw confirm
     Route::post('withdraw/confirm', App\Http\Controllers\Staff\V1\WithdrawController::class);
 
+    // dashboard route list
+    Route::prefix('dashboard')->group(function (){
+        Route::get('/calculation', [App\Http\Controllers\Staff\V1\Dashboard\ReportController::class, 'summationReport']);
+    });
     // report
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);

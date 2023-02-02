@@ -32,7 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('left_count')->index()->default(0);
             $table->unsignedBigInteger('right_count')->index()->default(0);
             $table->unsignedBigInteger('carry')->default(0);
-            $table->float('balance')->default(0);
+            $table->double('balance', 15)->default(0);
             $table->tinyInteger('isUpdated')->default(0)->comment('0=not updated, 2=update_pending, 1=updated');
             $table->boolean('status')->default(true);
             $table->rememberToken();

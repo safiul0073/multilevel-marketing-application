@@ -195,7 +195,7 @@
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div class="relative pb-0 sm:pb-6 xl:col-start-1 xl:pb-24">
             <h1 class="text-4xl font-bold tracking-tight text-gray-200 sm:text-5xl md:text-6xl mb-10 md:mb-12 lg:mb-20 text-center">
-                <span class="block text-indigo-500">Achievements</span>
+                <span class="block text-indigo-500">Reward Achievements</span>
             </h1>
             <div class="w-full bg-indigo-300/10 border rounded-lg shadow-md border-indigo-900/20">
                 <div class="p-4 rounded-lg md:p-8">
@@ -203,6 +203,17 @@
                         <div id="splide3" class="splide" aria-label="Splide Basic HTML Example">
                             <div class="splide__track">
                                 <ul class="splide__list">
+                                    @forelse ($reward_users as $user)
+                                    <li class="splide__slide">
+                                        <div class="text-center text-gray-400">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="{{ $user->image ? $user->image->url : "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" }}" alt="Bonnie Avatar">
+                                            <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
+                                                <p>{{ $user->username }}</p>
+                                            </h3>
+                                            <p>{{ $user->rewards[0]->designation }}</p>
+                                        </div>
+                                    </li>
+                                    @empty
                                     <li class="splide__slide">
                                         <div class="text-center text-gray-400">
                                             <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" alt="Bonnie Avatar">
@@ -230,6 +241,8 @@
                                             <p>CEO/Co-founder</p>
                                         </div>
                                     </li>
+                                    @endforelse
+
                                 </ul>
                             </div>
                         </div>

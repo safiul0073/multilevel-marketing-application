@@ -14,7 +14,7 @@ class PackageHelperController extends Controller
 
     public function getCategoryList () {
 
-        $categories = Category::select('id as value', 'title as label')->get();
+        $categories = Category::select('id as value', 'title as label')->where('status', 1)->get();
 
         return $this->withSuccess($categories);
     }

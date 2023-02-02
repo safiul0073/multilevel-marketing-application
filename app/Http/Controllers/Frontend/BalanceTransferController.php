@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\ChargeEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,12 +48,15 @@ class BalanceTransferController extends Controller
         try {
             DB::beginTransaction();
 
-            $user->transactions()->create([
-                'member_id' => $member->id,
-                'type' => 'transfer',
-                'amount' => $final_amount,
-                'charge' => $charge
-            ]);
+            $transaction = $user->transactions()->create([
+                                'member_id' => $member->id,
+                                'type' => 'transfer',
+                                'amount' => $final_amount,
+                                'charge' => $charge
+                            ]);
+                            
+            // charge creating by event
+            ChargeEvent::dispatch($transaction, Transaction::TRANSFER);
 
             // decreasing user balance
             $user->balance = $user->balance - $amount;

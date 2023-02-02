@@ -36,8 +36,8 @@
 
                         <div class="formGroup">
                             <label for="sponsor_id">Enter Sponser code/username</label>
-                            <input type="text" name="main_sponsor_username" value="{{ $sponsor_id ? $sponsor_id : old('username') }}" {{ $sponsor_id && !isset($map) ? "readonly" : '' }} class="form-control !ring-1 !ring-indigo-600 @error('username') has-error @enderror">
-                            @error('username')
+                            <input type="text" name="main_sponsor_username" value="{{ $sponsor_id ? $sponsor_id : old('main_sponsor_username') }}" {{ $sponsor_id && !isset($map) ? "readonly" : '' }} class="form-control !ring-1 !ring-indigo-600 @error('main_sponsor_username') has-error @enderror">
+                            @error('main_sponsor_username')
                             <span class="error-message" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -47,7 +47,7 @@
                             @if (isset($map) && $map)
                               <input type="hidden" value="{{ $position }}" name="position">
                             @endif
-                            <label for="sponsor_id">Set Position</label>
+                            <label for="position">Set Position</label>
                             <select {{ isset($map) ? "disabled" : '' }} name="position" value="{{ $position ? $position : old('position') }}" class="form-control !ring-1 !ring-indigo-600  @error('position') has-error @enderror" id="">
                                 <option value="">Select position</option>
                                 <option {{ $position && $position == 'left' ? "selected" : '' }} value="left">Left</option>

@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\PurchaseEvent;
+use App\Events\ChargeEvent;
 use App\Listeners\PurchaseListener;
+use App\Listeners\ChargeListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,10 +21,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-
         ],
         PurchaseEvent::class => [
             PurchaseListener::class,
+        ],
+        ChargeEvent::class => [
+            ChargeListener::class
         ],
     ];
 

@@ -44,11 +44,11 @@ class WithdrawController extends Controller
         }
 
         // charge calculation
-        $amount = ($request->amount / 100 ) * $payment_method->percent_charge; // percentage calculation
+        $amount = $request->amount - (($request->amount / 100 ) * $payment_method->percent_charge); // percentage calculation
         $final_amount = $amount - $payment_method->fixed_charge; // fixed charge calculation
 
         $user->withdraws()->create([
-            'payment_method_id' => $payment_method->id,
+            'method_name' => $payment_method->name,
             'amount' => $final_amount,
             'account_number' => $request->phone,
             'charge' => $request->amount - $final_amount
