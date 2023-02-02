@@ -29,7 +29,7 @@ class ChargeListener
         $type = $event->type;
 
         $model->charges()->create([
-                "amount" => $model ->change,
+                "amount" => $model->charge,
                 "type"   => $type
         ]);
     }

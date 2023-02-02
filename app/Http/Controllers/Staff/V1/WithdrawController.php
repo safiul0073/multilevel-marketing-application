@@ -36,12 +36,12 @@ class WithdrawController extends Controller
                     $withdraws = Withdraw::whereIn($request->ids)->get();
                     $withdraws->map(function ($with) use($request) {
                         $user = User::find($with->user_id);
-                        $this->saveData($user, $with, $request->type);
+                        $this->saveData($user, $with, $request->status);
                     });
                 }else{
                     $withdraw = Withdraw::find((int)$request->ids);
                     $user = User::find($withdraw->user_id);
-                    $this->saveData($user, $withdraw, $request->type);
+                    $this->saveData($user, $withdraw, $request->status);
                 }
 
             DB::commit();
