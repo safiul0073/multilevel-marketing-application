@@ -19,7 +19,7 @@ class UserHelperController extends Controller
     public function getUserReward ($id) {
 
         $user = User::with(['image', 'rewards' =>
-                        fn ($q) => $q->orderBy('left_count', 'desc')])
+                        fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
                         ->where('id', $id)->first();
 
         $values = [
@@ -119,8 +119,8 @@ class UserHelperController extends Controller
     public function userBalanceUpdate (Request $request, User $user) {
 
         $att = $this->validate($request, [
-                    'type'  => 'required|string|in:add,sub',
-                    'amount'=> 'required|numeric|min:50',
+                    'type'  => 'required|string|in:gift,sub',
+                    'amount'=> 'required',
                     'message' => 'required|string|max:256'
                 ]);
         try {
@@ -128,7 +128,7 @@ class UserHelperController extends Controller
 
             $user->transactions()->create($att);
             $success_message = '';
-            if ($request->type == 'add') {
+            if ($request->type == 'gift') {
                 $user->balance = $user->balance + $request->amount;
                 $success_message = 'Amount successfully added into main balance.';
 

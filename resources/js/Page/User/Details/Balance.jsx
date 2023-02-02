@@ -8,7 +8,7 @@ const Balance = ({ id, detailsRefetch }) => {
     const [transferTypes, setTransferTypes] = useState([
         {
             name: "Add Balance",
-            value: "add",
+            value: "gift",
             active: true,
         },
         {

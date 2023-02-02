@@ -17,9 +17,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const DIRECT = 'direct';
-    const PERCENT = 'percent';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -64,6 +61,14 @@ class User extends Authenticatable
     public function image()
     {
         return $this->morphOne(Media::class, 'media');
+    }
+
+        /**
+     * Get the user's charges.
+     */
+    public function charges()
+    {
+        return $this->hasMany(Charge::class);
     }
 
     /**

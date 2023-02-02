@@ -14,8 +14,8 @@ class LoginActivity
         $agent = new Agent();
         $ip =  Request::ip();
     	$log['ip'] = $ip;
-        $log['location'] = json_encode(Location::get($ip), true);
-    	$log['agent'] = json_encode(['platform' => $agent->platform(), 'browser' => $agent->browser()], true);
+        $log['location'] = Location::get($ip);
+    	$log['agent'] = ['platform' => $agent->platform(), 'browser' => $agent->browser()];
     	$log['user_id'] = auth()->check() ? auth()->id() : 1;
     	LoginLog::create($log);
     }
