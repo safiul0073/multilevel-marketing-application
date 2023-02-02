@@ -115,6 +115,12 @@ const Withdraw = () => {
                                                         scope="col"
                                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                     >
+                                                        Charge
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                    >
                                                         Amount
                                                     </th>
                                                     <th
@@ -152,10 +158,13 @@ const Withdraw = () => {
                                                             {withdraw?.user?.username}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {withdraw?.payment_method?.name}
+                                                            {withdraw?.method_name}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {withdraw?.account_number}
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                            {withdraw?.charge}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {withdraw?.amount}

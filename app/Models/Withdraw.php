@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Withdraw extends Model
@@ -13,11 +14,12 @@ class Withdraw extends Model
 
     protected $guarded = [];
 
-    public function payment_method ():BelongsTo {
-        return $this->belongsTo(PaymentMethod::class);
-    }
-
     public function user ():BelongsTo {
         return $this->belongsTo(User::class);
+    }
+
+    public function charges ():MorphMany {
+
+        return $this->morphMany(Charge::class, 'holder');
     }
 }

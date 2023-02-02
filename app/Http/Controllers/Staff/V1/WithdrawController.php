@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Staff\V1;
 
+use App\Events\ChargeEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Charge;
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WithdrawController extends Controller
 {
@@ -25,21 +28,28 @@ class WithdrawController extends Controller
             'status' => 'required'
         ]);
 
-        if (is_array($request->ids)) {
-            Withdraw::whereIn($request->ids)->update(['status' => $request->status]);
-            $withdraws = Withdraw::whereIn($request->ids)->get();
-            $withdraws->map(function ($with) use($request) {
-                $user = User::find($with->user_id);
-                $user->balance = $request->status == 1 ?  $user->balance - $with->amount : $user->balance;
-                $user->save();
-            });
-        }else{
-            $withdraw = Withdraw::find((int)$request->ids);
-            $user = User::find($withdraw->user_id);
-            $user->balance = $request->status == 1 ?  $user->balance - $withdraw->amount : $user->balance;
-            $user->save();
-            $withdraw->update(['status' => $request->status]);
+        try {
+            DB::beginTransaction();
+
+                if (is_array($request->ids)) {
+                    Withdraw::whereIn($request->ids)->update(['status' => $request->status]);
+                    $withdraws = Withdraw::whereIn($request->ids)->get();
+                    $withdraws->map(function ($with) use($request) {
+                        $user = User::find($with->user_id);
+                        $this->saveData($user, $with, $request->type);
+                    });
+                }else{
+                    $withdraw = Withdraw::find((int)$request->ids);
+                    $user = User::find($withdraw->user_id);
+                    $this->saveData($user, $withdraw, $request->type);
+                }
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            return $this->withErrors($ex->getMessage());
         }
+
         $message = '';
         if ($request->status == 2) {
             $message = 'Withdraw canceled.';
@@ -49,5 +59,16 @@ class WithdrawController extends Controller
             $message = 'Withdraw confirmed.';
         }
         return $this->withSuccess($message);
+    }
+
+
+    private function saveData ($user, $withdraw, $status) {
+
+        if ($status == 1) {
+            $user->balance = $user->balance - $withdraw->amount;
+            ChargeEvent::dispatch($withdraw, Charge::WITHDRAW);
+        }
+        $withdraw->update(['status' => $status]);
+        $user->save();
     }
 }

@@ -66,6 +66,14 @@ class User extends Authenticatable
         return $this->morphOne(Media::class, 'media');
     }
 
+        /**
+     * Get the user's charges.
+     */
+    public function charges()
+    {
+        return $this->hasMany(Charge::class);
+    }
+
     /**
      * Get the user's purchases.
      */
