@@ -19,7 +19,7 @@ class UserHelperController extends Controller
     public function getUserReward ($id) {
 
         $user = User::with(['image', 'rewards' =>
-                        fn ($q) => $q->orderBy('left_count', 'desc')])
+                        fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
                         ->where('id', $id)->first();
 
         $values = [
