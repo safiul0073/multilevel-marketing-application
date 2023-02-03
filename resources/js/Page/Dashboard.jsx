@@ -4,6 +4,7 @@ import {
     EnvelopeIcon,
 } from "@heroicons/react/20/solid";
 import CounterItems from "../components/Dashboard/CounterItems";
+import { getCounterSummation } from "../hooks/queries/dashboard/getCounterSummation";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -11,6 +12,7 @@ function classNames(...classes) {
 
 function Dashboard() {
 
+    const {isLoading, data} = getCounterSummation()
     const balanceCounter = [
         {
             title: "Total Business Balance",
@@ -62,7 +64,7 @@ function Dashboard() {
                     <main className="flex-1 py-8">
                         <div className="container">
                             {/* counter list */}
-                            <CounterItems/>
+                            <CounterItems data={data}/>
 
                             <ul
                                 role="list"

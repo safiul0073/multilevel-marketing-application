@@ -4,11 +4,11 @@ import { getQuery } from '../getQuery';
 export const getCounterSummation = () => {
   return useQuery(
     [
-      'epin-main-one',
+      'calculation-calculation',
 
     ],
     async () => {
-      let res = await getQuery('epin/');
+      let res = await getQuery('dashboard/calculation');
 
       return res;
     },
