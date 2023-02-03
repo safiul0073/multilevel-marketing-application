@@ -83,7 +83,7 @@ class UserService {
         $epin->activation_date = now();
         $epin->save();
         $product = ($product ? $product : $epin->epin_main->product);
-        if ($product->referral_type == User::PERCENT){
+        if ($product->referral_type == Product::PERCENT){
             // calculate percentage for joining bonus
             $this->join_bonus = ($product->price * $product->refferral_commission) / 100;
         }else{

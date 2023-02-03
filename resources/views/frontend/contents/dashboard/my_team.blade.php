@@ -2,7 +2,7 @@
 
 @section('dashboard-page')
 <h3 class="text-3xl mb-5">Team Members</h3>
-<form method="GET" action="{{ route("user.my.team") }}">
+<form method="GET" action="{{ route("my.team.view") }}">
     @csrf
     <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
         <input id="username" name="username" type="search" class="w-full max-w-[250px] h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" />
