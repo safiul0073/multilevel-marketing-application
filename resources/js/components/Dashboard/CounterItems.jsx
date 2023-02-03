@@ -6,11 +6,12 @@ import {
     CurrencyDollarIcon,
 } from "@heroicons/react/20/solid";
 
-const CounterItems = () => {
+const CounterItems = ({data}) => {
+    console.log(data)
     const counterItems = [
         {
             title: "Total Network Members",
-            count: 20,
+            count: data?.total_member,
             icon: (
                 <UsersIcon
                     className="h-12 w-12 text-gray-400"
@@ -20,7 +21,7 @@ const CounterItems = () => {
         },
         {
             title: "Total Package Purchase",
-            count: 33,
+            count: data?.total_package_purchase,
             icon: (
                 <BriefcaseIcon
                     className="h-12 w-12 text-gray-400"
@@ -30,7 +31,7 @@ const CounterItems = () => {
         },
         {
             title: "Total Members Income",
-            count: "$2040.33",
+            count: data?.total_income,
             icon: (
                 <CurrencyDollarIcon
                     className="h-12 w-12 text-gray-400"
