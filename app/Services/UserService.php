@@ -56,15 +56,15 @@ class UserService {
     }
 
 
-    public function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
+    public static function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
 
         $sponsor = User::select('sponsor_id','username')->find((int) $sponsor_id);
 
         if (!$sponsor) return false;
-        if ($sponsor->user_name == auth()->user()->username) {
+        if ($sponsor->username == auth()->user()->username) {
             return true;
         }else{
-            $this->checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
+            UserService::checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
         }
     }
 
@@ -83,7 +83,7 @@ class UserService {
         $epin->activation_date = now();
         $epin->save();
         $product = ($product ? $product : $epin->epin_main->product);
-        if ($product->referral_type == User::PERCENT){
+        if ($product->referral_type == Product::PERCENT){
             // calculate percentage for joining bonus
             $this->join_bonus = ($product->price * $product->refferral_commission) / 100;
         }else{
