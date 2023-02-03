@@ -17,8 +17,10 @@ class MyTeamController extends Controller
         $trees = User::query()->with('image')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children' => fn ($q) => $q->with('image')]);
 
         if (isset($att['username'])) {
+            
             $user = User::where('username', $att['username'])->first();
-            if ((new UserService)->checkGivenUserAreBelongToAuthUser($user->sponsor_id)) {
+
+            if (UserService::checkGivenUserAreBelongToAuthUser($user->sponsor_id)) {
                 $trees->where('username',$att['username']);
             }else {
                 $trees->where('username', auth()->user()->username);
