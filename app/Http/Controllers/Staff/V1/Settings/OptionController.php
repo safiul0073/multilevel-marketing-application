@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff\V1;
+namespace App\Http\Controllers\Staff\V1\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\Option;
@@ -21,6 +21,11 @@ class OptionController extends Controller
     public function getTransferCharge (Request $request) {
 
         return $this->withSuccess(config('mlm.balance_transfer'));
+    }
+
+    public function getOfficeSettings (Request $request) {
+
+        return $this->withSuccess(config('mlm.office'));
     }
 
     public function storeOption (Request $request) {

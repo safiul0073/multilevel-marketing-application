@@ -55,7 +55,7 @@ class RewardController extends Controller
             RewardService::checkUserForReward($reward);
 
             if (is_array($request->images)) {
-                
+
                 $this->multiFileUpload(
                     array_map(function ($image) {
                         return $this->uploadFile($image);
@@ -83,7 +83,7 @@ class RewardController extends Controller
      */
     public function show(Reward $reward)
     {
-        return $this->withSuccess($reward);
+        return $this->withSuccess($reward->load('images'));
     }
 
     /**

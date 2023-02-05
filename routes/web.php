@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\BalanceTransferController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\Dashboard\HomeController;
 use App\Http\Controllers\Frontend\Dashboard\ReferralController;
+use App\Http\Controllers\Frontend\Dashboard\RewardController;
 use App\Http\Controllers\Frontend\DisclaimerPolicyController;
 use App\Http\Controllers\Frontend\GalleryController;
 use App\Http\Controllers\Frontend\HomeCotroller;
@@ -86,7 +87,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/dashboard', [HomeController::class, 'index'])->name('user.dashboard');
-
+    Route::get('reward-show', [RewardController::class, 'index'])->name('dashboard.reward.show');
     Route::get('/user-referrals', [ReferralController::class, 'index'])->name('user.referral.list.view');
     Route::get('/user-purchase-product', [HomeController::class, 'productPurchaseView'])->name('user.purchase.product');
     Route::get('/user-deposit', [HomeController::class, 'depositView'])->name('user.deposit');
