@@ -4,22 +4,20 @@ import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import Protected from "../../components/HOC/Protected";
 import { bonusUpdate } from "../../hooks/queries/settings";
-import { getBonusSettings } from "../../hooks/queries/settings/getBonusSettings";
-const Matching = () => {
+import { getHomeContent } from "../../hooks/queries/settings/getHomeContent";
+const Home = () => {
 
-    const {isLoading, data: bonus, refetch} = getBonusSettings()
-    const matching_pair_types = React.useMemo(() => bonus?.matching?.pair_types, [bonus?.matching?.pair_types])
+    const {isLoading, data: data, refetch} = getHomeContent()
     const { register, reset, handleSubmit, formState: { errors } } = useForm()
     React.useEffect(() => {
-        reset(bonus?.matching)
-    }, [bonus])
+        reset(data)
+    }, [data])
 
     const onSubmit = (data) => {
         matchingUpdateMutate({
-            name: 'mlm_matching_bonus',
+            name: 'mlm_home_content_settings',
             value: {...data}
         })
-
     }
     const {
         mutate: matchingUpdateMutate,
@@ -46,56 +44,36 @@ const Matching = () => {
                         <div className="container">
                             <div className="my-4 py-2 px-2 lg:w-1/2 border border-gray-500 mx-auto">
                                 <div className="mx-2">
-                                    <p className="text-center py-4 text-gray-600 font-bold">Set Matching settings</p>
+                                    <p className="text-center py-4 text-gray-600 font-bold">Set Home Content</p>
                                 </div>
                                 <hr />
-                                <form onSubmit={handleSubmit(onSubmit)} className="px-2 my-3 ">
-                                    <div className="my-2">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">Matching Pair</label>
-                                        <select
-                                            {...register('pair_type', {required: true})}
+                                <form onSubmit={handleSubmit(onSubmit)} className="px-2 my-3">
+                                    <div className="my-2 ">
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Top Header First</label>
+                                        <input
                                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                        >
-                                            {
-                                                matching_pair_types?.map( m => (
-                                                    <option key={Math.random()} value={m}>{m}</option>
-                                                ))
-                                            }
-                                        </select>
+                                            {...register('top_h1_first', {required: true})}
+                                            type="text"
+                                        />
+                                    </div>
+                                    <div className="my-2 ">
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Top Header Second</label>
+                                        <input
+                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            {...register('top_h1_second', {required: true})}
+                                            type="text"
+                                        />
+                                    </div>
+                                    <div className="my-2 ">
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Top Content</label>
+                                        <textarea
+                                            rows={5}
+                                            className="mt-1 w-full block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            {...register('top_p_tag', {required: true})}
+                                            type="text"
+                                        ></textarea>
+                                    </div>
 
-                                    </div>
-                                    <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">Pair Count</label>
-                                        <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('pair_value', {required: true})}
-                                            type="number"
-                                        />
-                                    </div>
-                                    <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">Pair Amount</label>
-                                        <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('pair_amount', {required: true})}
-                                            type="number"
-                                        />
-                                    </div>
-                                    <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">It's in Day</label>
-                                        <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('in_day', {required: true})}
-                                            type="number"
-                                        />
-                                    </div>
-                                    <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">It's End Time</label>
-                                        <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('end_time', {required: true})}
-                                            type="time"
-                                        />
-                                    </div>
                                     {isMatchingUpdateLoading ? (
                                         <>
                                         <button className="btn btn-primary w-full flex justify-center align-center" type="button" disabled>
@@ -119,5 +97,5 @@ const Matching = () => {
     );
 };
 
-export default Protected(Matching);
+export default Protected(Home);
 

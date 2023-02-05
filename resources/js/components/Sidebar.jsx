@@ -77,7 +77,8 @@ const Sidebar = () => {
                 { name: "Referral", href: "/staff/reports/joining" },
                 { name: "Withdraw", href: "/staff/reports/withdraw" },
                 { name: "Top Earned", href: "/staff/reports/top-earned" },
-                { name: "Top Sponsor", href: "/staff/reports/top-sponsor" }
+                { name: "Top Sponsor", href: "/staff/reports/top-sponsor" },
+                { name: "Charge", href: "/staff/reports/charges" }
             ],
         },
         {
@@ -86,7 +87,9 @@ const Sidebar = () => {
             children: [
                 { name: "Matching", href: "/staff/settings/matching" },
                 { name: "Generation", href: "/staff/settings/generation" },
-                { name: "Single Amount", href: "/staff/settings/single-amount"}
+                { name: "Single Amount", href: "/staff/settings/single-amount"},
+                { name: "Footer", href: "/staff/settings/office-info"},
+                { name: "Home", href: "/staff/settings/home-content"}
             ],
         },
     ];

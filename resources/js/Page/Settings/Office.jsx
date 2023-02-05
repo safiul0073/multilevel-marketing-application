@@ -4,22 +4,20 @@ import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import Protected from "../../components/HOC/Protected";
 import { bonusUpdate } from "../../hooks/queries/settings";
-import { getBonusSettings } from "../../hooks/queries/settings/getBonusSettings";
-const Matching = () => {
+import { getOfficeInfo } from "../../hooks/queries/settings/getOfficeInfo";
+const Office = () => {
 
-    const {isLoading, data: bonus, refetch} = getBonusSettings()
-    const matching_pair_types = React.useMemo(() => bonus?.matching?.pair_types, [bonus?.matching?.pair_types])
+    const {isLoading, data: data, refetch} = getOfficeInfo()
     const { register, reset, handleSubmit, formState: { errors } } = useForm()
     React.useEffect(() => {
-        reset(bonus?.matching)
-    }, [bonus])
+        reset(data)
+    }, [data])
 
     const onSubmit = (data) => {
         matchingUpdateMutate({
-            name: 'mlm_matching_bonus',
+            name: 'mlm_footer_settings',
             value: {...data}
         })
-
     }
     const {
         mutate: matchingUpdateMutate,
@@ -46,54 +44,59 @@ const Matching = () => {
                         <div className="container">
                             <div className="my-4 py-2 px-2 lg:w-1/2 border border-gray-500 mx-auto">
                                 <div className="mx-2">
-                                    <p className="text-center py-4 text-gray-600 font-bold">Set Matching settings</p>
+                                    <p className="text-center py-4 text-gray-600 font-bold">Set Office settings</p>
                                 </div>
                                 <hr />
-                                <form onSubmit={handleSubmit(onSubmit)} className="px-2 my-3 ">
+                                <form onSubmit={handleSubmit(onSubmit)} className="px-2 my-3">
                                     <div className="my-2">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">Matching Pair</label>
-                                        <select
-                                            {...register('pair_type', {required: true})}
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Enter Office Location</label>
+                                        <textarea
+                                            {...register('office.location', {required: true})}
                                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                         >
-                                            {
-                                                matching_pair_types?.map( m => (
-                                                    <option key={Math.random()} value={m}>{m}</option>
-                                                ))
-                                            }
-                                        </select>
+                                        </textarea>
 
                                     </div>
                                     <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">Pair Count</label>
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Phone</label>
                                         <input
                                             className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('pair_value', {required: true})}
-                                            type="number"
+                                            {...register('office.phone', {required: true})}
+                                            type="text"
                                         />
                                     </div>
                                     <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">Pair Amount</label>
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Email</label>
                                         <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('pair_amount', {required: true})}
-                                            type="number"
+                                            className="mt-1 w-full block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            {...register('office.email', {required: true})}
+                                            type="text"
                                         />
                                     </div>
                                     <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">It's in Day</label>
-                                        <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('in_day', {required: true})}
-                                            type="number"
-                                        />
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Footer Content up</label>
+                                        <textarea
+                                            rows={3}
+                                            className="mt-1 w-full block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            {...register('footer_content1', {required: true})}
+                                            type="text"
+                                        ></textarea>
                                     </div>
                                     <div className="my-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 pr-8">It's End Time</label>
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">Footer Content down</label>
+                                        <textarea
+                                            rows={5}
+                                            className="mt-1 w-full block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            {...register('footer_content2', {required: true})}
+                                            type="text"
+                                        ></textarea>
+                                    </div>
+                                    <div className="my-2 ">
+                                        <label className="block text-sm font-medium text-gray-700 pr-8">All Right Reserved</label>
                                         <input
-                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                            {...register('end_time', {required: true})}
-                                            type="time"
+                                            className="mt-1 w-full block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            {...register('all_right_reserved', {required: true})}
+                                            type="text"
                                         />
                                     </div>
                                     {isMatchingUpdateLoading ? (
@@ -119,5 +122,5 @@ const Matching = () => {
     );
 };
 
-export default Protected(Matching);
+export default Protected(Office);
 
