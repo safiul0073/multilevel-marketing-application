@@ -19,6 +19,6 @@ class Charge extends Model
      */
     public function holder()
     {
-        return $this->morphTo();
+        return $this->morphTo()->with('user:id,username');
     }
 }
