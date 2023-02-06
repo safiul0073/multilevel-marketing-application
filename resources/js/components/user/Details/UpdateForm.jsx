@@ -321,9 +321,10 @@ const UpdateForm = ({ details, detailsRefetch }) => {
                         </div>
                         <div className="col-span-12 sm:col-span-6">
                             <InputField
+                                type='date'
                                 label="Birthday"
-                                name="nominee_nid"
-                                backendError={backendError?.nominee_nid}
+                                name="nominee_birthday"
+                                backendError={backendError?.nominee_birthday}
                                 register={register}
                             />
                         </div>
@@ -348,6 +349,14 @@ const UpdateForm = ({ details, detailsRefetch }) => {
                                 label="Phone"
                                 name="nominee_phone"
                                 backendError={backendError?.nominee_phone}
+                                register={register}
+                            />
+                        </div>
+                        <div className="col-span-12 sm:col-span-6">
+                            <InputField
+                                label="NID number"
+                                name="nominee_nid"
+                                backendError={backendError?.nominee_nid}
                                 register={register}
                             />
                         </div>
