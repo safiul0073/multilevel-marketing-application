@@ -25,7 +25,12 @@ class OptionController extends Controller
 
     public function getOfficeSettings (Request $request) {
 
-        return $this->withSuccess(config('mlm.office'));
+        return $this->withSuccess(config('mlm.footer'));
+    }
+
+    public function getHomeContent () {
+
+        return $this->withSuccess(config('mlm.home_content'));
     }
 
     public function storeOption (Request $request) {

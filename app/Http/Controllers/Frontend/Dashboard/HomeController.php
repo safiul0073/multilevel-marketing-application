@@ -24,7 +24,7 @@ class HomeController extends Controller
                         => fn ($query) => $query->where('type', 'withdraw') ], 'amount')
                         ->withSum(['transactions as deposit_amount'
                         => fn ($query) => $query->where('type', 'deposit') ], 'amount')
-                    ->with('image')
+                    ->with(['image', 'rewards' => fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
                     ->where('id', auth()->id())->first();
         return view('frontend.contents.dashboard.home', ['user' => $user]);
     }

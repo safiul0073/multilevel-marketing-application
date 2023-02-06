@@ -34,10 +34,10 @@
             <div class="mx-auto px-4 sm:px-6">
                 <div class="text-center">
                     <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                        <span class="block">We will start at the root.</span>
-                        <span class="block text-indigo-600">We will reach the peak.</span>
+                        <span class="block">{{ config('mlm.home_content.top_h1_first') }}</span>
+                        <span class="block text-indigo-600">{{ config('mlm.home_content.top_h1_second') }}</span>
                     </h1>
-                    <p class="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
+                    <p class="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">{{ config('mlm.home_content.top_p_tag') }}</p>
                 </div>
             </div>
         </div>
@@ -114,7 +114,7 @@
 <div class="bg-white py-10 md:py-12 lg:py-20">
     <h1 class="text-4xl font-bold tracking-tight text-gray-500 sm:text-5xl md:text-6xl mb-10 md:mb-12 lg:mb-20 text-center">
         <span class="block tracking-wide">Some of Our's</span>
-        <span class="block text-indigo-700">Success Story</span>
+        <span class="block text-indigo-700">Reward</span>
     </h1>
     <div class="relative container">
         <div id="splide2" class="splide" aria-label="Splide Basic HTML Example">

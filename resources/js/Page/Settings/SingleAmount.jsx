@@ -61,16 +61,16 @@ const SingleAmount = () => {
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
                         <div className="container">
-                            <div className="my-4 py-2 px-2 w-1/2 border border-gray-500 mx-auto">
+                            <div className="my-4 py-2 px-2 lg:w-1/2 border border-gray-500 mx-auto">
                                 <div className="mx-2">
                                     <p className="text-center py-4 text-gray-600 font-bold">Set Incentive Minimum settings</p>
                                 </div>
                                 <hr />
                                 <div className="my-2">
-                                <div className="flex justify-start items-center my-2 ">
+                                <div className="my-2 ">
                                         <label className="block text-sm font-medium text-gray-700 pr-8">Minimum Amount</label>
                                         <input
-                                            className="mt-1 block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            className="mt-1 w-full block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                             value={minimum_amount}
                                             onChange={(e) => setMinimumAmount(e.target.value)}
                                             type="number"
@@ -95,16 +95,16 @@ const SingleAmount = () => {
                                 </div>
                             </div>
 
-                            <div className="my-4 py-2 px-2 w-1/2 border border-gray-500 mx-auto">
+                            <div className="my-4 py-2 px-2 lg:w-1/2 border border-gray-500 mx-auto">
                                 <div className="mx-2">
                                     <p className="text-center py-4 text-gray-600 font-bold">Set user balance transfer charge</p>
                                 </div>
                                 <hr />
                                 <div className="my-2">
-                                <div className="flex justify-start items-center my-2 ">
+                                <div className="my-2 ">
                                         <label className="block text-sm font-medium text-gray-700 pr-8">Charge Amount</label>
                                         <input
-                                            className="mt-1 block rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                            className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                             value={charge}
                                             onChange={(e) => setCharge(e.target.value)}
                                             type="number"

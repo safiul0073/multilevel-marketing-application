@@ -68,7 +68,7 @@ const Generation = () => {
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
                         <div className="container">
-                            <div className="my-4 py-2 px-2 w-1/2 border border-gray-500 mx-auto">
+                            <div className="my-4 py-2 px-2 lg:w-1/2 border border-gray-500 mx-auto">
                                 <div className="flex justify-between items-center mx-2">
                                     <p className="text-center py-4 text-gray-600 font-bold">Set Generation settings</p>
                                     <button onClick={newGenAdd} className="btn btn-primary">Add</button>
@@ -77,7 +77,7 @@ const Generation = () => {
                                 <div className="my-2">
                                     {
                                         isLoading ? <LoaderAnimation /> :
-                                        
+
                                         gen?.map((g, idx) => (
                                             <div key={Math.random()} className="flex justify-center items-center">
                                                 <label className="block text-sm font-medium text-gray-700 w-12">Gen {idx + 1}</label>

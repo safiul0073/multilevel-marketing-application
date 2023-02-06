@@ -153,12 +153,16 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refetcher}) 
                                         backendValidationError={backendError?.type}
                                         error={errors.type}
                                     />
-                                    <Select
-                                        options={products}
-                                        styles={customStyles}
-                                        value={productId}
-                                        onChange={e => serProductId(e)}
-                                        />
+                                    <div className="formGroup">
+                                        <label className="label-style">Package Name</label>
+                                        <Select
+                                            options={products}
+                                            styles={customStyles}
+                                            value={productId}
+                                            onChange={e => serProductId(e)}
+                                            />
+                                    </div>
+
                                     <Textinput
                                         label="Epin Cost"
                                         placeholder="5000"

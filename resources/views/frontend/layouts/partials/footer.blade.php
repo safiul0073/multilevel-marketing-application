@@ -7,8 +7,8 @@
           <img src="{{ asset('frontend/images/logo.png') }}" alt="main_logo" class="h-10 w-24">
           {{-- <p2 class="text-3xl mobile:text-3xl font-semibold uppercase tracking-tight">MLM Shop</p2> --}}
         </a>
-        <p class="text-base text-gray-300 hover:text-white font-medium mt-3.5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad maiores quia dolorem dignissimos sit consequuntur eaque.</p>
-        <p class="text-base text-gray-300 hover:text-white font-medium mt-2.5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad maiores quia dolorem dignissimos sit consequuntur eaque, nihil nesciunt id rem ullam magnam, nostrum beatae. Dolore possimus molestiae eius accusantium quibusdam.</p>
+        <p class="text-base text-gray-300 hover:text-white font-medium mt-3.5">{{ config('mlm.footer.footer_content1') }}</p>
+        <p class="text-base text-gray-300 hover:text-white font-medium mt-2.5">{{ config('mlm.footer.footer_content2') }}</p>
       </div>
       <div class="text-center lg:text-left">
         <h3 class="text-base font-bold text-white">Pages</h3>
@@ -58,15 +58,15 @@
         <h3 class="text-base font-bold text-white">Office Information</h3>
         <ul role="list" class="mt-4 space-y-4">
           <li>
-            <p class="text-base text-gray-300 hover:text-white">@142 Poran Masto Road 902100 Bangde Britatu Sans Francisco</p>
+            <p class="text-base text-gray-300 hover:text-white">{{ config('mlm.footer.office.location') }}</p>
           </li>
 
           <li>
-            <a href="#" class="text-base text-gray-300 hover:text-white">+01234567890</a>
+            <a href="#" class="text-base text-gray-300 hover:text-white">{{ config('mlm.footer.office.phone') }}</a>
           </li>
 
           <li>
-            <a href="#" class="text-base text-gray-300 hover:text-white">example@gmail.com</a>
+            <a href="#" class="text-base text-gray-300 hover:text-white">{{ config('mlm.footer.office.email') }}</a>
           </li>
         </ul>
       </div>
@@ -108,7 +108,7 @@
           </svg>
         </a>
       </div>
-      <p class="mt-8 text-base text-gray-400 md:order-1 md:mt-0">&copy; 2020 Your Company, Inc. All rights reserved.</p>
+      <p class="mt-8 text-base text-gray-400 md:order-1 md:mt-0">&copy; {{ config('mlm.footer.all_right_reserved') }}</p>
     </div>
   </div>
 </footer>
