@@ -1,4 +1,4 @@
-<div class="grow basis-full xl:basis-[270px] max-w-full basis:max-w-[270px] w-full bg-gray-200">
+<div class="grow basis-full xl:basis-[270px] max-w-full basis:max-w-[270px] w-full bg-blue-300 rounded-md">
     <ul class="flex flex-row flex-wrap xl:flex-col p-5 xl:p-10 gap-2.5 xl:gap-5 items-stretch">
         <li><a href="{{ route('user.dashboard') }}" class="inline-flex items-center justify-center h-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 w-full text-center">Dashboard</a></li>
         <li><a href="{{ route('my.team.view') }}" class="inline-flex items-center justify-center h-full rounded-md border border-transparent bg-rose-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 w-full text-center">My Team</a></li>
