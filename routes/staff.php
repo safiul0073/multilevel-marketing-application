@@ -106,14 +106,15 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('to-earned', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'topEarned']);
         Route::get('to-sponsor', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'topSponsor']);
         Route::get('package-purchase', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'packagePurchaseList']);
-        Route::get('charge', [App\Http\Controllers\Staff\V1\Reports\ChargeController::class]);
+        Route::get('charges', App\Http\Controllers\Staff\V1\Reports\ChargeController::class);
     });
 
     // settings
     Route::prefix('settings/')->group(function () {
         Route::get('bonus', [OptionController::class, 'getBonus']);
         Route::get('transfer-charge', [OptionController::class, 'getTransferCharge']);
-        Route::get('office-settings', [OptionController::class, 'getOfficeSettings']);
+        Route::get('office', [OptionController::class, 'getOfficeSettings']);
+        Route::get('home', [OptionController::class, 'getHomeContent']);
         Route::post('bonus',[OptionController::class, 'storeOption']);
     });
 });
