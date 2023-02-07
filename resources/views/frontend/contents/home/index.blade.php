@@ -208,7 +208,7 @@
                                         <div class="text-center text-gray-400">
                                             <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="{{ $user->image ? $user->image->url : "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" }}" alt="Bonnie Avatar">
                                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
-                                                <p>{{ $user->username }}</p>
+                                                <p>{{ $user->first_name .' '. $user->last_name??""  }}</p>
                                             </h3>
                                             <p>{{ count($user->rewards) ? $user->rewards[0]->designation : "" }}</p>
                                         </div>

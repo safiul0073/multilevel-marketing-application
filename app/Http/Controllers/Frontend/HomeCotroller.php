@@ -21,7 +21,7 @@ class HomeCotroller extends Controller
 
         $sliders = Slider::where('status', 1)->get();
 
-        $reward_users = User::select('id', 'username')->with(['image', 'rewards' => fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
+        $reward_users = User::select('id', 'first_name', 'last_name')->with(['image', 'rewards' => fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
                               ->withCount('reward_users as user_reward_count')
                               ->has('reward_users')
                               ->orderByDesc('user_reward_count')->limit(10)->get();
