@@ -210,7 +210,7 @@
                                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
                                                 <p>{{ $user->username }}</p>
                                             </h3>
-                                            <p>{{ $user->rewards[0]->designation }}</p>
+                                            <p>{{ count($user->rewards) ? $user->rewards[0]->designation : "" }}</p>
                                         </div>
                                     </li>
                                     @empty
