@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::get('/', [UserInfoController::class, 'profile'])->name('user.profile');
         Route::post('/update', [UserInfoController::class, 'update'])->name('user.profile.update');
+        Route::post('avatar-upload', [UserInfoController::class, 'avatarUpload'])->name('profile.avatar.upload');
     });
 
     Route::prefix('change/password')->group(function () {
