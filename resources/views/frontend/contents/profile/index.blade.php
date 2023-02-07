@@ -16,7 +16,7 @@
         <div class="mt-10 w-full rounded-md bg-white px-6 py-4 leading-6 text-slate-900 shadow-xl shadow-black/5 ring-1 ring-slate-700/10">
             <div class="flex flex-col items-center py-5">
 
-                @if (!$user->isUpdated)
+                {{-- @if (!$user->isUpdated) --}}
                 <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 ml-2 sm:col-span-4 md:mr-3">
                     <!-- Photo File Input -->
 
@@ -27,6 +27,18 @@
                                                 photoPreview = e.target.result;
                                             };
                                             reader.readAsDataURL($refs.avatar.files[0]);
+                                            const data = new FormData()
+                                            data.append('avatar', $refs.avatar.files[0])
+
+                                            fetch('profile/avatar-upload', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Accept': 'application/json',
+                                                    'X-CSRF-TOKEN': document.head.querySelector('meta[name=csrf-token]').content
+                                                },
+                                                body: data
+                                            })
+
                         ">
 
                     <label class="block text-gray-700 text-sm font-bold mb-2 text-center" for="photo">
@@ -36,7 +48,7 @@
                     <div class="text-center">
                         <!-- Current Profile Photo -->
                         <div class="mt-2" x-show="! photoPreview">
-                            <img src="https://images.unsplash.com/photo-1531316282956-d38457be0993?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80" class="w-24 h-24 m-auto rounded-full shadow">
+                            <img src="{{ $user->image ?  $user->image->url : 'https://images.unsplash.com/photo-1531316282956-d38457be0993?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80' }}" class="w-24 h-24 m-auto rounded-full shadow">
                         </div>
                         <!-- New Profile Photo Preview -->
                         <div class="mt-2" x-show="photoPreview" style="display: none;">
@@ -53,9 +65,9 @@
                     </span>
                     @enderror
                 </div>
-                @else
+                {{-- @else
                 <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="{{ $user->image->url }}" alt="Bonnie image" />
-                @endif
+                @endif --}}
             </div>
             <div class="flex flex-col lg:flex-row">
                 <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3 lg:pr-5">

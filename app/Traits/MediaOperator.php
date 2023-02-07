@@ -11,7 +11,7 @@ trait MediaOperator
     public function uploadFile($file)
     {
 
-        $file_name = $this->path.'_'.time().'_'.rand(50000, 9999).'.'.$file->getClientOriginalExtension();
+        $file_name = $this->path.rand(10000000, 9999999999).'_'.time().'_'.rand(50000, 9999).'.'.$file->getClientOriginalExtension();
 
         Storage::disk('public')->put($file_name, file_get_contents($file));
 
