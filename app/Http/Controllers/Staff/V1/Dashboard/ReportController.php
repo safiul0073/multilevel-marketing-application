@@ -20,11 +20,14 @@ class ReportController extends Controller
         $total_member_income = Bonuse::sum('amount');
         $total_member = User::count();
         $total_package_purchase = Purchase::where('type', 1)->count();
-        $total_withdraw = Withdraw::where('status', 1)->sum('amount');
+        $total_withdraw_success = Withdraw::where('status', 1)->count();
+        $total_withdraw_pending = Withdraw::where('status', 0)->count();
         $data = [
             "total_member" => $total_member,
             "total_income" => $total_member_income,
-            "total_package_purchase" => $total_package_purchase
+            "total_package_purchase" => $total_package_purchase,
+            'total_withdraw_success' => $total_withdraw_success,
+            'total_withdraw_pending' => $total_withdraw_pending
         ];
 
         return $this->withSuccess($data);

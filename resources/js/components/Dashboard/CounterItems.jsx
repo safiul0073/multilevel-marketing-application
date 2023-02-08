@@ -33,6 +33,26 @@ const CounterItems = ({data}) => {
             title: "Total Members Income",
             count: data?.total_income,
             icon: (
+                <UsersIcon
+                    className="h-12 w-12 text-gray-400"
+                    aria-hidden="true"
+                />
+            ),
+        },
+        {
+            title: "Total Withdraw Success",
+            count: data?.total_withdraw_success,
+            icon: (
+                <UsersIcon
+                    className="h-12 w-12 text-gray-400"
+                    aria-hidden="true"
+                />
+            ),
+        },
+        {
+            title: "Total Withdraw Pending",
+            count: data?.total_withdraw_pending,
+            icon: (
                 <CurrencyDollarIcon
                     className="h-12 w-12 text-gray-400"
                     aria-hidden="true"
