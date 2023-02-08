@@ -3,7 +3,14 @@
 @section('dashboard-page')
 <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Balance Transfer List</h1>
+        <div class="flex items-center mb-5">
+            <button type="button" class="rounded-md px-2.5 py-1.5 mr-2.5 text-gray-700 xl:hidden border border-gray-500" id="dashboard-hamburger-toggler">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+            <h1 class="text-3xl font-semibold text-gray-900">Balance Transfer List</h1>
+        </div>
     </div>
     {{-- <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
         <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
@@ -14,7 +21,7 @@
 </div>
 </div> --}}
 </div>
-<div class="mt-8 flex flex-col">
+<div class="flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -39,23 +46,23 @@
                                 $status = 'Gift';
                                 $style = 'text-green-800';
                                 if ($transaction->type == \App\Models\Transaction::TRANSFER) {
-                                    $status = "Transfer";
-                                    $style = 'text-yellow-800';
+                                $status = "Transfer";
+                                $style = 'text-yellow-800';
                                 }
                                 if ($transaction->type == \App\Models\Transaction::SUBTRACT) {
-                                    $status = "Subtract";
-                                    $style = 'text-ged-800';
+                                $status = "Subtract";
+                                $style = 'text-ged-800';
                                 }
                                 if ($transaction->type == \App\Models\Transaction::DEATH_FOUND) {
-                                    $status = "Death Found";
-                                    $style = 'text-green-800';
+                                $status = "Death Found";
+                                $style = 'text-green-800';
                                 }
                                 @endphp
                                 <span class="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 {{ $style }}">{{ $status }}</span>
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                 @if ($transaction->type == \App\Models\Transaction::TRANSFER)
-                                    {{ $transaction->member ? $transaction->member->username : '' }}
+                                {{ $transaction->member ? $transaction->member->username : '' }}
                                 @endif
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

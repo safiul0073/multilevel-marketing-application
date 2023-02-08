@@ -7,10 +7,10 @@
 
 @endsection
 @section('content')
-<div class="flex p-5 md:p-10 lg:p-20 gap-10 flex-col xl:flex-row">
+<div class="flex p-5 md:p-10 lg:p-20 gap-10 flex-col xl:flex-row relative">
     @include('frontend.contents.dashboard.sidebar')
     <div class="w-full">
-    @yield('dashboard-page')
+        @yield('dashboard-page')
     </div>
 </div>
 @endsection
@@ -21,5 +21,15 @@
 @endpush
 
 @section('custome_scipt')
+
+<script>
+    var hamburger_menu = document.getElementById("dashboard-sidebar");
+    var hamburger_button = document.getElementById("dashboard-hamburger-toggler");
+
+
+    hamburger_button.addEventListener("click", function() {
+        hamburger_menu.classList.toggle("active")
+    });
+</script>
 
 @endsection

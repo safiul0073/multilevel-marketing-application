@@ -63,7 +63,7 @@ const Balance = ({ id, detailsRefetch }) => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 flex flex-col">
             <div className="shadow sm:overflow-hidden sm:rounded-md">
-                <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
+                <div className="space-y-6 bg-gray-100 py-6 px-4 sm:p-6">
                     <span className="inline-flex w-full gap-1 p-1 bg-gray-100 border-1 border-gray-300 rounded-md wide-mobile:flex-col mb-50px tablet:mb-40px wide-mobile:mb-30px">
                         {transferTypes?.map((type) => (
                             <button
@@ -72,7 +72,7 @@ const Balance = ({ id, detailsRefetch }) => {
                                 className={`inline-flex grow items-center min-h-50px px-6 mobile:p-4 py-2 rounded-md font-normal focus:outline-none text-center justify-center wide-mobile:justify-start wide-mobile:shadow wide-mobile:shadow-dark/10 hover:shadow-none ${
                                     type?.active
                                         ? "bg-indigo-600 text-white"
-                                        : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                                        : "bg-gray-300 text-gray-800 hover:bg-gray-300"
                                 }`}
                                 onClick={() => handleTransferType(type?.value)}
                             >
@@ -137,7 +137,7 @@ const Balance = ({ id, detailsRefetch }) => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                <div className="bg-gray-200 px-4 py-3 text-right sm:px-6">
                     {/* <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"

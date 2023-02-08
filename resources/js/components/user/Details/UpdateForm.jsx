@@ -93,7 +93,7 @@ const UpdateForm = ({ details, detailsRefetch }) => {
     <>
         <form onSubmit={handleSubmit(onSubmit)} className="mt-10">
             <div className="shadow sm:overflow-hidden sm:rounded-md">
-                <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
+                <div className="space-y-6 bg-gray-100 py-6 px-4 sm:p-6">
                     <div className="flex sm:flex-row flex-col justify-between items-center">
                         <h3 className="text-lg font-medium leading-6 text-gray-900">
                             Personal Information
