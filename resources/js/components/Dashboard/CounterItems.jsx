@@ -39,6 +39,26 @@ const CounterItems = ({data}) => {
                 />
             ),
         },
+        {
+            title: "Total Withdraw Success",
+            count: data?.total_withdraw_success,
+            icon: (
+                <UsersIcon
+                    className="h-12 w-12 text-gray-400"
+                    aria-hidden="true"
+                />
+            ),
+        },
+        {
+            title: "Total Withdraw Pending",
+            count: data?.total_withdraw_pending,
+            icon: (
+                <UsersIcon
+                    className="h-12 w-12 text-gray-400"
+                    aria-hidden="true"
+                />
+            ),
+        },
     ];
     return (
         <>

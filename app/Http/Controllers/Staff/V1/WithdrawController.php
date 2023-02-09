@@ -65,7 +65,7 @@ class WithdrawController extends Controller
     private function saveData ($user, $withdraw, $status) {
 
         if ($status == 1) {
-            $user->balance = $user->balance - $withdraw->amount;
+            $user->balance = $user->balance - ((float) $withdraw->amount + (float) $withdraw->charge);
             ChargeEvent::dispatch($withdraw, Charge::WITHDRAW);
         }
         $withdraw->update(['status' => $status]);
