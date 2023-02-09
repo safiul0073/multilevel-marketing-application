@@ -4,36 +4,61 @@ import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import { createMedia, deleteMedia } from "../../hooks/queries/media";
 import { getImagesList } from "../../hooks/queries/package/getImagesList";
+import { getRewardById } from "../../hooks/queries/reward/getRewardById";
+import moment from "moment";
 
 const Details = ({ showRewardDetails, setShowRewardDetails, editReward }) => {
-    console.log(showRewardDetails);
-    const detailsData = {
-        designation: "main jinis",
-        right_count: 33,
-        left_count: 33,
-        travel_destination: "Cox's Bazar",
-        one_time_bonus: "500000 taka",
-        salary: "10000",
-        created_at: "2023-02-02T15:08:07.000000Z",
-        images: [
-            {
-                url: "/public/frontend/images/logo.png",
-            },
-            {
-                url: "/public/frontend/images/logo.png",
-            },
-        ],
-    };
+
+    const { data, refetch} = getRewardById(showRewardDetails?.id)
 
     const deleteGellaryPhoto = (image) => {
-        console.log(image);
+        deleteMediaMutate(image?.id)
     };
+
 
     // gallery image handle and upload
     const uploadGalleryImage = (event) => {
-        console.log(event.target.value);
-    };
+        if (event.target.files[0]) {
+            createMediaMutate({
+                id: showRewardDetails?.id,
+                image: event.target.files[0],
+                type: 'reward'
+            })
+        }
+    }
 
+    const {
+        mutate: deleteMediaMutate,
+        isLoading: loadingMedia,
+    } = useMutation(deleteMedia, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right',
+            });
+            refetch()
+        },
+        onError: (err) => {
+
+            let errorobj = err?.response?.data?.data?.string_data;
+
+        },
+    });
+// create mutate
+    const {
+        mutate: createMediaMutate,
+        isLoading,
+      } = useMutation(createMedia, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            refetch()
+        },
+        onError: (err) => {
+
+            let errorobj = err?.response?.data?.data?.json_object;
+        },
+      });
     return (
         <div className="min-h-full">
             <div className="flex flex-1 flex-col lg:pl-64">
@@ -69,7 +94,7 @@ const Details = ({ showRewardDetails, setShowRewardDetails, editReward }) => {
                                     </div>
                                     <div className="overflow-y-auto w-full overflow-x-hidden">
                                         <div className="grid grid-cols-2 grid-flow-row gap-2">
-                                            {detailsData?.images?.map(
+                                            {data?.images?.map(
                                                 (image) => (
                                                     <div
                                                         className=" relative"
@@ -145,20 +170,20 @@ const Details = ({ showRewardDetails, setShowRewardDetails, editReward }) => {
 
                             <div className="pt-10 pb-16 lg:grid lg:grid-cols-2 lg:grid-rows-[auto,auto,1fr] lg:gap-x-0 lg:pb-24">
                                 <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                                    {detailsData?.designation}
+                                    {data?.designation}
                                 </h1>
 
                                 <div className="pb-10 lg:col-span-2 lg:col-start-1 lg:pb-16">
                                     <div className="my-4 text-left">
                                         <p className="text-lg text-gray-600">
                                             Left Count:{" "}
-                                            <b>{detailsData?.left_count}</b>
+                                            <b>{data?.left_count}</b>
                                         </p>
                                     </div>
                                     <div className="my-4 text-left">
                                         <p className="text-lg text-gray-600">
                                             Right Count:{" "}
-                                            <b>{detailsData?.right_count}</b>
+                                            <b>{data?.right_count}</b>
                                         </p>
                                     </div>
                                     <div className="my-4 text-left">
@@ -166,7 +191,7 @@ const Details = ({ showRewardDetails, setShowRewardDetails, editReward }) => {
                                             Travel Destination:{" "}
                                             <b>
                                                 {
-                                                    detailsData?.travel_destination
+                                                    data?.travel_destination
                                                 }
                                             </b>
                                         </p>
@@ -174,18 +199,18 @@ const Details = ({ showRewardDetails, setShowRewardDetails, editReward }) => {
                                     <div className="my-4 text-left">
                                         <p className="text-lg text-gray-600">
                                             One Time Bonus:{" "}
-                                            <b>{detailsData?.one_time_bonus}</b>
+                                            <b>{data?.one_time_bonus}</b>
                                         </p>
                                     </div>
                                     <div className="my-4 text-left">
                                         <p className="text-lg text-gray-600">
-                                            Salary: <b>{detailsData?.salary}</b>
+                                            Salary: <b>{data?.salary}</b>
                                         </p>
                                     </div>
                                     <div className="my-4 text-left">
                                         <p className="text-lg text-gray-600">
                                             Created At:{" "}
-                                            <b>{detailsData?.created_at}</b>
+                                            <b>{moment(data?.created_at).format('DD-MM-YYYY,  h:mm a')}</b>
                                         </p>
                                     </div>
                                 </div>
