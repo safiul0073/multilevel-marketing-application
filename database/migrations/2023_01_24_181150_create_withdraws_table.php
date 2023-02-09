@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->index()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(PaymentMethod::class, 'payment_method_id')->index()->constrained('payment_methods')->cascadeOnDelete();
+            $table->string('method_name')->nullable();
             $table->string('account_number')->nullable();
             $table->float('amount')->default(0);
             $table->float('charge')->default(0);

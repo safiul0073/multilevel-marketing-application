@@ -46,7 +46,7 @@ class UserController extends Controller
 
         $users = User::select('id', 'username', 'email', 'phone')
                     ->withCount(['bonuses as sponsor_count' => function ($q) use($request) {
-                        $q->where('bonus_type', 'joining');
+                        $q->where('bonus_type', Bonuse::JOINING);
                         $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
                             $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
                             $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
@@ -59,17 +59,5 @@ class UserController extends Controller
         return $this->withSuccess($users);
     }
 
-    public function packagePurchaseList (Request $request) {
 
-        $perPage = 10;
-
-        if ($request->perPage) {
-            $perPage = $request->perPage;
-        }
-
-        $purchases = Purchase::with(['user:id,username', 'product' => fn ($q) => $q->with('category:id,title')])
-                              ->paginate($perPage);
-
-        return $this->withSuccess($purchases);
-    }
 }

@@ -6,10 +6,7 @@ use App\Models\Bonuse;
 use App\Models\Epin;
 use App\Models\Generation;
 use App\Models\Product;
-use App\Models\Reward;
-use App\Models\RewardUser;
 use App\Models\TaskScheduler;
-use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
 use Exception;
@@ -59,15 +56,15 @@ class UserService {
     }
 
 
-    public function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
+    public static function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
 
         $sponsor = User::select('sponsor_id','username')->find((int) $sponsor_id);
 
         if (!$sponsor) return false;
-        if ($sponsor->user_name == auth()->user()->username) {
+        if ($sponsor->username == auth()->user()->username) {
             return true;
         }else{
-            $this->checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
+            UserService::checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
         }
     }
 
@@ -86,7 +83,7 @@ class UserService {
         $epin->activation_date = now();
         $epin->save();
         $product = ($product ? $product : $epin->epin_main->product);
-        if ($product->referral_type == User::PERCENT){
+        if ($product->referral_type == Product::PERCENT){
             // calculate percentage for joining bonus
             $this->join_bonus = ($product->price * $product->refferral_commission) / 100;
         }else{
@@ -232,7 +229,7 @@ class UserService {
      * @return void
      **/
     public function joiningBonus (int $sponsor_id, int $user_id):void {
-        $this->bonusSave($sponsor_id, $user_id, 'joining', $this->join_bonus);
+        $this->bonusSave($sponsor_id, $user_id, Bonuse::JOINING, $this->join_bonus);
     }
 
      /**
@@ -242,12 +239,13 @@ class UserService {
      **/
     public function matchingBonus ($matching_count, int $parent_id, int $user_id) {
 
-        $task = TaskScheduler::where('title', 'matching')->first();
+        $matching_string = Bonuse::MATCHING;
+        $task = TaskScheduler::where('title', $matching_string)->first();
         $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
                                ->where('given_id', $parent_id)
-                               ->where('bonus_type', 'matching')->count();
+                               ->where('bonus_type', $matching_string)->count();
         if ($bonus_count < $this->matching_bonus['pair_value']) {
-            $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus['pair_amount']);
+            $this->bonusSave($parent_id, $user_id, $matching_string, $this->matching_bonus['pair_amount']);
         }
 
     }
@@ -267,7 +265,7 @@ class UserService {
         //     ];
         // }, $generations));
         foreach($generations as $gen) {
-            $this->bonusSave($gen->main_id, $user->id, 'gen', $gen_bonuses[$gen->gen_type-1], $gen->id);
+            $this->bonusSave($gen->main_id, $user->id, Bonuse::GENERATION, $gen_bonuses[$gen->gen_type-1], $gen->id);
         }
     }
 

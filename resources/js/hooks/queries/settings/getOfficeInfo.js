@@ -1,13 +1,13 @@
 import { useQuery } from 'react-query';
 import { getQuery } from '../getQuery';
 
-export const getBonusSettings = () => {
+export const getOfficeInfo = () => {
   return useQuery(
     [
-      'transfer-charge-settings'
+      'office-info-settings'
     ],
     async () => {
-      let res = await getQuery('settings/transfer-charge');
+      let res = await getQuery('settings/office');
 
       return res;
     },

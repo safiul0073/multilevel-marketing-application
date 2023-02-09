@@ -15,7 +15,7 @@ class BonusController extends Controller
 
     public function bonusList (Request $request) {
 
-        $bonus_type = $request->bonus_type ?? 'matching';
+        $bonus_type = $request->bonus_type ?? Bonuse::MATCHING;
 
         $perPage = 10;
 
@@ -24,10 +24,10 @@ class BonusController extends Controller
         }
         $egerLoads = 'bonus_got:id,username';
 
-        if ($request->bonus_type == 'gen') {
+        if ($request->bonus_type == Bonuse::GENERATION) {
             $egerLoads = ['bonus_got:id,username', 'generation:id,gen_type'];
         }
-        if ($request->bonus_type == 'joining') {
+        if ($request->bonus_type == Bonuse::JOINING) {
             $egerLoads = ['bonus_got:id,username', 'bonus_for:id,username'];
         }
 

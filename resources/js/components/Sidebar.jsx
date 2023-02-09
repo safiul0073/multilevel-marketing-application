@@ -71,11 +71,15 @@ const Sidebar = () => {
             name: "Report",
             icon: BookOpenIcon,
             children: [
-                { name: "Incentive", href: "/staff/reports/incentive" },
-                { name: "Matching Commission", href: "/staff/reports/matching" },
-                { name: "Generation Commission", href: "/staff/reports/generation" },
-                { name: "Referral Commission", href: "/staff/reports/joining" },
-                { name: "User Balance Withdraw", href: "/staff/reports/withdraw" }
+                { name: "Daily Income", href: "/staff/reports/incentive" },
+                { name: "Matching", href: "/staff/reports/matching" },
+                { name: "Generation", href: "/staff/reports/generation" },
+                { name: "Referral", href: "/staff/reports/joining" },
+                { name: "Withdraw", href: "/staff/reports/withdraw" },
+                { name: "Top Earned", href: "/staff/reports/top-earned" },
+                { name: "Top Sponsor", href: "/staff/reports/top-sponsor" },
+                { name: "Charge", href: "/staff/reports/charges" },
+                { name: "Package Purchase", href: "/staff/reports/package-purchase" }
             ],
         },
         {
@@ -84,7 +88,9 @@ const Sidebar = () => {
             children: [
                 { name: "Matching", href: "/staff/settings/matching" },
                 { name: "Generation", href: "/staff/settings/generation" },
-                { name: "Incentive", href: "/staff/settings/incentive"}
+                { name: "Single Amount", href: "/staff/settings/single-amount"},
+                { name: "Footer", href: "/staff/settings/office-info"},
+                { name: "Home", href: "/staff/settings/home-content"}
             ],
         },
     ];

@@ -41,9 +41,9 @@ class RegisterController extends Controller
     public function checkSponsor (Request $request) {
 
         $this->validate($request, [
-            'main_sponsor_username' => ['nullable', 'string', 'exists:users,username'],
+            'main_sponsor_username' => ['required', 'string', 'exists:users,username'],
             'slug' => ['nullable', 'string', 'exists:products,slug'],
-            'sponsor_username' => ['required', 'string', 'exists:users,username'],
+            'sponsor_username' => ['nullable', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto']
         ]);
 
@@ -77,8 +77,8 @@ class RegisterController extends Controller
 
         $this->validate($request, [
             'slug' => ['nullable', 'string', 'exists:products,slug'],
-            'main_sponsor_username' => ['nullable', 'string', 'exists:users,username'],
-            'sponsor_username' => ['required', 'string', 'exists:users,username'],
+            'main_sponsor_username' => ['required', 'string', 'exists:users,username'],
+            'sponsor_username' => ['nullable', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto'],
             'email'    => ['required', 'string', 'email', 'max:255'],
             'first_name'    => 'required|string',
@@ -112,8 +112,8 @@ class RegisterController extends Controller
 
         $att = $this->validate($request, [
                     'slug' => ['nullable', 'string', 'exists:products,slug'],
-                    'main_sponsor_username' => ['nullable', 'string', 'exists:users,username'],
-                    'sponsor_username' => ['required', 'string', 'exists:users,username'],
+                    'main_sponsor_username' => ['required', 'string', 'exists:users,username'],
+                    'sponsor_username' => ['nullable', 'string', 'exists:users,username'],
                     'refer_position' => ['required', 'string', 'in:left,right,auto'],
                     'first_name'  => 'required|string',
                     'last_name' => 'required|string',
@@ -128,7 +128,7 @@ class RegisterController extends Controller
             }
             $user_service = new UserService();
 
-            $sponsor = User::where('username', $att['sponsor_username'])->first();
+            $sponsor = User::where('username', isset($att['sponsor_username']) ? $att['sponsor_username'] : $att['main_sponsor_username'])->first();
 
             $att['select_sponsor_id'] = $sponsor->id;
 
@@ -143,7 +143,7 @@ class RegisterController extends Controller
             $user = $user_service->userCreate($att);
 
             if ($request->epin_code) {
-             $product = $user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
+              $product = $user_service->checkEpinAndUpdate($request->epin_code, $product, $user);
             }
 
             $sponsor = $user_service->setReferPosition($sponsor->id, $user->id, $att['refer_position']);

@@ -1,59 +1,74 @@
 <footer class="bg-gray-800" aria-labelledby="footer-heading">
   <h2 id="footer-heading" class="sr-only">Footer</h2>
   <div class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-    <div class="md:grid md:grid-cols-2 md:gap-8">
-      <div class="sm:grid sm:grid-cols-2 sm:gap-8">
-        <div class="text-center md:text-left">
-          <h3 class="text-base font-medium text-white">Solutions</h3>
-          <ul role="list" class="mt-4 space-y-4">
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Marketing</a>
-            </li>
-
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Analytics</a>
-            </li>
-
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Commerce</a>
-            </li>
-
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Insights</a>
-            </li>
-          </ul>
-        </div>
-        <div class="mt-12 sm:mt-0 text-center md:text-left">
-          <h3 class="text-base font-medium text-white">Support</h3>
-          <ul role="list" class="mt-4 space-y-4">
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Pricing</a>
-            </li>
-
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Documentation</a>
-            </li>
-
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">Guides</a>
-            </li>
-
-            <li>
-              <a href="#" class="text-base text-gray-300 hover:text-white">API Status</a>
-            </li>
-          </ul>
-        </div>
+    <div class="sm:grid sm:grid-cols-2 lg:grid-cols-5 sm:gap-8">
+      <div class="text-center lg:text-left sm:col-span-2">
+        <a href="{{url('/')}}" class="flex flex-shrink-0 items-center text-white">
+          <img src="{{ asset('frontend/images/logo.png') }}" alt="main_logo" class="h-10 w-24">
+          {{-- <p2 class="text-3xl mobile:text-3xl font-semibold uppercase tracking-tight">MLM Shop</p2> --}}
+        </a>
+        <p class="text-base text-gray-300 hover:text-white font-medium mt-3.5">{{ config('mlm.footer.footer_content1') }}</p>
+        <p class="text-base text-gray-300 hover:text-white font-medium mt-2.5">{{ config('mlm.footer.footer_content2') }}</p>
       </div>
-      <div class="mt-8 md:mt-0 text-center md:text-left">
-        <h3 class="text-base font-medium text-white">Subscribe to our newsletter</h3>
-        <p class="mt-4 text-base text-gray-300">The latest news, articles, and resources, sent to your inbox weekly.</p>
-        <form class="mt-4 flex mx-auto md:mx-0 sm:max-w-md justify-center md:justify-start">
-          <label for="email-address" class="sr-only">Email address</label>
-          <input type="email" name="email-address" id="email-address" autocomplete="email" required class="w-full min-w-0 appearance-none rounded-md border border-transparent bg-white py-2 px-4 text-base text-gray-900 placeholder-gray-500 focus:border-white focus:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" placeholder="Enter your email">
-          <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
-            <button type="submit" class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 py-2 px-4 text-base font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">Subscribe</button>
-          </div>
-        </form>
+      <div class="text-center lg:text-left">
+        <h3 class="text-base font-bold text-white">Pages</h3>
+        <ul role="list" class="mt-4 space-y-3">
+          <li>
+            <a href="{{url('/')}}" class="text-base text-gray-300 hover:text-white">Home</a>
+          </li>
+
+          <li>
+            <a href="{{url('/news')}}" class="text-base text-gray-300 hover:text-white">News</a>
+          </li>
+
+          <li>
+            <a href="{{url('/gallery')}}" class="text-base text-gray-300 hover:text-white">Gallery</a>
+          </li>
+
+          <li>
+            <a href="{{url('/contact')}}" class="text-base text-gray-300 hover:text-white">Contact</a>
+          </li>
+
+          <li>
+            <a href="{{url('/faq')}}" class="text-base text-gray-300 hover:text-white">FAQ</a>
+          </li>
+        </ul>
+      </div>
+      <div class="mt-12 sm:mt-0 text-center lg:text-left">
+        <h3 class="text-base font-bold text-white">Legal</h3>
+        <ul role="list" class="mt-4 space-y-3">
+          <li>
+            <a href="{{url('/trams-condition')}}" class="text-base text-gray-300 hover:text-white">Terms and Conditions</a>
+          </li>
+
+          <li>
+            <a href="{{url('/disclaimer-policy')}}" class="text-base text-gray-300 hover:text-white">Disclaimer Policy</a>
+          </li>
+
+          <li>
+            <a href="{{url('/spam-policy')}}" class="text-base text-gray-300 hover:text-white">Spam Policy</a>
+          </li>
+
+          <li>
+            <a href="{{url('/privacy-policy')}}" class="text-base text-gray-300 hover:text-white">Privacy Policy</a>
+          </li>
+        </ul>
+      </div>
+      <div class="mt-12 sm:mt-0 text-center lg:text-left sm:col-span-2 lg:col-span-1">
+        <h3 class="text-base font-bold text-white">Office Information</h3>
+        <ul role="list" class="mt-4 space-y-4">
+          <li>
+            <p class="text-base text-gray-300 hover:text-white">{{ config('mlm.footer.office.location') }}</p>
+          </li>
+
+          <li>
+            <a href="#" class="text-base text-gray-300 hover:text-white">{{ config('mlm.footer.office.phone') }}</a>
+          </li>
+
+          <li>
+            <a href="#" class="text-base text-gray-300 hover:text-white">{{ config('mlm.footer.office.email') }}</a>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center md:justify-between">
@@ -93,7 +108,7 @@
           </svg>
         </a>
       </div>
-      <p class="mt-8 text-base text-gray-400 md:order-1 md:mt-0">&copy; 2020 Your Company, Inc. All rights reserved.</p>
+      <p class="mt-8 text-base text-gray-400 md:order-1 md:mt-0">&copy; {{ config('mlm.footer.all_right_reserved') }}</p>
     </div>
   </div>
 </footer>

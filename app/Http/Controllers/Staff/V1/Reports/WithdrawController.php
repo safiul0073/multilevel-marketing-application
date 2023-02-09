@@ -19,7 +19,7 @@ class WithdrawController extends Controller
             $perPage = $request->perPage;
         }
 
-        $query = Withdraw::query()->with('payment_method:id,name', 'user:id,username');
+        $query = Withdraw::query()->with('user:id,username');
 
         if ($request->form_date && $request->to_date) {
             $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();

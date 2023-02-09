@@ -75,8 +75,8 @@ const Withdraw = () => {
 
                             </div>
                         <div className="mt-8 flex flex-col">
-                            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                                        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
                                 {isLoading ? (
                                     <LoaderAnimation />
                                 ) : (
@@ -110,6 +110,12 @@ const Withdraw = () => {
                                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                     >
                                                         Account
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                    >
+                                                        Charge
                                                     </th>
                                                     <th
                                                         scope="col"
@@ -152,10 +158,13 @@ const Withdraw = () => {
                                                             {withdraw?.user?.username}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {withdraw?.payment_method?.name}
+                                                            {withdraw?.method_name}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {withdraw?.account_number}
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                            {withdraw?.charge}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {withdraw?.amount}
@@ -163,13 +172,13 @@ const Withdraw = () => {
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {  !withdraw?.status
                                                                 ?
-                                                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Pending</span>
+                                                                <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">Pending</span>
                                                                 :
                                                                 withdraw?.status == 1
                                                                 ?
-                                                                <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Confirmed</span>
+                                                                <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Confirmed</span>
                                                                 :
-                                                                <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Cancelled</span>
+                                                                <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Cancelled</span>
                                                             }
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

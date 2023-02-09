@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Events\ChargeEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +13,7 @@ class BalanceTransferController extends Controller
 {
     public function index () {
 
-        return view('frontend.contents.dashboard.user_balance_transfer');
+        return view('frontend.contents.dashboard.user_balance_transfer', ['charge' => config('mlm.balance_transfer')]);
     }
 
     public function transferBalance (Request $request) {
@@ -37,23 +39,31 @@ class BalanceTransferController extends Controller
 
         $member = User::where('username', $request->username)->first();
 
+        if ($member->id == $user->id) {
+            return redirect()->back()->with(['error' => "Ops! account same."]);
+        }
+
         $final_amount = $amount - $charge;
 
         try {
             DB::beginTransaction();
 
-            $user->transactions()->create([
-                'member_id' => $member->id,
-                'type' => 'transfer',
-                'amount' => $final_amount,
-            ]);
+            $transaction = $user->transactions()->create([
+                                'member_id' => $member->id,
+                                'type' => 'transfer',
+                                'amount' => $final_amount,
+                                'charge' => $charge
+                            ]);
+                            
+            // charge creating by event
+            ChargeEvent::dispatch($transaction, Transaction::TRANSFER);
 
             // decreasing user balance
-            $user->balance = $user->balance - $final_amount;
+            $user->balance = $user->balance - $amount;
             $user->save();
 
             // increasing member balance
-            $member->balance = $user->balance + $final_amount;
+            $member->balance = $member->balance + $final_amount;
             $member->save();
 
             DB::commit();

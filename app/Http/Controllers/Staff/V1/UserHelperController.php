@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff\V1;
 use App\Http\Controllers\Controller;
 use App\Models\Bonuse;
 use App\Models\LoginLog;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class UserHelperController extends Controller
     public function getUserReward ($id) {
 
         $user = User::with(['image', 'rewards' =>
-                        fn ($q) => $q->orderBy('left_count', 'desc')])
+                        fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
                         ->where('id', $id)->first();
 
         $values = [
@@ -70,14 +71,14 @@ class UserHelperController extends Controller
     public function userDetailsCalculation ($id) {
 
         $details = User::withSum(['bonuses as gen_bonus'
-                            => fn ($query) => $query->where('bonus_type', 'gen') ],'amount')
+                            => fn ($query) => $query->where('bonus_type', Bonuse::GENERATION) ],'amount')
                         ->withSum('purchases as purchase_amount', 'amount')
                         ->withSum(['bonuses as total_today_bonus'
-                            => fn ($query) => $query->where('bonus_type', 'incentive') ],'amount')
+                            => fn ($query) => $query->where('bonus_type', Bonuse::INCEPTIVE) ],'amount')
                         ->withSum(['bonuses as matching_bonus'
-                            => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
+                            => fn ($query) => $query->where('bonus_type', Bonuse::MATCHING) ],'amount')
                         ->withSum(['bonuses as referral_bonus'
-                            => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
+                            => fn ($query) => $query->where('bonus_type', Bonuse::JOINING) ],'amount')
                         ->with(['image', 'nominee', 'info'])
 
                         ->where('id', (int) $id)->first();
@@ -119,8 +120,8 @@ class UserHelperController extends Controller
     public function userBalanceUpdate (Request $request, User $user) {
 
         $att = $this->validate($request, [
-                    'type'  => 'required|string|in:add,sub',
-                    'amount'=> 'required|numeric|min:50',
+                    'type'  => 'required|string|in:'.Transaction::GIFT.','.Transaction::SUB.','.Transaction::DEATH.','.Transaction::EDUCATION.','.Transaction::SALARY.'',
+                    'amount'=> 'required',
                     'message' => 'required|string|max:256'
                 ]);
         try {
@@ -128,13 +129,12 @@ class UserHelperController extends Controller
 
             $user->transactions()->create($att);
             $success_message = '';
-            if ($request->type == 'add') {
-                $user->balance = $user->balance + $request->amount;
-                $success_message = 'Amount successfully added into main balance.';
-
-            }else {
+            if ($request->type == Transaction::SUB) {
                 $user->balance = $user->balance - $request->amount;
                 $success_message = 'Amount successfully subtract from main balance.';
+            }else {
+                $user->balance = $user->balance + $request->amount;
+                $success_message = 'Amount successfully added into main balance.';
             }
             $user->save();
 

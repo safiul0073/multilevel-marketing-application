@@ -10,6 +10,9 @@ class Product extends Model
 {
     use HasFactory;
 
+    const DIRECT = 'direct';
+    const PERCENT = 'percent';
+    
     protected $guarded = [];
 
 

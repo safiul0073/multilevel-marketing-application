@@ -3,6 +3,8 @@ import Protected from "../components/HOC/Protected";
 import {
     EnvelopeIcon,
 } from "@heroicons/react/20/solid";
+import CounterItems from "../components/Dashboard/CounterItems";
+import { getCounterSummation } from "../hooks/queries/dashboard/getCounterSummation";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -10,43 +12,7 @@ function classNames(...classes) {
 
 function Dashboard() {
 
-
-    const counterItems = [
-        {
-            title: "Total Network Members",
-            count: 20,
-            link: "https://www.google.com",
-            icon: (
-                <EnvelopeIcon
-                    className="h-12 w-12 text-gray-400"
-                    aria-hidden="true"
-                />
-            ),
-        },
-        {
-            title: "Total Package Purchase",
-            count: 33,
-            link: "https://www.google.com",
-            icon: (
-                <EnvelopeIcon
-                    className="h-12 w-12 text-gray-400"
-                    aria-hidden="true"
-                />
-            ),
-        },
-        {
-            title: "Total Members Income",
-            count: "$2040.33",
-            link: "https://www.google.com",
-            icon: (
-                <EnvelopeIcon
-                    className="h-12 w-12 text-gray-400"
-                    aria-hidden="true"
-                />
-            ),
-        },
-    ];
-
+    const {isLoading, data} = getCounterSummation()
     const balanceCounter = [
         {
             title: "Total Business Balance",
@@ -97,40 +63,8 @@ function Dashboard() {
 
                     <main className="flex-1 py-8">
                         <div className="container">
-                            <ul
-                                role="list"
-                                className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                            >
-                                {counterItems.map((counter) => (
-                                    <li
-                                        key={Math.random()}
-                                        className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow"
-                                    >
-                                        <div className="flex w-full items-center justify-between space-x-6 p-6">
-                                            <div className="flex-1 truncate">
-                                                <div className="flex items-center space-x-3">
-                                                    <h3 className="truncate text-base font-medium text-gray-500">
-                                                        {counter?.title}
-                                                    </h3>
-                                                </div>
-                                                <p className="mt-1 truncate text-3xl text-gray-900">
-                                                    {counter?.count}
-                                                </p>
-                                            </div>
-                                            {counter?.icon}
-                                        </div>
-                                        <div className="flex px-6 py-1.5 justify-end items-center">
-                                            <a
-                                                href={counter?.link}
-                                                type="button"
-                                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            >
-                                                View All
-                                            </a>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                            {/* counter list */}
+                            <CounterItems data={data}/>
 
                             <ul
                                 role="list"

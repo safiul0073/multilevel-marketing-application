@@ -64,7 +64,7 @@ const LoginLog = ({id}) => {
     return (
         <div className="mt-8 flex flex-col">
             <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
                 {isLoading ? (
                         <LoaderAnimation />
                     ) : (
@@ -91,7 +91,7 @@ const LoginLog = ({id}) => {
                                             scope="col"
                                             className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                         >
-                                            OS | Device
+                                            Device | OS
                                         </th>
                                         <th
                                             scope="col"

@@ -22,6 +22,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     splide2.mount();
 
+    var splide3 = new Splide("#splide3", {
+        type: "loop",
+        speed: 1000,
+        pagination: false,
+        // arrows: false,
+        autoplay: true,
+        interval: 3000,
+        perPage: 3,
+        perMove: 1,
+        clones: true,
+        focus: true,
+
+    });
+    splide3.mount();
+
     var main = new Splide("#main-slider", {
         type: "fade",
         heightRatio: 0.5,
@@ -93,36 +108,35 @@ modals.forEach(function (trigger) {
 });
 
 // get model data
-async function  getOneProduct (id) {
-    let res = await fetch(`get-one-product-res?id=${id}`)
-    var data = await res.json()
+async function getOneProduct(id) {
+    let res = await fetch(`get-one-product-res?id=${id}`);
+    var data = await res.json();
     //     checkout url setting
-    var checkoutButton = document.getElementById('checkout_button');
-    checkoutButton.setAttribute('href', `set-sponsor/?slug=${data?.slug}`)
+    var checkoutButton = document.getElementById("checkout_button");
+    checkoutButton.setAttribute("href", `set-sponsor/?slug=${data?.slug}`);
 
-    var description = document.getElementById('description')
-    description.innerText = data.description
-    document.getElementById('product_name').innerText = data.name
-    document.getElementById("price").innerText ="Price: " + data.price + "TK"
-    document.getElementById("category").innerText ="Category: " + data?.category?.title
-    document.getElementById("referral_commission").innerText = "Referral Commission: " + data?.refferral_commission + "%"
-    document.getElementById("vedio_link").src = data?.video_url ?? ''
-    var sliderInputDiv =  document.getElementById("swiper-images")
+    var description = document.getElementById("description");
+    description.innerText = data.description;
+    document.getElementById("product_name").innerText = data.name;
+    document.getElementById("price").innerHTML =
+        "<b>Price:</b> " + data.price + "TK";
+    document.getElementById("category").innerHTML =
+        "<b>Category:</b> " + data?.category?.title;
+    document.getElementById("referral_commission").innerHTML =
+        "<b>Referral Commission:</b> " + data?.refferral_commission + (data?.referral_type == 'percent' ? "%" : '');
+    document.getElementById("vedio_link").src = data?.video_url ?? "";
+    var sliderInputDiv = document.getElementById("swiper-images");
     if (data?.images?.length > 0) {
-        var images = ''
-       data?.images?.map((image) => {
-
-         images += `<div class="swiper-slide">
+        var images = "";
+        data?.images?.map((image) => {
+            images += `<div class="swiper-slide">
          <img
            class="object-cover w-full h-full"
            src="${image?.url}"
            alt="image"
          />
-       </div>`
-
-       })
-       sliderInputDiv.innerHTML = images
+       </div>`;
+        });
+        sliderInputDiv.innerHTML = images;
     }
-
-
- }
+}

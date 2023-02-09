@@ -181,14 +181,14 @@ class PackageController extends Controller
             if (!$p) {
                 throw new Exception('Package not created');
             }
-
-            $product->images()->cerateMany(array_map(function ($url) {
-                return [
-                    'url' => $url,
-                    'type' => 'gellary',
-                ];
-            },$image_urls));
-
+            if (count($image_urls)) {
+                $product->images()->cerateMany(array_map(function ($url) {
+                    return [
+                        'url' => $url,
+                        'type' => 'gellary',
+                    ];
+                },$image_urls));
+            }
 
             if ($thamnail_image) {
                 $product->images()->create([

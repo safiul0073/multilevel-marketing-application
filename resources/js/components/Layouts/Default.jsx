@@ -19,9 +19,15 @@ import GenerationReport from '../../Page/Report/Generation';
 import JoiningReport from '../../Page/Report/Joining';
 import MatchingReport from '../../Page/Report/Matching';
 import WithdrawReport from '../../Page/Report/Withdraw';
+import TopEarnedReport from '../../Page/Report/TopEarned';
+import TopSponsorReport from '../../Page/Report/TopSponsor';
 import Matching from '../../Page/Settings/Matching';
-import IncentiveSettings from '../../Page/Settings/Incentive'
+import SingleAmountSettings from '../../Page/Settings/SingleAmount'
+import OfficeSettings from '../../Page/Settings/Office'
+import HomeSettings from '../../Page/Settings/Home'
 import PaymentMethod from '../../Page/PaymentMethod';
+import Charge from '../../Page/Report/Charge';
+import PackagePurchase from '../../Page/Report/PackagePurchase';
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -46,14 +52,20 @@ const Layout =() =>{
                 <Route path="/staff/reward" element={<Reward/>} />
                 <Route path="/staff/payment-method" element={<PaymentMethod/>} />
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
-                <Route path="/staff/settings/generation" element={<Generation/>} />
-                <Route path="/staff/settings/matching" element={<Matching/>} />
-                <Route path="/staff/settings/incentive" element={<IncentiveSettings/>} />
                 <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
                 <Route path="/staff/reports/matching" element={<MatchingReport/>} />
                 <Route path="/staff/reports/joining" element={<JoiningReport/>} />
                 <Route path="/staff/reports/withdraw" element={<WithdrawReport/>} />
                 <Route path="/staff/reports/generation" element={<GenerationReport/>} />
+                <Route path="/staff/reports/top-earned" element={<TopEarnedReport/>} />
+                <Route path="/staff/reports/top-sponsor" element={<TopSponsorReport/>}/>
+                <Route path="/staff/reports/charges" element={<Charge/>} />
+                <Route path="/staff/reports/package-purchase" element={<PackagePurchase/>} />
+                <Route path="/staff/settings/generation" element={<Generation/>} />
+                <Route path="/staff/settings/matching" element={<Matching/>} />
+                <Route path="/staff/settings/single-amount" element={<SingleAmountSettings/>} />
+                <Route path="/staff/settings/office-info" element={<OfficeSettings/>} />
+                <Route path="/staff/settings/home-content" element={<HomeSettings/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>

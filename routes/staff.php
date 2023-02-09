@@ -10,7 +10,7 @@ use App\Http\Controllers\Staff\V1\EpinHelperController;
 use App\Http\Controllers\Staff\V1\InceptiveBonusController;
 use App\Http\Controllers\Staff\V1\LoginInfo;
 use App\Http\Controllers\Staff\V1\MediaController;
-use App\Http\Controllers\Staff\V1\OptionController;
+use App\Http\Controllers\Staff\V1\Settings\OptionController;
 use App\Http\Controllers\Staff\V1\PackageController;
 use App\Http\Controllers\Staff\V1\PackageHelperController;
 use App\Http\Controllers\Staff\V1\PaymentMethodController;
@@ -95,19 +95,26 @@ Route::middleware('auth:staff')->group(function () {
     // withdraw confirm
     Route::post('withdraw/confirm', App\Http\Controllers\Staff\V1\WithdrawController::class);
 
+    // dashboard route list
+    Route::prefix('dashboard')->group(function (){
+        Route::get('/calculation', [App\Http\Controllers\Staff\V1\Dashboard\ReportController::class, 'summationReport']);
+    });
     // report
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
         Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
         Route::get('to-earned', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'topEarned']);
         Route::get('to-sponsor', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'topSponsor']);
-        Route::get('package-purchase', [App\Http\Controllers\Staff\V1\Reports\UserController::class, 'packagePurchaseList']);
+        Route::get('package-purchase', [App\Http\Controllers\Staff\V1\Reports\PurchaseController::class, 'packagePurchaseList']);
+        Route::get('charges', App\Http\Controllers\Staff\V1\Reports\ChargeController::class);
     });
 
     // settings
     Route::prefix('settings/')->group(function () {
         Route::get('bonus', [OptionController::class, 'getBonus']);
         Route::get('transfer-charge', [OptionController::class, 'getTransferCharge']);
+        Route::get('office', [OptionController::class, 'getOfficeSettings']);
+        Route::get('home', [OptionController::class, 'getHomeContent']);
         Route::post('bonus',[OptionController::class, 'storeOption']);
     });
 });

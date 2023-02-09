@@ -9,6 +9,7 @@ use App\Traits\MediaOperator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\File;
 
 class UserInfoController extends Controller
 {
@@ -46,14 +47,14 @@ class UserInfoController extends Controller
                     'birthday'  => $request->birthday,
                 ]);
 
-                // user image upload
-                if ($request->avatar) {
-                    $this->singleFileUpload(
-                        $this->uploadFile($request->avatar),
-                        $user,
-                        'profile'
-                    );
-                }
+                // // user image upload
+                // if ($request->avatar) {
+                //     $this->singleFileUpload(
+                //         $this->uploadFile($request->avatar),
+                //         $user,
+                //         'profile'
+                //     );
+                // }
 
                 // nominee info upload
 
@@ -105,5 +106,29 @@ class UserInfoController extends Controller
 
         return redirect()->back()->with('error', "Old password doesn't match! Please enter your old password.");
 
+    }
+
+    public function avatarUpload (Request $request) {
+
+        $this->validate($request, [
+            'avatar' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
+        ]);
+
+        $user = User::find(auth()->id());
+
+        // delete user old avatar
+        if ($user->image){
+            $this->deleteFile($user->image->url);
+        }
+
+        $user->image()->updateOrCreate([
+            'media_type' => "App\Models\User",
+            "media_id"  => $user->id,
+            "type"      => "profile"
+        ],[
+            "url" => $this->uploadFile($request->avatar)
+        ]);
+
+        return response()->json("Successfully uploaded.");
     }
 }
