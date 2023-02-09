@@ -16,6 +16,21 @@ const Balance = ({ id, detailsRefetch }) => {
             value: "sub",
             active: false,
         },
+        {
+            name: "Death Fund",
+            value: "death",
+            active: false,
+        },
+        {
+            name: "Education Fund",
+            value: "education",
+            active: false,
+        },
+        {
+            name: "Salary",
+            value: "salary",
+            active: false,
+        },
     ]);
 
     const handleTransferType = (val) => {
@@ -64,7 +79,7 @@ const Balance = ({ id, detailsRefetch }) => {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 flex flex-col">
             <div className="shadow sm:overflow-hidden sm:rounded-md">
                 <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
-                    <span className="inline-flex w-full gap-1 p-1 bg-gray-100 border-1 border-gray-300 rounded-md wide-mobile:flex-col mb-50px tablet:mb-40px wide-mobile:mb-30px">
+                    <span className="grid lg:grid-cols-2 gap-1 p-1 bg-gray-100 border-1 border-gray-300 rounded-md wide-mobile:flex-col mb-50px tablet:mb-40px wide-mobile:mb-30px">
                         {transferTypes?.map((type) => (
                             <button
                                 key={Math.random()}

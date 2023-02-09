@@ -10,6 +10,11 @@ class Bonuse extends Model
 {
     use HasFactory;
 
+    const MATCHING = 'matching';
+    const GENERATION = 'gen';
+    const INCEPTIVE = 'inceptive';
+    const JOINING = 'joining';
+
     protected $guarded = [];
 
     public function bonus_got ():BelongsTo {

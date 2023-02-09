@@ -17,7 +17,7 @@ class ReportController extends Controller
 
     public function summationReport () {
 
-        $total_member_income = Bonuse::sum('amount');
+        $total_member_income = User::sum('balance');
         $total_member = User::count();
         $total_package_purchase = Purchase::where('type', 1)->count();
         $total_withdraw_success = Withdraw::where('status', 1)->count();
