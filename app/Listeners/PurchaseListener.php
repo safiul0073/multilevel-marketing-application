@@ -31,6 +31,8 @@ class PurchaseListener
 
         $user->purchases()->create([
             'product_id'    => $product->id,
+            'product_name'  => $product->name,
+            'category'      => $product?->category?->title,
             'amount'        => $product->price,
             'status'        => $product->is_package, // is_package getting value 1 or 0 and status will be 1 purchased and 0 pending
             'type'          => $product->is_package,

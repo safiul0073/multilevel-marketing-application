@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 class Product extends Model
 {
@@ -12,7 +13,7 @@ class Product extends Model
 
     const DIRECT = 'direct';
     const PERCENT = 'percent';
-    
+
     protected $guarded = [];
 
 
@@ -26,6 +27,10 @@ class Product extends Model
         parent::boot();
         static::creating(function ($product) {
             $product->slug = $product->generateSlug(generateRandomString());
+        });
+
+        static::deleting(function ($product) {
+            Schema::disableForeignKeyConstraints();
         });
     }
 

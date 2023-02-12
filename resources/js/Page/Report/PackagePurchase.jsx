@@ -74,10 +74,10 @@ const PackagePurchase = () => {
                                                             {purchase?.user?.username}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {purchase?.product?.category?.title}
+                                                            {purchase?.category}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {purchase?.product?.name}
+                                                            {purchase?.product_name}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {purchase?.amount}
