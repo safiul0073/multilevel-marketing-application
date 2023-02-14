@@ -56,15 +56,18 @@ class UserService {
     }
 
 
-    public static function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
+    public static function checkGivenUserAreBelongToAuthUser ($sponsor_id, $i) {
 
         $sponsor = User::select('sponsor_id','username')->find((int) $sponsor_id);
 
-        if (!$sponsor) return false;
+        if (!$sponsor) return $i;
         if ($sponsor->username == auth()->user()->username) {
-            return true;
+            return $i;
+
         }else{
-            UserService::checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
+            $i = $i + 1;
+            
+            UserService::checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id, $i);
         }
     }
 

@@ -19,6 +19,7 @@ export default function CreateModal({
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm();
     const onSubmit = (data) => {
@@ -36,6 +37,7 @@ export default function CreateModal({
                 });
                 refatcher();
                 closeModal();
+                reset()
             },
             onError: (err) => {
                 let errorobj = err?.response?.data?.data?.json_object;
