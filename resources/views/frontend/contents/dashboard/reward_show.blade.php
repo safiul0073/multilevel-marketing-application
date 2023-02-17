@@ -15,25 +15,23 @@
 <div class="">
     <div class="grid lg:grid-cols-4 gap-4">
         @forelse ($rewards as $reward)
-            @if (count($reward->reward_users))
-                <button data-modal="modal-view-user" onclick="showImageSlider({{ $reward->images }})"  class="w-full h-44 bg-indigo-800 text-white rounded-md hover:bg-indigo-600">
-                    <div class=" w-full h-full flex justify-center items-center">
-                        <h1>{{ $reward->designation }}</h1>
-                    </div>
-                </button>
-            @else
-                <div class="w-full h-44 relative bg-slate-600 text-white rounded-md">
-
-                    <div class="w-full h-full  flex justify-center items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                        </svg>
-                    </div>
-                    <h1 class=" absolute top-16 lg:left-16 left-36">{{ $reward->designation }}</h1>
-                </div>
-            @endif
+        @if (count($reward->reward_users))
+        <button data-modal="modal-view-user" onclick="showImageSlider({{ $reward->images }})" class="relative w-full h-44 bg-indigo-800 text-white rounded-md hover:bg-indigo-600">
+            <img src="{{$reward->images[0]->url}}" alt="reward-image" class="h-full w-full object-cover rounded-md">
+            <div class="w-full h-full flex justify-center items-center text-xl absolute top-0 bottom-0 left-0 right-0 rounded-md bg-indigo-600/20">
+                <h1 class="text-xl">{{ $reward->designation }}</h1>
+            </div>
+        </button>
+        @else
+        <div class="w-full h-44 relative bg-slate-600 text-white rounded-md flex flex-col justify-center items-center text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <h1 class="text-xl mt-1">{{ $reward->designation }}</h1>
+        </div>
+        @endif
         @empty
-                <h1 class="text-center">Nothing!</h1>
+        <h1 class="text-center">Nothing!</h1>
         @endforelse
     </div>
 </div>
@@ -88,8 +86,7 @@
     });
 </script>
 <script>
-
-    function showImageSlider (images) {
+    function showImageSlider(images) {
         var sliderInputDiv = document.getElementById("swiper-images");
         if (images.length > 0) {
             var images_str = "";
@@ -103,10 +100,9 @@
         </div>`;
             });
             sliderInputDiv.innerHTML = images_str;
-        }else{
+        } else {
             sliderInputDiv.innerHTML = "<h1 class='text-center'>Sorrry! there is no images right now.</h1>"
         }
     }
 </script>
 @endpush
-
