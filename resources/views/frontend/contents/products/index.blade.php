@@ -1,14 +1,13 @@
 @extends('frontend.layouts.app')
+@section('title', __(auth()->check() ? "Product" : "Package"))
 @push('custom_style')
 {{-- here some custome style --}}
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 @endpush
 @section('custome_style')
 {{-- here some style --}}
-
 @endsection
 @section('content')
-
 
 <div class="bg-white py-10 md:py-12 lg:py-20">
     <div class=" container">

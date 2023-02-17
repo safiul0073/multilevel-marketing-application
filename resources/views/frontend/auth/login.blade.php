@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-
+@section('title', __('Login'))
 @section('content')
 <div class="relative flex justify-center md:px-12 lg:px-0 min-h-[600px]">
     <div class="relative z-10 flex flex-1 flex-col bg-white py-10 px-6 shadow-2xl justify-center sm:flex-none sm:px-16 w-full sm:w-3/4 lg:w-1/2">
