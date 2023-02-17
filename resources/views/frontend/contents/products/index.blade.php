@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 @push('custom_style')
 {{-- here some custome style --}}
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 @endpush
 @section('custome_style')
 {{-- here some style --}}
@@ -143,7 +144,26 @@
 
 @push('custom_scipt')
 {{-- some sort js you can write here --}}
-
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.mySwiper', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        loop: false,
+        // autoplay: {
+        //   delay: 2500,
+        //   disableOnInteraction: false,
+        // },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
 @endpush
 
 @section('custome_scipt')
