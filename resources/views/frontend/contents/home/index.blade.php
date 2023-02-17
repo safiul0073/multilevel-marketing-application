@@ -1,4 +1,5 @@
 @extends('frontend.layouts.app')
+@section('title', __('Home'))
 @push('custom_style')
 {{-- here some custome style --}}
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />

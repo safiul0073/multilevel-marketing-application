@@ -30,11 +30,18 @@ class RegisterController extends Controller
             return redirect()->route('not.found');
         }
 
+        $steps = [
+            [ "id"=> "01", "name"=> "Sponsor", "status"=> "current" ],
+            [ "id"=> "02", "name"=> "User Info", "status"=> "upcoming" ],
+            [ "id"=> "03", "name"=> "Order Summary", "status"=> "upcoming" ],
+        ];
+
         return view('frontend.contents.buy.sponsor_field', [
             'slug' => $request->slug,
             'sponsor_id' => $request->sponsor_id,
             'position'  => $request->position,
-            'map'   => $request->map
+            'map'   => $request->map,
+            "steps" => $steps
         ]);
     }
 
@@ -46,7 +53,11 @@ class RegisterController extends Controller
             'sponsor_username' => ['nullable', 'string', 'exists:users,username'],
             'position' => ['required', 'string', 'in:left,right,auto']
         ]);
-
+        $steps = [
+            [ "id"=> "01", "name"=> "Sponsor", "status"=> "complete" ],
+            [ "id"=> "02", "name"=> "User Info", "status"=> "current" ],
+            [ "id"=> "03", "name"=> "Order Summary", "status"=> "upcoming" ],
+        ];
         // $sponsor = User::where('username', $request->username)->first();
         // $position = $request->position;
         // $isNotError = false;
@@ -67,7 +78,8 @@ class RegisterController extends Controller
                 'slug' => $request->slug,
                 'sponsor_username'    => $request->sponsor_username,
                 'main_sponsor_username' => $request->main_sponsor_username,
-                'position'  => $request->position
+                'position'  => $request->position,
+                "steps" => $steps
             ]);
         // }
     }
@@ -87,7 +99,11 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
-
+        $steps = [
+            [ "id"=> "01", "name"=> "Sponsor", "status"=> "complete" ],
+            [ "id"=> "02", "name"=> "User Info", "status"=> "complete" ],
+            [ "id"=> "03", "name"=> "Order Summary", "status"=> "current" ],
+        ];
         $product = null;
         if ($request->slug) {
             $product = Product::with('category')->where('slug', $request->slug)->first();
@@ -104,7 +120,8 @@ class RegisterController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'username' => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            "steps" => $steps
         ]);
     }
 
@@ -121,7 +138,7 @@ class RegisterController extends Controller
                     'phone'    => ['required', 'string', 'max:11'],
                     'username' => ['required', 'string', 'unique:users'],
                     'password' => ['required', 'string', 'min:8'],
-                    'epin_code' => 'nullable|string|exists:epins,code'
+                    'epin_code' => 'nullable|string'
                 ]);
             if (!$request->epin_code && !$request->product_id) {
                 return redirect()->back()->with('error', 'Please use E-pin code. for create a new user.');
@@ -162,9 +179,9 @@ class RegisterController extends Controller
             $user_service->bonusGiven($main_sponsor->id, $user, $att['refer_position']);
 
             DB::commit();
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             DB::rollBack();
-            return redirect()->back()->with('error', $ex->getMessage());
+            return redirect()->back()->with(['error' => $ex->getMessage()]);
         }
 
         return redirect()->route('login')->with('success', 'Successfully registered.');
