@@ -17,7 +17,9 @@
         @forelse ($rewards as $reward)
         @if (count($reward->reward_users))
         <button data-modal="modal-view-user" onclick="showImageSlider({{ $reward->images }})" class="relative w-full h-44 bg-indigo-800 text-white rounded-md hover:bg-indigo-600">
-            <img src="{{count($reward->images) ? $reward->images[0]->url : "" }}" alt="reward-image" class="h-full w-full object-cover rounded-md">
+            @if (count($reward->images))
+                <img src="{{$reward->images[0]->url}}" alt="reward-image" class="h-full w-full object-cover rounded-md">
+            @endif
             <div class="w-full h-full flex justify-center items-center text-xl absolute top-0 bottom-0 left-0 right-0 rounded-md bg-indigo-600/20">
                 <h1 class="text-xl">{{ $reward->designation }}</h1>
             </div>
@@ -50,7 +52,7 @@
         <div class="bg-white">
 
             <div class="mx-auto py-2 px-2 sm:px-6 ">
-                <div class="lg:w-[400px] h-[200px] swiper mySwiper">
+                <div class="lg:w-[600px] h-[400px] swiper mySwiper">
                     <div id="swiper-images" class="swiper-wrapper">
 
                     </div>
