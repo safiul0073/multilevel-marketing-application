@@ -123,12 +123,12 @@
                 <ul class="splide__list">
                     @forelse ($rewards as $reward)
                         <li class="splide__slide">
-                            <div class="relative overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                            <div class="relative h-96 overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
                                 <div class="absolute inset-0 opacity-50 mix-blend-multiply saturate-0 filter">
                                     <img src="{{ count($reward->images) ? $reward->images[0]->url : "https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" }}" alt="" class="h-full w-full object-cover">
                                 </div>
-                                <div class="relative lg:col-span-1">
-                                    {{-- <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt=""> --}}
+                                {{-- <div class="relative lg:col-span-1"> --}}
+                                    {{-- <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
                                     <blockquote class="mt-6 text-white">
                                         <p class="text-xl font-medium sm:text-2xl">This app has completely transformed how we interact with customers. We've seen record bookings, higher customer satisfaction, and reduced churn.</p>
                                         <footer class="mt-6">
@@ -137,8 +137,8 @@
                                                 <span>{{ "Matching Count " . $reward->left_count }}</span>
                                             </p>
                                         </footer>
-                                    </blockquote>
-                                </div>
+                                    </blockquote> --}}
+                                {{-- </div> --}}
                             </div>
                         </li>
                     @empty
@@ -229,7 +229,7 @@
                                     @forelse ($reward_users as $user)
                                     <li class="splide__slide">
                                         <div class="text-center text-gray-400">
-                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="{{ $user->image ? $user->image->url : "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png" }}" alt="Bonnie Avatar">
+                                            <img class="mx-auto mb-4 w-36 h-36 rounded-full" src="{{ $user->image ? $user->image->url : "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg" }}" alt="Bonnie Avatar">
                                             <h3 class="mb-1 text-2xl font-bold tracking-tight text-white">
                                                 <p>{{ $user->first_name .' '. $user->last_name??""  }}</p>
                                             </h3>
