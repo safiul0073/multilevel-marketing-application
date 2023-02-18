@@ -1,4 +1,5 @@
 @extends('frontend.layouts.app')
+@section('title', __('Ragistration'))
 @push('custom_style')
 {{-- here some custome style --}}
 @endpush
@@ -22,6 +23,84 @@
     </div>
     <div class="relative py-8 sm:py-12 lg:py-16">
         <main class="mx-auto max-w-7xl px-4 sm:px-6">
+            <nav aria-label="Progress" class="mb-10 block">
+                <ol
+                    role="list"
+                    class="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0"
+                >
+                    @foreach ($steps as $stepIdx => $step )
+                        <li
+                        class="relative md:flex md:flex-1"
+                    >
+                        @if ($step["status"] === "complete")
+                        <div class="group flex w-full items-center">
+                            <span class="flex items-center px-6 py-4 text-sm font-medium">
+                                <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-indigo-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                      </svg>
+
+                                </span>
+                                <span class="ml-4 text-sm font-medium text-gray-900">
+                                    {{$step["name"]}}
+                                </span>
+                            </span>
+                        </div>
+                        @else
+                            @if ($step["status"] === "current")
+                            <div
+                                class="flex items-center px-6 py-4 text-sm font-medium"
+                                aria-current="step"
+                            >
+                                <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-600">
+                                    <span class="text-indigo-600">
+                                       {{  $step["id"] }}
+                                    </span>
+                                </span>
+                                <span class="ml-4 text-sm font-medium text-indigo-600">
+                                   {{  $step["name"] }}
+                                </span>
+                            </div>
+                            @else
+                            <div class="group flex items-center">
+                                <span class="flex items-center px-6 py-4 text-sm font-medium">
+                                    <span class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-gray-300">
+                                        <span class="text-gray-500">
+                                           {{  $step["id"] }}
+                                        </span>
+                                    </span>
+                                    <span class="ml-4 text-sm font-medium text-gray-500">
+                                        {{ $step["name"] }}
+                                    </span>
+                                </span>
+                            </div>
+                            @endif
+                        @endif
+
+                        @if ($stepIdx !== count($steps) - 1)
+                        <div
+                            class="absolute top-0 right-0 hidden h-full w-5 md:block"
+                            aria-hidden="true"
+                        >
+                            <svg
+                                class="h-full w-full text-gray-300"
+                                viewBox="0 0 22 80"
+                                fill="none"
+                                preserveAspectRatio="none"
+                            >
+                                <path
+                                    d="M0 -2L20 40L0 82"
+                                    vectorEffect="non-scaling-stroke"
+                                    stroke="currentcolor"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </div>
+                        @endif
+                    </li>
+                    @endforeach
+                </ol>
+            </nav>
             <div class="lg:flex xl:flex justify-center items-center ">
                 <div class="lg:w-1/2 xl:w-1/2 mx-auto">
                     {{-- error message show or success message show component --}}

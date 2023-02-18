@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Purchase;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,8 +32,8 @@ class HomeController extends Controller
 
 
     public function productPurchaseView () {
-
-        return view('frontend.contents.dashboard.product_purchase');
+        $purchases = Purchase::where('user_id', auth()->id())->where('status', 1)->latest('id')->paginate(10);
+        return view('frontend.contents.dashboard.product_purchase', ["purchases" => $purchases]);
     }
 
     public function depositView () {

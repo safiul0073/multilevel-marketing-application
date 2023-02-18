@@ -56,15 +56,18 @@ class UserService {
     }
 
 
-    public static function checkGivenUserAreBelongToAuthUser ($sponsor_id) {
+    public static function checkGivenUserAreBelongToAuthUser ($sponsor_id, $i) {
 
         $sponsor = User::select('sponsor_id','username')->find((int) $sponsor_id);
 
-        if (!$sponsor) return false;
+        if (!$sponsor) return $i;
         if ($sponsor->username == auth()->user()->username) {
-            return true;
+            return $i;
+
         }else{
-            UserService::checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id);
+            $i = $i + 1;
+
+            UserService::checkGivenUserAreBelongToAuthUser($sponsor->sponsor_id, $i);
         }
     }
 
@@ -76,6 +79,7 @@ class UserService {
      **/
     public function checkEpinAndUpdate (string $epin_code, $product, User $user):Product {
         $epin = Epin::with('epin_main')->where('code', $epin_code)->first();
+        if(!$epin) throw new Exception("Ops! Please enter valid E-pin!");
         if($epin && $epin->status == 1) throw new Exception('Epin already used. Please use new epin.');
         if ($product && $epin->epin_main->product_id != $product->id) throw new Exception('Sorry package not match! Please use valid package epin!');
         $epin->status = 1;
@@ -229,7 +233,7 @@ class UserService {
      * @return void
      **/
     public function joiningBonus (int $sponsor_id, int $user_id):void {
-        $this->bonusSave($sponsor_id, $user_id, 'joining', $this->join_bonus);
+        $this->bonusSave($sponsor_id, $user_id, Bonuse::JOINING, $this->join_bonus);
     }
 
      /**
@@ -239,12 +243,13 @@ class UserService {
      **/
     public function matchingBonus ($matching_count, int $parent_id, int $user_id) {
 
-        $task = TaskScheduler::where('title', 'matching')->first();
+        $matching_string = Bonuse::MATCHING;
+        $task = TaskScheduler::where('title', $matching_string)->first();
         $bonus_count = Bonuse::whereBetween('created_at', [ (new Carbon($task->previous_date)) ,  (new Carbon($task->date_time)) ])
                                ->where('given_id', $parent_id)
-                               ->where('bonus_type', 'matching')->count();
+                               ->where('bonus_type', $matching_string)->count();
         if ($bonus_count < $this->matching_bonus['pair_value']) {
-            $this->bonusSave($parent_id, $user_id, 'matching', $this->matching_bonus['pair_amount']);
+            $this->bonusSave($parent_id, $user_id, $matching_string, $this->matching_bonus['pair_amount']);
         }
 
     }
@@ -264,7 +269,7 @@ class UserService {
         //     ];
         // }, $generations));
         foreach($generations as $gen) {
-            $this->bonusSave($gen->main_id, $user->id, 'gen', $gen_bonuses[$gen->gen_type-1], $gen->id);
+            $this->bonusSave($gen->main_id, $user->id, Bonuse::GENERATION, $gen_bonuses[$gen->gen_type-1], $gen->id);
         }
     }
 

@@ -9,6 +9,7 @@ use App\Models\Slider;
 use App\Models\User;
 use App\Traits\Formatter;
 use App\Traits\MediaOperator;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\File;
@@ -24,35 +25,27 @@ class MediaController extends Controller
             'image' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
             'type'  => 'required|string'
         ]);
-        $model = null;
-        if (in_array($request->type, ['thamnail', 'gellary'])) {
-            $model = Product::findOrFail((int) $request->id);
-        }else if ($request->type == 'slider') {
-            $model = Slider::findOrFail((int) $request->id);
-        }else {
-            $model = User::findOrFail((int) $request->id);
-        }
+        $model = $this->getModel($request->type, $request->id);
         try {
             DB::beginTransaction();
-            if ($request->type == 'thamnail') {
-                $thamnail = $model->images()->where('type', 'thamnail')->first();
-                if ($thamnail && $this->deleteFile($thamnail->url)) {
-                    $model->images()->where('type', 'thamnail')->delete();
-                }else{
-                    if ($thamnail) return $this->withErrors('Something want wrong.');
-                }
-            }
+
+            $is_multi = in_array( $request->type,['thamnail', 'gellary', 'reward']);
+
+            $this->imageFullyDelete($is_multi, $model, $request->type);
 
             $image = $this->uploadFile($request->file('image'));
-            $model->images()->create([
-                'url' => $image,
-                'type' => $request->type,
-            ]);
+
+            $this->imageUploadDatabase(
+                $is_multi,
+                $model,
+                [
+                   'url' => $image,
+                   'type' => $request->type,
+                ]);
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
         }
-
 
         return $this->withSuccess("Image uploaded.");
     }

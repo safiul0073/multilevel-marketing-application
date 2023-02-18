@@ -1,4 +1,5 @@
 @extends('frontend.layouts.app')
+@section('title', __('Not Found'))
 @push('custom_style')
 {{-- here some custome style --}}
 @endpush

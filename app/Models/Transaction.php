@@ -11,10 +11,12 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    const DEATH = 'death';
+    const GIFT  = 'gift';
+    const SUB   = 'sub';
+    const EDUCATION = 'education';
+    const SALARY = 'salary';
     const TRANSFER = 'transfer';
-    const GIFT = 'gift';
-    const SUBTRACT = 'sub';
-    const DEATH_FOUND = 'death_found';
 
     protected $guarded = [];
 

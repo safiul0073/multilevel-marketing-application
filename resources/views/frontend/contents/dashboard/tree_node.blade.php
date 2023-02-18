@@ -24,7 +24,7 @@
                    {{  $node->username }}
                 </h1>
                 <img
-                    src={{ $node->image ? $node->image->url : 'https://xsgames.co/randomusers/assets/avatars/male/24.jpg' }}
+                    src={{ $node->image ? $node->image->url : 'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg' }}
                     width="100"
                     height="100"
                     class="p-1"
@@ -111,7 +111,7 @@
             var data = await res.json()
             document.getElementById("ful_name_id").innerHTML =  data.full_name
             let avatar = document.getElementById("avatar");
-            avatar.src = data.avatar ? data.avatar : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            avatar.src = data.avatar ? data.avatar : "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
             document.getElementById("reward").innerHTML = "Reward: " + data.reward
             document.getElementById("username_id").innerHTML = "Username: " + data.username
             document.getElementById("left").innerHTML = "Left: " + data.left

@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Media;
 use Illuminate\Support\Facades\Storage;
 
 trait MediaOperator
@@ -33,6 +34,26 @@ trait MediaOperator
         return Storage::disk('public')->url($file_name);
     }
 
+    public function getModel (string $type, int $id) {
+        $model = null;
+        switch ($type) {
+            case 'reward':
+                $model = \App\Models\Reward::query();
+                break;
+            case 'slider':
+                $model = \App\Models\Slider::query();
+                break;
+            case 'profile':
+                $model = \App\Models\User::query();
+                break;
+            default:
+                $model = \App\Models\Product::query();
+                break;
+        }
+
+        return $model->where('id', $id)->first();
+    }
+
     public function multiFileUpload($urls, $model, $type = 'image')
     {
         foreach ($urls as $url) {
@@ -58,13 +79,31 @@ trait MediaOperator
         }
     }
 
-    public function validationCheck ($image) {
+    public function imageUploadDatabase ($is_multiple, $model, $array) {
 
-        $allowedfileExtension=['jpg','png', 'jpeg'];
-        $extension = $image->getClientOriginalExtension();
-        $check=in_array($extension,$allowedfileExtension);
+        if ($is_multiple) {
+            $model->images()->create($array);
+        }else{
+            $model->image()->create($array);
+        }
+    }
 
-        if ($check) return true;
-        return false;
+    public function imageFullyDelete ($is_multiple, $model, $type, $id = null) {
+
+        if (in_array($type, ['reward', 'gellary'])) return true;
+
+        $model = $is_multiple ? $model->images : $model->image;
+
+        $image = $model->where('id', $id)->first();
+
+        if (!$image) {
+            $image = $model->where('type', $type)->first();
+        }
+
+        // delete from storage
+        $this->deleteFile($image->url);
+
+        // delete row from data
+        return $image->delete();
     }
 }
