@@ -42,7 +42,7 @@ jobs:
           KEY: ${{ secrets.SSHKEY }}
         with:
           source: "."
-          target: "/var/www/html/aqebbd.com"
+          target: "/var/www/html/staging.aqebbd.com"
 
       - name: Executing remote command
         uses: appleboy/ssh-action@master
@@ -51,6 +51,6 @@ jobs:
           USERNAME: ${{ secrets.VPS_USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-          script: 'cd /var/www/html/aqebbd.com && sudo -S chmod 777 server_deploy.sh && ./server_deploy.sh'
+          script: 'cd /var/www/html/staging.aqebbd.com && sudo -S chmod 777 server_deploy.sh && ./server_deploy.sh'
           # script: 'sudo chown -R www-data.www-data /var/www/html/aqebbd.com/bootstrap/cache/'
 
