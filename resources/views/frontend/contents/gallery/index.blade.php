@@ -1,4 +1,5 @@
 @extends('frontend.layouts.app')
+@section('title', __('Gallery'))
 @push('custom_style')
 {{-- here some custome style --}}
 @endpush

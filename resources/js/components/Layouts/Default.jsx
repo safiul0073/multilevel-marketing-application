@@ -27,6 +27,7 @@ import OfficeSettings from '../../Page/Settings/Office'
 import HomeSettings from '../../Page/Settings/Home'
 import PaymentMethod from '../../Page/PaymentMethod';
 import Charge from '../../Page/Report/Charge';
+import PackagePurchase from '../../Page/Report/PackagePurchase';
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -59,6 +60,7 @@ const Layout =() =>{
                 <Route path="/staff/reports/top-earned" element={<TopEarnedReport/>} />
                 <Route path="/staff/reports/top-sponsor" element={<TopSponsorReport/>}/>
                 <Route path="/staff/reports/charges" element={<Charge/>} />
+                <Route path="/staff/reports/package-purchase" element={<PackagePurchase/>} />
                 <Route path="/staff/settings/generation" element={<Generation/>} />
                 <Route path="/staff/settings/matching" element={<Matching/>} />
                 <Route path="/staff/settings/single-amount" element={<SingleAmountSettings/>} />

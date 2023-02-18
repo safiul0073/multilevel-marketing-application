@@ -6,75 +6,89 @@ import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/reward/CreateModal";
 import EditModal from "../components/modal/reward/EditModal";
 import DeleteReward from "../components/modal/reward/Delete";
+import Details from "../components/Reward/Details";
 import { getRewardList } from "../hooks/queries/reward/getRewardList";
 
 const Reward = () => {
     const [paginationValue, setPaginationValue] = useState({
         page: 1,
-        perPage: 10
-    })
-    const [pageSize, setPageSize] = useState(10)
+        perPage: 10,
+    });
+    const [pageSize, setPageSize] = useState(10);
 
     const handlePageChange = (pageNum, currentPageValue) => {
-        setPaginationValue(() =>{
+        setPaginationValue(() => {
             pageNum;
-            currentPageValue
-        })
-    }
+            currentPageValue;
+        });
+    };
     // fetching reward list using react query
-    const {data, isLoading, refetch} = getRewardList(paginationValue.page,
-                                                       paginationValue.pageSize)
+    const { data, isLoading, refetch } = getRewardList(
+        paginationValue.page,
+        paginationValue.pageSize
+    );
     // create reward modal calling
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    const [showRewardDetails, setShowRewardDetails] = useState(null);
     const createReward = () => {
-        setIsOpen(true)
+        setIsOpen(true);
     };
 
     const closeModal = () => {
-        setIsOpen(false)
-    }
-    const [reward, setReward] = useState()
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+        setIsOpen(false);
+    };
+    const [reward, setReward] = useState();
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const editReward = (reward) => {
-        setReward(reward)
-        setIsEditModalOpen(true)
+        setReward(reward);
+        setIsEditModalOpen(true);
     };
 
     const closeEditModal = () => {
-        setIsEditModalOpen(false)
-    }
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-    const [rewardDelete, setRewardDelete] = useState()
+        setIsEditModalOpen(false);
+    };
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [rewardDelete, setRewardDelete] = useState();
     const delateReward = (id) => {
-        setRewardDelete(id)
-        setIsDeleteModalOpen(true)
+        setRewardDelete(id);
+        setIsDeleteModalOpen(true);
     };
 
     const closeDeleteModal = () => {
-        setIsDeleteModalOpen(false)
+        setIsDeleteModalOpen(false);
+    };
+
+    if (showRewardDetails) {
+        return (
+            <Details
+                showRewardDetails={showRewardDetails}
+                setShowRewardDetails={setShowRewardDetails}
+            />
+        );
     }
+
     return (
         <>
-        <CreateModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        closeModal={closeModal}
-        refatcher={refetch}
-        />
-        <EditModal
-        isOpen={isEditModalOpen}
-        setIsOpen={setIsEditModalOpen}
-        closeModal={closeEditModal}
-        refatcher={refetch}
-        reward={reward}
-        />
-        <DeleteReward
-        isOpen={isDeleteModalOpen}
-        setIsOpen={setIsDeleteModalOpen}
-        closeModal={closeDeleteModal}
-        refatcher={refetch}
-        reward={rewardDelete}
-        />
+            <CreateModal
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                closeModal={closeModal}
+                refatcher={refetch}
+            />
+            <EditModal
+                isOpen={isEditModalOpen}
+                setIsOpen={setIsEditModalOpen}
+                closeModal={closeEditModal}
+                refatcher={refetch}
+                reward={reward}
+            />
+            <DeleteReward
+                isOpen={isDeleteModalOpen}
+                setIsOpen={setIsDeleteModalOpen}
+                closeModal={closeDeleteModal}
+                refatcher={refetch}
+                reward={rewardDelete}
+            />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
@@ -96,156 +110,190 @@ const Reward = () => {
                                 </div>
                             </div>
                             <div className="mt-8 flex flex-col">
-                                {isLoading ?
-                                    <LoaderAnimation/>
-                                    :
+                                {isLoading ? (
+                                    <LoaderAnimation />
+                                ) : (
                                     <>
-                                        {data?.data?.length
-                                        ?
-                                        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                            <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
-                                                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                                    <table className="min-w-full divide-y divide-gray-300">
-                                                        <thead className="bg-gray-50">
-                                                            <tr>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                                                >
-                                                                    Sr.
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Rank Designation
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Right
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Left
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Travel Reward
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    One Time Bonus
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Yearly Salary
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
-                                                                >
-                                                                    Action
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody className="divide-y divide-gray-200 bg-white">
-                                                            {data?.data?.map(
-                                                                (reward) => (
-                                                                    <tr
-                                                                        key={Math.random()}
+                                        {data?.data?.length ? (
+                                            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                                <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
+                                                    <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                                                        <table className="min-w-full divide-y divide-gray-300">
+                                                            <thead className="bg-gray-50">
+                                                                <tr>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                     >
-                                                                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
-                                                                            <div className="text-gray-900">
-                                                                                {
-                                                                                    reward?.id
-                                                                                }
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {reward?.designation}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {reward?.right_count}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {reward?.left_count}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {reward?.travel_destination}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {reward?.one_time_bonus}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {reward?.salary}
-                                                                            </div>
-                                                                        </td>
+                                                                        Sr.
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        Rank
+                                                                        Designation
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        Right
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        Left
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        Travel
+                                                                        Reward
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        One Time
+                                                                        Bonus
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        Yearly
+                                                                        Salary
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="relative py-3.5 pl-3 pr-4 sm:pr-6 text-right"
+                                                                    >
+                                                                        Action
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody className="divide-y divide-gray-200 bg-white">
+                                                                {data?.data?.map(
+                                                                    (
+                                                                        reward
+                                                                    ) => (
+                                                                        <tr
+                                                                            key={Math.random()}
+                                                                        >
+                                                                            <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.id
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.designation
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.right_count
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.left_count
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.travel_destination
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.one_time_bonus
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        reward?.salary
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
 
-                                                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                                                            <div className="flex gap-2 justify-end">
-                                                                                <button
-                                                                                    className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
-                                                                                    onClick={() =>
-                                                                                        editReward(
-                                                                                            reward
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    Edit
-                                                                                </button>
-                                                                                <button
-                                                                                    className="text-red-600 font-normal hover:text-red-700 hover:underline"
-                                                                                    onClick={() =>
-                                                                                        delateReward(
-                                                                                            reward?.id
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    Delete
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                )
-                                                            )}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div className="my-4">
-                                                    <Pagination
-                                                        total={data?.total}
-                                                        pageSize={paginationValue.perPage}
-                                                        pageNumber={paginationValue.page}
-                                                        handlePageChange={handlePageChange}
-                                                    />
+                                                                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                                                                <div className="flex gap-2 justify-end">
+                                                                                    <button
+                                                                                        className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
+                                                                                        onClick={() =>
+                                                                                            setShowRewardDetails(
+                                                                                                reward
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Details
+                                                                                    </button>
+                                                                                    <button
+                                                                                        className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
+                                                                                        onClick={() =>
+                                                                                            editReward(
+                                                                                                reward
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Edit
+                                                                                    </button>
+                                                                                    <button
+                                                                                        className="text-red-600 font-normal hover:text-red-700 hover:underline"
+                                                                                        onClick={() =>
+                                                                                            delateReward(
+                                                                                                reward?.id
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Delete
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    )
+                                                                )}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div className="my-4">
+                                                        <Pagination
+                                                            total={data?.total}
+                                                            pageSize={
+                                                                paginationValue.perPage
+                                                            }
+                                                            pageNumber={
+                                                                paginationValue.page
+                                                            }
+                                                            handlePageChange={
+                                                                handlePageChange
+                                                            }
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        : (<RowNotFound name="categories"/>)
-                                        }
+                                        ) : (
+                                            <RowNotFound name="categories" />
+                                        )}
                                     </>
-                                    }
+                                )}
                             </div>
                         </div>
                     </main>

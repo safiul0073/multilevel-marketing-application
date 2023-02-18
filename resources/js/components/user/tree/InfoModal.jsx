@@ -49,7 +49,7 @@ export default function InfoModal({isOpen, setIsOpen, closeModal, userId}) {
                         <div className='px-6'>
                             <div className=" w-3/4 mx-auto">
                                 <div className="w-full flex justify-center items-center">
-                                    <img src={user?.avatar ? user?.avatar?.url : 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'}
+                                    <img src={user?.avatar ? user?.avatar?.url : 'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg'}
                                          alt="avatar"
                                          className="w-32 h-32 rounded-full"
                                     />

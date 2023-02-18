@@ -26,7 +26,7 @@ export default function UserView({ user, before }) {
                         src={
                             user?.image
                                 ? user?.image?.url
-                                : "https://xsgames.co/randomusers/assets/avatars/male/24.jpg"
+                                : "https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg"
                         }
                         width={100}
                         height={100}

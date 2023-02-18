@@ -40,7 +40,7 @@ function Dashboard() {
     const timePeriodCounter = [
         {
             title: "Joined User",
-            period: [{ Weekly: 30 }, { Monthly: 40 }, { Yearly: 80 }],
+            period: [{ Weekly: data?.total_weekly_user }, { Monthly: data?.total_monthly_user }, { Yearly: data?.total_yearly_user }],
         },
         {
             title: "Deposit Report",

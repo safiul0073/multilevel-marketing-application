@@ -199,7 +199,7 @@ const Index = ({ setTab, backendError }) => {
                         {productList?.length ? (
                             <>
                                 {isTable ? (
-                                    <div className="-my-2 -mx-4 overflow-x-auto overflow-y-auto h-[600px] sm:-mx-6 lg:-mx-8">
+                                    <div className="-my-2 -mx-4 overflow-x-auto overflow-y-auto max-h-[600px] sm:-mx-6 lg:-mx-8">
                                         <TableView
                                             productId={productId}
                                             setProductId={setProductId}

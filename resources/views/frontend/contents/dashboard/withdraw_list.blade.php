@@ -3,13 +3,21 @@
 @section('dashboard-page')
 <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Withdraw List</h1>
+        <h1 class="text-xl font-semibold text-gray-900"></h1>
+        <div class="flex items-center mb-5">
+            <button type="button" class="rounded-md px-2.5 py-1.5 mr-2.5 text-gray-700 xl:hidden border border-gray-500" id="dashboard-hamburger-toggler">
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+            <h3 class="text-3xl">Withdraw List</h3>
+        </div>
     </div>
-    <div>
+    <div class="mb-5">
         <a class="btn btn-primary inline-flex" href="{{ route('withdraw.request') }}">Send a withdraw request </a>
     </div>
 </div>
-<div class="mt-8 flex flex-col">
+<div class="flex flex-col">
     <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">

@@ -19,12 +19,12 @@ class MyTeamController extends Controller
         if (isset($att['username'])) {
 
             $user = User::where('username', $att['username'])->first();
-
-            if (UserService::checkGivenUserAreBelongToAuthUser($user->sponsor_id)) {
-                $trees->where('username',$att['username']);
-            }else {
-                $trees->where('username', auth()->user()->username);
-            }
+            // dd(UserService::checkGivenUserAreBelongToAuthUser($user->sponsor_id, 1));
+            // if (UserService::checkGivenUserAreBelongToAuthUser($user->sponsor_id)) {
+            $trees->where('username',$att['username']);
+            // }else {
+            //     $trees->where('username', auth()->user()->username);
+            // }
 
         }else {
             $trees->where('username', auth()->user()->username);
