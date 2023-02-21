@@ -21,10 +21,12 @@ class HomeController extends Controller
                         => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
                     ->withSum(['bonuses as gen_bonus'
                         => fn ($query) => $query->where('bonus_type', 'gen') ],'amount')
-                    ->withSum(['transactions as withdraw_amount'
-                        => fn ($query) => $query->where('type', 'withdraw') ], 'amount')
-                        ->withSum(['transactions as deposit_amount'
-                        => fn ($query) => $query->where('type', 'deposit') ], 'amount')
+                    ->withSum(['withdraws as withdraw_amount'
+                        => fn ($query) => $query->where('status', 1) ], 'amount')
+                    ->withSum(['transactions as death_amount'
+                        => fn ($query) => $query->where('type', Transaction::DEATH) ], 'amount')
+                    ->withSum(['transactions as education_amount'
+                        => fn ($query) => $query->where('type', Transaction::EDUCATION) ], 'amount')
                     ->with(['image', 'rewards' => fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])
                     ->where('id', auth()->id())->first();
         return view('frontend.contents.dashboard.home', ['user' => $user]);

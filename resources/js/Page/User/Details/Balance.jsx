@@ -10,26 +10,31 @@ const Balance = ({ id, detailsRefetch }) => {
             name: "Add Balance",
             value: "gift",
             active: true,
+            button: "Send"
         },
         {
             name: "Subtract Balance",
             value: "sub",
             active: false,
+            button: "Subtract"
         },
         {
             name: "Death Fund",
             value: "death",
             active: false,
+            button: "Send"
         },
         {
             name: "Education Fund",
             value: "education",
             active: false,
+            button: "Send"
         },
         {
             name: "Salary",
             value: "salary",
             active: false,
+            button: "Send"
         },
     ]);
 
@@ -97,14 +102,13 @@ const Balance = ({ id, detailsRefetch }) => {
                         ))}
                     </span>
                     <div className="grid grid-cols-12 gap-6">
-                        {transferTypes?.find((type) => type?.active)?.value ===
-                        "add" ? (
+
                             <div className="col-span-12">
                                 <label
                                     htmlFor="add-amount"
                                     className="block text-sm font-medium text-gray-700"
                                 >
-                                    Add Amount
+                                    { transferTypes?.find( t => t.active == true)?.name }
                                 </label>
                                 <input
                                     type="number"
@@ -115,24 +119,7 @@ const Balance = ({ id, detailsRefetch }) => {
                                 />
                                 <span className="error-message">{backendError?.amount}</span>
                             </div>
-                        ) : (
-                            <div className="col-span-12">
-                                <label
-                                    htmlFor="sub-amount"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Subtract Amount
-                                </label>
-                                <input
-                                    type="number"
-                                    id="sub-amount"
-                                    {...register('amount')}
-                                    autoComplete="given-name"
-                                    className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                                />
-                                <span className="error-message">{backendError?.amount}</span>
-                            </div>
-                        )}
+
                         <div className="col-span-12">
                             <label
                                 htmlFor="message"
@@ -177,7 +164,7 @@ const Balance = ({ id, detailsRefetch }) => {
                             type="submit"
                             className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
-                            Save
+                             { transferTypes?.find( t => t.active == true)?.button }
                         </button>
                     }
 
