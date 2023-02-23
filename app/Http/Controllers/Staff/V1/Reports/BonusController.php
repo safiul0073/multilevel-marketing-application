@@ -28,7 +28,7 @@ class BonusController extends Controller
             $egerLoads = ['bonus_got:id,username', 'generation:id,gen_type'];
         }
         if ($request->bonus_type == Bonuse::JOINING) {
-            $egerLoads = ['bonus_got:id,username', 'bonus_for:id,username'];
+            $egerLoads = ['bonus_got:id,username', 'bonus_for' => fn ($q) => $q->with('sponsor:id,username,left_ref_id,right_ref_id')];
         }
 
         $query = Bonuse::query()->with($egerLoads)->where('bonus_type', $bonus_type);

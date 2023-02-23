@@ -62,6 +62,18 @@ const Joining = () => {
                                                         scope="col"
                                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                     >
+                                                        Placement Id
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                    >
+                                                        Placement Type
+                                                    </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                    >
                                                         Amount
                                                     </th>
                                                     <th
@@ -85,6 +97,12 @@ const Joining = () => {
                                                             {joining?.bonus_for?.username}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                            {joining?.bonus_for?.sponsor?.username}
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                            {joining?.bonus_for?.id == joining?.bonus_for?.sponsor?.left_ref_id ? "Left" : "Right"}
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {joining?.amount}
                                                         </td>
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -92,7 +110,7 @@ const Joining = () => {
                                                                 {moment(
                                                                     joining?.created_at
                                                                 ).format(
-                                                                    "MMMM Do YYYY, h:mm:ss a"
+                                                                    "MM-DD-YYYY, h:mm a"
                                                                 )}
                                                             </div>
                                                             <div>
