@@ -40,7 +40,7 @@ class StaffController extends Controller
 
     public function me()
     {
-        $user = Auth::guard('staff')->user();
+        $user = User::with('image')->where('id',Auth::guard('staff')->user()->id)->first();
 
         return $this->withSuccess($user);
     }

@@ -17,6 +17,7 @@ class Transaction extends Model
     const EDUCATION = 'education';
     const SALARY = 'salary';
     const TRANSFER = 'transfer';
+    const RECEIVED = 'received';
 
     protected $guarded = [];
 
