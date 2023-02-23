@@ -64,6 +64,12 @@ if (!function_exists('getTransactionTypeKeyword')) {
                     "keyword" => 'Transfer'
                 ];
                 break;
+            case Transaction::RECEIVED:
+                $keyword = [
+                    "style" => 'bg-blue-500 text-white',
+                    "keyword" => 'Transfer Received'
+                ];
+                break;
             default:
                 $keyword = [
                     "style" => 'bg-yellow-500 text-white',

@@ -49,7 +49,7 @@
                                 <span class="inline-flex rounded-full {{ $values['style'] }} px-2 text-xs font-semibold leading-5 ">{{ $values['keyword'] }}</span>
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                @if ($transaction->type == \App\Models\Transaction::TRANSFER)
+                                @if (in_array($transaction->type, [\App\Models\Transaction::TRANSFER, \App\Models\Transaction::RECEIVED]))
                                 {{ $transaction->member ? $transaction->member->username : '' }}
                                 @endif
                             </td>

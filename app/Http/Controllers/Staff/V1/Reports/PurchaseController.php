@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class PurchaseController extends Controller
 {
     use Formatter;
-    
+
     public function packagePurchaseList (Request $request) {
 
         $perPage = 10;
@@ -20,7 +20,7 @@ class PurchaseController extends Controller
             $perPage = $request->perPage;
         }
 
-        $purchases = Purchase::with(['user:id,username', 'product' => fn ($q) => $q->with('category:id,title')])
+        $purchases = Purchase::with(['user:id,first_name,last_name,username', 'product' => fn ($q) => $q->with('category:id,title')])
                                 ->when($request->from_date && $request->to_date, function ($q) use ($request) {
                                     $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
                                     $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();

@@ -22,7 +22,7 @@ class UserController extends Controller
             $perPage = $request->perPage;
         }
 
-        $query = User::query()->select('username', 'email', 'phone', 'balance')
+        $query = User::query()->select('first_name', 'last_name','username', 'email', 'phone', 'balance')
                        ->withSum(['bonuses as top_earned' => function ($q) use($request) {
                             $q->when($request->from_date && $request->to_date, function ($q) use($request) {
                                 $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
@@ -44,7 +44,7 @@ class UserController extends Controller
             $perPage = $request->perPage;
         }
 
-        $users = User::select('id', 'username', 'email', 'phone')
+        $users = User::select('id','first_name', 'last_name', 'username', 'email', 'phone')
                     ->withCount(['bonuses as sponsor_count' => function ($q) use($request) {
                         $q->where('bonus_type', Bonuse::JOINING);
                         $q->when($request->from_date && $request->to_date, function ($q) use ($request) {
