@@ -80,7 +80,9 @@ const Sidebar = () => {
                 { name: "Top Earned", href: "/staff/reports/top-earned" },
                 { name: "Top Sponsor", href: "/staff/reports/top-sponsor" },
                 { name: "Charge", href: "/staff/reports/charges" },
-                { name: "Package Purchase", href: "/staff/reports/package-purchase" }
+                { name: "Package Purchase", href: "/staff/reports/package-purchase" },
+                { name: "Transaction", href: "/staff/reports/transactions" },
+                { name: "Reward", href: "/staff/reports/rewards" },
             ],
         },
         {
