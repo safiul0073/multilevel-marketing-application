@@ -31,7 +31,7 @@ class HomeCotroller extends Controller
                               ->orderByDesc('user_reward_count')->limit(10)->get();
         $rewards = Reward::all();
 
-        $latest_withdraws = Withdraw::with(['user:id,first_name,last_name', 'pay'])->where('status', 1)
+        $latest_withdraws = Withdraw::with(['user:id,first_name,last_name'])->where('status', 1)
                             ->latest('updated_at')
                             ->select('user_id', 'method_name', 'created_at', 'amount')
                             ->limit(5)->get();
