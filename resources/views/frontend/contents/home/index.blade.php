@@ -283,7 +283,7 @@
             <div class="flex justify-center items-center">
                 <ul class="mb-4 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row">
                     <li  class="md:mx-2 mb-2 md:mb-0 lg:mb-0 xl:mb-0">
-                        <button onclick="openTab(event, 'package')" id="tab-package" class="tablinks rounded-md bg-white text-gray-700 border-gray-200 border px-4 py-3">
+                        <button onclick="openTab(event, 'package')" id="tab-package" class="tablinks rounded-md bg-indigo-500 text-white border-gray-200 border px-4 py-3">
                             Latest Package Purchases
                         </button>
                     </li>
@@ -302,7 +302,7 @@
             <div class="">
                 <div>
                     {{-- start tab package --}}
-                    <div id="package" class="tabcontent hidden overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="package" class="tabcontent overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>
