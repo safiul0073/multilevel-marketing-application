@@ -139,4 +139,5 @@ async function getOneProduct(id) {
         });
         sliderInputDiv.innerHTML = images;
     }
+
 }
