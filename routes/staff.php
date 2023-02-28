@@ -4,6 +4,7 @@ use App\Http\Controllers\Staff\V1\Auth\CodeCheckController;
 use App\Http\Controllers\Staff\V1\Auth\ForgotPasswordController;
 use App\Http\Controllers\Staff\V1\Auth\ResetPasswordController;
 use App\Http\Controllers\Staff\V1\Auth\StaffController;
+use App\Http\Controllers\Staff\V1\BlogController;
 use App\Http\Controllers\Staff\V1\CategoryController;
 use App\Http\Controllers\Staff\V1\EpinController;
 use App\Http\Controllers\Staff\V1\EpinHelperController;
@@ -39,12 +40,15 @@ Route::middleware('auth:staff')->group(function () {
     Route::post('/logout', [StaffController::class, 'logout'])->name('logout');
 
     // resource route start
-    Route::apiResource('category', CategoryController::class);
-    Route::apiResource('payment-method', PaymentMethodController::class);
-    Route::apiResource('package', PackageController::class);
-    Route::apiResource('slider', SliderController::class);
-    Route::apiResource('epin', EpinController::class);
-    Route::apiResource('reward', RewardController::class);
+    Route::apiResources([
+        'category' => CategoryController::class,
+        'payment-method' => PaymentMethodController::class,
+        'package' => PackageController::class,
+        'slider' => SliderController::class,
+        'epin' => EpinController::class,
+        'reward' => RewardController::class,
+        'blog' => BlogController::class
+    ]);
     // resource route end
     Route::post('payment-method-update', [PaymentMethodController::class, 'update']);
     Route::post('reward-update', [RewardController::class, 'update']);

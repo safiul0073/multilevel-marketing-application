@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class MatchingPair extends Model
+class Blog extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    public function matchMain ():BelongsTo {
-        return $this->belongsTo(User::class, 'parent_id', 'id');
+    public function image ():MorphOne {
+        return $this->morphOne(Media::class, 'media');
     }
 }

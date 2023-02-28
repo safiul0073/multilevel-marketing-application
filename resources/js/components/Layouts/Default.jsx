@@ -30,6 +30,7 @@ import Charge from '../../Page/Report/Charge';
 import PackagePurchase from '../../Page/Report/PackagePurchase';
 import Transaction from '../../Page/Report/Transaction';
 import RewardReport from '../../Page/Report/Reward'
+import Blog from '../../Page/Blog';
 
 const Layout =() =>{
     let navigate = useNavigate();
@@ -53,6 +54,7 @@ const Layout =() =>{
                 <Route path="/staff/users/registration" element={<Create/>} />
                 <Route path="/staff/reward" element={<Reward/>} />
                 <Route path="/staff/payment-method" element={<PaymentMethod/>} />
+                <Route path="/staff/blogs" element={<Blog/>} />
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
                 <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
                 <Route path="/staff/reports/matching" element={<MatchingReport/>} />

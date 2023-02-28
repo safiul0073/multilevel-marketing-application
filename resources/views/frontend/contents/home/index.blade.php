@@ -302,7 +302,7 @@
             <div class="">
                 <div>
                     {{-- start tab package --}}
-                    <div id="package" class="tabcontent overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="package" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>
@@ -336,7 +336,7 @@
 
                     </div>
                     {{-- Top Sponsor --}}
-                    <div id="sponsor" class="tabcontent hidden overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="sponsor" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>
@@ -368,7 +368,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="withdraw" class="tabcontent hidden overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="withdraw" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>

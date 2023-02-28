@@ -46,6 +46,8 @@ trait MediaOperator
             case 'profile':
                 $model = \App\Models\User::query();
                 break;
+            case 'blog':
+                $model = \App\Models\Blog::query();
             default:
                 $model = \App\Models\Product::query();
                 break;
