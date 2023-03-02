@@ -94,7 +94,7 @@ class BlogController extends Controller
             'title' => 'required|string|max:256',
             'content' => 'required|string|max:1500',
             'status' => 'nullable',
-            'image' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000) ]
+            'image' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000) ]
         ]);
 
         try {
@@ -139,14 +139,9 @@ class BlogController extends Controller
         try {
             DB::beginTransaction();
 
-            if (
-                $this->imageFullyDelete(false, $blog, 'blog')
-                &&
-                $blog->delete()
-                )
-            {
-                return $this->withSuccess('Successfully updated.');
-            }
+            $this->imageFullyDelete(false, $blog, 'blog');
+
+            $blog->delete();
 
             DB::commit();
         } catch (\Exception $ex) {
@@ -154,5 +149,6 @@ class BlogController extends Controller
             return $this->withErrors($ex->getMessage());
         }
 
+        return $this->withSuccess('Successfully deleted.');
     }
 }

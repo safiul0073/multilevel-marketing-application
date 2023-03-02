@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-loading';
 import Category from '../../Page/Category';
 import Dashboard from '../../Page/Dashboard';
@@ -31,15 +31,10 @@ import PackagePurchase from '../../Page/Report/PackagePurchase';
 import Transaction from '../../Page/Report/Transaction';
 import RewardReport from '../../Page/Report/Reward'
 import Blog from '../../Page/Blog';
+import { useRedirectRoute } from '../../hooks/others';
 
 const Layout =() =>{
-    let navigate = useNavigate();
-    useEffect(() => {
-        if (window.location.pathname == '/staff') {
-            navigate('/staff/dashboard')
-        }
-        return () => {}
-    }, [])
+    useRedirectRoute();
     return(
         <>
         <div className='min-h-full'>

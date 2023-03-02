@@ -48,7 +48,6 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refetch, blog}
 
   useEffect(() => {
     if (blog) {
-        console.log(blog)
         reset(blog)
         setContent(blog?.content)
     }

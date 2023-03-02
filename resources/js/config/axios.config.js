@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { APIURL } from '../constent';
+import { APIURL, TOKEN_NAME } from '../constant';
 
 
 // For common config
@@ -40,7 +40,7 @@ userAxios.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-        Cookies.remove('nAToken')
+        Cookies.remove(TOKEN_NAME)
       window.location.href = `/staff/login`;
     }
     return Promise.reject(error);

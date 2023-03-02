@@ -1,5 +1,5 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constent";
+import { APIURL } from "../../../constant";
 
 export const createBlog = async (inputData) => {
     const res = await userAxios.post(
@@ -11,9 +11,12 @@ export const createBlog = async (inputData) => {
   };
 
   export const updateBlog = async (inputData) => {
-    const res = await userAxios.put(
-      `${APIURL}/staff/blog-update/${inputData?.id}`,
-      inputData
+    const res = await userAxios.post(
+      `${APIURL}/staff/blog/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;

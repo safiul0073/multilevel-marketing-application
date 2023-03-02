@@ -1,5 +1,5 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constent";
+import { APIURL } from "../../../constant";
 
 export const incentiveSearch = async (inputData) => {
     const res = await userAxios.post(

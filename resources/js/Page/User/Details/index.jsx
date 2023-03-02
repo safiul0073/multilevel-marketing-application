@@ -10,7 +10,7 @@ import SendEmail from "./SendEmail";
 import Password from "./Password";
 import Referrals from "./Referrals";
 import moment from "moment";
-import { LIVE_URL } from "../../../constent";
+import { LIVE_URL } from "../../../constant";
 import ReferralTree from "./ReferralTree";
 
 export default function UserDetails({ showUserDetails, setUserDetails }) {

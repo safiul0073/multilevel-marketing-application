@@ -62,14 +62,14 @@ const Blog = () => {
         setIsOpen={setIsEditModalOpen}
         closeModal={closeEditModal}
         refetch={refetch}
-        slider={blog}
+        blog={blog}
         />
         <DeleteBlog
         isOpen={isDeleteModalOpen}
         setIsOpen={setIsDeleteModalOpen}
         closeModal={closeDeleteModal}
         refetch={refetch}
-        slider={deleteBlog}
+        blog={deleteBlog}
         />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
@@ -116,12 +116,12 @@ const Blog = () => {
                                                                 >
                                                                     Image
                                                                 </th>
-                                                                <th
+                                                                {/* <th
                                                                     scope="col"
                                                                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                 >
                                                                     Contents
-                                                                </th>
+                                                                </th> */}
                                                                 <th
                                                                     scope="col"
                                                                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -149,11 +149,9 @@ const Blog = () => {
                                                                                 }
                                                                             </div>
                                                                         </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {blog?.content}
-                                                                            </div>
-                                                                        </td>
+                                                                        {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900" dangerouslySetInnerHTML={{__html: blog?.content}}/>
+                                                                        </td> */}
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                             <div className="text-gray-900">
                                                                                 <img width={100} height={80} src={blog?.image?.url} alt="" />

@@ -97,7 +97,7 @@ export default function DeleteSlider({isOpen, setIsOpen, closeModal, refetch, bl
                                             </button>
                                             </>
                                         ) : (
-                                            <button onClick={() => onSubmit(slider)} className=' cursor-pointer bg-red-500 text-white font-normal px-4 py-1 rounded-md' > Delete </button>
+                                            <button onClick={() => onSubmit(blog)} className=' cursor-pointer bg-red-500 text-white font-normal px-4 py-1 rounded-md' > Delete </button>
                                         )}
                                         </div>
                                         <div onClick={closeModal} className=" bg-indigo-700 text-white font-normal px-4 py-1 rounded-md cursor-pointer">
