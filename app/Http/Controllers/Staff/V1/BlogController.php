@@ -39,7 +39,7 @@ class BlogController extends Controller
     {
         $att = $this->validate($request, [
             'title' => 'required|string|max:256',
-            'content' => 'required|string|max:1500',
+            'content' => 'required|string',
             'status' => 'nullable',
             'image' => ['required', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000) ]
         ]);
@@ -92,7 +92,7 @@ class BlogController extends Controller
     {
         $att = $this->validate($request, [
             'title' => 'required|string|max:256',
-            'content' => 'required|string|max:1500',
+            'content' => 'required|string',
             'status' => 'nullable',
             'image' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000) ]
         ]);

@@ -48,6 +48,7 @@ Route::get('/packages', [ProductController::class, 'index'])->name('package.page
 Route::get('/products', [ProductController::class, 'index'])->name('product.page');
 Route::get('get-one-product-res', [HomeCotroller::class, 'responseProductData'])->name('product.get.one.res');
 Route::get('/news', [NewsController::class, 'index'])->name('news.page');
+Route::get('/news/{slug}', [NewsController::class, 'show'])->name('new.show');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.page');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.page');
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.page');
