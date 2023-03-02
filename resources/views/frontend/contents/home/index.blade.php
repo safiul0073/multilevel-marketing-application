@@ -385,7 +385,7 @@
                                         {{ $withdraw->user->first_name .' '. $withdraw->user->last_name }}
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
-                                        {{ $withdraw->payment_method }}
+                                        {{ $withdraw->method_name }}
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                                         {{ $withdraw->created_at }}
