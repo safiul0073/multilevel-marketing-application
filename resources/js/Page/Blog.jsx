@@ -1,16 +1,14 @@
-import moment from "moment";
-import React, { memo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
+import EditModal from "../components/modal/blog/EditModal";
+import CreateModal from "../components/modal/blog/CreateModal";
+import DeleteBlog from "../components/modal/blog/Delete";
+import Protected from "../components/HOC/Protected";
 import Pagination from "../components/common/Pagination";
 import RowNotFound from "../components/common/RowNotFound";
-import Protected from "../components/HOC/Protected";
-import CreateModal from "../components/modal/epin/CreateModal";
-import DeleteEpin from "../components/modal/epin/Delete";
-import EditModal from "../components/modal/epin/EditModal";
-import EpinList from "../components/modal/epin/EpinList";
-import { getEpinList } from "../hooks/queries/epin/getEpinList";
+import { getBlogList } from "../hooks/queries/blog/getBlogList";
 
-const Epin = () => {
+const Blog = () => {
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
 
@@ -18,73 +16,60 @@ const Epin = () => {
         setPage(() => pageNum)
         setPageSize(() => currentPageValue)
     }
-    // fetching epin list using react query
-    const {data:epinsList, isLoading, refetch} = getEpinList(page,pageSize)
+    // fetching blog list using react query
+    const {data, isLoading, refetch} = getBlogList(page,pageSize)
 
-    // create epin modal calling
+    // create blog modal calling
     const [isOpen, setIsOpen] = useState(false)
-    const createEpin = () => {
+    const createBlog = () => {
         setIsOpen(true)
     };
 
     const closeModal = () => {
         setIsOpen(false)
     }
-    const [epin, setEpin] = useState()
+    const [blog, setBlog] = useState()
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-    const editEpin = (epin) => {
-        setEpin(epin)
+    const editBlog = (blog) => {
+        setBlog(blog)
         setIsEditModalOpen(true)
     };
 
     const closeEditModal = () => {
         setIsEditModalOpen(false)
     }
-    const [isDeleteModalOpen, setIsDeleteModalOpne] = useState(false)
-    const delateEpin = (id) => {
-        setEpin(id)
-        setIsDeleteModalOpne(true)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [deleteBlog, setDeleteBlog] = useState()
+    const delateBlog = (id) => {
+        setDeleteBlog(id)
+        setIsDeleteModalOpen(true)
     };
 
     const closeDeleteModal = () => {
-        setIsDeleteModalOpne(false)
-    }
-
-    const [isListModal, setListModal] = useState(false)
-    const [epinMainId, setEpinMainId] = useState()
-    // show epin list by modal
-    const showEpinList = (id) => {
-        setEpinMainId(id)
-        setListModal(true)
+        setIsDeleteModalOpen(false)
     }
 
     return (
         <>
-        <EpinList
-        isOpen={isListModal}
-        setIsOpen={setListModal}
-        refetcher={refetch}
-        epinMainId={epinMainId}
-        />
         <CreateModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         closeModal={closeModal}
-        refetcher={refetch}
+        refetch={refetch}
         />
         <EditModal
         isOpen={isEditModalOpen}
         setIsOpen={setIsEditModalOpen}
         closeModal={closeEditModal}
-        refatcher={refetch}
-        epin={epin}
+        refetch={refetch}
+        blog={blog}
         />
-        <DeleteEpin
+        <DeleteBlog
         isOpen={isDeleteModalOpen}
-        setIsOpen={setIsDeleteModalOpne}
+        setIsOpen={setIsDeleteModalOpen}
         closeModal={closeDeleteModal}
-        refatcher={refetch}
-        epin={epin}
+        refetch={refetch}
+        blog={deleteBlog}
         />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
@@ -93,16 +78,16 @@ const Epin = () => {
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
                                     <h1 className="text-xl font-semibold text-gray-900">
-                                        Epin List
+                                        Blog List
                                     </h1>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                                     <button
                                         type="button"
                                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                                        onClick={() => createEpin()}
+                                        onClick={() => createBlog()}
                                     >
-                                        Add New Epin
+                                        Add New Blog
                                     </button>
                                 </div>
                             </div>
@@ -111,7 +96,7 @@ const Epin = () => {
                                     <LoaderAnimation/>
                                     :
                                     <>
-                                     {epinsList?.data?.length
+                                        {data?.data?.length
                                         ?
                                         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                             <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
@@ -123,49 +108,25 @@ const Epin = () => {
                                                                     scope="col"
                                                                     className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                                 >
-                                                                    Package
+                                                                    Title
                                                                 </th>
                                                                 <th
                                                                     scope="col"
                                                                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                 >
-                                                                    Type/Name
+                                                                    Image
                                                                 </th>
+                                                                {/* <th
+                                                                    scope="col"
+                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                >
+                                                                    Contents
+                                                                </th> */}
                                                                 <th
                                                                     scope="col"
                                                                     className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                 >
-                                                                    Cost
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Quantity
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Cus. Name
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Cus. Phone
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Code List
-                                                                </th>
-                                                                <th
-                                                                    scope="col"
-                                                                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                                >
-                                                                    Created At
+                                                                    Status
                                                                 </th>
                                                                 <th
                                                                     scope="col"
@@ -176,60 +137,45 @@ const Epin = () => {
                                                             </tr>
                                                         </thead>
                                                         <tbody className="divide-y divide-gray-200 bg-white">
-                                                            {epinsList?.data?.map(
-                                                                (epin) => (
+                                                            {data?.data?.map(
+                                                                (blog) => (
                                                                     <tr
                                                                         key={Math.random()}
                                                                     >
                                                                         <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
                                                                             <div className="text-gray-900">
                                                                                 {
-                                                                                    epin?.product?.name
+                                                                                    blog?.title
                                                                                 }
                                                                             </div>
                                                                         </td>
+                                                                        {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            <div className="text-gray-900" dangerouslySetInnerHTML={{__html: blog?.content}}/>
+                                                                        </td> */}
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                             <div className="text-gray-900">
-                                                                                {epin?.type}
+                                                                                <img width={100} height={80} src={blog?.image?.url} alt="" />
                                                                             </div>
                                                                         </td>
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {epin?.cost}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {epin?.quantity}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {epin?.customer_name}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {epin?.customer_phone}
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                            <button onClick={() => showEpinList(epin?.id)} className="btn btn-secondary">Show Epin List</button>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                            <div className="text-gray-900">
-                                                                                {moment(epin?.created_at).format("D-M-Y")}
-                                                                            </div>
+                                                                            {blog?.status ==
+                                                                            1 ? (
+                                                                                <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
+                                                                                    Active
+                                                                                </span>
+                                                                            ) : (
+                                                                                <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
+                                                                                    Inactive
+                                                                                </span>
+                                                                            )}
                                                                         </td>
                                                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                                             <div className="flex gap-2 justify-end">
                                                                                 <button
                                                                                     className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
                                                                                     onClick={() =>
-                                                                                        editEpin(
-                                                                                            epin
+                                                                                        editBlog(
+                                                                                            blog
                                                                                         )
                                                                                     }
                                                                                 >
@@ -238,8 +184,8 @@ const Epin = () => {
                                                                                 <button
                                                                                     className="text-red-600 font-normal hover:text-red-700 hover:underline"
                                                                                     onClick={() =>
-                                                                                        delateEpin(
-                                                                                            epin?.id
+                                                                                        delateBlog(
+                                                                                            blog?.id
                                                                                         )
                                                                                     }
                                                                                 >
@@ -255,7 +201,7 @@ const Epin = () => {
                                                 </div>
                                                 <div className="my-4">
                                                     <Pagination
-                                                        total={epinsList?.total}
+                                                        total={data?.total}
                                                         pageSize={pageSize}
                                                         pageNumber={page}
                                                         handlePageChange={handlePageChange}
@@ -263,9 +209,7 @@ const Epin = () => {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        : (<RowNotFound name="epins" />)
-
+                                        : (<RowNotFound name="blogs" />)
                                         }
                                     </>
                                     }
@@ -277,5 +221,4 @@ const Epin = () => {
         </>
     );
 };
-
-export default Protected(memo(Epin));
+export default Protected(Blog);

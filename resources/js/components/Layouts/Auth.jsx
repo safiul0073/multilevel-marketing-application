@@ -1,15 +1,9 @@
 
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useRedirectRoute } from '../../hooks/others';
 
 export default function AuthLayout ({children}) {
-    let navigate = useNavigate();
-    useEffect(() => {
-        if (window.location.pathname == '/staff') {
-            navigate('/staff/dashboard')
-        }
-        return () => {}
-    }, [])
+    useRedirectRoute();
   return (
     <div>
         {/* only login component using this layout */}

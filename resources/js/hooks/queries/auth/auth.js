@@ -1,6 +1,6 @@
 
 import { publicAxios, userAxios } from '@/config/axios.config.js';
-import { APIURL } from '../../../constent';
+import { APIURL } from '../../../constant';
 const URL = APIURL
 export const getUsers = async () => {
   const res = await userAxios.get(

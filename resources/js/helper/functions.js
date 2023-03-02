@@ -1,10 +1,10 @@
 
 import Cookies from 'js-cookie';
+import { TOKEN_NAME } from '../constant';
 
 // token setter
 export const setToken = (token) => {
-    console.log('hy bro set token');
-    Cookies.set('nAToken', token, {
+    Cookies.set(TOKEN_NAME, token, {
       expires: 2,
     });
   };
@@ -12,7 +12,7 @@ export const setToken = (token) => {
   // logout
   export const Logout = () => {
 
-    Cookies.remove('nAToken', {
+    Cookies.remove(TOKEN_NAME, {
       expires: 2,
     });
   };

@@ -1,27 +1,30 @@
 import { userAxios } from "../../../config/axios.config";
 import { APIURL } from "../../../constant";
 
-export const createPaymentMethod = async (inputData) => {
+export const createBlog = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/payment-method`,
+      `${APIURL}/staff/blog`,
       inputData
     );
 
     return res?.data?.data?.string_data;
   };
 
-  export const updatePaymentMethod = async (inputData) => {
+  export const updateBlog = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/payment-method-update/`,
-        inputData
+      `${APIURL}/staff/blog/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;
   };
 
-  export const deletePaymentMethod = async (id) => {
+  export const deleteBlog = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/payment-method/${id}`);
+      `${APIURL}/staff/blog/${id}`);
 
     return res?.data?.data?.string_data;
   };
