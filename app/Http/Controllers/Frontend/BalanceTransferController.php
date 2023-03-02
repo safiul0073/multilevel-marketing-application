@@ -47,14 +47,13 @@ class BalanceTransferController extends Controller
 
         try {
             DB::beginTransaction();
+            $transaction = $user->transactions()->create( [
+                'member_id' => $member->id,
+                'type' => Transaction::TRANSFER,
+                'amount' => $final_amount,
+                'charge' => $charge
+            ]);
 
-            $transaction = $user->transactions()->create([
-                                'member_id' => $member->id,
-                                'type' => 'transfer',
-                                'amount' => $final_amount,
-                                'charge' => $charge
-                            ]);
-                            
             // charge creating by event
             ChargeEvent::dispatch($transaction, Transaction::TRANSFER);
 
@@ -62,6 +61,13 @@ class BalanceTransferController extends Controller
             $user->balance = $user->balance - $amount;
             $user->save();
 
+            $member->transactions()->create( [
+                'member_id' => $user->id,
+                'type' => Transaction::RECEIVED,
+                'amount' => $final_amount,
+                'charge' => $charge
+            ]);
+            
             // increasing member balance
             $member->balance = $member->balance + $final_amount;
             $member->save();

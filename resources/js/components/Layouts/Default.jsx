@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-loading';
 import Category from '../../Page/Category';
 import Dashboard from '../../Page/Dashboard';
@@ -28,15 +28,13 @@ import HomeSettings from '../../Page/Settings/Home'
 import PaymentMethod from '../../Page/PaymentMethod';
 import Charge from '../../Page/Report/Charge';
 import PackagePurchase from '../../Page/Report/PackagePurchase';
+import Transaction from '../../Page/Report/Transaction';
+import RewardReport from '../../Page/Report/Reward'
+import Blog from '../../Page/Blog';
+import { useRedirectRoute } from '../../hooks/others';
 
 const Layout =() =>{
-    let navigate = useNavigate();
-    useEffect(() => {
-        if (window.location.pathname == '/staff') {
-            navigate('/staff/dashboard')
-        }
-        return () => {}
-    }, [])
+    useRedirectRoute();
     return(
         <>
         <div className='min-h-full'>
@@ -51,6 +49,7 @@ const Layout =() =>{
                 <Route path="/staff/users/registration" element={<Create/>} />
                 <Route path="/staff/reward" element={<Reward/>} />
                 <Route path="/staff/payment-method" element={<PaymentMethod/>} />
+                <Route path="/staff/blogs" element={<Blog/>} />
                 <Route path="/staff/bonus/incentive" element={<Incentive/>} />
                 <Route path="/staff/reports/incentive" element={<IncentiveReport/>} />
                 <Route path="/staff/reports/matching" element={<MatchingReport/>} />
@@ -60,6 +59,8 @@ const Layout =() =>{
                 <Route path="/staff/reports/top-earned" element={<TopEarnedReport/>} />
                 <Route path="/staff/reports/top-sponsor" element={<TopSponsorReport/>}/>
                 <Route path="/staff/reports/charges" element={<Charge/>} />
+                <Route path="/staff/reports/transactions" element={<Transaction/>} />
+                <Route path="/staff/reports/rewards" element={<RewardReport/>} />
                 <Route path="/staff/reports/package-purchase" element={<PackagePurchase/>} />
                 <Route path="/staff/settings/generation" element={<Generation/>} />
                 <Route path="/staff/settings/matching" element={<Matching/>} />

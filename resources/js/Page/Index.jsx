@@ -18,6 +18,7 @@ import { OtpRequest } from '../components/Auth/OtpRequest';
 import { CheckerOTP } from '../components/Auth/CheckerOTP';
 import { ResetPassword } from '../components/Auth/ResetPassword';
 import { Toaster } from 'react-hot-toast';
+import { TOKEN_NAME } from '../constant';
 
 
 function Index() {
@@ -31,7 +32,7 @@ function Index() {
 
     const {isAuth, setAuth, setUser} = UseStore();
     const queryClient = new QueryClient()
-    const token = Cookies.get('nAToken')
+    const token = Cookies.get(TOKEN_NAME)
     async function callUserData () {
        let data = await getUsers()
        if (data?.data?.json_object) {

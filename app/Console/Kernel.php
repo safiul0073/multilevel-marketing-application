@@ -36,6 +36,8 @@ class Kernel extends ConsoleKernel
             $task->save();
         });
 
+        $schedule->command('backup:run')->daily();
+
     }
 
     /**

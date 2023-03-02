@@ -123,8 +123,8 @@
                 <ul class="splide__list">
                     @forelse ($rewards as $reward)
                         <li class="splide__slide">
-                            <div class="relative h-96 overflow-hidden rounded-xl bg-indigo-500 py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
-                                <div class="absolute inset-0 opacity-50 mix-blend-multiply saturate-0 filter">
+                            <div class="relative h-96 overflow-hidden rounded-xl py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                                <div class="absolute inset-0">
                                     <img src="{{ count($reward->images) ? $reward->images[0]->url : "https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" }}" alt="" class="h-full w-full object-cover">
                                 </div>
                                 {{-- <div class="relative lg:col-span-1"> --}}
@@ -278,108 +278,127 @@
 
 <div class="relative bg-white py-10 md:py-12 lg:py-20">
     <div class="mx-auto max-w-md px-6 text-center sm:max-w-3xl lg:max-w-7xl lg:px-8">
-        <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Our UpComing Events</p>
-        <div class=" mt-10 md:mt-12 lg:mt-20 ">
-            <div class="grid grid-cols-1 gap-4 md:gap-8 lg:gap-12 sm:grid-cols-2 lg:grid-cols-3">
-                <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
-                        <div class="-mt-6">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
-                                    <!-- Heroicon name: outline/cloud-arrow-up -->
-                                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <h3 class="mt-8 text-lg font-semibold leading-8 tracking-tight text-gray-900">Push to Deploy</h3>
-                            <p class="mt-5 text-base leading-7 text-gray-600">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</p>
-                        </div>
-                    </div>
-                </div>
+        <p class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Our Latest Activities</p>
+        <div class=" mt-5 md:mt-8 lg:mt-12">
+            <div class="flex justify-center items-center">
+                <ul class="mb-4 flex list-none flex-col flex-wrap border-b-0 pl-0 md:flex-row">
+                    <li  class="md:mx-2 mb-2 md:mb-0 lg:mb-0 xl:mb-0">
+                        <button onclick="openTab(event, 'package')" id="tab-package" class="tablinks rounded-md bg-indigo-500 text-white border-gray-200 border px-4 py-3">
+                            Latest Package Purchases
+                        </button>
+                    </li>
+                    <li  class="md:mx-2 mb-2 md:mb-0 lg:mb-0 xl:mb-0">
+                        <button onclick="openTab(event, 'sponsor')" id="tab-sponsor" class="tablinks rounded-md bg-white text-gray-700 border-gray-200 border px-4 py-3">
+                            Top Sponsors
+                        </button>
+                    </li>
+                    <li  class="md:mx-2 mb-2 md:mb-0 lg:mb-0 xl:mb-0">
+                        <button onclick="openTab(event, 'withdraw')" id="tab-withdraw" class="tablinks rounded-md bg-white text-gray-700 border-gray-200 border px-4 py-3">
+                            Latest Withdraws
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="">
+                <div>
+                    {{-- start tab package --}}
+                    <div id="package" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-300">
+                            <thead class="bg-indigo-500">
+                                <tr>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6">User</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Package Name</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Date</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                @forelse ($latest_purchase as $purchase)
+                                <tr>
+                                    <td class="whitespace-nowrap text-left py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                        {{ $purchase->user->first_name .' '. $purchase->user->last_name }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $purchase->product_name }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $purchase->created_at->format('d-M-Y') }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $purchase->amount ."TK" }}
+                                    </td>
+                                </tr>
+                                @empty
 
-                <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
-                        <div class="-mt-6">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
-                                    <!-- Heroicon name: outline/lock-closed -->
-                                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <h3 class="mt-8 text-lg font-semibold leading-8 tracking-tight text-gray-900">SSL Certificates</h3>
-                            <p class="mt-5 text-base leading-7 text-gray-600">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</p>
-                        </div>
-                    </div>
-                </div>
+                                @endforelse
+                            </tbody>
+                        </table>
 
-                <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
-                        <div class="-mt-6">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
-                                    <!-- Heroicon name: outline/arrow-path -->
-                                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12c0-1.232.046-2.453.138-3.662a4.006 4.006 0 013.7-3.7 48.678 48.678 0 017.324 0 4.006 4.006 0 013.7 3.7c.017.22.032.441.046.662M4.5 12l-3-3m3 3l3-3m12 3c0 1.232-.046 2.453-.138 3.662a4.006 4.006 0 01-3.7 3.7 48.657 48.657 0 01-7.324 0 4.006 4.006 0 01-3.7-3.7c-.017-.22-.032-.441-.046-.662M19.5 12l-3 3m3-3l3 3" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <h3 class="mt-8 text-lg font-semibold leading-8 tracking-tight text-gray-900">Simple Queues</h3>
-                            <p class="mt-5 text-base leading-7 text-gray-600">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</p>
-                        </div>
                     </div>
-                </div>
+                    {{-- Top Sponsor --}}
+                    <div id="sponsor" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-300">
+                            <thead class="bg-indigo-500">
+                                <tr>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6">User</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Sponsor Name</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Joined At</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                @forelse ($top_sponsor as $sponsor)
+                                <tr>
+                                    <td class="whitespace-nowrap text-left py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                        {{ $sponsor->first_name .' '. $sponsor->last_name }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $sponsor->sponsor ? $sponsor->sponsor->first_name .' '. $sponsor?->sponsor->last_name : '' }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $sponsor->created_at->format("d-M-Y") }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $sponsor->sponsor_count }}
+                                    </td>
+                                </tr>
+                                @empty
 
-                <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
-                        <div class="-mt-6">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
-                                    <!-- Heroicon name: outline/shield-check -->
-                                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <h3 class="mt-8 text-lg font-semibold leading-8 tracking-tight text-gray-900">Advanced Security</h3>
-                            <p class="mt-5 text-base leading-7 text-gray-600">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</p>
-                        </div>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
-                </div>
+                    <div id="withdraw" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-300">
+                            <thead class="bg-indigo-500">
+                                <tr>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-6">User</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Payment Method</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Date</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                @forelse ($latest_withdraws as $withdraw)
+                                <tr>
+                                    <td class="whitespace-nowrap text-left py-4 pl-4 pr-3 text-sm sm:pl-6">
+                                        {{ $withdraw->user->first_name .' '. $withdraw->user->last_name }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $withdraw->payment_method }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $withdraw->created_at }}
+                                    </td>
+                                    <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
+                                        {{ $withdraw->amount }}
+                                    </td>
+                                </tr>
+                                @empty
 
-                <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
-                        <div class="-mt-6">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
-                                    <!-- Heroicon name: outline/cog -->
-                                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <h3 class="mt-8 text-lg font-semibold leading-8 tracking-tight text-gray-900">Powerful API</h3>
-                            <p class="mt-5 text-base leading-7 text-gray-600">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-6">
-                    <div class="flow-root rounded-lg bg-gray-100 px-6 pb-8">
-                        <div class="-mt-6">
-                            <div>
-                                <span class="inline-flex items-center justify-center rounded-xl bg-indigo-500 p-3 shadow-lg">
-                                    <!-- Heroicon name: outline/server -->
-                                    <svg class="h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 17.25v-.228a4.5 4.5 0 00-.12-1.03l-2.268-9.64a3.375 3.375 0 00-3.285-2.602H7.923a3.375 3.375 0 00-3.285 2.602l-2.268 9.64a4.5 4.5 0 00-.12 1.03v.228m19.5 0a3 3 0 01-3 3H5.25a3 3 0 01-3-3m19.5 0a3 3 0 00-3-3H5.25a3 3 0 00-3 3m16.5 0h.008v.008h-.008v-.008zm-3 0h.008v.008h-.008v-.008z" />
-                                    </svg>
-                                </span>
-                            </div>
-                            <h3 class="mt-8 text-lg font-semibold leading-8 tracking-tight text-gray-900">Database Backups</h3>
-                            <p class="mt-5 text-base leading-7 text-gray-600">Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.</p>
-                        </div>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -472,5 +491,27 @@
 @endpush
 
 @section('custome_scipt')
+    <script>
+        function openTab(event,tabName) {
+            var i, tabContent, tabLings, activeClassList, defaultClassList;
+            tabContent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].classList.add('hidden')
+            }
+            tabLings = document.getElementsByClassName("tablinks");
+            activeClassList = ['bg-indigo-500','text-gray-200']
+            defaultClassList = ['bg-white','text-gray-700']
+            for (i = 0; i < tabLings.length; i++) {
+                for (j=0; j < 2; j++){
+                    tabLings[i].classList.remove(activeClassList[j])
+                    tabLings[i].classList.add(defaultClassList[j])
+                }
+            }
+            document.getElementById(tabName).classList.remove('hidden');
+            for (j=0; j < 2; j++){
+                event.target.classList.add(activeClassList[j])
+            }
 
+       }
+    </script>
 @endsection

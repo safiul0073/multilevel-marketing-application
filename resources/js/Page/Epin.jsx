@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
 import Pagination from "../components/common/Pagination";
 import RowNotFound from "../components/common/RowNotFound";
@@ -278,4 +278,4 @@ const Epin = () => {
     );
 };
 
-export default Protected(Epin);
+export default Protected(memo(Epin));

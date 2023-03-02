@@ -186,7 +186,7 @@ const Withdraw = () => {
                                                                 {moment(
                                                                     withdraw?.created_at
                                                                 ).format(
-                                                                    "MMMM Do YYYY, h:mm:ss a"
+                                                                    "MM-DD-YYYY, h:mm a"
                                                                 )}
                                                             </div>
                                                             <div>

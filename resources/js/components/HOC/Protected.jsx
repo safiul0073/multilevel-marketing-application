@@ -1,7 +1,8 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UseStore } from "../../store";
+import { TOKEN_NAME } from "../../constant";
+
 const Protected = (ProtectedComponent) => {
 
     return (props) => {
@@ -9,7 +10,7 @@ const Protected = (ProtectedComponent) => {
             const [isTrue, setTrue] = useState(false)
             let navigate = useNavigate();
             useEffect(() => {
-                    let token = Cookies.get('nAToken')
+                    let token = Cookies.get(TOKEN_NAME)
                     if (!!token) {
                         setTrue(true)
                     }else {

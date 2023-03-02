@@ -65,8 +65,6 @@
                         @empty
 
                         @endforelse
-
-
                         <!-- More people... -->
                     </tbody>
                 </table>
