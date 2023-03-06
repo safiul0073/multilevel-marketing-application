@@ -23,7 +23,7 @@ class HomeCotroller extends Controller
             $products->where('is_package', 0);
         }
 
-        $sliders = Slider::where('status', 1)->get();
+        $sliders = Slider::where('status', 1)->where('is_slider', 1)->get();
 
         $reward_users = User::select('id', 'first_name', 'last_name')->with(['image', 'rewards' => fn ($q) => $q->orderBy('left_count', 'desc')])
                               ->withCount('reward_users as user_reward_count')
