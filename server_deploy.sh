@@ -17,9 +17,9 @@ php artisan down
     php artisan optimize
 
     # permisson set storage && bootstrap folder
-     sudo -S chown -R www-data.www-data /var/www/html/staging.aqebbd.com/bootstrap/cache/
+     sudo -S chown -R www-data.www-data /var/www/html/aqebbd.com/bootstrap/cache/
 
-     sudo -S chown -R www-data.www-data /var/www/html/staging.aqebbd.com/storage
+     sudo -S chown -R www-data.www-data /var/www/html/aqebbd.com/storage
 
     # Reload PHP to update opcache
     echo "" | sudo -S service php8.1-fpm reload
