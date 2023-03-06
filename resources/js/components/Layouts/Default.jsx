@@ -32,6 +32,10 @@ import Transaction from '../../Page/Report/Transaction';
 import RewardReport from '../../Page/Report/Reward'
 import Blog from '../../Page/Blog';
 import { useRedirectRoute } from '../../hooks/others';
+import PrivacyPolicy from '../../Page/Settings/PrivacyPolicy';
+import SpamPolicy from '../../Page/Settings/SpamPolicy';
+import DisclaimerPolicy from '../../Page/Settings/DisclaimerPolicy';
+import TramsCondition from '../../Page/Settings/TramsCondition';
 
 const Layout =() =>{
     useRedirectRoute();
@@ -67,6 +71,10 @@ const Layout =() =>{
                 <Route path="/staff/settings/single-amount" element={<SingleAmountSettings/>} />
                 <Route path="/staff/settings/office-info" element={<OfficeSettings/>} />
                 <Route path="/staff/settings/home-content" element={<HomeSettings/>} />
+                <Route path="/staff/settings/privacy-policy" element={<PrivacyPolicy/>} />
+                <Route path="/staff/settings/spam-policy" element={<SpamPolicy/>} />
+                <Route path="/staff/settings/Disclaimer-policy" element={<DisclaimerPolicy/>} />
+                <Route path="/staff/settings/trams-and-condition" element={<TramsCondition/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>

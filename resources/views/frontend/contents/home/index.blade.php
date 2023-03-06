@@ -123,9 +123,9 @@
                 <ul class="splide__list">
                     @forelse ($rewards as $reward)
                         <li class="splide__slide">
-                            <div class="relative h-96 overflow-hidden rounded-xl py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                            <div class="relative  lg:h-[600px] md:h-[600px] xl:h-[600px] sm:h-96 overflow-hidden rounded-xl py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
                                 <div class="absolute inset-0">
-                                    <img src="{{ count($reward->images) ? $reward->images[0]->url : "https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" }}" alt="" class="h-full w-full object-cover">
+                                    <img src="{{ count($reward->images) ? $reward->images[0]->url : "https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" }}" alt="" class="h-full w-full object-fill">
                                 </div>
                                 {{-- <div class="relative lg:col-span-1"> --}}
                                     {{-- <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">

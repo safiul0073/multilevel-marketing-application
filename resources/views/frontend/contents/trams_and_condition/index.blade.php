@@ -9,12 +9,12 @@
 @section('content')<div class="px-4 sm:px-6 lg:px-8">
     <div class="relative mx-auto max-w-[40rem] pt-20 text-center pb-24">
         <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Terms and Condition</h1>
-        <p class="mt-4 text-base leading-7 text-slate-600">Last updated on November 2, 2021</p>
+        <p class="mt-4 text-base leading-7 text-slate-600">Last updated on {!! get_option_with_date('mlm_tams_and_condition') ? get_option_with_date('mlm_tams_and_condition')['date'] : "November 2, 2021" !!}</p>
     </div>
 </div>
 <div class="relative px-4 sm:px-6 lg:px-8 mb-20">
     <div class="mx-auto max-w-[70rem] prose-sm prose prose-slate prose-a:font-semibold prose-a:text-sky-500 hover:prose-a:text-sky-600">
-        <p>This privacy policy ("Policy") describes how Tailwind Labs Inc. ("Tailwind", "we", "us" or "our") collects, protects and uses the personally identifiable information ("Personal Information") you ("User", "you" or "your") may provide through the Tailwind UI website (tailwindui.com) or in the course of purchasing any Tailwind UI products (collectively, "Website"). The Policy also describes the choices available to you regarding our use of your Personal Information and how you can access and update this information. This Policy does not apply to the practices of companies that we do not own or control, or to individuals that we do not employ or manage.</p>
+        {!! get_option_with_date('mlm_tams_and_condition') ? get_option_with_date('mlm_tams_and_condition')['content'] : `<p>This privacy policy ("Policy") describes how Tailwind Labs Inc. ("Tailwind", "we", "us" or "our") collects, protects and uses the personally identifiable information ("Personal Information") you ("User", "you" or "your") may provide through the Tailwind UI website (tailwindui.com) or in the course of purchasing any Tailwind UI products (collectively, "Website"). The Policy also describes the choices available to you regarding our use of your Personal Information and how you can access and update this information. This Policy does not apply to the practices of companies that we do not own or control, or to individuals that we do not employ or manage.</p>
         <h2>Collection of personal information</h2>
         <p>We receive and store any information you knowingly provide to us when you make a purchase through the Website. Currently this is limited to your email address, which is required for you to be able to login to the Website and access any purchased Tailwind UI products.</p>
         <h2>Collection of non-personal information</h2>
@@ -58,7 +58,7 @@
         <h2>Acceptance of this policy</h2>
         <p>You acknowledge that you have read this Policy and agree to all its terms and conditions. By using the Website you agree to be bound by this Policy. If you do not agree to abide by the terms of this Policy, you are not authorized to use or access the Website.</p>
         <h2>Contacting us</h2>
-        <p>If you have any questions about this Policy, please contact us by email at <a href="mailto:support@tailwindui.com">support@tailwindui.com</a>.</p>
+        <p>If you have any questions about this Policy, please contact us by email at <a href="mailto:support@tailwindui.com">support@tailwindui.com</a>.</p>` !!}
     </div>
 </div>
 @endsection

@@ -120,6 +120,7 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('transfer-charge', [OptionController::class, 'getTransferCharge']);
         Route::get('office', [OptionController::class, 'getOfficeSettings']);
         Route::get('home', [OptionController::class, 'getHomeContent']);
-        Route::post('bonus',[OptionController::class, 'storeOption']);
+        Route::post('options',[OptionController::class, 'storeOption']);
+        Route::get('option', [OptionController::class, 'getOptionValue']);
     });
 });

@@ -23,6 +23,18 @@ class Option extends Model
         return self::$autoload[$name];
     }
 
+    public static function getOptionWithUpdateAt($name, $default = null) {
+
+        $result = self::where('name', $name)->first();
+
+        if (!$result) return $default;
+
+        return [
+            "content" => $result->content,
+            "date" => $result->updated_at->format('M d, Y')
+        ];
+    }
+
     public static function updateOption($name, $value) {
 
 

@@ -95,7 +95,11 @@ const Sidebar = () => {
                 { name: "Generation", href: "/staff/settings/generation" },
                 { name: "Single Amount", href: "/staff/settings/single-amount"},
                 { name: "Footer", href: "/staff/settings/office-info"},
-                { name: "Home", href: "/staff/settings/home-content"}
+                { name: "Home", href: "/staff/settings/home-content"},
+                { name: "Privacy Policy", href: "/staff/settings/privacy-policy"},
+                { name: "Disclaimer Policy", href: "/staff/settings/disclaimer-policy"},
+                { name: "Spam Policy", href: "/staff/settings/spam-policy"},
+                { name: "Trams & Condition", href: "/staff/settings/trams-and-condition"},
             ],
         },
     ];

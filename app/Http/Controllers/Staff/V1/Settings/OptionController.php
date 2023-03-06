@@ -44,4 +44,15 @@ class OptionController extends Controller
 
         return $this->withSuccess('Successfully saved setting.');
     }
+
+    public function getOptionValue (Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|string'
+        ]);
+
+        $option = Option::getOption($request->name);
+        
+        return $this->withSuccess($option);
+    }
 }
