@@ -15,7 +15,8 @@ import {
     ClipboardDocumentListIcon,
     ShieldCheckIcon,
     BanknotesIcon,
-    ClipboardDocumentIcon
+    ClipboardDocumentIcon,
+    CameraIcon
 } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
@@ -50,6 +51,7 @@ const Sidebar = () => {
         { name: "Category", href: "/staff/category", icon: ClockIcon },
         { name: "Package", href: "/staff/package", icon: ClipboardDocumentListIcon },
         { name: "Slider", href: "/staff/slider", icon: PhotoIcon },
+        { name: "Gallery", href: "/staff/gallery", icon: CameraIcon },
         { name: "Epin", href: "/staff/epin", icon: ShieldCheckIcon },
         { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
         { name: "Payment Method", href: "/staff/payment-method", icon: BanknotesIcon },

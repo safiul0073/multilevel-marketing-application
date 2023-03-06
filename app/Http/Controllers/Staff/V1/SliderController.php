@@ -20,13 +20,16 @@ class SliderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $perPage = 10;
         if (request()->perPage) {
             $perPage = request()->perPage;
         }
-        $sliders = Slider::with('image')->orderBy('id', 'DESC')->paginate($perPage);
+        $sliders = Slider::with('image')
+                ->where('is_slider', $request->is_slider)
+                ->orderBy('id', 'DESC')->paginate($perPage);
+
 
         return $this->withSuccess($sliders);
     }
@@ -44,6 +47,7 @@ class SliderController extends Controller
             'title' => 'required|string|max:100',
             'image' => ['required',File::types(['jpg','png', 'jpeg'])->min(50)->max(2*1000)],
             'status' => 'required|digits_between:0,1',
+            'is_slider'  => 'nullable'
         ]);
         $slider_image = null;
         if ($request->hasFile('image')) {
@@ -59,7 +63,7 @@ class SliderController extends Controller
             }
             if ($slider_image) {
                 $slider->image()->create([
-                    'type' => 'slider',
+                    'type' => $slider->is_slider == 1 ? 'slider' : 'gallery',
                     'url' => $slider_image,
                 ]);
             }
@@ -68,7 +72,7 @@ class SliderController extends Controller
             return $this->withErrors($ex->getMessage());
         }
 
-        return $this->withCreated('Slider successfully created.');
+        return $this->withCreated('Successfully created.');
     }
 
     /**
@@ -94,7 +98,7 @@ class SliderController extends Controller
         $att = $this->validate($request, [
             'id'    => 'required|numeric|exists:sliders,id',
             'title' => 'required|string|max:100',
-            'image' => ['required'],
+            'image' => ['nullable'],
             'status' => 'required|digits_between:0,1',
         ]);
         $slider = Slider::find($att['id']);
@@ -118,7 +122,7 @@ class SliderController extends Controller
             }
             if ($slider_image) {
                 $slider->image()->create([
-                    'type' => 'slider',
+                    'type' => $slider->is_slider == 1? 'slider' : 'gallery',
                     'url' => $slider_image,
                 ]);
             }
@@ -127,7 +131,7 @@ class SliderController extends Controller
             return $this->withErrors($ex->getMessage());
         }
 
-        return $this->withCreated('Slider successfully updated.');
+        return $this->withCreated('Successfully updated.');
     }
 
     /**
@@ -146,6 +150,6 @@ class SliderController extends Controller
 
         $slider->delete();
 
-        return $this->withSuccess('Slider successfully delete.');
+        return $this->withSuccess('Successfully deleted.');
     }
 }

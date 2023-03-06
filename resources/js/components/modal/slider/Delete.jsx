@@ -5,13 +5,13 @@ import { useMutation } from 'react-query';
 import { deleteSlider } from '../../../hooks/queries/slider';
 import  toast  from 'react-hot-toast';
 
-export default function DeleteSlider({isOpen, setIsOpen, closeModal, refatcher, slider}) {
+export default function DeleteSlider({isOpen, setIsOpen, closeModal, refatcher, slider, isSlider=true}) {
 
 
     const onSubmit= (data) => {
         deleteSliderMutate(data)
     }
-    
+
     function closeModal() {
         setIsOpen(false)
     }
@@ -69,16 +69,16 @@ export default function DeleteSlider({isOpen, setIsOpen, closeModal, refatcher, 
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Delete Slider
+                        Delete {isSlider ? "Slider" : "Gallery"}
                     </div>
 
                         <div className='px-6'>
 
                                 <div className=" w-3/4 mx-auto">
 
-                                <h2 className="text-lg font-semibold pb-5">Delete this Slider </h2>
+                                <h2 className="text-lg font-semibold pb-5">Delete this {isSlider ? "Slider" : "Gallery"} </h2>
                                 <p className="text-gray-500 text-sm">
-                                    Are you sure you want to delete this Slider? All of your data will
+                                    Are you sure you want to delete this {isSlider ? "Slider" : "Gallery"}? All of your data will
                                     be permanently removed from our servers forever. This action
                                     cannot be undone.
                                 </p>

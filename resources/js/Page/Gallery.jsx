@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import LoaderAnimation from "../components/common/LoaderAnimation";
 import EditModal from "../components/modal/slider/EditModal";
 import CreateModal from "../components/modal/slider/CreateModal";
@@ -9,8 +9,8 @@ import Pagination from "../components/common/Pagination";
 import RowNotFound from "../components/common/RowNotFound";
 import { useDocumentTitle } from "../hooks/others";
 
-const Slider = () => {
-    useDocumentTitle('Slider');
+const Gallery = () => {
+    useDocumentTitle('Gallery');
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
 
@@ -19,9 +19,7 @@ const Slider = () => {
         setPageSize(() => currentPageValue)
     }
     // fetching category list using react query
-    const {data, isLoading, refetch} = getSliderList(page,pageSize, 1)
-    // memorising getting data
-    const sliderList = useMemo(() => data?.data, [data])
+    const {data, isLoading, refetch} = getSliderList(page,pageSize, 2)
 
     // create category modal calling
     const [isOpen, setIsOpen] = useState(false)
@@ -60,6 +58,7 @@ const Slider = () => {
         setIsOpen={setIsOpen}
         closeModal={closeModal}
         refatcher={refetch}
+        isSlider={false}
         />
         <EditModal
         isOpen={isEditModalOpen}
@@ -67,6 +66,7 @@ const Slider = () => {
         closeModal={closeEditModal}
         refatcher={refetch}
         slider={slider}
+        isSlider={false}
         />
         <DeleteSlider
         isOpen={isDeleteModalOpen}
@@ -74,6 +74,7 @@ const Slider = () => {
         closeModal={closeDeleteModal}
         refatcher={refetch}
         slider={slider}
+        isSlider={false}
         />
             <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
@@ -82,7 +83,7 @@ const Slider = () => {
                             <div className="sm:flex sm:items-center">
                                 <div className="sm:flex-auto">
                                     <h1 className="text-xl font-semibold text-gray-900">
-                                        Slider List
+                                        Gallery List
                                     </h1>
                                 </div>
                                 <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -91,7 +92,7 @@ const Slider = () => {
                                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
                                         onClick={() => createSlider()}
                                     >
-                                        Add New Slider Image
+                                        Add New Gallery Image
                                     </button>
                                 </div>
                             </div>
@@ -100,7 +101,7 @@ const Slider = () => {
                                     <LoaderAnimation/>
                                     :
                                     <>
-                                        {sliderList?.length
+                                        {data?.data?.length
                                         ?
                                         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                             <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
@@ -141,7 +142,7 @@ const Slider = () => {
                                                             </tr>
                                                         </thead>
                                                         <tbody className="divide-y divide-gray-200 bg-white">
-                                                            {sliderList?.map(
+                                                            {data?.data?.map(
                                                                 (slider) => (
                                                                     <tr
                                                                         key={Math.random()}
@@ -228,4 +229,4 @@ const Slider = () => {
         </>
     );
 };
-export default Protected(Slider);
+export default Protected(memo(Gallery));

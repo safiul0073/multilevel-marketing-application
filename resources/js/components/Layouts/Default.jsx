@@ -36,6 +36,7 @@ import PrivacyPolicy from '../../Page/Settings/PrivacyPolicy';
 import SpamPolicy from '../../Page/Settings/SpamPolicy';
 import DisclaimerPolicy from '../../Page/Settings/DisclaimerPolicy';
 import TramsCondition from '../../Page/Settings/TramsCondition';
+import Gallery from '../../Page/Gallery';
 
 const Layout =() =>{
     useRedirectRoute();
@@ -47,6 +48,7 @@ const Layout =() =>{
                 <Route path="/staff/dashboard" element={<Dashboard />} />
                 <Route path="/staff/category" element={<Category />} />
                 <Route path="/staff/slider" element={<Slider />} />
+                <Route path="/staff/gallery" element={<Gallery />} />
                 <Route path="/staff/package" element={<Package />} />
                 <Route path="/staff/users" element={<User />} />
                 <Route path="/staff/users/binary-tree" element={<BinaryTree />} />

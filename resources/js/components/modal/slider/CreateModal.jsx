@@ -9,7 +9,7 @@ import { createSlider } from '../../../hooks/queries/slider';
 import Textinput from '../../common/Textinput';
 import  toast  from 'react-hot-toast';
 
-export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) {
+export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher, isSlider=true}) {
 
     const [backendError, setBackendError] = useState()
     // validation using yup with react hook form
@@ -30,6 +30,9 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
     // form submit by useform using react hook form
     const onSubmit= (data) => {
         data.image = findImage
+        if (!isSlider) {
+            data.is_slider = 2
+        }
         createSliderMutate(data)
     }
     // close modal
@@ -92,15 +95,15 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Create Slider
+                        Create {isSlider ? "Slider" : "Gallery"}
                     </div>
 
                         <div className='px-6'>
                             <form onSubmit={handleSubmit(onSubmit)} >
                                 <div className=" w-3/4 mx-auto">
                                 <Textinput
-                                    label="Slider Title"
-                                    placeholder="First Slider"
+                                    label="Title"
+                                    placeholder="First"
                                     register={register}
                                     name="title"
                                     type="text"
@@ -108,7 +111,7 @@ export default function CreateModal({isOpen, setIsOpen, closeModal, refatcher}) 
                                     error={errors.title}
                                 />
                                     <div className='formGroup'>
-                                        <label className="label-style" htmlFor="image">Slider Image</label>
+                                        <label className="label-style" htmlFor="image">{isSlider ? "Slider" : "Gallery"} Image</label>
                                         <input type="file" className='form-control'  id="image" onChange={handleImage} />
                                         <p className='error-messag'>{errors.image?.message ?? backendError?.image}</p>
                                     </div>
