@@ -3,27 +3,26 @@
 namespace App\Http\Controllers\Staff\V1\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Media;
 use App\Models\Option;
-use App\Models\TaskScheduler;
 use App\Traits\Formatter;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OptionController extends Controller
 {
     use Formatter;
 
-    public function getBonus (Request $request) {
+    public function getBonus () {
 
         return $this->withSuccess(config('mlm.bonus'));
     }
 
-    public function getTransferCharge (Request $request) {
+    public function getTransferCharge () {
 
         return $this->withSuccess(config('mlm.balance_transfer'));
     }
 
-    public function getOfficeSettings (Request $request) {
+    public function getOfficeSettings () {
 
         return $this->withSuccess(config('mlm.footer'));
     }
@@ -48,11 +47,34 @@ class OptionController extends Controller
     public function getOptionValue (Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'is_full_data' => 'nullable'
         ]);
 
-        $option = Option::getOption($request->name);
-        
+        $option = null;
+
+        if ($request->is_full_data) {
+            $option = Option::where('name', $request->name)->first();
+        }else{
+            $option = Option::getOption($request->name);
+        }
+
         return $this->withSuccess($option);
+    }
+
+    public function getMediaImage (Request $request)
+    {
+        $this->validate($request, [
+            'id'    => 'required',
+            'type'  => 'required'
+        ]);
+
+        $option = Media::where([
+                        'media_id' => (int) $request->id,
+                        'type' => $request->type
+                    ])->get();
+
+        return $this->withSuccess($option);
+
     }
 }

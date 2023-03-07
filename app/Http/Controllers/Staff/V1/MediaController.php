@@ -29,9 +29,18 @@ class MediaController extends Controller
         try {
             DB::beginTransaction();
 
-            $is_multi = in_array( $request->type,['thamnail', 'gellary', 'reward']);
+            $is_multi = in_array( $request->type,['thamnail', 'gellary', 'reward', 'about_us', 'about_story']);
 
-            $this->imageFullyDelete($is_multi, $model, $request->type);
+            // $this->imageFullyDelete($is_multi, $model, $request->type);
+            if (in_array($request->type, ['about_us', 'about_story'])){
+                $count = $model->images()->where('type', $request->type)->count();
+                if ($request->type == 'about_story' && $count == 4 ){
+                    return throw new Exception('already fill up image');
+                }
+                if ($request->type == 'about_us' && $count == 1 ){
+                    return throw new Exception('already fill up image');
+                }
+            }
 
             $image = $this->uploadFile($request->file('image'));
 

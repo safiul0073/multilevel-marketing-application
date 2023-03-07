@@ -37,6 +37,7 @@ import SpamPolicy from '../../Page/Settings/SpamPolicy';
 import DisclaimerPolicy from '../../Page/Settings/DisclaimerPolicy';
 import TramsCondition from '../../Page/Settings/TramsCondition';
 import Gallery from '../../Page/Gallery';
+import AboutUs from '../../Page/Settings/AboutUs';
 
 const Layout =() =>{
     useRedirectRoute();
@@ -77,6 +78,7 @@ const Layout =() =>{
                 <Route path="/staff/settings/spam-policy" element={<SpamPolicy/>} />
                 <Route path="/staff/settings/Disclaimer-policy" element={<DisclaimerPolicy/>} />
                 <Route path="/staff/settings/trams-and-condition" element={<TramsCondition/>} />
+                <Route path="/staff/settings/about-us" element={<AboutUs/>} />
                 <Route path="/staff/epin" element={<Epin />} />
                 <Route path="/staff/login" element={<Login />} />
             </Routes>

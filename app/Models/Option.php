@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Option extends Model
 {
@@ -12,6 +13,10 @@ class Option extends Model
     protected $guarded = ['id'];
 
     private static $autoload;
+
+    public function images ():MorphMany {
+        return $this->morphMany(Media::class, 'media');
+    }
 
     public static function getOption($name, $default = null) {
         if (!self::$autoload) {

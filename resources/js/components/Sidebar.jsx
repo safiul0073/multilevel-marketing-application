@@ -102,6 +102,7 @@ const Sidebar = () => {
                 { name: "Disclaimer Policy", href: "/staff/settings/disclaimer-policy"},
                 { name: "Spam Policy", href: "/staff/settings/spam-policy"},
                 { name: "Trams & Condition", href: "/staff/settings/trams-and-condition"},
+                { name: "About Us", href: "/staff/settings/about-us"},
             ],
         },
     ];
@@ -293,7 +294,7 @@ const Sidebar = () => {
                             alt="Easywire logo"
                         />
                     </div>
-                    <div className="mt-5 px-3">
+                    {/* <div className="mt-5 px-3">
                         <label htmlFor="search" className="sr-only">
                             Search
                         </label>
@@ -315,7 +316,7 @@ const Sidebar = () => {
                                 placeholder="Search"
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <nav
                         className="mt-5 flex flex-1 flex-col divide-y divide-cyan-800 overflow-y-auto"
                         aria-label="Sidebar"

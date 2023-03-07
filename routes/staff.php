@@ -122,5 +122,6 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('home', [OptionController::class, 'getHomeContent']);
         Route::post('options',[OptionController::class, 'storeOption']);
         Route::get('option', [OptionController::class, 'getOptionValue']);
+        Route::get('option-image', [OptionController::class, 'getMediaImage']);
     });
 });

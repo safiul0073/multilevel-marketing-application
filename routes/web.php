@@ -95,6 +95,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-deposit', [HomeController::class, 'depositView'])->name('user.deposit');
     Route::get('/user-balance-transfer', [HomeController::class, 'balanceTransferView'])->name('user.balance.transfer');
     Route::get('/user-invoice', [HomeController::class, 'invoiceView'])->name('user.invoice');
+    Route::get('/dashboard/bonuses', [App\Http\Controllers\Frontend\Dashboard\BonusController::class, 'index'])->name('dashboard.bonuses');
 });
 
 Route::get('trams-condition', [TramsAndConditionController::class, 'index'])->name('trams.condition');
