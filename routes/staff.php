@@ -8,6 +8,7 @@ use App\Http\Controllers\Staff\V1\BlogController;
 use App\Http\Controllers\Staff\V1\CategoryController;
 use App\Http\Controllers\Staff\V1\EpinController;
 use App\Http\Controllers\Staff\V1\EpinHelperController;
+use App\Http\Controllers\Staff\V1\FaqController;
 use App\Http\Controllers\Staff\V1\InceptiveBonusController;
 use App\Http\Controllers\Staff\V1\LoginInfo;
 use App\Http\Controllers\Staff\V1\MediaController;
@@ -47,7 +48,8 @@ Route::middleware('auth:staff')->group(function () {
         'slider' => SliderController::class,
         'epin' => EpinController::class,
         'reward' => RewardController::class,
-        'blog' => BlogController::class
+        'blog' => BlogController::class,
+        'faq'  => FaqController::class,
     ]);
     // resource route end
     Route::post('payment-method-update', [PaymentMethodController::class, 'update']);

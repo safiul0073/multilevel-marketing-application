@@ -30,6 +30,7 @@
         "moment": "^2.29.4",
         "npm": "^9.1.2",
         "react-copy-to-clipboard": "^5.1.0",
+        "react-dropzone": "^14.2.3",
         "react-hook-form": "^7.39.5",
         "react-hot-toast": "^2.4.0",
         "react-icons": "^4.6.0",

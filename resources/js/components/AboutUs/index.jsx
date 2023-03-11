@@ -6,6 +6,7 @@ import JoditEditor from 'jodit-react';
 import { getOptionValueByName } from "../../hooks/queries/settings/getOptionValueByName";
 import ImageUpload from "../common/ImageUpload";
 import { getOptionImage } from "../../hooks/queries/media/getOptionImage";
+import { createMedia } from "../../hooks/queries/media";
 
 const index = ({title, optionName, type, data, refetch}) => {
 
@@ -40,6 +41,35 @@ const index = ({title, optionName, type, data, refetch}) => {
           toast.error(errorobj, {
             position: 'top-right'
           })
+        },
+      });
+         // gallery image handle and upload
+    const uploadGalleryImage = (event) => {
+
+        if (event.target.files[0]) {
+            createMediaMutate({
+                id: mediaId,
+                image: event.target.files[0],
+                type: optionType
+            })
+        }
+    }
+      const {
+        mutate: createMediaMutate,
+        isLoading,
+      } = useMutation(createMedia, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: 'top-right'
+            });
+            refetch()
+        },
+        onError: (err) => {
+
+            let errorobj = err?.response?.data?.data?.string_data;
+            toast.error(errorobj,{
+                position: 'top-right'
+            })
         },
       });
   return (
@@ -82,13 +112,13 @@ const index = ({title, optionName, type, data, refetch}) => {
                     <button onClick={submitGenBonus} className="btn btn-primary w-full">Save</button>
                 )}
             </div>
-            <div className="my-2">
+            {/* <div className="my-2">
                 <ImageUpload
                     gallery={'Image'}
                     mediaId={data?.id}
                     optionType={type}
                 />
-            </div>
+            </div> */}
         </div>
     </>
   )
