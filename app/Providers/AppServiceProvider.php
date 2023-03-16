@@ -46,12 +46,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // whereDateBetween for eloquent model
-        Builder::macro('WhereDateBetween', function (string $attribute, string $from_date, string $to_date) {
-            $this->when($from_date && $to_date, function (Builder $builder) use($attribute, $from_date, $to_date) {
+        Builder::macro('whereDateBetween', function (string $attribute, $from_date, $to_date) {
+            if ($from_date && $to_date) {
                 $startDate = Carbon::createFromFormat('Y-m-d', $from_date)->startOfDay();
                 $endDate = Carbon::createFromFormat('Y-m-d', $to_date)->endOfDay();
-                $builder->whereBetween($attribute, [$startDate, $endDate]);
-            });
+                $this->whereBetween($attribute, [$startDate, $endDate]);
+            }
         });
     }
 }

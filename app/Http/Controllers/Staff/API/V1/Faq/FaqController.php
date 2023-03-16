@@ -28,14 +28,7 @@ class FaqController extends Controller
      */
     public function index()
     {
-        // $perPage = 10;
-        // if (request()->perPage) {
-        //     $perPage = request()->perPage;
-        // }
-        // $blog = Answer::with('image')->orderBy('id', 'DESC')->paginate($perPage);
-
-        // return $this->withSuccess($blog);
-       return ApiIndexQueryService::indexQuery(Answer::query(), ['image'], ['ans']);
+       return ApiIndexQueryService::indexQuery(Answer::query(), ['question'], ['ans', 'question.question']);
     }
 
     /**
@@ -46,26 +39,6 @@ class FaqController extends Controller
      */
     public function store(FAQRequest $request)
     {
-
-        // try {
-        //     DB::beginTransaction();
-
-        //     $qusId = Question::insertGetId([
-        //         'question' => $att['question']
-        //     ]);
-
-        //     Answer::create([
-        //         'question_id' => $qusId,
-        //         'ans' => $att['ans']
-        //     ]);
-
-        //     DB::commit();
-        // } catch (\Exception $ex) {
-        //     DB::rollBack();
-        //     return $this->withSuccess($ex->getMessage());
-        // }
-
-
 
         return $this->service->store($request->validated());
     }
@@ -88,31 +61,9 @@ class FaqController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Answer $answer)
+    public function update(FAQRequest $request, Answer $answer)
     {
-        $att = $this->validate($request, [
-            'question' => 'required|string',
-            'ans'      => 'required|string'
-        ]);
-
-        try {
-            DB::beginTransaction();
-
-            $answer->update([
-                'ans' => $att['ans']
-            ]);
-
-            $answer->question()->update([
-                'question' => $att['question']
-            ]);
-
-            DB::commit();
-        } catch (\Exception $ex) {
-            DB::rollBack();
-            return $this->withSuccess($ex->getMessage());
-        }
-
-        return $this->withSuccess('Successfully updated.');
+        return $this->service->update($request->validated(), $answer);
     }
 
     /**
