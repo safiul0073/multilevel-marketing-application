@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Question::class)->constrained()->cascadeOnDelete();
             $table->longText('ans');
+            $table->tinyInteger('type')->default(1)->comment('1 = active,0 = unactive');
             $table->timestamps();
         });
     }
