@@ -6,7 +6,7 @@ import Protected from "../components/HOC/Protected";
 import CreateModal from "../components/modal/faq/CreateModal";
 import DeleteFaq from "../components/modal/faq/Delete";
 import EditModal from "../components/modal/faq/EditModal";
-import { getCategoryList } from "../hooks/queries/category/getCategoryList";
+import { getFaqList } from "../hooks/queries/faq/getFaqList";
 
 const Category = () => {
     const [page, setPage] = useState(1);
@@ -17,7 +17,7 @@ const Category = () => {
         setPageSize(() => currentPageValue);
     };
     // fetching category list using react query
-    const { data, isLoading, refetch } = getCategoryList(page, pageSize);
+    const { data, isLoading, refetch } = getFaqList(page, pageSize);
 
     // create category modal calling
     const [isOpen, setIsOpen] = useState(false);
@@ -113,7 +113,13 @@ const Category = () => {
                                                                         scope="col"
                                                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                     >
-                                                                        Title
+                                                                        Question
+                                                                    </th>
+                                                                    <th
+                                                                        scope="col"
+                                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                                    >
+                                                                        Answer
                                                                     </th>
                                                                     <th
                                                                         scope="col"
@@ -131,27 +137,35 @@ const Category = () => {
                                                             </thead>
                                                             <tbody className="divide-y divide-gray-200 bg-white">
                                                                 {data?.data?.map(
-                                                                    (
-                                                                        category
-                                                                    ) => (
+                                                                    (faq) => (
                                                                         <tr
                                                                             key={Math.random()}
                                                                         >
                                                                             <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left font-semibold text-sm text-gray-500 sm:pl-6">
                                                                                 <div className="text-gray-900">
                                                                                     {
-                                                                                        category?.id
+                                                                                        faq?.id
                                                                                     }
                                                                                 </div>
                                                                             </td>
                                                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                 <div className="text-gray-900">
-                                                                                    {category?.name ||
-                                                                                        category?.title}
+                                                                                    {
+                                                                                        faq
+                                                                                            ?.question
+                                                                                            ?.question
+                                                                                    }
                                                                                 </div>
                                                                             </td>
                                                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                                {category?.status ==
+                                                                                <div className="text-gray-900">
+                                                                                    {
+                                                                                        faq?.ans
+                                                                                    }
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                                {faq?.status ==
                                                                                 1 ? (
                                                                                     <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
                                                                                         Active
@@ -168,7 +182,7 @@ const Category = () => {
                                                                                         className="text-indigo-600 font-normal hover:text-indigo-700 hover:underline"
                                                                                         onClick={() =>
                                                                                             editFaq(
-                                                                                                category
+                                                                                                faq
                                                                                             )
                                                                                         }
                                                                                     >
@@ -178,7 +192,7 @@ const Category = () => {
                                                                                         className="text-red-600 font-normal hover:text-red-700 hover:underline"
                                                                                         onClick={() =>
                                                                                             delateFaq(
-                                                                                                category?.id
+                                                                                                faq?.id
                                                                                             )
                                                                                         }
                                                                                     >
@@ -205,7 +219,7 @@ const Category = () => {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <RowNotFound name="categories" />
+                                            <RowNotFound name="faqs" />
                                         )}
                                     </>
                                 )}

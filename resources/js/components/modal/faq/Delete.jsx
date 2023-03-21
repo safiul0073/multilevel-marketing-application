@@ -70,17 +70,17 @@ export default function DeleteFaq({
                                         <span className="inline-block text-2xl mr-3">
                                             <AiFillPlusCircle />
                                         </span>
-                                        Delete Category
+                                        Delete FAQ
                                     </div>
 
                                     <div className="px-6">
                                         <div className=" w-3/4 mx-auto">
                                             <h2 className="text-lg font-semibold pb-5">
-                                                Delete this Category{" "}
+                                                Delete this FAQ{" "}
                                             </h2>
                                             <p className="text-gray-500 text-sm">
                                                 Are you sure you want to delete
-                                                this Category? All of your data
+                                                this FAQ? All of your data
                                                 will be permanently removed from
                                                 our servers forever. This action
                                                 cannot be undone.
@@ -122,7 +122,7 @@ export default function DeleteFaq({
                                                         <button
                                                             onClick={() =>
                                                                 onSubmit(
-                                                                    category
+                                                                    faq
                                                                 )
                                                             }
                                                             className=" cursor-pointer bg-red-500 text-white font-normal px-4 py-1 rounded-md"

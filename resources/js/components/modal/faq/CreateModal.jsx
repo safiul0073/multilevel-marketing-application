@@ -1,13 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from "react-query";
-import * as yup from "yup";
-import { createCategory } from "../../../hooks/queries/category";
 import toast from "react-hot-toast";
 import Textinput from "../../common/Textinput";
+import TextArea from "../../common/TextArea";
+import { createFaq } from '../../../hooks/queries/faq/index'
 export default function CreateModal({
     isOpen,
     setIsOpen,
@@ -15,44 +14,36 @@ export default function CreateModal({
     refetch,
 }) {
     const [backendError, setBackendError] = useState();
-    const schema = yup
-        .object({
-            title: yup.string().min(4, "Too Short!").max(50, "Too Long!"),
-        })
-        .required();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
+    const { register, handleSubmit } = useForm();
+
     const onSubmit = (data) => {
-        createCategoryMutate(data);
-    };
+        createFaqMutate(data);
+    }
+
     function closeModal() {
         setIsOpen(false);
     }
-    const {
-        mutate: createCategoryMutate,
-        isLoading,
-    } = useMutation(createCategory, {
-        onSuccess: (data) => {
-            toast.success(data, {
-                position: "top-right",
-            });
-            refetch();
-            closeModal();
-        },
-        onError: (err) => {
-            let errorobj = err?.response?.data?.data?.json_object;
-            setBackendError({
-                ...backendError,
-                ...errorobj,
-            });
-        },
-    });
+
+    const { mutate: createFaqMutate, isLoading } = useMutation(
+        createFaq,
+        {
+            onSuccess: (data) => {
+                toast.success(data, {
+                    position: "top-right",
+                });
+                refetch();
+                closeModal();
+            },
+            onError: (err) => {
+                let errorobj = err?.response?.data?.data?.json_object;
+                setBackendError({
+                    ...backendError,
+                    ...errorobj,
+                });
+            },
+        }
+    );
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -100,7 +91,14 @@ export default function CreateModal({
                                                     backendValidationError={
                                                         backendError?.question
                                                     }
-                                                    error={errors.question}
+                                                />
+                                                <TextArea
+                                                    label="Answer"
+                                                    placeholder="It's vary good."
+                                                    register={register}
+                                                    name="ans"
+                                                    type="text"
+                                                    backendError={backendError?.ans}
                                                 />
                                                 <div className="formGroup">
                                                     <label

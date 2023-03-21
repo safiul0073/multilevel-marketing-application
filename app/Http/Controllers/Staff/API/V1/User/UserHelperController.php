@@ -42,7 +42,9 @@ class UserHelperController extends Controller
             'username'   => 'nullable|string|exists:users,username'
         ]);
 
-        $users = User::query()->with('image')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children' => fn ($q) => $q->with('image')]);
+        $users = User::query()->with('image')
+                              ->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])
+                              ->with(['children' => fn ($q) => $q->with('image')]);
 
         if (isset($att['username'])) {
             $users->where('username',$att['username']);
@@ -73,13 +75,12 @@ class UserHelperController extends Controller
                             => fn ($query) => $query->where('bonus_type', Bonuse::GENERATION) ],'amount')
                         ->withSum('purchases as purchase_amount', 'amount')
                         ->withSum(['bonuses as total_today_bonus'
-                            => fn ($query) => $query->where('bonus_type', Bonuse::INCEPTIVE) ],'amount')
+                            => fn ($query) => $query->where('bonus_type', Bonuse::INCENTIVE) ],'amount')
                         ->withSum(['bonuses as matching_bonus'
                             => fn ($query) => $query->where('bonus_type', Bonuse::MATCHING) ],'amount')
                         ->withSum(['bonuses as referral_bonus'
                             => fn ($query) => $query->where('bonus_type', Bonuse::JOINING) ],'amount')
                         ->with(['image', 'nominee', 'info'])
-
                         ->where('id', (int) $id)->first();
         return $this->withSuccess($details);
     }

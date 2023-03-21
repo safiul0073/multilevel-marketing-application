@@ -1,13 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
-import * as yup from "yup";
-import { updateCategory } from "../../../hooks/queries/category";
 import Textinput from "../../common/Textinput";
+import { updateFaq } from "../../../hooks/queries/faq";
+import TextArea from "../../common/TextArea";
 
 export default function EditModal({
     isOpen,
@@ -18,23 +17,10 @@ export default function EditModal({
 }) {
     const [backendError, setBackendError] = useState();
 
-    const schema = yup
-        .object({
-            title: yup.string().min(4, "Too Short!").max(50, "Too Long!"),
-        })
-        .required();
-
-    const {
-        register,
-        reset,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
+    const { register, reset, handleSubmit } = useForm();
 
     const onSubmit = (data) => {
-        updateCategoryMutate(data);
+        updateFaqMutate(data);
     };
 
     function closeModal() {
@@ -43,29 +29,29 @@ export default function EditModal({
 
     useEffect(() => {
         if (faq) {
-            reset(faq);
+            reset({
+                ...faq,
+                question: faq?.question?.question,
+            });
         }
     }, [faq]);
 
-    const { mutate: updateCategoryMutate, isLoading } = useMutation(
-        updateCategory,
-        {
-            onSuccess: (data) => {
-                toast.success(data, {
-                    position: "top-right",
-                });
-                refetch();
-                closeModal();
-            },
-            onError: (err) => {
-                let errorobj = err?.response?.data?.data?.json_object;
-                setBackendError({
-                    ...backendError,
-                    ...errorobj,
-                });
-            },
-        }
-    );
+    const { mutate: updateFaqMutate, isLoading } = useMutation(updateFaq, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: "top-right",
+            });
+            refetch();
+            closeModal();
+        },
+        onError: (err) => {
+            let errorobj = err?.response?.data?.data?.json_object;
+            setBackendError({
+                ...backendError,
+                ...errorobj,
+            });
+        },
+    });
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -98,22 +84,31 @@ export default function EditModal({
                                         <span className="inline-block text-2xl mr-3">
                                             <AiFillPlusCircle />
                                         </span>
-                                        Update Category
+                                        Update FAQ
                                     </div>
 
                                     <div className="px-6">
                                         <form onSubmit={handleSubmit(onSubmit)}>
                                             <div className=" w-3/4 mx-auto">
                                                 <Textinput
-                                                    label="Category Title"
-                                                    placeholder="Man Fashion"
+                                                    label="Question"
+                                                    placeholder="How was it?"
                                                     register={register}
-                                                    name="title"
+                                                    name="question"
                                                     type="text"
                                                     backendValidationError={
-                                                        backendError?.title
+                                                        backendError?.question
                                                     }
-                                                    error={errors.title}
+                                                />
+                                                <TextArea
+                                                    label="Answer"
+                                                    placeholder="It's vary good."
+                                                    register={register}
+                                                    name="ans"
+                                                    type="text"
+                                                    backendError={
+                                                        backendError?.ans
+                                                    }
                                                 />
                                                 <div className="formGroup">
                                                     <label

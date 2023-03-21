@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Staff\API\V1\User;
 use App\Events\PurchaseEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\Generation;
-use App\Models\MatchingPair;
-use App\Models\Nominee;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\UserService;
@@ -16,19 +13,16 @@ use App\Traits\MediaOperator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\File;
 
 class UserController extends Controller
 {
     use Formatter, MediaOperator;
 
-    protected $user_service;
 
-    public function __construct(UserService $user_service)
-    {
-        $this->user_service = $user_service;
-    }
+    public function __construct(
+        protected UserService $user_service
+        )
+    {}
     /**
      * Display a listing of the resource.
      *

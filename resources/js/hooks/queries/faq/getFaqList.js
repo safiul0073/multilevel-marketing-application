@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { getQuery } from '../getQuery';
 
-export const getCategoryList = (page=1,perPage=10) => {
+export const getFaqList = (page=1,perPage=10) => {
   return useQuery(
     [
       'category-lists', page,perPage

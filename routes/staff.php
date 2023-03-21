@@ -52,22 +52,17 @@ Route::middleware('auth:staff')->group(function () {
         'faq'  => FaqController::class,
     ]);
     // resource route end
-    Route::post('payment-method-update', [PaymentMethodController::class, 'update']);
-    Route::post('reward-update', [RewardController::class, 'update']);
+
     // epin helper
-    Route::post('epin-update', [EpinController::class, 'update']);
     Route::post('store-epin', [EpinHelperController::class, 'storeEpin']);
     Route::delete('delete-epin/{id}', [EpinHelperController::class, 'deleteEpin']);
     // package helper
     Route::get('package-list', [EpinHelperController::class, 'getProductList']);
     Route::get('all-package', [PackageHelperController::class, 'getAllPackage']);
-    Route::post('package-update', [PackageController::class, 'update']);
     Route::get('package-images/{product}', [PackageHelperController::class, 'getProductImages']);
 
     // category and slider helper
     Route::get('category-list', [PackageHelperController::class, 'getCategoryList']);
-    Route::post('slider-update', [SliderController::class, 'update']);
-    Route::post('category-update', [CategoryController::class, 'update']);
 
     // user route list
     Route::prefix('user')->name('user.')->group(function () {

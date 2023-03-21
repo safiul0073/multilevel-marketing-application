@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bonuse;
 use App\Models\IncentiveBonus;
 use App\Models\User;
 use App\Traits\Formatter;
@@ -81,7 +82,7 @@ class InceptiveBonusController extends Controller
                     array_map(function ($user) use($per_user_bonus) {
                         return [
                             'given_id' => $user['id'],
-                            'bonus_type'   => 'incentive',
+                            'bonus_type'   => Bonuse::INCENTIVE,
                             'amount'    => $per_user_bonus,
                             'status'    => false
                         ];

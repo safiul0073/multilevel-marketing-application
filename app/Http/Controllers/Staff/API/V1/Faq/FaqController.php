@@ -61,9 +61,9 @@ class FaqController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function update(FAQRequest $request, Answer $answer)
+    public function update(FAQRequest $request, Answer $faq)
     {
-        return $this->service->update($request->validated(), $answer);
+        return $this->service->update($request->validated(), $faq);
     }
 
     /**

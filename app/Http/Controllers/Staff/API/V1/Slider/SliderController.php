@@ -63,7 +63,7 @@ class SliderController extends Controller
             }
             if ($slider_image) {
                 $slider->image()->create([
-                    'type' => $slider->is_slider == 1 ? 'slider' : 'gallery',
+                    'type' => $slider->is_slider == 1 ? 'slider' : 'origin_gallery',
                     'url' => $slider_image,
                 ]);
             }

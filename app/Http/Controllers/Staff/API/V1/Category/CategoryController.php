@@ -63,14 +63,13 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Category $category)
     {
         $att = $this->validate($request, [
-            'id'    => 'required|numeric|exists:categories,id',
             'title' => 'required|string|max:56',
             'status' => 'nullable',
         ]);
-        $category = Category::find((int)$att['id']);
+
         unset($att['id']);
         $category->update($att);
 

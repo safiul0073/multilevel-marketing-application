@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bonuse;
 use App\Models\Purchase;
 use App\Models\Transaction;
 use App\Models\User;
@@ -14,13 +15,13 @@ class HomeController extends Controller
         $user = User::with('sponsor','nominee')
                     ->withSum('purchases as purchase_amount', 'amount')
                     ->withSum(['bonuses as total_bonus'
-                        => fn ($query) => $query->where('bonus_type', 'incentive') ],'amount')
+                        => fn ($query) => $query->where('bonus_type', Bonuse::INCENTIVE) ],'amount')
                     ->withSum(['bonuses as matching_bonus'
-                        => fn ($query) => $query->where('bonus_type', 'matching') ],'amount')
+                        => fn ($query) => $query->where('bonus_type', Bonuse::MATCHING) ],'amount')
                     ->withSum(['bonuses as referral_bonus'
-                        => fn ($query) => $query->where('bonus_type', 'joining') ],'amount')
+                        => fn ($query) => $query->where('bonus_type', Bonuse::JOINING) ],'amount')
                     ->withSum(['bonuses as gen_bonus'
-                        => fn ($query) => $query->where('bonus_type', 'gen') ],'amount')
+                        => fn ($query) => $query->where('bonus_type', Bonuse::GENERATION) ],'amount')
                     ->withSum(['withdraws as withdraw_amount'
                         => fn ($query) => $query->where('status', 1) ], 'amount')
                     ->withSum(['transactions as death_amount'

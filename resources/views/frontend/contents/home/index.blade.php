@@ -54,17 +54,17 @@
                     <ul class="splide__list">
                         @forelse ($sliders as $slider)
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="{{ $slider?->image?->url }}" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill" src="{{ $slider?->image?->url }}" alt="App screenshot">
                         </li>
                         @empty
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                         </li>
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                         </li>
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill"  src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                         </li>
                         @endforelse
 
