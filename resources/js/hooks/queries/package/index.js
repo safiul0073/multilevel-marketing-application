@@ -10,8 +10,11 @@ export const createPackage = async (inputData) => {
 
 export const updatePackage = async (inputData) => {
     const res = await userAxios.post(
-        `${APIURL}/staff/package-update/`,
-        inputData
+        `${APIURL}/staff/package/${inputData?.id}`,
+        {
+            ...inputData,
+            _method: "PUT"
+          }
     );
 
     return res?.data?.data?.string_data;

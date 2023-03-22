@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff\API\V1\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use App\Traits\MediaOperator;
 use Illuminate\Http\Request;
@@ -20,13 +21,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $perPage = 10;
-        if (request()->perPage) {
-            $perPage = request()->perPage;
-        }
-        $blog = Blog::with('image')->orderBy('id', 'DESC')->paginate($perPage);
-
-        return $this->withSuccess($blog);
+        return ApiIndexQueryService::indexQuery(Blog::query(),[], ['title']);
     }
 
     /**
@@ -99,7 +94,6 @@ class BlogController extends Controller
 
         try {
             DB::beginTransaction();
-
             // creating a blog row
             $blog->update([
                 'title' => $att['title'],

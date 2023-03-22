@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Staff\API\V1\Epin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EpinMainRequest;
 use App\Models\EpinMain;
 use App\Models\Product;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,13 +21,14 @@ class EpinController extends Controller
      */
     public function index()
     {
-        $perPage = 10;
-        if (request()->perPage) {
-            $perPage = request()->perPage;
-        }
-        $epins = EpinMain::with('epins', 'product:id,name')->orderBy('id', 'desc')->paginate($perPage);
-
-        return $this->withSuccess($epins);
+        return ApiIndexQueryService::indexQuery(
+            EpinMain::query(),
+            ['epins', 'product:id,name'],
+            ['customer_name',
+            'customer_phone',
+            'product.name'
+            ]
+        );
     }
 
     /**
@@ -34,38 +37,23 @@ class EpinController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EpinMainRequest $request)
     {
-        $this->validate($request, [
-            'cost'          => 'required|numeric',
-            'type'          => 'required|string',
-            'code.*'        => 'required|string|unique:epins,code',
-            'quantity'      => 'required|numeric|max:100',
-            'product_id'    => 'required|numeric|exists:products,id',
-            'customer_name' => 'required|string|max:56',
-            'customer_phone'=> 'required|string|min:11|max:12',
-        ]);
-
         try {
             DB::beginTransaction();
-            $product = Product::find((int) $request->product_id);
-            $epin_main = EpinMain::create([
-                'cost'          => $request->cost,
-                'type'          => $request->type,
-                'quantity'      => $request->quantity,
-                'product_id'    => $product->id,
-                'customer_name' => $request->customer_name,
-                'customer_phone'=> $request->customer_phone,
-            ]);
 
-            $epins = [];
-            foreach($request->code as $code) {
-                $epins[] = [
-                    'code'  => $code
-                ];
-            }
+            $att = $request->validated();
+            unset($att['code']);
 
-            $epin_main->epins()->createMany($epins);
+            $epin_main = EpinMain::create($att);
+
+            $epin_main->epins()->createMany(
+                array_map(function ($code){
+                    return [
+                        'code' => $code
+                    ];
+                }, $request->code)
+            );
 
             DB::commit();
         } catch (\Exception $ex) {
@@ -94,29 +82,12 @@ class EpinController extends Controller
      * @param  \App\Models\Epin  $epin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(EpinMainRequest $request, EpinMain $epin)
     {
-        $this->validate($request, [
-            'id'            => 'required|numeric|exists:epin_mains,id',
-            'cost'          => 'required|numeric',
-            'type'          => 'required|string',
-            'product_id'    => 'required|numeric|exists:products,id',
-            'customer_name' => 'required|string|max:56',
-            'customer_phone'=> 'required|string|min:11|max:12',
-        ]);
 
         try {
             DB::beginTransaction();
-            $product = Product::find((int) $request->product_id);
-            $epin_main = EpinMain::find((int) $request->id);
-            $e = $epin_main->update([
-                    'cost'          => $request->cost,
-                    'type'          => $request->type,
-                    'product_id'    => $request->product_id,
-                    'customer_name' => $request->customer_name,
-                    'customer_phone'=> $request->customer_phone,
-                ]);
-
+            $epin->update($request->validated());
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();
@@ -134,9 +105,14 @@ class EpinController extends Controller
      */
     public function destroy(EpinMain $epin)
     {
-        $epin->epins()->delete();
-        $epin->delete();
-
+        try {
+            DB::beginTransaction();
+            $epin->epins()->delete();
+            $epin->delete();
+            DB::commit();
+        } catch (\Exception $ex) {
+            return $this->withErrors($ex->getMessage());
+        }
         return $this->withSuccess('Successfully deleted.');
     }
 }

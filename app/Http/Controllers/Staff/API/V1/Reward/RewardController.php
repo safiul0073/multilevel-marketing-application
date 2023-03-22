@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Staff\API\V1\Reward;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RewardRequest;
 use App\Models\Reward;
+use App\Services\ApiIndexQueryService;
 use App\Services\RewardService;
 use App\Traits\Formatter;
 use App\Traits\MediaOperator;
@@ -21,13 +23,7 @@ class RewardController extends Controller
      */
     public function index()
     {
-        $perPage = 10;
-        if (request()->perPage) {
-            $perPage = request()->perPage;
-        }
-        $products = Reward::orderBy('id', 'DESC')->paginate($perPage);
-
-        return $this->withSuccess($products);
+        return ApiIndexQueryService::indexQuery(Reward::query());
     }
 
     /**
@@ -36,21 +32,13 @@ class RewardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RewardRequest $request)
     {
-        $att = $this->validate($request, [
-            'designation' => 'required|string|max:255',
-            'right_count' => 'required|numeric',
-            'left_count' => 'required|numeric',
-            'travel_destination' => 'required|string|max:255',
-            'one_time_bonus' => 'required|string',
-            'salary' => 'required|string',
-            'images.*' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
-        ]);
+
         try {
             DB::beginTransaction();
 
-            $reward = Reward::create($att);
+            $reward = Reward::create($request->validated());
 
             RewardService::checkUserForReward($reward);
 
@@ -93,24 +81,13 @@ class RewardController extends Controller
      * @param  \App\Models\Reward  $reward
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(RewardRequest $request, Reward $reward)
     {
-        $att = $this->validate($request, [
-            'id'    => 'required|numeric|exists:rewards,id',
-            'designation' => 'required|string|max:255',
-            'right_count' => 'required|numeric',
-            'left_count' => 'required|numeric',
-            'travel_destination' => 'required|string|max:255',
-            'one_time_bonus' => 'required|string',
-            'salary' => 'required|string',
-            'images.*' => ['nullable', File::types(['jpg', 'png', 'jpeg', 'svg'])->min(5)->max(10 * 1000)],
-        ]);
 
         try {
             DB::beginTransaction();
 
-            $reward = Reward::find((int) $att['id']);
-            $reward->update($att);
+            $reward->update($request->validated());
 
             RewardService::checkUserForReward($reward);
 

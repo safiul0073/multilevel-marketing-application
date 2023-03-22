@@ -12,8 +12,11 @@ export const createCategory = async (inputData) => {
 
   export const updateCategory = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/category-update/`,
-        inputData
+      `${APIURL}/staff/category/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;

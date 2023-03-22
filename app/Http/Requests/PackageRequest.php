@@ -13,7 +13,7 @@ class PackageRequest extends FormRequest
         return [
             'name' => 'required|string|max:100',
             'category_id' => 'required|numeric|exists:categories,id',
-            'sku'       => 'required|string|unique:products,sku',
+            'sku'       => 'required|string|unique:products,sku,'. $this->id .'',
             'description' => 'required|string|max:500',
             'refferral_commission' => 'nullable|numeric',
             'price' => 'required|numeric',

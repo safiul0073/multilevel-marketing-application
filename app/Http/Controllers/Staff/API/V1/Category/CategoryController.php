@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff\API\V1\Category;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
 
@@ -18,13 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $perPage = 10;
-        if (request()->perPage) {
-            $perPage = request()->perPage;
-        }
-        $categories = Category::orderBy('id', 'DESC')->paginate($perPage);
-
-        return $this->withSuccess($categories);
+        return ApiIndexQueryService::indexQuery(Category::query());
     }
 
     /**

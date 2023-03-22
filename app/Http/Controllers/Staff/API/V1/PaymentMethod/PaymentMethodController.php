@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff\API\V1\PaymentMethod;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentMethodRequest;
 use App\Models\PaymentMethod;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Illuminate\Http\Request;
 
@@ -18,13 +19,7 @@ class PaymentMethodController extends Controller
      */
     public function index()
     {
-        $perPage = 10;
-        if (request()->perPage) {
-            $perPage = request()->perPage;
-        }
-        $paymentMethods = PaymentMethod::orderByDesc('id')->paginate($perPage);
-
-        return $this->withSuccess($paymentMethods);
+        return ApiIndexQueryService::indexQuery(PaymentMethod::query());
     }
 
     /**

@@ -60,7 +60,7 @@
                                 {{ $transaction->amount }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {{ $transaction->created_at->format('D-m-Y') }}
+                                {{ $transaction->created_at->format("d-m-Y h:m a") }}
                             </td>
 
                         </tr>

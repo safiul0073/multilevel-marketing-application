@@ -12,8 +12,11 @@ export const createSlider = async (inputData) => {
 
   export const updateSlider = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/slider-update/`,
-      inputData
+      `${APIURL}/staff/slider/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;
