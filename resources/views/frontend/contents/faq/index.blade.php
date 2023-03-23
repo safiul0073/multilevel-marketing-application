@@ -11,9 +11,10 @@
     <div class="container mx-auto">
 
         <div class="accordion_wrapper">
+            @forelse ($faqs as $faq)
             <div class="accordion" id="accordion1">
                 <div class="accordion_head">
-                    <h4 class="accordion_head_title">Lorem ipsum dolor sit amet.</h4>
+                    <h4 class="accordion_head_title">{{ $faq->question->question }}</h4>
                     <span class="accordion_head_toggler">
                         <svg aria-hidden="true" viewBox="0 0 8 6" width="12" height="10" fill="none" class="pointer-events-none stroke-slate-700">
                             <path d="M7 1.5l-3 3-3-3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -22,15 +23,12 @@
                 </div>
                 <div class="accordion_body">
                     <div class="accordion_content">
-                        <p class="text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae voluptatem aut maiores
-                            fuga eum, repellendus iure quam officia corrupti id totam quisquam. Eum ut tempore temporibus doloremque
-                            ipsam in sequi.</p>
-                        <p class="text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae voluptatem aut maiores
-                            fuga eum, repellendus iure quam officia corrupti id totam quisquam. Eum ut tempore temporibus doloremque
-                            ipsam in sequi.</p>
+                        <p class="text">{{ $faq->ans }}</p>
+
                     </div>
                 </div>
             </div>
+            @empty
             <div class="accordion" id="accordion2">
                 <div class="accordion_head">
                     <h4 class="accordion_head_title">Lorem ipsum dolor sit amet.</h4>
@@ -86,6 +84,8 @@
                     </div>
                 </div>
             </div>
+            @endforelse
+
         </div>
     </div>
 </section>
