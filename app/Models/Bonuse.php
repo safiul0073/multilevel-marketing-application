@@ -12,7 +12,7 @@ class Bonuse extends Model
 
     const MATCHING = 'matching';
     const GENERATION = 'gen';
-    const INCEPTIVE = 'inceptive';
+    const INCENTIVE = 'incentive';
     const JOINING = 'joining';
 
     protected $guarded = [];

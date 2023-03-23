@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 use App\Http\Controllers\Frontend\AboutUsController;
 use App\Http\Controllers\Frontend\BalanceTransferController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -19,7 +8,7 @@ use App\Http\Controllers\Frontend\Dashboard\ReferralController;
 use App\Http\Controllers\Frontend\Dashboard\RewardController;
 use App\Http\Controllers\Frontend\DisclaimerPolicyController;
 use App\Http\Controllers\Frontend\GalleryController;
-use App\Http\Controllers\Frontend\HomeCotroller;
+use App\Http\Controllers\Frontend\HomeController as HomePageController;
 use App\Http\Controllers\Frontend\IncentiveBonusController;
 use App\Http\Controllers\Frontend\MyTeamController;
 use App\Http\Controllers\Frontend\NewsController;
@@ -30,11 +19,10 @@ use App\Http\Controllers\Frontend\ProductController;
 use App\Http\Controllers\Frontend\RegisterController;
 use App\Http\Controllers\Frontend\SpamPolicyController;
 use App\Http\Controllers\Frontend\TramsAndConditionController;
-use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Frontend\UserInfoController;
 use App\Http\Controllers\Frontend\WithdrawController;
-use App\Http\Controllers\Staff\V1\DashboardController;
-use App\Http\Controllers\Staff\V1\UserHelperController;
+use App\Http\Controllers\Staff\API\V1\DashboardController;
+use App\Http\Controllers\Staff\API\V1\User\UserHelperController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -43,10 +31,10 @@ Route::get('/staff/{path?}', [DashboardController::class, 'index'])->where('path
 // end dashboard page route
 Route::get('user-login/{user}', [UserHelperController::class, 'userLoginFromDashboard']);
 Auth::routes();
-Route::get('/', [HomeCotroller::class, 'index'])->name('hello.world.home.page');
+Route::get('/', [HomePageController::class, 'index'])->name('hello.world.home.page');
 Route::get('/packages', [ProductController::class, 'index'])->name('package.page');
 Route::get('/products', [ProductController::class, 'index'])->name('product.page');
-Route::get('get-one-product-res', [HomeCotroller::class, 'responseProductData'])->name('product.get.one.res');
+Route::get('get-one-product-res', [HomePageController::class, 'responseProductData'])->name('product.get.one.res');
 Route::get('/news', [NewsController::class, 'index'])->name('news.page');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('new.show');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.page');
@@ -95,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user-deposit', [HomeController::class, 'depositView'])->name('user.deposit');
     Route::get('/user-balance-transfer', [HomeController::class, 'balanceTransferView'])->name('user.balance.transfer');
     Route::get('/user-invoice', [HomeController::class, 'invoiceView'])->name('user.invoice');
+    Route::get('/dashboard/bonuses', [App\Http\Controllers\Frontend\Dashboard\BonusController::class, 'index'])->name('dashboard.bonuses');
 });
 
 Route::get('trams-condition', [TramsAndConditionController::class, 'index'])->name('trams.condition');

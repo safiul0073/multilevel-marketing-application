@@ -71,6 +71,12 @@ const PackagePurchase = () => {
                                                     >
                                                         Amount
                                                     </th>
+                                                    <th
+                                                        scope="col"
+                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                    >
+                                                        When
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200 bg-white">
@@ -91,7 +97,20 @@ const PackagePurchase = () => {
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {purchase?.amount}
                                                         </td>
-
+                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                            <div>
+                                                                {moment(
+                                                                    purchase?.created_at
+                                                                ).format(
+                                                                    "MM-DD-YYYY, h:mm a"
+                                                                )}
+                                                            </div>
+                                                            <div>
+                                                                {moment(
+                                                                    purchase?.created_at
+                                                                ).fromNow()}
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>

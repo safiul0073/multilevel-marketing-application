@@ -10,19 +10,7 @@ const publicAxios = axios.create({
   baseURL: APIURL,
 });
 
-let token = Cookies.get('nToken');
-
-const userAxioswithoutRedirect = axios.create({
-  baseURL: APIURL,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-    "Accept": "application/json, text/plain, */*",
-    "Content-Type": "application/json",
-    "Content-Type": "multipart/form-data",
-    // 'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-    Authorization: `Bearer ${token}`,
-  },
-});
+let token = Cookies.get(TOKEN_NAME);
 
 const userAxios = axios.create({
   baseURL: APIURL,
@@ -31,7 +19,6 @@ const userAxios = axios.create({
     "Accept": "application/json, text/plain, */*",
     "Content-Type": "application/json",
     "Content-Type": "multipart/form-data",
-    // 'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
     Authorization: `Bearer ${token}`,
   },
 });
@@ -51,8 +38,7 @@ userAxios.interceptors.response.use(
 const updateAxiosToken = (token) => {
   if (token) {
     userAxios.defaults.headers.Authorization = `Bearer ${token}`;
-    userAxioswithoutRedirect.defaults.headers.Authorization = `Bearer ${token}`;
   }
 };
 
-export { publicAxios, userAxios, updateAxiosToken, userAxioswithoutRedirect };
+export { publicAxios, userAxios, updateAxiosToken };

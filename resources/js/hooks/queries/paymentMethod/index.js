@@ -12,8 +12,11 @@ export const createPaymentMethod = async (inputData) => {
 
   export const updatePaymentMethod = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/payment-method-update/`,
-        inputData
+      `${APIURL}/staff/payment-method/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;

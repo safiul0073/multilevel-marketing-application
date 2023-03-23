@@ -1,8 +1,7 @@
 import React, { memo, useRef } from "react";
 import Protected from "../../components/HOC/Protected";
-import { getBonusSettings } from "../../hooks/queries/settings/getBonusSettings";
 import { useMutation } from "react-query";
-import { bonusUpdate, optionUpdate } from "../../hooks/queries/settings";
+import { optionUpdate } from "../../hooks/queries/settings";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import JoditEditor from 'jodit-react';

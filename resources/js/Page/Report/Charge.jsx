@@ -87,7 +87,7 @@ const Charge = () => {
                                                                 {moment(
                                                                     charge?.holder?.created_at
                                                                 ).format(
-                                                                    "MM-DD-YYYY"
+                                                                    "MM-DD-YYYY h:mm a"
                                                                 )}
                                                         </td>
                                                     </tr>

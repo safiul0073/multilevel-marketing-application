@@ -19,7 +19,6 @@ return [
             "location"  => "@142 Poran Masto Road 902100 Bangde Britatu Sans Francisco",
             "phone"     => "+01234567890",
             "email"     => "example@gmail.com",
-            "logo" => "frontend/images/logo.png",
         ],
         "footer_content1" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad maiores quia dolorem dignissimos sit consequuntur eaque.",
         "footer_content2" => "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad maiores quia dolorem dignissimos sit consequuntur eaque, nihil nesciunt id rem ullam magnam, nostrum beatae. Dolore possimus molestiae eius accusantium quibusdam.",
@@ -31,4 +30,5 @@ return [
         "top_h1_second" => "We will reach the peak.",
         "top_p_tag" => "Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.",
     ],
+    "logo" => config('app.url') . "/frontend/images/logo.png",
 ];

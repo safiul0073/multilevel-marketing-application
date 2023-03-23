@@ -13,7 +13,7 @@
     <p class=" font-bold text-gray-600 text-center">Your incentive bonus</p>
     @include('frontend.layouts.partials.flash-alert')
     <div class="text-center my-4">
-        <p class=" text-[200px] text-gray-600 text-center"> {{ $incentive }}</p>
+        <p class="text-[80px] md:text-[200px] text-gray-600 text-center"> {{ $incentive }}</p>
     </div>
     <form class="my-2 flex justify-center items-center" method="POST" action="{{ route('incentive.add.bonus') }}">
         @csrf

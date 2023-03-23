@@ -48,6 +48,16 @@ trait MediaOperator
                 break;
             case 'blog':
                 $model = \App\Models\Blog::query();
+                break;
+            case 'logo':
+                $model = \App\Models\Option::query();
+                break;
+            case 'about_us':
+                $model = \App\Models\Option::query();
+                break;
+            case 'our_story':
+                $model = \App\Models\Option::query();
+                break;
             default:
                 $model = \App\Models\Product::query();
                 break;

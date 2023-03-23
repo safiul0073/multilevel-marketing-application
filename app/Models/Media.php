@@ -10,6 +10,15 @@ class Media extends Model
 {
     use HasFactory, MediaOperator;
 
+    const GALLERY = 'origin_gallery';
+    const SLIDER  = 'slider';
+    const REWARD  = 'reward';
+    const PRODUCT_GALLERY = 'gellary';
+    const PRODUCT_THAMNAIL = 'thamnail';
+    const PROFILE = 'profile';
+    const BLOG = 'blog';
+    const LOGO = 'logo';
+
     public $timestamps = false;
 
     protected $guarded = [];

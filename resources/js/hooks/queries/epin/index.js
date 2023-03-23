@@ -21,8 +21,11 @@ export const createEpinMain = async (inputData) => {
 
   export const updateEpin = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/epin-update`,
-        inputData
+      `${APIURL}/staff/epin/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;

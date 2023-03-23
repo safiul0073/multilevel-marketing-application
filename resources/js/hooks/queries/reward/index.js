@@ -12,8 +12,11 @@ export const createReward = async (inputData) => {
 
   export const updateReward = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/reward-update/`,
-        inputData
+      `${APIURL}/staff/reward/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;

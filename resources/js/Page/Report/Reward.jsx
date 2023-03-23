@@ -87,6 +87,12 @@ const Reward = () => {
                                                     >
                                                         Rank Designation
                                                     </th>
+                                                                                                       <th
+                                                        scope="col"
+                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                    >
+                                                        When
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-200 bg-white">
@@ -107,7 +113,20 @@ const Reward = () => {
                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                             {reward?.name}
                                                         </td>
-
+                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                            <div>
+                                                                {moment(
+                                                                    reward?.created_at
+                                                                ).format(
+                                                                    "MM-DD-YYYY, h:mm a"
+                                                                )}
+                                                            </div>
+                                                            <div>
+                                                                {moment(
+                                                                    reward?.created_at
+                                                                ).fromNow()}
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>

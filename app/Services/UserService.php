@@ -178,7 +178,7 @@ class UserService {
     public function checkMatchingPair ($opposite_count, $increased_count, $sponsor_id, $user_id) {
 
         if ($opposite_count >= $increased_count) {
-            $this->matchingBonus($increased_count, $sponsor_id, $user_id);
+            $this->matchingBonus($sponsor_id, $user_id);
         }
 
     }
@@ -241,7 +241,7 @@ class UserService {
      * @user_id type int
      * @return void
      **/
-    public function matchingBonus ($matching_count, int $parent_id, int $user_id) {
+    public function matchingBonus ( int $parent_id, int $user_id):void {
 
         $matching_string = Bonuse::MATCHING;
         $task = TaskScheduler::where('title', $matching_string)->first();
@@ -254,26 +254,17 @@ class UserService {
 
     }
 
-    private function generationBonus ($user) {
+    private function generationBonus ($user):void {
 
         $gen_bonuses = $this->gen_bonus;
         $generations = Generation::where('member_id', $user->id)->where('gen_type', '<=', count($gen_bonuses))->get();
 
-        // $user->generationBonusGive()->createMany(
-        //     array_map(function ($gen) use ($gen_bonuses) {
-        //     return [
-        //         'given_id'   => $gen['main_id'],
-        //         'bonus_type' => 'gen',
-        //         'amount'      => $gen_bonuses[$gen->gen_type-1],
-        //         'generation_id' => $gen['id']
-        //     ];
-        // }, $generations));
         foreach($generations as $gen) {
             $this->bonusSave($gen->main_id, $user->id, Bonuse::GENERATION, $gen_bonuses[$gen->gen_type-1], $gen->id);
         }
     }
 
-    private function bonusSave ($sponsor_id, $user_id, $type, $amount, $gen_id = null) {
+    private function bonusSave ($sponsor_id, $user_id, $type, $amount, $gen_id = null):void {
         Bonuse::create([
             'given_id'   => $sponsor_id,
             'bonus_type' => $type,

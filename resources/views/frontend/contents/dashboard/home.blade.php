@@ -175,7 +175,7 @@
         </div>
         <div class="basis-1/2 grow-1 flex items-center border-t border-slate-400/20 py-3">
             <span class="w-1/2 flex-none font-bold">Nominee Name</span>
-            <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username" value="{{ $user->nominee ? $user->nominee->full_name : '' }}" readonly autofocus />
+            <input id="username" readonly type="text" class="w-full h-12 my-1 rounded-md outline-none px-4 text-gray-700 border-[1px] border-indigo-700" name="username" value="{{ $user->nominee ? $user->nominee->nominee_name : '' }}" readonly autofocus />
         </div>
     </div>
     <div class="flex flex-col lg:flex-row">
