@@ -10,10 +10,11 @@
 @section('content')
 <section class="overflow-hidden text-gray-700 py-6 sm:py-10 lg:py-20">
     <div class="container px-5 mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 grid-flow-col gap-4 -m-1 md:-m-2">
+        <div class="grid grid-cols-1 md:grid-cols-3 grid-flow-row gap-4 -m-1 md:-m-2">
             @forelse ($galleries as $gallery)
                 <div class="w-full p-1 md:p-2">
                     <img alt="gallery" class="block object-cover object-center w-full h-[300px] rounded-lg" src="{{ $gallery->image->url }}">
+                    <h1 class="text-center text-gray-800 bg-gray-300 rounded-md ">{{ $gallery->title }}</h1>
                 </div>
             @empty
 
