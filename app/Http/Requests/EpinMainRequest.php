@@ -19,7 +19,7 @@ class EpinMainRequest extends FormRequest
         ];
 
         if (request()->method() == "POST") {
-            array_push([$rules, 'code.*'=> 'required|string|unique:epins,code']);
+            array_push($rules, ['code.*'=> 'required|string|unique:epins,code']);
         }
 
         return $rules;
