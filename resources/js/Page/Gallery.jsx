@@ -162,7 +162,7 @@ const Gallery = () => {
                                                                         </td>
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                             <div className="text-gray-900">
-                                                                                <img width={100} height={80} src={slider?.image?.url} alt="" />
+                                                                                <img width={100} height={80} src={slider?.images?.[0]?.url} alt="" />
                                                                             </div>
                                                                         </td>
                                                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">

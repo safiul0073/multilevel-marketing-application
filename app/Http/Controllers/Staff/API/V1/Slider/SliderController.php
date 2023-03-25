@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Staff\API\V1\Slider;
 
 use App\Http\Controllers\Controller;
+use App\Models\Media;
 use App\Models\Slider;
 use App\Traits\Formatter;
 use App\Traits\MediaOperator;
@@ -26,7 +27,13 @@ class SliderController extends Controller
         if (request()->perPage) {
             $perPage = request()->perPage;
         }
-        $sliders = Slider::with('image')
+
+        $eger_load = 'images';
+        if($request->is_slider == 1) {
+            $eger_load = 'image';
+        }
+
+        $sliders = Slider::with($eger_load)
                 ->where('is_slider', $request->is_slider)
                 ->orderBy('id', 'DESC')->paginate($perPage);
 
@@ -49,11 +56,9 @@ class SliderController extends Controller
             'status' => 'required|digits_between:0,1',
             'is_slider'  => 'nullable'
         ]);
+
         $slider_image = null;
-        if ($request->hasFile('image')) {
-            $slider_image = $this->uploadFile($request->file('image'));
-            unset($att['image']);
-        }
+        unset($att['image']);
 
         try {
             DB::beginTransaction();
@@ -61,12 +66,22 @@ class SliderController extends Controller
             if (! $slider) {
                 throw new Exception('Slider not created!');
             }
-            if ($slider_image) {
-                $slider->image()->create([
-                    'type' => $slider->is_slider == 1 ? 'slider' : 'origin_gallery',
-                    'url' => $slider_image,
-                ]);
+
+            if ($request->hasFile('image')) {
+                $slider_image = $this->uploadFile($request->file('image'));
+                if (!$request->is_slider) {
+                    $slider->image()->create([
+                        'type' => Media::SLIDER,
+                        'url' => $slider_image,
+                    ]);
+                }else {
+                    $slider->images()->create([
+                        'type' => Media::GALLERY,
+                        'url' => $slider_image,
+                    ]);
+                }
             }
+
             DB::commit();
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
@@ -106,11 +121,10 @@ class SliderController extends Controller
         $slider_image = null;
         if ($request->hasFile('image')) {
             $slider_image = $this->uploadFile($request->file('image'));
-            if ($slider?->image?->url) {
+            if ($slider->is_slider === 1 && $slider?->image?->url) {
                 $this->deleteFile($slider?->image?->url);
                 $slider->image()->delete();
             }
-
             unset($att['image']);
         }
 
@@ -120,9 +134,16 @@ class SliderController extends Controller
             if (! $s) {
                 throw new Exception('Slider not updated!');
             }
-            if ($slider_image) {
+            if ($slider_image && $slider->is_slider === 1) {
                 $slider->image()->create([
-                    'type' => $slider->is_slider == 1? 'slider' : 'gallery',
+                    'type' => Media::SLIDER,
+                    'url' => $slider_image,
+                ]);
+            }
+
+            if ($slider_image && $slider->is_slider === 2) {
+                $slider->images()->create([
+                    'type' => Media::GALLERY,
                     'url' => $slider_image,
                 ]);
             }
@@ -142,13 +163,30 @@ class SliderController extends Controller
      */
     public function destroy(Slider $slider)
     {
-        $file = $slider->image()->first();
-        if ($file) {
-            $this->deleteFile($file);
-            $slider->image()->delete();
-        }
 
-        $slider->delete();
+        try {
+            DB::beginTransaction();
+            if ($slider->is_slider == 1) {
+                $file = $slider->image()->first();
+                if ($file) {
+                    $this->deleteFile($file->url);
+                    $slider->image()->delete();
+                }
+            }else {
+                $files = $slider->images;
+                if (count($files)){
+                    foreach($files as $file) {
+                        $this->deleteFile($file->url);
+                    }
+                    $slider->images()->delete();
+                }
+            }
+
+            $slider->delete();
+            DB::commit();
+        } catch (\Exception $ex) {
+            return $this->withErrors($ex->getMessage());
+        }
 
         return $this->withSuccess('Successfully deleted.');
     }
