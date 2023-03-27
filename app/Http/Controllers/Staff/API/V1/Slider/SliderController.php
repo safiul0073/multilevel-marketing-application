@@ -37,7 +37,6 @@ class SliderController extends Controller
                 ->where('is_slider', $request->is_slider)
                 ->orderBy('id', 'DESC')->paginate($perPage);
 
-
         return $this->withSuccess($sliders);
     }
 

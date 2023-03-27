@@ -35,7 +35,8 @@ import PrivacyPolicy from "../../Page/Settings/PrivacyPolicy";
 import SpamPolicy from "../../Page/Settings/SpamPolicy";
 import DisclaimerPolicy from "../../Page/Settings/DisclaimerPolicy";
 import TramsCondition from "../../Page/Settings/TramsCondition";
-import Gallery from "../../Page/Gallery";
+import Gallery from "../../Page/Gallery/Index";
+import GalleryDetails from "../../Page/Gallery/[id]"
 import AboutUs from "../../Page/Settings/AboutUs";
 import Faq from "../../Page/Faq";
 
@@ -51,6 +52,7 @@ const Layout = () => {
                     <Route path="/staff/slider" element={<Slider />} />
                     <Route path="/staff/faq" element={<Faq />} />
                     <Route path="/staff/gallery" element={<Gallery />} />
+                    <Route path="/staff/gallery/:id" element={<GalleryDetails />} />
                     <Route path="/staff/package" element={<Package />} />
                     <Route path="/staff/users" element={<User />} />
                     <Route
