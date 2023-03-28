@@ -248,19 +248,6 @@
         setTimeout(() => {
             ClickButton.classList.remove('bg-blue-600')
         }, 2000);
-        // navigator.clipboard.writeText(copyText.value).then(
-        //         () => {
-        //             ClickButton.classList.add('bg-blue-600')
-        //             setTimeout(() => {
-        //                 ClickButton.classList.remove('bg-blue-600')
-        //             }, 2000);
-        //         },
-        //         () => {
-        //             console.log("failed!")
-        //         }
-        // );
-
-
     }
 </script>
 @endpush

@@ -143,26 +143,10 @@
 
 @push('custom_scipt')
 {{-- some sort js you can write here --}}
+<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-    var swiper = new Swiper('.mySwiper', {
-        spaceBetween: 30,
-        centeredSlides: true,
-        loop: false,
-        // autoplay: {
-        //   delay: 2500,
-        //   disableOnInteraction: false,
-        // },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
+<script src="{{ asset("frontend/script/swiper.js") }}"></script>
+<script src="{{ asset("frontend/script/productModalViewDataLoader.js") }}"></script>
 @endpush
 
 @section('custome_scipt')

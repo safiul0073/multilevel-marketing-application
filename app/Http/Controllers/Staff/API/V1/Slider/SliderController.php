@@ -97,7 +97,10 @@ class SliderController extends Controller
      */
     public function show(Slider $slider)
     {
-        return $this->withSuccess($slider->load('image'));
+        if ($slider->is_slider == 1) {
+            return $this->withSuccess($slider->load('image'));
+        }
+        return $this->withSuccess($slider->load('images'));
     }
 
     /**
