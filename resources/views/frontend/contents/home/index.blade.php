@@ -467,51 +467,14 @@
 
 @push('custom_scipt')
 {{-- some sort js you can write here --}}
+<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-    var swiper = new Swiper('.mySwiper', {
-        spaceBetween: 30,
-        centeredSlides: true,
-        loop: false,
-        // autoplay: {
-        //   delay: 2500,
-        //   disableOnInteraction: false,
-        // },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
+<script src="{{ asset("frontend/script/swiper.js") }}"></script>
+<script src="{{ asset("frontend/script/slider.js") }}"></script>
+<script src="{{ asset("frontend/script/home.js") }}"></script>
+<script src="{{ asset("frontend/script/productModalViewDataLoader.js") }}"></script>
 
 @endpush
 
 @section('custome_scipt')
-    <script>
-        function openTab(event,tabName) {
-            var i, tabContent, tabLings, activeClassList, defaultClassList;
-            tabContent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabContent.length; i++) {
-                tabContent[i].classList.add('hidden')
-            }
-            tabLings = document.getElementsByClassName("tablinks");
-            activeClassList = ['bg-indigo-500','text-gray-200']
-            defaultClassList = ['bg-white','text-gray-700']
-            for (i = 0; i < tabLings.length; i++) {
-                for (j=0; j < 2; j++){
-                    tabLings[i].classList.remove(activeClassList[j])
-                    tabLings[i].classList.add(defaultClassList[j])
-                }
-            }
-            document.getElementById(tabName).classList.remove('hidden');
-            for (j=0; j < 2; j++){
-                event.target.classList.add(activeClassList[j])
-            }
-
-       }
-    </script>
 @endsection

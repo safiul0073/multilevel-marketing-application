@@ -26,6 +26,8 @@ class HomeController extends Controller
                         => fn ($query) => $query->where('status', 1) ], 'amount')
                     ->withSum(['transactions as death_amount'
                         => fn ($query) => $query->where('type', Transaction::DEATH) ], 'amount')
+                    ->withSum(['transactions as salary'
+                        => fn ($query) => $query->where('type', Transaction::SALARY) ], 'amount')
                     ->withSum(['transactions as education_amount'
                         => fn ($query) => $query->where('type', Transaction::EDUCATION) ], 'amount')
                     ->with(['image', 'rewards' => fn ($q) => $q->orderBy('left_count', 'desc')->limit(1)])

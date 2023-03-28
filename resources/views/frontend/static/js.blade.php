@@ -1,8 +1,4 @@
 {{-- dependent js put in below --}}
-<script src="{{ asset('frontend/script/home.js') }}"></script>
-<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
-
-{{-- end dependent js --}}
 <script>
 
     function setHiddenOnClicked (){
