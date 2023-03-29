@@ -1,12 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 import Textinput from "../../common/Textinput";
 import { updateFaq } from "../../../hooks/queries/faq";
-import TextArea from "../../common/TextArea";
+import JoditEditor from "jodit-react";
 
 export default function EditModal({
     isOpen,
@@ -16,10 +16,13 @@ export default function EditModal({
     faq,
 }) {
     const [backendError, setBackendError] = useState();
+    const editor = useRef(null);
+    const [content, setContent] = useState("");
 
     const { register, reset, handleSubmit } = useForm();
 
     const onSubmit = (data) => {
+        data.ans = content
         updateFaqMutate(data);
     };
 
@@ -33,6 +36,7 @@ export default function EditModal({
                 ...faq,
                 question: faq?.question?.question,
             });
+            setContent(faq?.ans)
         }
     }, [faq]);
 
@@ -100,16 +104,23 @@ export default function EditModal({
                                                         backendError?.question
                                                     }
                                                 />
-                                                <TextArea
-                                                    label="Answer"
-                                                    placeholder="It's vary good."
-                                                    register={register}
-                                                    name="ans"
-                                                    type="text"
-                                                    backendError={
-                                                        backendError?.ans
-                                                    }
-                                                />
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 pr-8">Answer</label>
+                                                    <JoditEditor
+                                                        ref={editor}
+                                                        value={content}
+                                                        config={{
+                                                            readonly: false,
+                                                            placeholder:
+                                                                "Start typings...",
+                                                            height: 500,
+                                                        }}
+                                                        tabIndex={1} // tabIndex of textarea
+                                                        onBlur={(newContent) =>
+                                                            setContent(newContent)
+                                                        } // preferred to use only this option to update the content for performance reasons
+                                                    />
+                                                </div>
                                                 <div className="formGroup">
                                                     <label
                                                         className="label-style"

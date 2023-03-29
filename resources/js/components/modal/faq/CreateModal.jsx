@@ -1,12 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillCloseCircle, AiFillPlusCircle } from "react-icons/ai";
 import { useMutation } from "react-query";
 import toast from "react-hot-toast";
 import Textinput from "../../common/Textinput";
-import TextArea from "../../common/TextArea";
-import { createFaq } from '../../../hooks/queries/faq/index'
+import { createFaq } from "../../../hooks/queries/faq/index";
+import JoditEditor from "jodit-react";
 export default function CreateModal({
     isOpen,
     setIsOpen,
@@ -14,36 +14,36 @@ export default function CreateModal({
     refetch,
 }) {
     const [backendError, setBackendError] = useState();
+    const editor = useRef(null);
+    const [content, setContent] = useState("");
 
     const { register, handleSubmit } = useForm();
 
     const onSubmit = (data) => {
+        data.ans = content
         createFaqMutate(data);
-    }
+    };
 
     function closeModal() {
         setIsOpen(false);
     }
 
-    const { mutate: createFaqMutate, isLoading } = useMutation(
-        createFaq,
-        {
-            onSuccess: (data) => {
-                toast.success(data, {
-                    position: "top-right",
-                });
-                refetch();
-                closeModal();
-            },
-            onError: (err) => {
-                let errorobj = err?.response?.data?.data?.json_object;
-                setBackendError({
-                    ...backendError,
-                    ...errorobj,
-                });
-            },
-        }
-    );
+    const { mutate: createFaqMutate, isLoading } = useMutation(createFaq, {
+        onSuccess: (data) => {
+            toast.success(data, {
+                position: "top-right",
+            });
+            refetch();
+            closeModal();
+        },
+        onError: (err) => {
+            let errorobj = err?.response?.data?.data?.json_object;
+            setBackendError({
+                ...backendError,
+                ...errorobj,
+            });
+        },
+    });
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -92,14 +92,24 @@ export default function CreateModal({
                                                         backendError?.question
                                                     }
                                                 />
-                                                <TextArea
-                                                    label="Answer"
-                                                    placeholder="It's vary good."
-                                                    register={register}
-                                                    name="ans"
-                                                    type="text"
-                                                    backendError={backendError?.ans}
-                                                />
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 pr-8">Answer</label>
+                                                    <JoditEditor
+                                                        ref={editor}
+                                                        value={content}
+                                                        config={{
+                                                            readonly: false,
+                                                            placeholder:
+                                                                "Start typings...",
+                                                            height: 500,
+                                                        }}
+                                                        tabIndex={1} // tabIndex of textarea
+                                                        onBlur={(newContent) =>
+                                                            setContent(newContent)
+                                                        } // preferred to use only this option to update the content for performance reasons
+                                                    />
+                                                </div>
+
                                                 <div className="formGroup">
                                                     <label
                                                         className="label-style"
