@@ -7,9 +7,9 @@
 {{-- here some style --}}
 
 @endsection
-@section('content')<section class="pt-16 pb-10 lg:pt-[100px] lg:pb-20">
+@section('content')
+<section class="pt-16 pb-10 lg:pt-[100px] lg:pb-20">
     <div class="container mx-auto">
-
         <div class="accordion_wrapper">
             @forelse ($faqs as $faq)
             <div class="accordion" id="accordion1">
@@ -23,8 +23,7 @@
                 </div>
                 <div class="accordion_body">
                     <div class="accordion_content">
-                        <p class="text">{{ $faq->ans }}</p>
-
+                        <p class="text">{!! $faq->ans !!}</p>
                     </div>
                 </div>
             </div>

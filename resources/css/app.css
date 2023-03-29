@@ -118,6 +118,10 @@
     transition: max-height 0.1s ease-in-out;
 }
 
+.show {
+    @apply overflow-y-auto !important
+}
+
 .accordion_body:not(.show) {
     max-height: 0;
     overflow: hidden;
