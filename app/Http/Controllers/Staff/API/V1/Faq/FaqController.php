@@ -72,12 +72,12 @@ class FaqController extends Controller
      * @param  \App\Models\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Answer $faq)
     {
         try {
             DB::beginTransaction();
-            $answer->question()->delete();
-            $answer->delete();
+            $faq->question()->delete();
+            $faq->delete();
             DB::commit();
         } catch (\Exception $ex) {
            DB::commit();

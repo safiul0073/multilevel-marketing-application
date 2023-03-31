@@ -21,7 +21,7 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return ApiIndexQueryService::indexQuery(Blog::query(),[], ['title']);
+        return ApiIndexQueryService::indexQuery(Blog::query(),['image'], ['title']);
     }
 
     /**

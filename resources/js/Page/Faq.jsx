@@ -115,12 +115,12 @@ const Category = () => {
                                                                     >
                                                                         Question
                                                                     </th>
-                                                                    <th
+                                                                    {/* <th
                                                                         scope="col"
                                                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                                     >
                                                                         Answer
-                                                                    </th>
+                                                                    </th> */}
                                                                     <th
                                                                         scope="col"
                                                                         className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -157,14 +157,14 @@ const Category = () => {
                                                                                     }
                                                                                 </div>
                                                                             </td>
-                                                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                            {/* <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                 <div
                                                                                     className="text-gray-900"
                                                                                     dangerouslySetInnerHTML={{
                                                                                         __html: faq?.ans,
                                                                                     }}
                                                                                 ></div>
-                                                                            </td>
+                                                                            </td> */}
                                                                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                                 {faq?.status ==
                                                                                 1 ? (

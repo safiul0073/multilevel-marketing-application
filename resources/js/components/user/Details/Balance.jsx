@@ -7,28 +7,28 @@ const Balance = ({ details }) => {
     const projects = [
         {
             name: "Total Balance",
-            count: details?.balance??0.00,
+            count: (details?.balance??0.00).toFixed(2),
             suffix: "TK",
             initials: "TB",
             bgColor: "bg-indigo-700",
         },
         {
             name: "Total Withdraw",
-            count: details?.total_withdraw??0.00,
+            count: (details?.total_withdraw??0.00).toFixed(2),
             suffix: "TK",
             initials: "TW",
             bgColor: "bg-rose-600",
         },
         {
             name: "Package Purchase",
-            count: details?.purchase_amount??0.00,
+            count: (details?.purchase_amount??0.00).toFixed(2),
             suffix: "",
             initials: "PP",
             bgColor: "bg-gray-800",
         },
         {
             name: "Total Daily Commission",
-            count: details?.total_today_bonus??0.00,
+            count: (details?.total_today_bonus??0.00).toFixed(2),
             suffix: "TK",
             initials: "TDC",
             bgColor: "bg-sky-500",

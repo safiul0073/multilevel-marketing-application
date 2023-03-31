@@ -13,7 +13,7 @@
             <div class="w-full px-4">
                 <div class="mx-auto mb-[60px] max-w-[510px] text-center lg:mb-20">
                     <span class="text-indigo-600 mb-2 block text-lg font-semibold">
-                        Our Blogs
+                        Our News
                     </span>
                     <h2 class="text-dark mb-4 text-3xl font-bold sm:text-4xl md:text-[40px]">
                         Our Recent News
