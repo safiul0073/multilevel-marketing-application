@@ -34,11 +34,11 @@ class IncentiveBonusController extends Controller
                                    ->where('bonus_type', Bonuse::INCENTIVE)
                                    ->where('status', false)
                                    ->sum('amount');
-        
+
         if ($incentive_bonus != (float) $request->amount){
             return redirect()->back()->with(['error' => 'Bonus not match']);
         }
-
+        dd(config('mlm.bonus.incentive'));
         if (config('mlm.bonus.incentive') > $incentive_bonus) {
             return redirect()->back()->with(['error' => 'Incentive bonus not full fil.']);
         }
