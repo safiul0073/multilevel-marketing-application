@@ -32,7 +32,7 @@ class IncentiveBonusController extends Controller
                                    ->where('bonus_type', Bonuse::INCENTIVE)
                                    ->where('status', false)
                                    ->sum('amount');
-        dd(abs($incentive_bonus-$request_amount) < PHP_FLOAT_EPSILON);
+        dd($incentive_bonus-$request_amount);
         if ($incentive_bonus != (float) $request_amount){
             return redirect()->back()->with(['error' => 'Bonus not match']);
         }
