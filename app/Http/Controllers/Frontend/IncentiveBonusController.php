@@ -26,15 +26,14 @@ class IncentiveBonusController extends Controller
            'amount' => 'required|numeric'
         ]);
 
-        if (!$request->amount) {
-            return redirect()->back()->with(['error' => "Doesn't have any bonus at this time."]);
-        }
+        $request_amount = $request->amount;
         $auth_id = auth()->id();
         $incentive_bonus = Bonuse::where('given_id', $auth_id)
                                    ->where('bonus_type', Bonuse::INCENTIVE)
                                    ->where('status', false)
                                    ->sum('amount');
-        if ($incentive_bonus != (float) $request->amount){
+
+        if (number_format($incentive_bonus, 3) != number_format($request_amount, 3)){
             return redirect()->back()->with(['error' => 'Bonus not match']);
         }
 
