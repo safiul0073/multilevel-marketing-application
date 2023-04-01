@@ -26,11 +26,12 @@
 <script>
     var hamburger_menu = document.getElementById("dashboard-sidebar");
     var hamburger_button = document.getElementById("dashboard-hamburger-toggler");
+    if (hamburger_button) {
+        hamburger_button.addEventListener("click", function() {
+            hamburger_menu.classList.toggle("active")
+        });
+    }
 
-
-    hamburger_button.addEventListener("click", function() {
-        hamburger_menu.classList.toggle("active")
-    });
 </script>
 
 @endsection
