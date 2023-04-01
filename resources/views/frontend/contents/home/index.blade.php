@@ -467,10 +467,8 @@
 
 @push('custom_scipt')
 {{-- some sort js you can write here --}}
-<script src="{{ asset('frontend/script/splide.min.js') }}"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="{{ asset("frontend/script/swiper.js") }}"></script>
-<script src="{{ asset("frontend/script/slider.js") }}"></script>
 <script src="{{ asset("frontend/script/home.js") }}"></script>
 <script src="{{ asset("frontend/script/productModalViewDataLoader.js") }}"></script>
 

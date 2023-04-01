@@ -35,7 +35,7 @@ trait MediaOperator
     }
 
     public function getModel (string $type, int $id) {
-        
+
         $model = match($type) {
              Media::REWARD  => \App\Models\Reward::query(),
              Media::SLIDER  => \App\Models\Slider::query(),
@@ -89,6 +89,8 @@ trait MediaOperator
 
         $model = $is_multiple ? $model->images : $model->image;
 
+        if (!$model) return true;
+        
         $image = $model->where('id', $id)->first();
 
         if (!$image) {
