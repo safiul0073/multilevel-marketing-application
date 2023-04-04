@@ -1,4 +1,3 @@
-
 // get model data
 async function getOneProduct(id) {
     let res = await fetch(`get-one-product-res?id=${id}`);
@@ -22,14 +21,16 @@ async function getOneProduct(id) {
     var sliderInputDiv = document.getElementById("swiper-images");
     if (data?.images?.length > 0) {
         var images = "";
-        data?.images?.map((image) => {
-            images += `<div class="swiper-slide">
-         <img
-           class="object-cover w-full h-full"
-           src="${image?.url}"
-           alt="image"
-         />
-       </div>`;
+        data?.images?.forEach((image) => {
+            if (image.type != "thamnail") {
+                images += `<div class="swiper-slide">
+                <img
+                  class="object-contain hover:object-scale-down w-full h-full"
+                  src="${image?.url}"
+                  alt="image"
+                />
+              </div>`;
+            }
         });
         sliderInputDiv.innerHTML = images;
     }

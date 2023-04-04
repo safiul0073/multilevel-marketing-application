@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const confirmWithdraw = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/withdraw/confirm`,
+      `${API_FULL_URL}/withdraw/confirm`,
       inputData
     );
 

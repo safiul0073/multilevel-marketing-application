@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const createSlider = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/slider`,
+      `${API_FULL_URL}/slider`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const createSlider = async (inputData) => {
 
   export const updateSlider = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/slider/${inputData?.id}`,
+      `${API_FULL_URL}/slider/${inputData?.id}`,
       {
         ...inputData,
         _method: "PUT"
@@ -24,7 +24,7 @@ export const createSlider = async (inputData) => {
 
   export const deleteSlider = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/slider/${id}`);
+      `${API_FULL_URL}/slider/${id}`);
 
     return res?.data?.data?.string_data;
   };

@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const createPaymentMethod = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/payment-method`,
+      `${API_FULL_URL}/payment-method`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const createPaymentMethod = async (inputData) => {
 
   export const updatePaymentMethod = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/payment-method/${inputData?.id}`,
+      `${API_FULL_URL}/payment-method/${inputData?.id}`,
       {
         ...inputData,
         _method: "PUT"
@@ -24,7 +24,7 @@ export const createPaymentMethod = async (inputData) => {
 
   export const deletePaymentMethod = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/payment-method/${id}`);
+      `${API_FULL_URL}/payment-method/${id}`);
 
     return res?.data?.data?.string_data;
   };

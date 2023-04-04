@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const createBlog = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/blog`,
+      `${API_FULL_URL}/blog`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const createBlog = async (inputData) => {
 
   export const updateBlog = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/blog/${inputData?.id}`,
+      `${API_FULL_URL}/blog/${inputData?.id}`,
       {
         ...inputData,
         _method: "PUT"
@@ -24,7 +24,7 @@ export const createBlog = async (inputData) => {
 
   export const deleteBlog = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/blog/${id}`);
+      `${API_FULL_URL}/blog/${id}`);
 
     return res?.data?.data?.string_data;
   };
