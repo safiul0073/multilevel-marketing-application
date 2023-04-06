@@ -6,9 +6,14 @@ import RowNotFound from "../../components/common/RowNotFound";
 import Protected from "../../components/HOC/Protected";
 import Card from "../../components/ui/Card";
 import SearchBar from "../../components/ui/SearchBar";
+import { useDebounce } from "../../hooks/others/useDebounce";
 import { getIncentiveBonus } from "../../hooks/queries/bonus/getIncentiveBonus";
 
 const Incentive = () => {
+
+    const [fromDate, setFromDate] = React.useState("")
+    const [toDate, setToDate] = React.useState("")
+    const [searchKeyword, setSearchKeyword] = React.useState("")
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(10);
 
@@ -16,15 +21,27 @@ const Incentive = () => {
         setPage(() => pageNum);
         setPageSize(() => currentPageValue);
     };
+
     const { data: incentives, isLoading } = getIncentiveBonus({
-        from_date: "",
-        to_date: "",
+        from_date: fromDate,
+        to_date: toDate,
+        search: useDebounce(searchKeyword),
         page: page,
         perPage: pageSize,
     });
+
     return (
         <>
-            <Card headerSlot={<SearchBar title="Daily Bonus List" />}>
+            <Card headerSlot={<SearchBar
+                                title="Daily Bonus List"
+                                inputSearchPlaceHolder="amount"
+                                fromDate={fromDate}
+                                toDate={toDate}
+                                setFromDate={setFromDate}
+                                setToDate={setToDate}
+                                searchKeyword={searchKeyword}
+                                setSearchKeyword={setSearchKeyword}
+                            />}>
                 <div className="mt-8 flex flex-col">
                     <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
