@@ -17,7 +17,8 @@ import {
     BanknotesIcon,
     ClipboardDocumentIcon,
     CameraIcon,
-    QuestionMarkCircleIcon
+    QuestionMarkCircleIcon,
+    DevicePhoneMobileIcon
 } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
@@ -34,6 +35,7 @@ function classNames(...classes) {
 }
 
 const Sidebar = () => {
+
     const navigate = useNavigate();
     const { user } = UseStore()
     const activePatch = window.location.pathname
@@ -58,6 +60,7 @@ const Sidebar = () => {
         { name: "Payment Method", href: "/staff/payment-method", icon: BanknotesIcon },
         { name: "Blogs", href: "/staff/blogs", icon: ClipboardDocumentIcon },
         { name: "FAQ", href: "/staff/faq", icon: QuestionMarkCircleIcon },
+        { name: "Contact Us", href: "/staff/contact", icon: DevicePhoneMobileIcon },
         {
             name: "Users",
             icon: UsersIcon,

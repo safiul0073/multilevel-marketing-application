@@ -18,6 +18,7 @@ use App\Http\Controllers\API\V1\Staff\Settings\OptionController;
 use App\Http\Controllers\API\V1\Staff\Slider\SliderController;
 use App\Http\Controllers\API\V1\Staff\User\UserHelperController;
 use App\Http\Controllers\API\V1\Staff\Auth\StaffController;
+use App\Http\Controllers\API\V1\Staff\Contact\ContactController;
 use App\Http\Controllers\API\V1\Staff\Faq\FaqController;
 use App\Http\Controllers\API\V1\Staff\Reports\BonusController;
 use App\Http\Controllers\API\V1\Staff\Reports\WithdrawController;
@@ -42,14 +43,15 @@ Route::middleware('auth:staff')->group(function () {
 
     // resource route start
     Route::apiResources([
-        'category' => CategoryController::class,
+        'category'       => CategoryController::class,
         'payment-method' => PaymentMethodController::class,
-        'package' => PackageController::class,
-        'slider' => SliderController::class,
-        'epin' => EpinController::class,
-        'reward' => RewardController::class,
-        'blog' => BlogController::class,
-        'faq'  => FaqController::class,
+        'package'        => PackageController::class,
+        'slider'         => SliderController::class,
+        'epin'           => EpinController::class,
+        'reward'         => RewardController::class,
+        'blog'           => BlogController::class,
+        'faq'            => FaqController::class,
+        'contact'        => ContactController::class,
     ]);
     // resource route end
 
