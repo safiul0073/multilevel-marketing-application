@@ -7,7 +7,7 @@ use App\Http\Controllers\API\V1\Staff\Blog\BlogController;
 use App\Http\Controllers\API\V1\Staff\Category\CategoryController;
 use App\Http\Controllers\API\V1\Staff\Epin\EpinController;
 use App\Http\Controllers\API\V1\Staff\Epin\EpinHelperController;
-use App\Http\Controllers\API\V1\Staff\InceptiveBonusController;
+use App\Http\Controllers\API\V1\Staff\DailyIncentive\InceptiveBonusController;
 use App\Http\Controllers\API\V1\Staff\LoginInfo;
 use App\Http\Controllers\API\V1\Staff\Media\MediaController;
 use App\Http\Controllers\API\V1\Staff\Package\PackageController;
@@ -105,6 +105,7 @@ Route::middleware('auth:staff')->group(function () {
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
         Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
+        Route::get('daily-incentive', [InceptiveBonusController::class, 'dailyBonusReport']);
         Route::get('charges', App\Http\Controllers\API\V1\Staff\Reports\ChargeController::class);
         Route::get('rewards', App\Http\Controllers\API\V1\Staff\Reports\RewardController::class);
         Route::get('transactions', App\Http\Controllers\API\V1\Staff\Reports\TransactionController::class);

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API\V1\Staff;
+namespace App\Http\Controllers\API\V1\Staff\DailyIncentive;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bonuse;
 use App\Models\IncentiveBonus;
 use App\Models\User;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,24 +16,13 @@ class InceptiveBonusController extends Controller
 {
     use Formatter;
 
-    public function getIncentive (Request $request) {
-        $this->validate($request, [
-            'from_date' => 'nullable|date',
-            'to_date'   => 'nullable|date'
-        ]);
-        $perPage = 10;
-        if ($request->perPage) {
-            $perPage = $request->perPage;
-        }
+    public function getIncentive () {
 
-        $incentive = IncentiveBonus::query();
-        if ($request->from_date && $request->to_date) {
-            $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-            $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
-            $incentive->whereBetween('created_at', [$startDate, $endDate]);
-        }
-
-        return $this->withSuccess($incentive->paginate($perPage));
+        return ApiIndexQueryService::indexQuery(
+            IncentiveBonus::query(),
+            [],
+            ['amount']
+        );
     }
 
     public function getCountForInceptiveUser (Request $request) {
@@ -74,7 +64,7 @@ class InceptiveBonusController extends Controller
                 $per_user_bonus = $request->amount / $userCount;
 
                 // getting all user
-                $user = User::select('id')->whereBetween('created_at', [$startDate, $endDate])->get()->toArray();
+                $users = User::select('id')->whereBetween('created_at', [$startDate, $endDate])->get()->toArray();
                 $auth_user = User::find(auth()->id());
 
                 // mapping and giving bonus
@@ -86,7 +76,7 @@ class InceptiveBonusController extends Controller
                             'amount'    => $per_user_bonus,
                             'status'    => false
                         ];
-                    }, $user)
+                    }, $users)
                 );
 
                 // now create inceptive table new row
@@ -98,5 +88,15 @@ class InceptiveBonusController extends Controller
             return $this->withErrors($ex->getMessage());
         }
         return $this->withSuccess('Successfully given.');
+    }
+
+
+    public function dailyBonusReport () {
+
+        return ApiIndexQueryService::indexQuery(
+            Bonuse::query()->where('bonus_type', Bonuse::INCENTIVE),
+            ['bonus_got:id,username'],
+            ['bonus_got.username']
+        );
     }
 }

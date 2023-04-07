@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router-loading";
 import Category from "../../Page/Category";
 import Dashboard from "../../Page/Dashboard";
@@ -40,6 +40,7 @@ import GalleryDetails from "../../Page/Gallery/[id]";
 import AboutUs from "../../Page/Settings/AboutUs";
 import Faq from "../../Page/Faq";
 import Contact from "../../Page/Contact/Index";
+import DailyIncentive from "../../Page/Report/DailyIncentive";
 
 const Layout = () => {
     useRedirectRoute();
@@ -81,6 +82,10 @@ const Layout = () => {
                     <Route
                         path="/staff/reports/incentive"
                         element={<IncentiveReport />}
+                    />
+                    <Route
+                        path="/staff/reports/daily-income"
+                        element={<DailyIncentive />}
                     />
                     <Route
                         path="/staff/reports/matching"

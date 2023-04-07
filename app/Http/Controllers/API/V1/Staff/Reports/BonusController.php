@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1\Staff\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bonuse;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -17,12 +18,7 @@ class BonusController extends Controller
 
         $bonus_type = $request->bonus_type ?? Bonuse::MATCHING;
 
-        $perPage = 10;
-
-        if ($request->perPage) {
-            $perPage = $request->perPage;
-        }
-        $egerLoads = 'bonus_got:id,username';
+        $egerLoads = ['bonus_got:id,username'];
 
         if ($request->bonus_type == Bonuse::GENERATION) {
             $egerLoads = ['bonus_got:id,username', 'generation:id,gen_type'];
@@ -31,17 +27,13 @@ class BonusController extends Controller
             $egerLoads = ['bonus_got:id,username', 'bonus_for' => fn ($q) => $q->with('sponsor:id,username,left_ref_id,right_ref_id')];
         }
 
-        $query = Bonuse::query()->with($egerLoads)->where('bonus_type', $bonus_type);
+        $query = Bonuse::query()->where('bonus_type', $bonus_type);
 
-        if ($request->form_date && $request->to_date) {
-            $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-            $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-
-        $matchings = $query->orderByDesc('id')->paginate($perPage);
-
-        return $this->withSuccess($matchings);
+        return ApiIndexQueryService::indexQuery(
+            $query,
+            $egerLoads,
+            ['bonus_got.username']
+        );
     }
 
 

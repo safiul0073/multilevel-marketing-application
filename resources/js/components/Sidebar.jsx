@@ -81,7 +81,8 @@ const Sidebar = () => {
             name: "Report",
             icon: BookOpenIcon,
             children: [
-                { name: "Daily Income", href: "/staff/reports/incentive" },
+                { name: "Daily Incentive", href: "/staff/reports/incentive" },
+                { name: "Daily Income", href: "/staff/reports/daily-income" },
                 { name: "Matching", href: "/staff/reports/matching" },
                 { name: "Generation", href: "/staff/reports/generation" },
                 { name: "Referral", href: "/staff/reports/joining" },

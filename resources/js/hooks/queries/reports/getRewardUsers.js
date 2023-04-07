@@ -5,7 +5,7 @@ export const getRewardUsers = (props) => {
     return useQuery(
         [
             "reward-user-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.page,
             props.perPage,

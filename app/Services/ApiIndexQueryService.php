@@ -18,7 +18,7 @@ class ApiIndexQueryService {
             $query->with($eger_load);
         }
 
-        $query->whereDateBetween('created_at', request()->form_date,  request()->to_date);
+        $query->whereDateBetween('created_at', request()->from_date,  request()->to_date);
 
         if (request()->query('search')) {
             $query->whereLike($attributes, request()->query('search'));
