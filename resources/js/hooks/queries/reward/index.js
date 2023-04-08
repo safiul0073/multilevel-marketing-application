@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const createReward = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/reward`,
+      `${API_FULL_URL}/reward`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const createReward = async (inputData) => {
 
   export const updateReward = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/reward/${inputData?.id}`,
+      `${API_FULL_URL}/reward/${inputData?.id}`,
       {
         ...inputData,
         _method: "PUT"
@@ -24,7 +24,7 @@ export const createReward = async (inputData) => {
 
   export const deleteReward = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/reward/${id}`);
+      `${API_FULL_URL}/reward/${id}`);
 
     return res?.data?.data?.string_data;
   };

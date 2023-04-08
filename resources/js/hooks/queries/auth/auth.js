@@ -1,17 +1,17 @@
 
 import { publicAxios, userAxios } from '@/config/axios.config.js';
-import { APIURL } from '../../../constant';
-const URL = APIURL
+import { API_FULL_URL } from '../../../constant';
+const URL = API_FULL_URL
 export const getUsers = async () => {
   const res = await userAxios.get(
-    `${URL}/staff/me`
+    `${URL}/me`
   );
   return res?.data;
 };
 
 export const loginWithPassword = async (inputData) => {
   const res = await publicAxios.post(
-    `${URL}/staff/login`,
+    `${URL}/login`,
     inputData
   );
 
@@ -20,7 +20,7 @@ export const loginWithPassword = async (inputData) => {
 
 export const getLoggedOut = async () => {
   const res = await userAxios.post(
-    `${URL}/staff/logout`
+    `${URL}/logout`
   );
 
   return res?.data?.data?.string_data;
@@ -30,7 +30,7 @@ export const getLoggedOut = async () => {
 export const EmailSender = async (inputEmail) =>{
   // console.log(inputEmail);
   const res = await publicAxios.post(
-    `${URL}/staff/password/email`,
+    `${URL}/password/email`,
     inputEmail
   )
   return res?.data?.data?.string_data;
@@ -38,7 +38,7 @@ export const EmailSender = async (inputEmail) =>{
 
 export const OTPSender = async (inputOtp) =>{
   const res = await publicAxios.post(
-    `${URL}/staff/password/code/check`,
+    `${URL}/password/code/check`,
     inputOtp
   )
   return res?.data?.data?.json_object;

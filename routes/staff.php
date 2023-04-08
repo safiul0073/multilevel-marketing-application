@@ -1,27 +1,28 @@
 <?php
 
-use App\Http\Controllers\Staff\API\V1\Auth\CodeCheckController;
-use App\Http\Controllers\Staff\API\V1\Auth\ForgotPasswordController;
-use App\Http\Controllers\Staff\API\V1\Auth\ResetPasswordController;
-use App\Http\Controllers\Staff\API\V1\Blog\BlogController;
-use App\Http\Controllers\Staff\API\V1\Category\CategoryController;
-use App\Http\Controllers\Staff\API\V1\Epin\EpinController;
-use App\Http\Controllers\Staff\API\V1\Epin\EpinHelperController;
-use App\Http\Controllers\Staff\API\V1\InceptiveBonusController;
-use App\Http\Controllers\Staff\API\V1\LoginInfo;
-use App\Http\Controllers\Staff\API\V1\Media\MediaController;
-use App\Http\Controllers\Staff\API\V1\Package\PackageController;
-use App\Http\Controllers\Staff\API\V1\Package\PackageHelperController;
-use App\Http\Controllers\Staff\API\V1\PaymentMethod\PaymentMethodController;
-use App\Http\Controllers\Staff\API\V1\User\UserController;
-use App\Http\Controllers\Staff\API\V1\Settings\OptionController;
-use App\Http\Controllers\Staff\API\V1\Slider\SliderController;
-use App\Http\Controllers\Staff\API\V1\User\UserHelperController;
-use App\Http\Controllers\Staff\API\V1\Auth\StaffController;
-use App\Http\Controllers\Staff\API\V1\Faq\FaqController;
-use App\Http\Controllers\Staff\API\V1\Reports\BonusController;
-use App\Http\Controllers\Staff\API\V1\Reports\WithdrawController;
-use App\Http\Controllers\Staff\API\V1\Reward\RewardController;
+use App\Http\Controllers\API\V1\Staff\Auth\CodeCheckController;
+use App\Http\Controllers\API\V1\Staff\Auth\ForgotPasswordController;
+use App\Http\Controllers\API\V1\Staff\Auth\ResetPasswordController;
+use App\Http\Controllers\API\V1\Staff\Blog\BlogController;
+use App\Http\Controllers\API\V1\Staff\Category\CategoryController;
+use App\Http\Controllers\API\V1\Staff\Epin\EpinController;
+use App\Http\Controllers\API\V1\Staff\Epin\EpinHelperController;
+use App\Http\Controllers\API\V1\Staff\DailyIncentive\InceptiveBonusController;
+use App\Http\Controllers\API\V1\Staff\LoginInfo;
+use App\Http\Controllers\API\V1\Staff\Media\MediaController;
+use App\Http\Controllers\API\V1\Staff\Package\PackageController;
+use App\Http\Controllers\API\V1\Staff\Package\PackageHelperController;
+use App\Http\Controllers\API\V1\Staff\PaymentMethod\PaymentMethodController;
+use App\Http\Controllers\API\V1\Staff\User\UserController;
+use App\Http\Controllers\API\V1\Staff\Settings\OptionController;
+use App\Http\Controllers\API\V1\Staff\Slider\SliderController;
+use App\Http\Controllers\API\V1\Staff\User\UserHelperController;
+use App\Http\Controllers\API\V1\Staff\Auth\StaffController;
+use App\Http\Controllers\API\V1\Staff\Contact\ContactController;
+use App\Http\Controllers\API\V1\Staff\Faq\FaqController;
+use App\Http\Controllers\API\V1\Staff\Reports\BonusController;
+use App\Http\Controllers\API\V1\Staff\Reports\WithdrawController;
+use App\Http\Controllers\API\V1\Staff\Reward\RewardController;
 use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
@@ -42,14 +43,15 @@ Route::middleware('auth:staff')->group(function () {
 
     // resource route start
     Route::apiResources([
-        'category' => CategoryController::class,
+        'category'       => CategoryController::class,
         'payment-method' => PaymentMethodController::class,
-        'package' => PackageController::class,
-        'slider' => SliderController::class,
-        'epin' => EpinController::class,
-        'reward' => RewardController::class,
-        'blog' => BlogController::class,
-        'faq'  => FaqController::class,
+        'package'        => PackageController::class,
+        'slider'         => SliderController::class,
+        'epin'           => EpinController::class,
+        'reward'         => RewardController::class,
+        'blog'           => BlogController::class,
+        'faq'            => FaqController::class,
+        'contact'        => ContactController::class,
     ]);
     // resource route end
 
@@ -93,22 +95,23 @@ Route::middleware('auth:staff')->group(function () {
     });
 
     // withdraw confirm
-    Route::post('withdraw/confirm', App\Http\Controllers\Staff\API\V1\WithdrawController::class);
+    Route::post('withdraw/confirm', App\Http\Controllers\API\V1\Staff\WithdrawController::class);
 
     // dashboard route list
     Route::prefix('dashboard')->group(function (){
-        Route::get('/calculation', [App\Http\Controllers\Staff\API\V1\Dashboard\ReportController::class, 'summationReport']);
+        Route::get('/calculation', [App\Http\Controllers\API\V1\Staff\Dashboard\ReportController::class, 'summationReport']);
     });
     // report
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
         Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
-        Route::get('charges', App\Http\Controllers\Staff\API\V1\Reports\ChargeController::class);
-        Route::get('rewards', App\Http\Controllers\Staff\API\V1\Reports\RewardController::class);
-        Route::get('transactions', App\Http\Controllers\Staff\API\V1\Reports\TransactionController::class);
-        Route::get('to-earned', [App\Http\Controllers\Staff\API\V1\Reports\UserController::class, 'topEarned']);
-        Route::get('to-sponsor', [App\Http\Controllers\Staff\API\V1\Reports\UserController::class, 'topSponsor']);
-        Route::get('package-purchase', [App\Http\Controllers\Staff\API\V1\Reports\PurchaseController::class, 'packagePurchaseList']);
+        Route::get('daily-incentive', [InceptiveBonusController::class, 'dailyBonusReport']);
+        Route::get('charges', App\Http\Controllers\API\V1\Staff\Reports\ChargeController::class);
+        Route::get('rewards', App\Http\Controllers\API\V1\Staff\Reports\RewardController::class);
+        Route::get('transactions', App\Http\Controllers\API\V1\Staff\Reports\TransactionController::class);
+        Route::get('to-earned', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarned']);
+        Route::get('to-sponsor', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsor']);
+        Route::get('package-purchase', [App\Http\Controllers\API\V1\Staff\Reports\PurchaseController::class, 'packagePurchaseList']);
     });
 
     // settings

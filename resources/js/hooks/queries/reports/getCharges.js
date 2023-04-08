@@ -5,7 +5,7 @@ export const getCharges = (props) => {
     return useQuery(
         [
             "charges-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.page,
             props.perPage,

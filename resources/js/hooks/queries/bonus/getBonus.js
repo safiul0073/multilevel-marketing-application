@@ -5,7 +5,7 @@ export const getBonus = (props) => {
     return useQuery(
         [
             "all-bonus-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.status,
             props.page,

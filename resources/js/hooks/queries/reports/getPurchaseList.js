@@ -5,7 +5,7 @@ export const getPurchaseList = (props) => {
     return useQuery(
         [
             "purchase-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.type,
             props.page,

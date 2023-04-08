@@ -21,15 +21,15 @@ use App\Http\Controllers\Frontend\SpamPolicyController;
 use App\Http\Controllers\Frontend\TramsAndConditionController;
 use App\Http\Controllers\Frontend\UserInfoController;
 use App\Http\Controllers\Frontend\WithdrawController;
-use App\Http\Controllers\Staff\API\V1\DashboardController;
-use App\Http\Controllers\Staff\API\V1\User\UserHelperController;
+use App\Http\Controllers\API\V1\Staff\DashboardController;
+use App\Http\Controllers\API\V1\Frontend\LoginFromDashboard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // dashboard page route
 Route::get('/staff/{path?}', [DashboardController::class, 'index'])->where('path', '.*');
 // end dashboard page route
-Route::get('user-login/{user}', [UserHelperController::class, 'userLoginFromDashboard']);
+Route::get('user-login/{user}', LoginFromDashboard::class);
 Auth::routes();
 Route::get('/', [HomePageController::class, 'index'])->name('hello.world.home.page');
 Route::get('/packages', [ProductController::class, 'index'])->name('package.page');
@@ -39,7 +39,7 @@ Route::get('/news', [NewsController::class, 'index'])->name('news.page');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('new.show');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.page');
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.page');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact.page');
+Route::resource('contact', ContactController::class)->only(['index', 'store']);
 Route::get('/about-us', [AboutUsController::class, 'index'])->name('about.page');
 
 Route::middleware('auth')->group(function () {

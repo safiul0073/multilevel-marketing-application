@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router-loading";
 import Category from "../../Page/Category";
 import Dashboard from "../../Page/Dashboard";
@@ -36,9 +36,11 @@ import SpamPolicy from "../../Page/Settings/SpamPolicy";
 import DisclaimerPolicy from "../../Page/Settings/DisclaimerPolicy";
 import TramsCondition from "../../Page/Settings/TramsCondition";
 import Gallery from "../../Page/Gallery/Index";
-import GalleryDetails from "../../Page/Gallery/[id]"
+import GalleryDetails from "../../Page/Gallery/[id]";
 import AboutUs from "../../Page/Settings/AboutUs";
 import Faq from "../../Page/Faq";
+import Contact from "../../Page/Contact/Index";
+import DailyIncentive from "../../Page/Report/DailyIncentive";
 
 const Layout = () => {
     useRedirectRoute();
@@ -52,7 +54,10 @@ const Layout = () => {
                     <Route path="/staff/slider" element={<Slider />} />
                     <Route path="/staff/faq" element={<Faq />} />
                     <Route path="/staff/gallery" element={<Gallery />} />
-                    <Route path="/staff/gallery/:id" element={<GalleryDetails />} />
+                    <Route
+                        path="/staff/gallery/:id"
+                        element={<GalleryDetails />}
+                    />
                     <Route path="/staff/package" element={<Package />} />
                     <Route path="/staff/users" element={<User />} />
                     <Route
@@ -64,6 +69,7 @@ const Layout = () => {
                         element={<Create />}
                     />
                     <Route path="/staff/reward" element={<Reward />} />
+                    <Route path="/staff/contact" element={<Contact />} />
                     <Route
                         path="/staff/payment-method"
                         element={<PaymentMethod />}
@@ -76,6 +82,10 @@ const Layout = () => {
                     <Route
                         path="/staff/reports/incentive"
                         element={<IncentiveReport />}
+                    />
+                    <Route
+                        path="/staff/reports/daily-income"
+                        element={<DailyIncentive />}
                     />
                     <Route
                         path="/staff/reports/matching"

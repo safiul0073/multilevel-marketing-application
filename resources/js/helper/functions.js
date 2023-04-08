@@ -14,3 +14,10 @@ export const Logout = () => {
         expires: 2,
     });
 };
+
+export const limitString = (str, num) => {
+
+    if (str.length <= num) return str;
+
+    return str.slice(0, num) + '...';
+}

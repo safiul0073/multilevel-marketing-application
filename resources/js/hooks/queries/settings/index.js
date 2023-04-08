@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const bonusUpdate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/settings/options`,
+      `${API_FULL_URL}/settings/options`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const bonusUpdate = async (inputData) => {
 
   export const optionUpdate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/settings/options`,
+      `${API_FULL_URL}/settings/options`,
       inputData
     );
 

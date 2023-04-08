@@ -5,7 +5,7 @@ export const getTopSponsor = (props) => {
     return useQuery(
         [
             "top-sponsor-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.page,
             props.perPage,
