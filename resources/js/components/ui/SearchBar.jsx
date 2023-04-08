@@ -12,8 +12,8 @@ const SearchBar = ({
     setSearchKeyword,
 }) => {
     const [value, setValue] = useState({
-        startDate: new Date(),
-        endDate: new Date().setMonth(11),
+        startDate: null,
+        endDate: null,
     });
     const handleValueChange = (newValue) => {
         setValue(newValue);

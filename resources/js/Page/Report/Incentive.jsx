@@ -11,9 +11,9 @@ import { getIncentiveBonus } from "../../hooks/queries/bonus/getIncentiveBonus";
 
 const Incentive = () => {
 
-    const [fromDate, setFromDate] = React.useState("")
-    const [toDate, setToDate] = React.useState("")
-    const [searchKeyword, setSearchKeyword] = React.useState("")
+    const [fromDate, setFromDate] = React.useState(null)
+    const [toDate, setToDate] = React.useState(null)
+    const [searchKeyword, setSearchKeyword] = React.useState(null)
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(10);
 
