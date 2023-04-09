@@ -183,7 +183,7 @@ export default function UserDetails({ showUserDetails, setUserDetails }) {
                         })}
                     </TabList>
                 </div>
-                <div className="flex flex-col grow overflow-x-auto">
+                <div className="flex flex-col grow overflow-hidden">
                     <div className="sm:flex sm:items-center">
                         <div className="sm:flex-auto flex items-center">
                             <button

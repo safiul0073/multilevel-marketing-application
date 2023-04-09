@@ -5,14 +5,9 @@ import Pagination from "../../components/common/Pagination";
 import RowNotFound from "../../components/common/RowNotFound";
 import Protected from "../../components/HOC/Protected";
 import Card from "../../components/ui/Card";
-import SearchBar from "../../components/ui/SearchBar";
-import { useDebounce } from "../../hooks/others/useDebounce";
-import { getDailyIncentive } from "../../hooks/queries/reports/getDailyIncentive";
+import { getLoginHistory } from "../../hooks/queries/reports/getLoginHistory";
 
-const DailyIncentive = () => {
-    const [fromDate, setFromDate] = React.useState(null)
-    const [toDate, setToDate] = React.useState(null)
-    const [searchKeyword, setSearchKeyword] = React.useState('')
+const LoginHistory = () => {
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(10);
 
@@ -20,37 +15,24 @@ const DailyIncentive = () => {
         setPage(() => pageNum);
         setPageSize(() => currentPageValue);
     };
-    const { data: joinings, isLoading } = getDailyIncentive({
-        from_date: fromDate,
-        to_date: toDate,
-        search: useDebounce(searchKeyword),
+    const { data: data, isLoading } = getLoginHistory({
+        from_date: "",
+        to_date: "",
         page: page,
         perPage: pageSize,
     });
+
     return (
         <>
-            <Card
-                headerSlot={
-                    <SearchBar
-                        title="Daily Bonus List"
-                        inputSearchPlaceHolder="username"
-                        fromDate={fromDate}
-                        toDate={toDate}
-                        setFromDate={setFromDate}
-                        setToDate={setToDate}
-                        searchKeyword={searchKeyword}
-                        setSearchKeyword={setSearchKeyword}
-                    />
-                }
-            >
+            <Card>
                 <div className="mt-8 flex flex-col">
                     <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
+                        <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                             {isLoading ? (
                                 <LoaderAnimation />
                             ) : (
                                 <>
-                                    {joinings?.data?.length ? (
+                                    {data?.data?.length ? (
                                         <>
                                             <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                                                 <table className="min-w-full divide-y divide-gray-300">
@@ -60,64 +42,84 @@ const DailyIncentive = () => {
                                                                 scope="col"
                                                                 className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                                                             >
-                                                                ID
+                                                                Username
                                                             </th>
                                                             <th
                                                                 scope="col"
                                                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                             >
-                                                                Who Got
+                                                                IP
                                                             </th>
                                                             <th
                                                                 scope="col"
                                                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                             >
-                                                                Amount
+                                                                Location
                                                             </th>
                                                             <th
                                                                 scope="col"
                                                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                                                             >
-                                                                When
+                                                                Device | OS
+                                                            </th>
+                                                            <th
+                                                                scope="col"
+                                                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                                                            >
+                                                                Login Time
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-gray-200 bg-white">
-                                                        {joinings?.data?.map(
-                                                            (joining) => (
+                                                        {data?.data?.map(
+                                                            (person) => (
                                                                 <tr
                                                                     key={Math.random()}
                                                                 >
                                                                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                                                                         {
-                                                                            joining?.id
-                                                                        }
-                                                                    </td>
-                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                        {
-                                                                            joining
-                                                                                ?.bonus_got
+                                                                            person
+                                                                                ?.user
                                                                                 ?.username
                                                                         }
                                                                     </td>
-
                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                                         {
-                                                                            joining?.amount
+                                                                            person?.ip
                                                                         }
                                                                     </td>
                                                                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                                        <div>
-                                                                            {moment(
-                                                                                joining?.created_at
-                                                                            ).format(
-                                                                                "MM-DD-YYYY, h:mm a"
-                                                                            )}
-                                                                        </div>
-                                                                        <div>
-                                                                            {moment(
-                                                                                joining?.created_at
-                                                                            ).fromNow()}
+                                                                        {person
+                                                                            ?.location
+                                                                            ?.regionName +
+                                                                            ", " +
+                                                                            person
+                                                                                ?.location
+                                                                                ?.countryName}
+                                                                    </td>
+                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                        {person
+                                                                            ?.agent
+                                                                            ?.browser +
+                                                                            ", " +
+                                                                            person
+                                                                                ?.agent
+                                                                                ?.platform}
+                                                                    </td>
+                                                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                                        <div className="text-left">
+                                                                            <div>
+                                                                                {moment(
+                                                                                    person?.created_at
+                                                                                ).format(
+                                                                                    "MM-DD-YYYY, h:mm a"
+                                                                                )}
+                                                                            </div>
+                                                                            <div>
+                                                                                {moment(
+                                                                                    person?.created_at
+                                                                                ).fromNow()}
+                                                                            </div>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -128,7 +130,7 @@ const DailyIncentive = () => {
                                             </div>
                                             <div className="my-4">
                                                 <Pagination
-                                                    total={joinings?.total}
+                                                    total={data?.total}
                                                     pageSize={pageSize}
                                                     pageNumber={page}
                                                     handlePageChange={
@@ -138,7 +140,7 @@ const DailyIncentive = () => {
                                             </div>
                                         </>
                                     ) : (
-                                        <RowNotFound name="joinings" />
+                                        <RowNotFound name="top earned" />
                                     )}
                                 </>
                             )}
@@ -150,4 +152,4 @@ const DailyIncentive = () => {
     );
 };
 
-export default Protected(DailyIncentive);
+export default Protected(LoginHistory);

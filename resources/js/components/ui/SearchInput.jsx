@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchInput = ({
     type,
-    value,
+    value="",
     onChange,
     className = "",
     placeholder = "Search",

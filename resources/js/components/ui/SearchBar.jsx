@@ -5,11 +5,12 @@ import SecondaryButton from "./SecondaryButton";
 
 const SearchBar = ({
     title,
-    inputSearchPlaceHolder = "username",
     setFromDate,
     setToDate,
     searchKeyword,
     setSearchKeyword,
+    excelExport,
+    inputSearchPlaceHolder = "username",
 }) => {
     const [value, setValue] = useState({
         startDate: null,
@@ -43,7 +44,7 @@ const SearchBar = ({
                 <div className="py-2 flex gap-2">
                     <SecondaryButton
                         title="excel"
-                        onclick={() => console.log("hello excel")}
+                        onclick={excelExport}
                     />
                     <SecondaryButton
                         title="pdf"

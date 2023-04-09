@@ -1,5 +1,6 @@
 import moment from "moment";
 import React from "react";
+import ExcelPage from "../../components/common/ExcelPage";
 import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Pagination from "../../components/common/Pagination";
 import RowNotFound from "../../components/common/RowNotFound";
@@ -8,12 +9,22 @@ import Card from "../../components/ui/Card";
 import SearchBar from "../../components/ui/SearchBar";
 import { useDebounce } from "../../hooks/others/useDebounce";
 import { getIncentiveBonus } from "../../hooks/queries/bonus/getIncentiveBonus";
+import { getIncentiveBonusExcel } from "../../hooks/queries/bonus/getIncentiveBonusExcel";
+import Swal from "sweetalert2";
+
+const labels = {
+    id: "id",
+    from_date: "From Date",
+    to_date: "To Date",
+    count: "Members",
+    amount: "Amount",
+    created_at: "Given Date",
+};
 
 const Incentive = () => {
-
-    const [fromDate, setFromDate] = React.useState(null)
-    const [toDate, setToDate] = React.useState(null)
-    const [searchKeyword, setSearchKeyword] = React.useState(null)
+    const [fromDate, setFromDate] = React.useState(null);
+    const [toDate, setToDate] = React.useState(null);
+    const [searchKeyword, setSearchKeyword] = React.useState("");
     const [page, setPage] = React.useState(1);
     const [pageSize, setPageSize] = React.useState(10);
 
@@ -30,18 +41,46 @@ const Incentive = () => {
         perPage: pageSize,
     });
 
+    const { data: incentiveExcelData } = getIncentiveBonusExcel({
+        from_date: fromDate,
+        to_date: toDate,
+        search: useDebounce(searchKeyword),
+    });
+
+    const _exporter = React.createRef();
+    const excelExport = () => {
+        if (incentiveExcelData?.length <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Not Found",
+                text: "data not found!",
+            });
+            return null;
+        }
+
+        if (_exporter.current) {
+            _exporter.current.save();
+        }
+    };
+
     return (
         <>
-            <Card headerSlot={<SearchBar
-                                title="Daily Incentive List"
-                                inputSearchPlaceHolder="amount"
-                                fromDate={fromDate}
-                                toDate={toDate}
-                                setFromDate={setFromDate}
-                                setToDate={setToDate}
-                                searchKeyword={searchKeyword}
-                                setSearchKeyword={setSearchKeyword}
-                            />}>
+            <ExcelPage data={incentiveExcelData} _exporter={_exporter} labels={labels} />
+            <Card
+                headerSlot={
+                    <SearchBar
+                        title="Daily Incentive List"
+                        inputSearchPlaceHolder="amount"
+                        fromDate={fromDate}
+                        toDate={toDate}
+                        setFromDate={setFromDate}
+                        setToDate={setToDate}
+                        searchKeyword={searchKeyword}
+                        setSearchKeyword={setSearchKeyword}
+                        excelExport={excelExport}
+                    />
+                }
+            >
                 <div className="mt-8 flex flex-col">
                     <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
