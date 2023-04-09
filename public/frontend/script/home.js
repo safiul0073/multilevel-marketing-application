@@ -51,6 +51,7 @@ function openTab(event, tabName) {
     }
     document.getElementById(tabName).classList.remove("hidden");
     for (j = 0; j < 2; j++) {
+        event.target.classList.remove(defaultClassList[j])
         event.target.classList.add(activeClassList[j]);
     }
 }
