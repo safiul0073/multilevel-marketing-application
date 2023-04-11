@@ -15,6 +15,7 @@ const SearchBar = ({
     labels,
     inputSearchPlaceHolder = "username",
 }) => {
+    console.log(labels)
     const [value, setValue] = useState({
         startDate: null,
         endDate: null,
@@ -40,6 +41,7 @@ const SearchBar = ({
             _exporter.current.save();
         }
     };
+
     return (
         <>
             <ExcelPage data={data} _exporter={_exporter} labels={labels} />

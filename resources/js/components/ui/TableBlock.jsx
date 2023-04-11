@@ -2,6 +2,7 @@ import React from "react";
 import LoaderAnimation from "../common/LoaderAnimation";
 import Pagination from "../common/Pagination";
 import RowNotFound from "../common/RowNotFound";
+import TableThead from "./TableThead";
 
 const TableBlock = ({
     pageName,
@@ -12,8 +13,8 @@ const TableBlock = ({
     pageSize,
     setPageSize,
     dataLength,
-    thead,
-    tbody,
+    children,
+    labels,
 }) => {
     const handlePageChange = (pageNum, currentPageValue) => {
         setPage(() => pageNum);
@@ -33,10 +34,10 @@ const TableBlock = ({
                                     <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                                         <table className="min-w-full divide-y divide-gray-300">
                                             <thead className="bg-gray-50">
-                                                {thead}
+                                                <TableThead labels={labels} />
                                             </thead>
                                             <tbody className="divide-y divide-gray-200 bg-white">
-                                                {tbody}
+                                                {children}
                                             </tbody>
                                         </table>
                                     </div>
