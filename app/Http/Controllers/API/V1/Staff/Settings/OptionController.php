@@ -32,6 +32,16 @@ class OptionController extends Controller
         return $this->withSuccess(config('mlm.home_content'));
     }
 
+    public function getSocialIcons ()
+    {
+        return $this->withSuccess(config('mlm.social_icon'));
+    }
+
+    public function getCurrency ()
+    {
+        return $this->withSuccess(config('mlm.currency'));
+    }
+
     public function storeOption (Request $request) {
 
         $this->validate($request, [

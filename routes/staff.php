@@ -23,6 +23,7 @@ use App\Http\Controllers\API\V1\Staff\Faq\FaqController;
 use App\Http\Controllers\API\V1\Staff\Reports\BonusController;
 use App\Http\Controllers\API\V1\Staff\Reports\WithdrawController;
 use App\Http\Controllers\API\V1\Staff\Reward\RewardController;
+use App\Http\Controllers\API\V1\Staff\SocialIconController;
 use Illuminate\Support\Facades\Route;
 
 // api route start for dashboard
@@ -52,6 +53,7 @@ Route::middleware('auth:staff')->group(function () {
         'blog'           => BlogController::class,
         'faq'            => FaqController::class,
         'contact'        => ContactController::class,
+        'social-link'    => SocialIconController::class,
     ]);
     // resource route end
 
@@ -124,6 +126,8 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('transfer-charge', [OptionController::class, 'getTransferCharge']);
         Route::get('office', [OptionController::class, 'getOfficeSettings']);
         Route::get('home', [OptionController::class, 'getHomeContent']);
+        Route::get('social-icons', [OptionController::class, 'getSocialIcons']);
+        Route::get('currency', [OptionController::class, 'getCurrency']);
         Route::post('options',[OptionController::class, 'storeOption']);
         Route::get('option', [OptionController::class, 'getOptionValue']);
         Route::get('option-image', [OptionController::class, 'getMediaImage']);

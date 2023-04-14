@@ -4,148 +4,102 @@ import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Pagination from "../../components/common/Pagination";
 import RowNotFound from "../../components/common/RowNotFound";
 import Protected from "../../components/HOC/Protected";
+import Card from "../../components/ui/Card";
+import SearchBar from "../../components/ui/SearchBar";
+import TableBlock from "../../components/ui/TableBlock";
+import TableBody from "../../components/ui/TableBody";
+import { useDebounce } from "../../hooks/others/useDebounce";
 import { getBonus } from "../../hooks/queries/bonus/getBonus";
+import { getBonusExcel } from "../../hooks/queries/bonus/getBonusExcel";
+
+const labels = [
+    { key: "id", label: "Id" },
+    { key: "bonus_got.username", label: "Who Got" },
+    { key: "bonus_for.username", label: "For Whom" },
+    { key: "bonus_for.sponsor.username", label: "Placement Id" },
+    { key: "placementType", label: "Placement Type" },
+    { key: "amount", label: "Amount" },
+    { key: "created_at", label: "When" },
+];
 
 const Joining = () => {
-    const [page, setPage] = React.useState(1)
-    const [pageSize, setPageSize] = React.useState(10)
+    const [fromDate, setFromDate] = React.useState(null);
+    const [toDate, setToDate] = React.useState(null);
+    const [searchKeyword, setSearchKeyword] = React.useState(null);
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(10);
 
-    const handlePageChange = (pageNum, currentPageValue) => {
-        setPage(() => pageNum)
-        setPageSize(() => currentPageValue)
-    }
-    const {data: joinings, isLoading} = getBonus({
-        from_date: '',
-        to_date: '',
-        status: 'joining',
+    const { data: joinings, isLoading } = getBonus({
+        from_date: fromDate,
+        to_date: toDate,
+        search: useDebounce(searchKeyword),
+        status: "joining",
         page: page,
-        perPage: pageSize
-    })
+        perPage: pageSize,
+    });
+
+    const { data: joiningExcel } = getBonusExcel({
+        from_date: fromDate,
+        to_date: toDate,
+        search: useDebounce(searchKeyword),
+        status: "joining",
+    });
+
+    const joiningData = React.useMemo(() => {
+        return joinings?.data?.map((data) => {
+            return {
+                ...data,
+                placementType:
+                    data?.bonus_for?.id == data?.bonus_for?.sponsor?.left_ref_id
+                        ? "Left"
+                        : "Right",
+            };
+        });
+    }, [joinings]);
+
+    const joiningExcelData = React.useMemo(() => {
+        return joiningExcel?.map((data) => {
+            return {
+                ...data,
+                placementType:
+                    data?.bonus_for?.id == data?.bonus_for?.sponsor?.left_ref_id
+                        ? "Left"
+                        : "Right",
+            };
+        });
+    }, [joiningExcel]);
     return (
         <>
-            <div className="min-h-full">
-                <div className="flex flex-1 flex-col lg:pl-64">
-                    <main className="flex-1 py-8">
-                        <div className="container">
-                        <div className="mt-8 flex flex-col">
-                            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div className="inline-block min-w-full py-2 px-4 align-middle md:px-6 lg:px-8">
-                                {isLoading ? (
-                                    <LoaderAnimation />
-                                ) : (
-                                    <>
-                                        {joinings?.data?.length ? (
-                                    <>
-                                    <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                        <table className="min-w-full divide-y divide-gray-300">
-                                            <thead className="bg-gray-50">
-                                                <tr>
-                                                    <th
-                                                        scope="col"
-                                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                                                    >
-                                                        ID
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Who Got
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        For Whom
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Placement Id
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Placement Type
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Amount
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        When
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200 bg-white">
-                                                {joinings?.data?.map((joining) => (
-                                                    <tr key={Math.random()}>
-                                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                            {joining?.id}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {joining?.bonus_got?.username}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {joining?.bonus_for?.username}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {joining?.bonus_for?.sponsor?.username}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {joining?.bonus_for?.id == joining?.bonus_for?.sponsor?.left_ref_id ? "Left" : "Right"}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {joining?.amount}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            <div>
-                                                                {moment(
-                                                                    joining?.created_at
-                                                                ).format(
-                                                                    "MM-DD-YYYY, h:mm a"
-                                                                )}
-                                                            </div>
-                                                            <div>
-                                                                {moment(
-                                                                    joining?.created_at
-                                                                ).fromNow()}
-                                                            </div>
-                                                        </td>
 
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="my-4">
-                                        <Pagination
-                                            total={joinings?.total}
-                                            pageSize={pageSize}
-                                            pageNumber={page}
-                                            handlePageChange={handlePageChange}
-                                        />
-                                    </div>
-                                    </>
-                                    ): (
-                                        <RowNotFound name='joinings' />
-                                    )}
-                                    </>
-                                )}
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </main>
-                </div>
-            </div>
+            <Card
+                headerSlot={
+                    <SearchBar
+                        title="Joining Bonus List"
+                        setFromDate={setFromDate}
+                        setToDate={setToDate}
+                        searchKeyword={searchKeyword}
+                        setSearchKeyword={setSearchKeyword}
+                        data={joiningExcelData}
+                        labels={labels}
+                        reportName="joining_bonus_report"
+                        inputSearchPlaceHolder="username"
+                    />
+                }
+            >
+                <TableBlock
+                    pageName="joinings"
+                    isLoading={isLoading}
+                    totalDataCount={joinings?.total}
+                    page={page}
+                    setPage={setPage}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    dataLength={joinings?.data?.length}
+                    labels={labels}
+                >
+                    <TableBody data={joiningData} labels={labels} />
+                </TableBlock>
+            </Card>
         </>
     );
 };

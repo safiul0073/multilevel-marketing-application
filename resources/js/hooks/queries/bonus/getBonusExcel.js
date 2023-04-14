@@ -1,25 +1,21 @@
 import { useQuery } from "react-query";
 import { getQuery } from "../getQuery";
 
-export const getBonus = (props) => {
+export const getBonusExcel = (props) => {
     return useQuery(
         [
-            "all-bonus-lists",
+            "all-bonus-excel-lists",
             props.from_date,
             props.to_date,
-            props.status,
             props.search,
-            props.page,
-            props.perPage,
+            props.status,
         ],
         async () => {
-            let res = await getQuery("report/bonus", {
+            let res = await getQuery("report/bonus-excel", {
                 from_date: props.from_date,
                 to_date: props.to_date,
-                bonus_type: props.status,
                 search: props.search,
-                page: props.page,
-                perPage: props.perPage,
+                bonus_type: props.status,
             });
 
             return res;
