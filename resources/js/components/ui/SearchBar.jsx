@@ -29,20 +29,28 @@ const SearchBar = ({
 
     const _exporter = React.createRef();
     const excelExport = () => {
+        if (notFoundShow(data)) return;
+        if (_exporter.current) {
+            _exporter.current.save();
+        }
+    };
+
+    const exportPdf = () => {
+        if (notFoundShow(data)) return;
+        generatePDF(data, labels, title, reportName);
+    };
+
+    const notFoundShow = () => {
         if (data?.length <= 0) {
             Swal.fire({
                 icon: "error",
                 title: "Not Found",
                 text: "data not found!",
             });
-            return null;
+            return true;
         }
-
-        if (_exporter.current) {
-            _exporter.current.save();
-        }
+        return false;
     };
-
     return (
         <>
             <ExcelPage
@@ -72,10 +80,7 @@ const SearchBar = ({
                     />
                     <div className="py-2 flex gap-2">
                         <SecondaryButton title="excel" onclick={excelExport} />
-                        <SecondaryButton
-                            title="pdf"
-                            onclick={() => generatePDF(data, labels, title, reportName)}
-                        />
+                        <SecondaryButton title="pdf" onclick={exportPdf} />
                     </div>
                 </div>
             </div>

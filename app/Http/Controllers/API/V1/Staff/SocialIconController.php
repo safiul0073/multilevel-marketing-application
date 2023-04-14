@@ -4,10 +4,13 @@ namespace App\Http\Controllers\API\V1\Staff;
 
 use App\Http\Controllers\Controller;
 use App\Models\SocialIcon;
+use App\Services\ApiIndexQueryService;
+use App\Traits\Formatter;
 use Illuminate\Http\Request;
 
 class SocialIconController extends Controller
 {
+    use Formatter;
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +18,11 @@ class SocialIconController extends Controller
      */
     public function index()
     {
-        //
+        return ApiIndexQueryService::indexQuery(
+            SocialIcon::query(),
+            [],
+            ['title']
+        );
     }
 
     /**
@@ -26,7 +33,15 @@ class SocialIconController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $att = $this->validate($request, [
+            'title'     => 'required|string',
+            'icon'      => 'required|string',
+            'link'      => 'required|string|url'
+        ]);
+
+        SocialIcon::create($att);
+
+        return $this->withSuccess('Social link added.');
     }
 
     /**
@@ -37,7 +52,7 @@ class SocialIconController extends Controller
      */
     public function show(SocialIcon $socialIcon)
     {
-        //
+        return $this->withSuccess($socialIcon);
     }
 
     /**
@@ -49,7 +64,15 @@ class SocialIconController extends Controller
      */
     public function update(Request $request, SocialIcon $socialIcon)
     {
-        //
+        $att = $this->validate($request, [
+            'title'     => 'required|string',
+            'icon'      => 'required|string',
+            'link'      => 'required|string|url'
+        ]);
+
+        $socialIcon->update($att);
+
+        return $this->withSuccess('Social link updated.');
     }
 
     /**
@@ -60,6 +83,8 @@ class SocialIconController extends Controller
      */
     public function destroy(SocialIcon $socialIcon)
     {
-        //
+        $socialIcon->delete();
+
+        return $this->withSuccess(__("Successfully deleted."));
     }
 }
