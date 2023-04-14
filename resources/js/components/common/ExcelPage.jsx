@@ -4,6 +4,7 @@ import {
     ExcelExportColumn,
     ExcelExportColumnGroup,
 } from "@progress/kendo-react-excel-export";
+import moment from "moment";
 const cellOptions = {
     fontSize: 12,
     textAlign: "left",
@@ -56,14 +57,15 @@ const headerOptions2 = {
     },
 };
 const ExcelPage = ({ data, _exporter, labels, fileName="Reports" }) => {
+    const finalFileName = fileName + "_" +moment(new Date()).format("DD-MM-YYYY")
     return (
         <div>
-            <ExcelExport data={data} fileName={fileName} ref={_exporter}>
-                {Object.entries(labels).map((lab, idx) => (
+            <ExcelExport data={data} fileName={finalFileName} ref={_exporter}>
+                {labels.map((lab, idx) => (
                     <ExcelExportColumn
                         key={idx}
-                        field={lab[0]}
-                        title={lab[1]}
+                        field={lab.key}
+                        title={lab.label}
                         headerCellOptions={headerOptions}
                         cellOptions={cellOptions}
                     />

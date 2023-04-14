@@ -16,8 +16,16 @@ export const Logout = () => {
 };
 
 export const limitString = (str, num) => {
-
     if (str.length <= num) return str;
 
-    return str.slice(0, num) + '...';
-}
+    return str.slice(0, num) + "...";
+};
+
+export const egerloadRelation = (key, relation = []) => {
+    
+    if (relation.length && !value) {
+        relation.map((rel, index) => {
+            value = obj[rel][key];
+        });
+    }
+};

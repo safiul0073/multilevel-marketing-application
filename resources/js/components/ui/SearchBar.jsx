@@ -4,6 +4,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import SecondaryButton from "./SecondaryButton";
 import Swal from "sweetalert2";
 import ExcelPage from "../common/ExcelPage";
+import generatePDF from "../../services/generatePdf";
 
 const SearchBar = ({
     title,
@@ -13,9 +14,9 @@ const SearchBar = ({
     setSearchKeyword,
     data,
     labels,
+    reportName,
     inputSearchPlaceHolder = "username",
 }) => {
-    console.log(labels)
     const [value, setValue] = useState({
         startDate: null,
         endDate: null,
@@ -44,7 +45,12 @@ const SearchBar = ({
 
     return (
         <>
-            <ExcelPage data={data} _exporter={_exporter} labels={labels} />
+            <ExcelPage
+                data={data}
+                _exporter={_exporter}
+                fileName={reportName}
+                labels={labels}
+            />
             <div className="bg-gray-100 p-3 rounded-md">
                 <div className="lg:flex justify-between items-center">
                     <h1 className="text-lg font-normal text-gray-900 py-1">
@@ -68,7 +74,7 @@ const SearchBar = ({
                         <SecondaryButton title="excel" onclick={excelExport} />
                         <SecondaryButton
                             title="pdf"
-                            onclick={() => console.log("hello pdf")}
+                            onclick={() => generatePDF(data, labels, title, reportName)}
                         />
                     </div>
                 </div>

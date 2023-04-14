@@ -5,12 +5,12 @@ const TableThead = ({ labels }) => {
     const everyPositionStyle = "px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
     return (
         <tr>
-            {Object.entries(labels).map((label, idx) => (
-                <th
+            {labels.map((val, idx) => (
+                <th key={idx}
                     scope="col"
                     className={idx === 0 ? firstPositionStyle : everyPositionStyle}
                 >
-                    {label[1]}
+                    {val.label}
                 </th>
             ))}
         </tr>
