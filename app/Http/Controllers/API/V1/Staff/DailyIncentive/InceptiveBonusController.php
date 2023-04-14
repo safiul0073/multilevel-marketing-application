@@ -25,6 +25,16 @@ class InceptiveBonusController extends Controller
         );
     }
 
+    public function getIncentiveExcel()
+    {
+        return ApiIndexQueryService::indexQuery(
+            IncentiveBonus::query(),
+            [],
+            ['amount'],
+            false
+        );
+    }
+
     public function getCountForInceptiveUser (Request $request) {
 
         $this->validate($request, [
@@ -98,5 +108,16 @@ class InceptiveBonusController extends Controller
             ['bonus_got:id,username'],
             ['bonus_got.username']
         );
+    }
+
+    public function dailyIncentiveExcelList ()
+    {
+        return ApiIndexQueryService::indexQuery(
+            Bonuse::query()->where('bonus_type', Bonuse::INCENTIVE),
+            ['bonus_got:id,username'],
+            ['bonus_got.username'],
+            false
+        );
+
     }
 }

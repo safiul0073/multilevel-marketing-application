@@ -8,7 +8,7 @@ class ApiIndexQueryService {
 
     use Formatter;
 
-    public static function indexQuery (mixed $query, array $eger_load = [], array $attributes= []) {
+    public static function indexQuery (mixed $query, array $eger_load = [], array $attributes = [], $paginate = true) {
 
         $per_page = request()->perPage ?? 10;
         $order_of = request()->orderOf ?? "id";
@@ -24,8 +24,16 @@ class ApiIndexQueryService {
             $query->whereLike($attributes, request()->query('search'));
         }
 
+        $data = [];
+
+        if ($paginate) {
+            $data =$query->orderBy($order_of, $order_by)->paginate($per_page);
+        }else {
+            $data =$query->orderBy($order_of, $order_by)->get();
+        }
+
         return (new ApiIndexQueryService())
-                ->withSuccess($query->orderBy($order_of, $order_by)
-                ->paginate($per_page));
+                ->withSuccess($data);
     }
+
 }

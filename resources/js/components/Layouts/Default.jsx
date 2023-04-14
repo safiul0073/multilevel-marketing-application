@@ -41,6 +41,7 @@ import AboutUs from "../../Page/Settings/AboutUs";
 import Faq from "../../Page/Faq";
 import Contact from "../../Page/Contact/Index";
 import DailyIncentive from "../../Page/Report/DailyIncentive";
+import LoginHistory from "../../Page/Report/LoginHistory";
 
 const Layout = () => {
     useRedirectRoute();
@@ -94,6 +95,10 @@ const Layout = () => {
                     <Route
                         path="/staff/reports/joining"
                         element={<JoiningReport />}
+                    />
+                    <Route
+                        path="/staff/reports/login-history"
+                        element={<LoginHistory />}
                     />
                     <Route
                         path="/staff/reports/withdraw"

@@ -1,10 +1,10 @@
 import { useQuery } from "react-query";
 import { getQuery } from "../getQuery";
 
-export const getDailyIncentive = (props) => {
+export const getLoginHistory = (props) => {
     return useQuery(
         [
-            "daily-incentive-lists",
+            "login-history-lists",
             props.form_date,
             props.to_date,
             props.search,
@@ -12,7 +12,7 @@ export const getDailyIncentive = (props) => {
             props.perPage,
         ],
         async () => {
-            let res = await getQuery("report/daily-incentive", {
+            let res = await getQuery("report/login-activity", {
                 from_date: props.from_date,
                 to_date: props.to_date,
                 search: props.search,

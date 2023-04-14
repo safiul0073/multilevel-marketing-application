@@ -81,7 +81,7 @@ Route::middleware('auth:staff')->group(function () {
         // balance increment or decrement
         Route::post('balance/add-sub/{user}', [UserHelperController::class, 'userBalanceUpdate']);
         // login info activity
-        Route::get('login-activity/{user}', LoginInfo::class);
+        Route::get('login-activity/{user}', [LoginInfo::class, 'getUserLoginActivity']);
     });
     // media
     Route::post('image-store', [MediaController::class, 'storeImage']);
@@ -92,6 +92,7 @@ Route::middleware('auth:staff')->group(function () {
         Route::post('search', [InceptiveBonusController::class, 'getCountForInceptiveUser']);
         Route::post('bonus-give', [InceptiveBonusController::class, 'distributeInceptiveBonus']);
         Route::get('bonus', [InceptiveBonusController::class, 'getIncentive']);
+        Route::get('bonus-excel', [InceptiveBonusController::class, 'getIncentiveExcel']);
     });
 
     // withdraw confirm
@@ -104,8 +105,11 @@ Route::middleware('auth:staff')->group(function () {
     // report
     Route::prefix('report')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
+        Route::get('bonus-excel', [BonusController::class, 'bonusExcelList']);
+        Route::get('login-activity', [LoginInfo::class, 'allUserLoginActivity']);
         Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
         Route::get('daily-incentive', [InceptiveBonusController::class, 'dailyBonusReport']);
+        Route::get('daily-incentive-excel', [InceptiveBonusController::class, 'dailyIncentiveExcelList']);
         Route::get('charges', App\Http\Controllers\API\V1\Staff\Reports\ChargeController::class);
         Route::get('rewards', App\Http\Controllers\API\V1\Staff\Reports\RewardController::class);
         Route::get('transactions', App\Http\Controllers\API\V1\Staff\Reports\TransactionController::class);

@@ -93,6 +93,7 @@ const Sidebar = () => {
                 { name: "Package Purchase", href: "/staff/reports/package-purchase" },
                 { name: "Transaction", href: "/staff/reports/transactions" },
                 { name: "Reward", href: "/staff/reports/rewards" },
+                { name: "Login History", href: "/staff/reports/login-history" },
             ],
         },
         {
