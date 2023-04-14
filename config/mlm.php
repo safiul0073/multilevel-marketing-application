@@ -31,4 +31,8 @@ return [
         "top_p_tag" => "Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.",
     ],
     "logo" => config('app.url') . "/frontend/images/logo.png",
+    "currency" => [
+        "title" => "Taka",
+        "icon"  => "tk"
+    ],
 ];
