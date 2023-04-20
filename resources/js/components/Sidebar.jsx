@@ -18,7 +18,8 @@ import {
     ClipboardDocumentIcon,
     CameraIcon,
     QuestionMarkCircleIcon,
-    DevicePhoneMobileIcon
+    DevicePhoneMobileIcon,
+    LinkIcon,
 } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
@@ -61,6 +62,7 @@ const Sidebar = () => {
         { name: "Blogs", href: "/staff/blogs", icon: ClipboardDocumentIcon },
         { name: "FAQ", href: "/staff/faq", icon: QuestionMarkCircleIcon },
         { name: "Contact Us", href: "/staff/contact", icon: DevicePhoneMobileIcon },
+        { name: "Social Link", href: "/staff/social-link", icon: LinkIcon },
         {
             name: "Users",
             icon: UsersIcon,

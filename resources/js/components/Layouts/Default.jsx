@@ -10,6 +10,7 @@ import Login from "../Auth/Login";
 import Sidebar from "../Sidebar";
 import Epin from "../../Page/Epin";
 import Create from "../../Page/User/Create";
+import SocialLink from "../../Page/SocialLink";
 import Reward from "../../Page/Reward";
 import Incentive from "../../Page/Bonus/Incentive";
 import Generation from "../../Page/Settings/Generation";
@@ -52,6 +53,7 @@ const Layout = () => {
                 <Routes>
                     <Route path="/staff/dashboard" element={<Dashboard />} />
                     <Route path="/staff/category" element={<Category />} />
+                    <Route path="/staff/social-link" element={<SocialLink />} />
                     <Route path="/staff/slider" element={<Slider />} />
                     <Route path="/staff/faq" element={<Faq />} />
                     <Route path="/staff/gallery" element={<Gallery />} />

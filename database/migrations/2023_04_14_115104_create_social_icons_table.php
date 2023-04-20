@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('social_icons', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('icon');
+            $table->longText('icon');
+            $table->string('key');
             $table->string('link');
             $table->timestamps();
         });

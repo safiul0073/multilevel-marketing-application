@@ -1,20 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
-import LoaderAnimation from "../components/common/LoaderAnimation";
-import Pagination from "../components/common/Pagination";
-import RowNotFound from "../components/common/RowNotFound";
 import Protected from "../components/HOC/Protected";
 import Card from "../components/ui/Card";
-import CreateModal from "../components/modal/category/CreateModal";
-import DeleteCategory from "../components/modal/category/Delete";
-import EditModal from "../components/modal/category/EditModal";
+import CreateModal from "../components/modal/social-link/CreateModal";
+import DeleteCategory from "../components/modal/social-link/Delete";
+import EditModal from "../components/modal/social-link/EditModal";
 import { getCategoryList } from "../hooks/queries/category/getCategoryList";
 import PageHeader from "../components/ui/PageHeader";
 import TableBlock from "../components/ui/TableBlock";
+import { getSocialLinkList } from "../hooks/queries/social-link/getSocialLinkList";
+import { getSocialIcons } from "../hooks/queries/social-link/getSocialIcons";
 
 const labels = [
     { key: "id", label: "Id" },
     { key: "title", label: "Title" },
-    { key: "status", label: "Status" },
+    { key: "status", label: "Icon" },
+    { key: "link", label: "Lunk" },
     { key: "action", label: "Action" },
 ];
 
@@ -22,11 +22,11 @@ const Category = () => {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
 
-    // fetching category list using react query
-    const { data, isLoading, refetch } = getCategoryList(page, pageSize);
+    // fetching social-link list using react query
+    const { data, isLoading, refetch } = getSocialLinkList(page, pageSize);
+    const { data: icons } = getSocialIcons();
 
-
-    // create category modal calling
+    // create social-link modal calling
     const [isOpen, setIsOpen] = useState(false);
     const createCategory = () => {
         setIsOpen(true);
@@ -62,6 +62,7 @@ const Category = () => {
                 setIsOpen={setIsOpen}
                 closeModal={closeModal}
                 refatcher={refetch}
+                icons={icons}
             />
             <EditModal
                 isOpen={isEditModalOpen}
@@ -69,6 +70,7 @@ const Category = () => {
                 closeModal={closeEditModal}
                 refatcher={refetch}
                 category={category}
+                icons={icons}
             />
             <DeleteCategory
                 isOpen={isDeleteModalOpen}
@@ -80,14 +82,14 @@ const Category = () => {
             <Card
                 headerSlot={
                     <PageHeader
-                        title="Category List"
-                        buttonName="Add Category"
+                        title="Social Link List"
+                        buttonName="Add Social link"
                         onClick={createCategory}
                     />
                 }
             >
                 <TableBlock
-                    pageName="categories"
+                    pageName="social-links"
                     isLoading={isLoading}
                     totalDataCount={data?.total}
                     page={page}
@@ -107,19 +109,21 @@ const Category = () => {
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                     <div className="text-gray-900">
-                                        {category?.name || category?.title}
+                                        {category?.title}
                                     </div>
                                 </td>
                                 <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {category?.status == 1 ? (
-                                        <span className="inline-flex rounded-full bg-green-100 px-2 text-xs leading-5 text-green-800">
-                                            Active
-                                        </span>
-                                    ) : (
-                                        <span className="inline-flex rounded-full bg-red-100 px-2 text-xs leading-5 text-red-800">
-                                            Inactive
-                                        </span>
-                                    )}
+                                    <div
+                                        className="text-gray-900"
+                                        dangerouslySetInnerHTML={{
+                                            __html: category?.icon,
+                                        }}
+                                    ></div>
+                                </td>
+                                <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                    <div className="text-gray-900">
+                                        {category?.link}
+                                    </div>
                                 </td>
                                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                     <div className="flex gap-2 justify-start">
