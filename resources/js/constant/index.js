@@ -1,8 +1,8 @@
 export const APIURL =
-    import.meta.env.VITE_PUBLIC_API_URL ?? "https://aqebbd.com/api";
+    import.meta.env.VITE_PUBLIC_API_URL ?? "https://staging.aqebbd.com/api";
 
 export const LIVE_URL =
-    import.meta.env.VITE_PUBLIC_LIVE_URL ?? "https://aqebbd.com/";
+    import.meta.env.VITE_PUBLIC_LIVE_URL ?? "https://staging.aqebbd.com/";
 
 export const API_FULL_URL = `${APIURL}/v1/staff`;
 
