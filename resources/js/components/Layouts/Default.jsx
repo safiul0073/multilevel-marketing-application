@@ -43,6 +43,7 @@ import Faq from "../../Page/Faq";
 import Contact from "../../Page/Contact/Index";
 import DailyIncentive from "../../Page/Report/DailyIncentive";
 import LoginHistory from "../../Page/Report/LoginHistory";
+import Currency from "../../Page/Settings/Currency";
 
 const Layout = () => {
     useRedirectRoute();
@@ -142,6 +143,10 @@ const Layout = () => {
                     <Route
                         path="/staff/settings/single-amount"
                         element={<SingleAmountSettings />}
+                    />
+                    <Route
+                        path="/staff/settings/currency"
+                        element={<Currency />}
                     />
                     <Route
                         path="/staff/settings/office-info"
