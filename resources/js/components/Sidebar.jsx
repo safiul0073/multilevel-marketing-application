@@ -105,6 +105,7 @@ const Sidebar = () => {
                 { name: "Matching", href: "/staff/settings/matching" },
                 { name: "Generation", href: "/staff/settings/generation" },
                 { name: "Single Amount", href: "/staff/settings/single-amount"},
+                { name: "Currency", href: "/staff/settings/currency"},
                 { name: "Footer", href: "/staff/settings/office-info"},
                 { name: "Home", href: "/staff/settings/home-content"},
                 { name: "Privacy Policy", href: "/staff/settings/privacy-policy"},
