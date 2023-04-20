@@ -36,6 +36,7 @@ class SocialIconController extends Controller
         $att = $this->validate($request, [
             'title'     => 'required|string',
             'icon'      => 'required|string',
+            'key'       => 'required|string',
             'link'      => 'required|string|url'
         ]);
 
@@ -50,9 +51,9 @@ class SocialIconController extends Controller
      * @param  \App\Models\SocialIcon  $socialIcon
      * @return \Illuminate\Http\Response
      */
-    public function show(SocialIcon $socialIcon)
+    public function show(SocialIcon $socialLink)
     {
-        return $this->withSuccess($socialIcon);
+        return $this->withSuccess($socialLink);
     }
 
     /**
@@ -62,15 +63,15 @@ class SocialIconController extends Controller
      * @param  \App\Models\SocialIcon  $socialIcon
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SocialIcon $socialIcon)
+    public function update(Request $request, SocialIcon $socialLink)
     {
         $att = $this->validate($request, [
             'title'     => 'required|string',
             'icon'      => 'required|string',
+            'key'       => 'required|string',
             'link'      => 'required|string|url'
         ]);
-
-        $socialIcon->update($att);
+        $socialLink->update($att);
 
         return $this->withSuccess('Social link updated.');
     }
@@ -81,9 +82,9 @@ class SocialIconController extends Controller
      * @param  \App\Models\SocialIcon  $socialIcon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SocialIcon $socialIcon)
+    public function destroy(SocialIcon $socialLink)
     {
-        $socialIcon->delete();
+        $socialLink->delete();
 
         return $this->withSuccess(__("Successfully deleted."));
     }
