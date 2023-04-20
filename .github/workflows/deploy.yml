@@ -40,7 +40,6 @@ jobs:
           USERNAME: ${{ secrets.VPS_USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-        with:
           source: "."
           target: "/var/www/html/staging.aqebbd.com"
 
