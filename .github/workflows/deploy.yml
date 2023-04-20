@@ -45,7 +45,7 @@ jobs:
           target: "/var/www/html/staging.aqebbd.com"
 
       - name: Executing remote command
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@0.1.4
         with:
           host: ${{ secrets.VPS_IP }}
           USERNAME: ${{ secrets.VPS_USERNAME }}
