@@ -35,16 +35,17 @@ jobs:
 
       - name: Copy repository contents via scp
         uses: appleboy/scp-action@master
-        with:
+        env:
           HOST: ${{ secrets.VPS_IP }}
           USERNAME: ${{ secrets.VPS_USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
+        with:
           source: "."
           target: "/var/www/html/staging.aqebbd.com"
 
       - name: Executing remote command
-        uses: boy/ssh-action@master
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_IP }}
           USERNAME: ${{ secrets.VPS_USERNAME }}
