@@ -30,16 +30,14 @@ const generatePDF = (datas, labels, headerTitle, reportName = "Report") => {
     const finalFileName =
         reportName + "_" + moment(new Date()).format("DD-MM-YYYY");
     // startY is basically margin-top
-
+    doc.text(headerTitle, 80, 15);
     doc.autoTable(tableColumn, tableRows, {
         startY: 20,
-        pageBreak: "avoid",
         showHead: "firstPage",
         theme: "grid",
-        headStyles: { 0: { halign: 'center', fillColor: [0, 255, 0] } }
     });
     // ticket title. and margin-top + margin-left
-    doc.text(headerTitle, 80, 15);
+
     // we define the name of our PDF file.
     doc.save(`${finalFileName}.pdf`);
 };
