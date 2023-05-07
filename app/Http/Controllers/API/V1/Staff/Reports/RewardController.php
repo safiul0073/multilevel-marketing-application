@@ -25,7 +25,7 @@ class RewardController extends Controller
         return ApiIndexQueryService::indexQuery(
             $query,
             ['user:id,username,first_name,last_name,email,phone'],
-            ['user.username'],
+            ['user.username','name'],
             !$request->isNotPaginate
         );
     }

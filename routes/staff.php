@@ -117,10 +117,10 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('charges', App\Http\Controllers\API\V1\Staff\Reports\ChargeController::class);
         Route::get('rewards', App\Http\Controllers\API\V1\Staff\Reports\RewardController::class);
         Route::get('transactions', App\Http\Controllers\API\V1\Staff\Reports\TransactionController::class);
-        Route::get('to-earned', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarned']);
-        Route::get('to-earned-excel', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarnedExcel']);
-        Route::get('to-sponsor', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsor']);
-        Route::get('to-sponsor-excel', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsorExcel']);
+        Route::get('top-earned', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarned']);
+        Route::get('top-earned-excel', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarnedExcel']);
+        Route::get('top-sponsor', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsor']);
+        Route::get('top-sponsor-excel', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsorExcel']);
         Route::get('package-purchase', [App\Http\Controllers\API\V1\Staff\Reports\PurchaseController::class, 'packagePurchaseList']);
         Route::get('package-purchase-excel', [App\Http\Controllers\API\V1\Staff\Reports\PurchaseController::class, 'packagePurchaseExcelList']);
     });

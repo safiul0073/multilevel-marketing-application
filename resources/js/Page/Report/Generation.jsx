@@ -59,7 +59,7 @@ const Generation = () => {
             };
         });
     }, [generations]);
-    console.log(generations);
+
     return (
         <>
             <Card
