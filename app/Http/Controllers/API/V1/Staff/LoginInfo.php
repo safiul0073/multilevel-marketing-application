@@ -36,4 +36,14 @@ class LoginInfo extends Controller
             ['user.username']
         );
     }
+
+    public function allUserLoginActivityExcel ()
+    {
+        return ApiIndexQueryService::indexQuery(
+            LoginLog::query(),
+            ['user:id,username'],
+            ['user.username'],
+            false
+        );
+    }
 }

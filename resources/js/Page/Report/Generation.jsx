@@ -4,28 +4,94 @@ import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Pagination from "../../components/common/Pagination";
 import RowNotFound from "../../components/common/RowNotFound";
 import Protected from "../../components/HOC/Protected";
+import Card from "../../components/ui/Card";
+import SearchBar from "../../components/ui/SearchBar";
+import TableBlock from "../../components/ui/TableBlock";
+import TableBody from "../../components/ui/TableBody";
+import { useDebounce } from "../../hooks/others/useDebounce";
 import { getBonus } from "../../hooks/queries/bonus/getBonus";
+import { getBonusExcel } from "../../hooks/queries/bonus/getBonusExcel";
+
+const labels = [
+    { key: "id", label: "Id" },
+    { key: "username", label: "Who Got" },
+    { key: "label", label: "Label" },
+    { key: "amount", label: "Amount" },
+    { key: "created_at", label: "When" },
+];
 
 const Generation = () => {
-    const [page, setPage] = React.useState(1)
-    const [pageSize, setPageSize] = React.useState(10)
+    const [fromDate, setFromDate] = React.useState(null);
+    const [toDate, setToDate] = React.useState(null);
+    const [searchKeyword, setSearchKeyword] = React.useState(null);
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(10);
 
-    const handlePageChange = (pageNum, currentPageValue) => {
-        setPage(() => pageNum)
-        setPageSize(() => currentPageValue)
-    }
-
-    const {data: generations, isLoading} = getBonus({
-        from_date: '',
-        to_date: '',
-        status: 'gen',
+    const { data: generations, isLoading } = getBonus({
+        from_date: "",
+        to_date: "",
+        status: "gen",
         page: page,
-        perPage: pageSize
-    })
+        perPage: pageSize,
+    });
+    const { data: excelData } = getBonusExcel({
+        from_date: fromDate,
+        to_date: toDate,
+        search: useDebounce(searchKeyword),
+        status: "gen",
+    });
 
+    const excelMappedData = React.useMemo(() => {
+        return excelData?.map((d) => {
+            return {
+                ...d,
+                username: d?.bonus_got?.username,
+                label: "L" + d?.generation?.gen_type,
+            };
+        });
+    }, [excelData]);
+    const tableMappedData = React.useMemo(() => {
+        return generations?.data?.map((d) => {
+            return {
+                ...d,
+                username: d?.bonus_got?.username,
+                label: "L" + d?.generation?.gen_type,
+            };
+        });
+    }, [generations]);
+    console.log(generations);
     return (
         <>
-            <div className="min-h-full">
+            <Card
+                headerSlot={
+                    <SearchBar
+                        title="Generation Bonus List"
+                        setFromDate={setFromDate}
+                        setToDate={setToDate}
+                        searchKeyword={searchKeyword}
+                        setSearchKeyword={setSearchKeyword}
+                        data={excelMappedData}
+                        labels={labels}
+                        reportName="generation_bonus_report"
+                        inputSearchPlaceHolder="username"
+                    />
+                }
+            >
+                <TableBlock
+                    pageName="generation"
+                    isLoading={isLoading}
+                    totalDataCount={generations?.total}
+                    page={page}
+                    setPage={setPage}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    dataLength={generations?.data?.length}
+                    labels={labels}
+                >
+                    <TableBody data={tableMappedData} labels={labels} />
+                </TableBlock>
+            </Card>
+            {/* <div className="min-h-full">
                 <div className="flex flex-1 flex-col lg:pl-64">
                     <main className="flex-1 py-8">
                         <div className="container">
@@ -129,7 +195,7 @@ const Generation = () => {
                         </div>
                     </main>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };
