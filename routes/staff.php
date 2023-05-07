@@ -109,15 +109,20 @@ Route::middleware('auth:staff')->group(function () {
         Route::get('bonus', [BonusController::class, 'bonusList']);
         Route::get('bonus-excel', [BonusController::class, 'bonusExcelList']);
         Route::get('login-activity', [LoginInfo::class, 'allUserLoginActivity']);
+        Route::get('login-activity-excel', [LoginInfo::class, 'allUserLoginActivityExcel']);
         Route::get('withdraw', [WithdrawController::class, 'withdrawList']);
+        Route::get('withdraw-excel', [WithdrawController::class, 'withdrawListExcel']);
         Route::get('daily-incentive', [InceptiveBonusController::class, 'dailyBonusReport']);
         Route::get('daily-incentive-excel', [InceptiveBonusController::class, 'dailyIncentiveExcelList']);
         Route::get('charges', App\Http\Controllers\API\V1\Staff\Reports\ChargeController::class);
         Route::get('rewards', App\Http\Controllers\API\V1\Staff\Reports\RewardController::class);
         Route::get('transactions', App\Http\Controllers\API\V1\Staff\Reports\TransactionController::class);
-        Route::get('to-earned', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarned']);
-        Route::get('to-sponsor', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsor']);
+        Route::get('top-earned', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarned']);
+        Route::get('top-earned-excel', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topEarnedExcel']);
+        Route::get('top-sponsor', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsor']);
+        Route::get('top-sponsor-excel', [App\Http\Controllers\API\V1\Staff\Reports\UserController::class, 'topSponsorExcel']);
         Route::get('package-purchase', [App\Http\Controllers\API\V1\Staff\Reports\PurchaseController::class, 'packagePurchaseList']);
+        Route::get('package-purchase-excel', [App\Http\Controllers\API\V1\Staff\Reports\PurchaseController::class, 'packagePurchaseExcelList']);
     });
 
     // settings

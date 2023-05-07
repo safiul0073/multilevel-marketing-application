@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1\Staff\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,26 +20,17 @@ class TransactionController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $perPage = 10;
-
-        if ($request->perPage) {
-            $perPage = $request->perPage;
-        }
-
-        $query = Transaction::query()->with(['user', 'member']);
+        $query = Transaction::query();
 
         if ($request->type && $request->type != "all") {
             $query->where('type', $request->type);
         }
 
-        if ($request->form_date && $request->to_date) {
-            $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-            $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-
-        $charges = $query->orderByDesc('id')->paginate($perPage);
-
-        return $this->withSuccess($charges);
+        return ApiIndexQueryService::indexQuery(
+            $query,
+            ['user', 'member'],
+            ['user.username'],
+            !$request->isNotPaginate
+        );
     }
 }

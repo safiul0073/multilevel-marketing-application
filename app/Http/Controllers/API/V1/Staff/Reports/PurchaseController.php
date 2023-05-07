@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1\Staff\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,22 +15,25 @@ class PurchaseController extends Controller
 
     public function packagePurchaseList (Request $request) {
 
-        $perPage = 10;
+        $query = Purchase::query()->where('type', $request->type);
 
-        if ($request->perPage) {
-            $perPage = $request->perPage;
-        }
+        return ApiIndexQueryService::indexQuery(
+            $query,
+            ['user:id,first_name,last_name,username', 'product' => fn ($q) => $q->with('category:id,title')],
+            ['bonus_got.username'],
+            true
+        );
+    }
 
-        $purchases = Purchase::with(['user:id,first_name,last_name,username', 'product' => fn ($q) => $q->with('category:id,title')])
-                                ->when($request->from_date && $request->to_date, function ($q) use ($request) {
-                                    $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-                                    $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
-                                    $q->whereBetween('created_at', [$startDate, $endDate]);
-                                })
-                                ->where('type', $request->type)
-                                ->latest('id')
-                                ->paginate($perPage);
+    public function packagePurchaseExcelList (Request $request) {
 
-        return $this->withSuccess($purchases);
+        $query = Purchase::query()->where('type', $request->type);
+
+        return ApiIndexQueryService::indexQuery(
+            $query,
+            ['user:id,first_name,last_name,username', 'product' => fn ($q) => $q->with('category:id,title')],
+            ['bonus_got.username'],
+            false
+        );
     }
 }

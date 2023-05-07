@@ -23,7 +23,8 @@ class ChargeController extends Controller
         return ApiIndexQueryService::indexQuery(
             Charge::query(),
             ['holder'],
-            ['holder.user.username']
+            ['holder.user.username'],
+            !$request->isNotPaginate
         );
     }
 }

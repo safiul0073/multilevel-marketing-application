@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1\Staff\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\RewardUser;
+use App\Services\ApiIndexQueryService;
 use App\Traits\Formatter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,22 +20,13 @@ class RewardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $perPage = 10;
+        $query = RewardUser::query();
 
-        if ($request->perPage) {
-            $perPage = $request->perPage;
-        }
-
-        $query = RewardUser::query()->with(['user:id,username,first_name,last_name,email,phone']);
-
-        if ($request->form_date && $request->to_date) {
-            $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-            $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->endOfDay();
-            $query->whereBetween('created_at', [$startDate, $endDate]);
-        }
-
-        $rewards = $query->orderByDesc('id')->paginate($perPage);
-
-        return $this->withSuccess($rewards);
+        return ApiIndexQueryService::indexQuery(
+            $query,
+            ['user:id,username,first_name,last_name,email,phone'],
+            ['user.username','name'],
+            !$request->isNotPaginate
+        );
     }
 }
