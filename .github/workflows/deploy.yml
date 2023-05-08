@@ -31,3 +31,4 @@ jobs:
           **/.git*/**
           **/storage/**
           **/public/storage/**
+          **/node_modules/**
