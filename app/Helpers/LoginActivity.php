@@ -20,7 +20,6 @@ class LoginActivity
     	LoginLog::create($log);
     }
 
-
     public static function logActivityLists()
     {
     	return LoginLog::latest()->get();
