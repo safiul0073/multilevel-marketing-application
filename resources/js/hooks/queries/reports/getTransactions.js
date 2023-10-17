@@ -5,9 +5,10 @@ export const getTransactions = (props) => {
     return useQuery(
         [
             "transaction-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.page,
+            props.isNotPaginate,
             props.perPage,
             props.type
         ],
@@ -16,6 +17,7 @@ export const getTransactions = (props) => {
                 from_date: props.from_date,
                 to_date: props.to_date,
                 page: props.page,
+                isNotPaginate: props.isNotPaginate,
                 perPage: props.perPage,
                 type: props.type
             });

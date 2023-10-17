@@ -3,10 +3,11 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import Protected from "../../components/HOC/Protected";
+import { useDocumentTitle } from "../../hooks/others";
 import { bonusUpdate } from "../../hooks/queries/settings";
 import { getOfficeInfo } from "../../hooks/queries/settings/getOfficeInfo";
 const Office = () => {
-
+    useDocumentTitle('Footer Settings')
     const {isLoading, data: data, refetch} = getOfficeInfo()
     const { register, reset, handleSubmit, formState: { errors } } = useForm()
     React.useEffect(() => {

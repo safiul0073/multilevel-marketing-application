@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const createMedia = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/image-store`,
+      `${API_FULL_URL}/image-store`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const createMedia = async (inputData) => {
 
   export const deleteMedia = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/image-delete/${id}`);
+      `${API_FULL_URL}/image-delete/${id}`);
 
     return res?.data?.data?.string_data;
   };

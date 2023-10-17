@@ -35,23 +35,16 @@ trait MediaOperator
     }
 
     public function getModel (string $type, int $id) {
-        $model = null;
-        switch ($type) {
-            case 'reward':
-                $model = \App\Models\Reward::query();
-                break;
-            case 'slider':
-                $model = \App\Models\Slider::query();
-                break;
-            case 'profile':
-                $model = \App\Models\User::query();
-                break;
-            case 'blog':
-                $model = \App\Models\Blog::query();
-            default:
-                $model = \App\Models\Product::query();
-                break;
-        }
+
+        $model = match($type) {
+             Media::REWARD  => \App\Models\Reward::query(),
+             Media::SLIDER  => \App\Models\Slider::query(),
+             Media::GALLERY => \App\Models\Slider::query(),
+             Media::PROFILE => \App\Models\User::query(),
+             Media::BLOG    => \App\Models\Blog::query(),
+             Media::LOGO    => \App\Models\Option::query(),
+             default => \App\Models\Product::query()
+        };
 
         return $model->where('id', $id)->first();
     }
@@ -96,6 +89,8 @@ trait MediaOperator
 
         $model = $is_multiple ? $model->images : $model->image;
 
+        if (!$model) return true;
+        
         $image = $model->where('id', $id)->first();
 
         if (!$image) {

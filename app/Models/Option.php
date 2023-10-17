@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Option extends Model
 {
@@ -13,6 +14,10 @@ class Option extends Model
 
     private static $autoload;
 
+    public function images ():MorphMany {
+        return $this->morphMany(Media::class, 'media');
+    }
+
     public static function getOption($name, $default = null) {
         if (!self::$autoload) {
             self::$autoload = self::pluck('content', 'name')->toArray();
@@ -21,6 +26,18 @@ class Option extends Model
         if (!isset(self::$autoload[$name])) return $default;
 
         return self::$autoload[$name];
+    }
+
+    public static function getOptionWithUpdateAt($name, $default = null) {
+
+        $result = self::where('name', $name)->first();
+
+        if (!$result) return $default;
+
+        return [
+            "content" => $result->content,
+            "date" => $result->updated_at->format('M d, Y')
+        ];
     }
 
     public static function updateOption($name, $value) {

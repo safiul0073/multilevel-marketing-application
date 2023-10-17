@@ -89,8 +89,12 @@
 
             <a href="{{url('/')}}" class="{{ request()->routeIs('hello.world.home.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white'}} block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Home</a>
 
+            @if (auth()->check())
             <a href="{{url('/products')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Product</a>
-
+            @else
+            <a href="{{url('/packages')}}" class="{{ request()->routeIs('product.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Package</a>
+            @endif
+            
             <a href="{{url('/news')}}" class="{{ request()->routeIs('news.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">News</a>
 
             <a href="{{url('/gallery')}}" class="{{ request()->routeIs('gallery.page') ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-indigo-600 hover:text-white '}} block px-3 py-2 rounded-md text-base font-medium">Gallery</a>

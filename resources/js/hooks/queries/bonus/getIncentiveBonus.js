@@ -5,8 +5,9 @@ export const getIncentiveBonus = (props) => {
   return useQuery(
     [
       'incentive-bonus-lists',
-        props.form_date,
+        props.from_date,
         props.to_date,
+        props.search,
         props.page,
         props.perPage
     ],
@@ -15,6 +16,7 @@ export const getIncentiveBonus = (props) => {
       {
         from_date: props.from_date,
         to_date: props.to_date,
+        search: props.search,
         page:props.page,
         perPage:props.perPage
     });

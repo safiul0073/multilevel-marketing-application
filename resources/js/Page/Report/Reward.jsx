@@ -4,136 +4,106 @@ import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Pagination from "../../components/common/Pagination";
 import RowNotFound from "../../components/common/RowNotFound";
 import Protected from "../../components/HOC/Protected";
-import { getBonus } from "../../hooks/queries/bonus/getBonus";
+import Card from "../../components/ui/Card";
+import SearchBar from "../../components/ui/SearchBar";
+import TableBlock from "../../components/ui/TableBlock";
+import TableBody from "../../components/ui/TableBody";
+import { useDebounce } from "../../hooks/others/useDebounce";
 import { getRewardUsers } from "../../hooks/queries/reports/getRewardUsers";
 
-const Reward = () => {
-    const [page, setPage] = React.useState(1)
-    const [pageSize, setPageSize] = React.useState(10)
+const labels = [
+    { key: "id", label: "Id" },
+    { key: "username", label: "Username" },
+    { key: "name", label: "Name" },
+    { key: "email", label: "Email" },
+    { key: "phone", label: "Phone" },
+    { key: "designation", label: "Rank Designation" },
+    { key: "created_at", label: "When" },
+];
 
-    const handlePageChange = (pageNum, currentPageValue) => {
-        setPage(() => pageNum)
-        setPageSize(() => currentPageValue)
-    }
-    const {data: data, isLoading} = getRewardUsers({
-        from_date: '',
-        to_date: '',
+const Reward = () => {
+    const [fromDate, setFromDate] = React.useState(null);
+    const [toDate, setToDate] = React.useState(null);
+    const [searchKeyword, setSearchKeyword] = React.useState(null);
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(10);
+
+    const { data: data, isLoading } = getRewardUsers({
+        from_date: fromDate,
+        to_date: toDate,
+        search: useDebounce(searchKeyword),
         page: page,
-        perPage: pageSize
-    })
+        perPage: pageSize,
+    });
+
+    const { data: excelData } = getRewardUsers({
+        from_date: fromDate,
+        to_date: toDate,
+        type: 1,
+        isNotPaginate: 1,
+        search: useDebounce(searchKeyword),
+        page: page,
+        perPage: pageSize,
+    });
+
+    const mappedObj = (d) => {
+        return {
+            ...d,
+            username: d?.user?.username,
+            name:
+                d?.user?.first_name +
+                " " +
+                (d?.user?.last_name ? d?.user?.last_name : ""),
+            email: d?.user?.email,
+            phone: d?.user?.phone,
+            designation: d?.name,
+            amount: d?.price,
+        };
+    };
+
+    const tableMappedData = React.useMemo(() => {
+        return data?.data?.map((d) => {
+            return mappedObj(d);
+        });
+    }, [data]);
+
+    const excelMappedData = React.useMemo(() => {
+        return excelData?.map((d) => {
+            return mappedObj(d);
+        });
+    }, [excelData]);
 
     return (
         <>
-            <div className="min-h-full">
-                <div className="flex flex-1 flex-col lg:pl-64">
-                    <main className="flex-1 py-8">
-                        <div className="container">
-                        <div className="sm:flex sm:items-center">
-                                <div className="sm:flex-auto">
-                                    <h1 className="text-xl font-semibold text-gray-900">
-                                        Reward Report
-                                    </h1>
-                                </div>
-                                <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                                    <button
-                                        type="button"
-                                        className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-
-                                    >
-                                        Add New Reward
-                                    </button>
-                                </div>
-                            </div>
-                        <div className="mt-8 flex flex-col">
-                            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                                {isLoading ? (
-                                    <LoaderAnimation />
-                                ) : (
-                                    <>
-                                        {data?.data?.length ? (
-                                    <>
-                                    <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                                        <table className="min-w-full divide-y divide-gray-300">
-                                            <thead className="bg-gray-50">
-                                                <tr>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Username
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Name
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Email
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Phone
-                                                    </th>
-                                                    <th
-                                                        scope="col"
-                                                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                                                    >
-                                                        Rank Designation
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-gray-200 bg-white">
-                                                {data?.data?.map((reward) => (
-                                                    <tr key={Math.random()}>
-                                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                            {reward?.user?.username}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {reward?.user?.first_name + ' ' + (reward?.user?.last_name ? reward?.user?.last_name : '')}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {reward?.user?.email}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {reward?.user?.phone}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                            {reward?.name}
-                                                        </td>
-
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="my-4">
-                                        <Pagination
-                                            total={data?.total}
-                                            pageSize={pageSize}
-                                            pageNumber={page}
-                                            handlePageChange={handlePageChange}
-                                        />
-                                    </div>
-                                    </>
-                                    ): (
-                                        <RowNotFound name='top earned' />
-                                    )}
-                                    </>
-                                )}
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </main>
-                </div>
-            </div>
+            <Card
+                headerSlot={
+                    <SearchBar
+                        title="Reward Rank List"
+                        setFromDate={setFromDate}
+                        setToDate={setToDate}
+                        searchKeyword={searchKeyword}
+                        setSearchKeyword={setSearchKeyword}
+                        data={excelMappedData}
+                        labels={labels}
+                        reportName="reward_rank_report"
+                        inputSearchPlaceHolder="username, reward"
+                    />
+                }
+            >
+                <TableBlock
+                    pageName="reward"
+                    isLoading={isLoading}
+                    totalDataCount={data?.total}
+                    page={page}
+                    setPage={setPage}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    dataLength={data?.data?.length}
+                    labels={labels}
+                >
+                    <TableBody data={tableMappedData} labels={labels} />
+                </TableBlock>
+            </Card>
         </>
     );
 };

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LoginLog extends Model
 {
@@ -15,4 +16,8 @@ class LoginLog extends Model
         'location' => 'array',
         'agent' => 'array'
     ];
+
+    public function user ():BelongsTo {
+        return $this->belongsTo(User::class);
+    }
 }

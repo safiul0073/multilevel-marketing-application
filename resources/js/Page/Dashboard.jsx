@@ -1,8 +1,5 @@
 import React from "react";
 import Protected from "../components/HOC/Protected";
-import {
-    EnvelopeIcon,
-} from "@heroicons/react/20/solid";
 import CounterItems from "../components/Dashboard/CounterItems";
 import { getCounterSummation } from "../hooks/queries/dashboard/getCounterSummation";
 

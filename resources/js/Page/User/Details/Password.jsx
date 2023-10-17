@@ -1,15 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useMutation } from "react-query";
 import { changePassword } from "../../../hooks/queries/user";
 
-
-const Password = ({userId}) => {
-
-    const [backendError, setBackendError] = useState([])
+const Password = ({ userId }) => {
+    const [backendError, setBackendError] = useState([]);
 
     const {
         register,
@@ -22,32 +20,32 @@ const Password = ({userId}) => {
         changePasswordFunction(data);
     };
 
-
-    const {
-        mutate: changePasswordFunction,
-        isLoading,
-    } = useMutation(changePassword, {
-        onSuccess: (data) => {
-            toast.success(data, {
-                position: 'top-right'
-            });
-            reset()
-            refatcher();
-            closeModal();
-        },
-        onError: (err) => {
-            let errorobj = err?.response?.data?.data?.json_object;
-            setBackendError({
-                ...backendError,
-                ...errorobj,
-            });
-        },
-    });
-
-
+    const { mutate: changePasswordFunction, isLoading } = useMutation(
+        changePassword,
+        {
+            onSuccess: (data) => {
+                toast.success(data, {
+                    position: "top-right",
+                });
+                reset();
+                refatcher();
+                closeModal();
+            },
+            onError: (err) => {
+                let errorobj = err?.response?.data?.data?.json_object;
+                setBackendError({
+                    ...backendError,
+                    ...errorobj,
+                });
+            },
+        }
+    );
 
     return (
-        <form className="space-y-8 mt-10 divide-y divide-gray-200" onSubmit={handleSubmit(onSubmit)}>
+        <form
+            className="space-y-8 mt-10 divide-y divide-gray-200"
+            onSubmit={handleSubmit(onSubmit)}
+        >
             <div className="space-y-8 divide-y divide-gray-200 sm:space-y-5">
                 <div className="space-y-6 pt-8 sm:space-y-5 sm:pt-10">
                     <div>
@@ -73,10 +71,17 @@ const Password = ({userId}) => {
                                     name="first-name"
                                     id="first-name"
                                     autoComplete="given-name"
-                                    {...register("password", { required: "Please enter your new Password." })}
+                                    {...register("password", {
+                                        required:
+                                            "Please enter your new Password.",
+                                    })}
                                     className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 />
-                                {backendError && <span className="error-message">{backendError?.password}</span>}
+                                {backendError && (
+                                    <span className="error-message">
+                                        {backendError?.password}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -92,10 +97,17 @@ const Password = ({userId}) => {
                                 <input
                                     type="password"
                                     autoComplete="given-name"
-                                    {...register("password_confirmation", { required: "Please enter your new confirm Password." })}
+                                    {...register("password_confirmation", {
+                                        required:
+                                            "Please enter your new confirm Password.",
+                                    })}
                                     className="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 />
-                                {backendError && <span className="error-message">{backendError?.password_confirmation}</span>}
+                                {backendError && (
+                                    <span className="error-message">
+                                        {backendError?.password_confirmation}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     </div>

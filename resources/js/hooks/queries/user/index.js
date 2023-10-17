@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const changePassword = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user/password-reset`,
+      `${API_FULL_URL}/user/password-reset`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const changePassword = async (inputData) => {
 
   export const userCreate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user`,
+      `${API_FULL_URL}/user`,
       inputData
     );
 
@@ -22,7 +22,7 @@ export const changePassword = async (inputData) => {
 
   export const userBalanceUpdate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user/balance/add-sub/${inputData.id}`,
+      `${API_FULL_URL}/user/balance/add-sub/${inputData.id}`,
       inputData
     );
 
@@ -31,7 +31,7 @@ export const changePassword = async (inputData) => {
 
   export const userUpdate = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user/info/update`,
+      `${API_FULL_URL}/user/info/update`,
       inputData
     );
 
@@ -40,14 +40,14 @@ export const changePassword = async (inputData) => {
 
   export const deleteSlider = async (id) => {
     const res = await userAxios.delete(
-      `${APIURL}/staff/user/${id}`);
+      `${API_FULL_URL}/user/${id}`);
 
     return res?.data?.data?.string_data;
   };
 
   export const updateUserStatus = async (id) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/user/status/update/${id}`);
+      `${API_FULL_URL}/user/status/update/${id}`);
 
     return res?.data?.data?.string_data;
   };

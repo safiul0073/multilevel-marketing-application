@@ -9,7 +9,7 @@ import * as yup from "yup";
 import { updateSlider } from '../../../hooks/queries/slider';
 import Textinput from '../../common/Textinput';
 
-export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, slider}) {
+export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, slider, isSlider=true}) {
     const [backendError, setBackendError] = useState()
     const schema = yup
     .object({
@@ -32,6 +32,9 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
         finalData.title = data.title
         finalData.status = data.status
         finalData.image = findImage
+        if (!isSlider) {
+            data.is_slider = 2
+        }
         updateSliderMutate(finalData)
     }
 
@@ -98,15 +101,15 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
 
                     <div className="flex items-center bg-indigo-700 text-white py-4 px-4 mb-6 font-medium text-lg text-left rounded-t-[3px]">
                         <span className="inline-block text-2xl mr-3"><AiFillPlusCircle /></span>
-                        Update Category
+                        Update {isSlider ? "Slider" : "Gallery"}
                     </div>
 
                         <div className='px-6'>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className=" w-3/4 mx-auto">
                                 <Textinput
-                                    label="Slider Title"
-                                    placeholder="First Slider"
+                                    label="Title"
+                                    placeholder="First"
                                     register={register}
                                     name="title"
                                     type="text"
@@ -115,7 +118,7 @@ export default function EditModal({isOpen, setIsOpen, closeModal, refatcher, sli
                                 />
                                     <div className='flex flex-row items-center gap-3'>
                                         <div className='formGroup'>
-                                            <label className="label-style" htmlFor="image">Slider Image</label>
+                                            <label className="label-style" htmlFor="image">{isSlider ? "Slider" : "Gallery"} Image</label>
                                             <input type="file" className='form-control'  id="image" onChange={handleImage} />
                                             <p className='error-messag'>{errors.image?.message ?? backendError?.image}</p>
                                         </div>

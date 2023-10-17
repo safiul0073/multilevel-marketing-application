@@ -16,3 +16,9 @@ export const useRedirectRoute = () => {
         return () => {}
     }, [])
 }
+
+export const useDocumentTitle = (title) => {
+    useEffect(() => {
+        document.title = title
+    }, [])
+}

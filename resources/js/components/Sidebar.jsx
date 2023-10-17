@@ -15,7 +15,11 @@ import {
     ClipboardDocumentListIcon,
     ShieldCheckIcon,
     BanknotesIcon,
-    ClipboardDocumentIcon
+    ClipboardDocumentIcon,
+    CameraIcon,
+    QuestionMarkCircleIcon,
+    DevicePhoneMobileIcon,
+    LinkIcon,
 } from "@heroicons/react/24/outline";
 import {
     ChevronDownIcon,
@@ -32,6 +36,7 @@ function classNames(...classes) {
 }
 
 const Sidebar = () => {
+
     const navigate = useNavigate();
     const { user } = UseStore()
     const activePatch = window.location.pathname
@@ -50,10 +55,14 @@ const Sidebar = () => {
         { name: "Category", href: "/staff/category", icon: ClockIcon },
         { name: "Package", href: "/staff/package", icon: ClipboardDocumentListIcon },
         { name: "Slider", href: "/staff/slider", icon: PhotoIcon },
+        { name: "Gallery", href: "/staff/gallery", icon: CameraIcon },
         { name: "Epin", href: "/staff/epin", icon: ShieldCheckIcon },
         { name: "Reward", href: "/staff/reward", icon: CreditCardIcon },
         { name: "Payment Method", href: "/staff/payment-method", icon: BanknotesIcon },
         { name: "Blogs", href: "/staff/blogs", icon: ClipboardDocumentIcon },
+        { name: "FAQ", href: "/staff/faq", icon: QuestionMarkCircleIcon },
+        { name: "Contact Us", href: "/staff/contact", icon: DevicePhoneMobileIcon },
+        { name: "Social Link", href: "/staff/social-link", icon: LinkIcon },
         {
             name: "Users",
             icon: UsersIcon,
@@ -74,7 +83,8 @@ const Sidebar = () => {
             name: "Report",
             icon: BookOpenIcon,
             children: [
-                { name: "Daily Income", href: "/staff/reports/incentive" },
+                { name: "Daily Incentive", href: "/staff/reports/incentive" },
+                { name: "Daily Income", href: "/staff/reports/daily-income" },
                 { name: "Matching", href: "/staff/reports/matching" },
                 { name: "Generation", href: "/staff/reports/generation" },
                 { name: "Referral", href: "/staff/reports/joining" },
@@ -85,6 +95,7 @@ const Sidebar = () => {
                 { name: "Package Purchase", href: "/staff/reports/package-purchase" },
                 { name: "Transaction", href: "/staff/reports/transactions" },
                 { name: "Reward", href: "/staff/reports/rewards" },
+                { name: "Login History", href: "/staff/reports/login-history" },
             ],
         },
         {
@@ -94,8 +105,14 @@ const Sidebar = () => {
                 { name: "Matching", href: "/staff/settings/matching" },
                 { name: "Generation", href: "/staff/settings/generation" },
                 { name: "Single Amount", href: "/staff/settings/single-amount"},
+                { name: "Currency", href: "/staff/settings/currency"},
                 { name: "Footer", href: "/staff/settings/office-info"},
-                { name: "Home", href: "/staff/settings/home-content"}
+                { name: "Home", href: "/staff/settings/home-content"},
+                { name: "Privacy Policy", href: "/staff/settings/privacy-policy"},
+                { name: "Disclaimer Policy", href: "/staff/settings/disclaimer-policy"},
+                { name: "Spam Policy", href: "/staff/settings/spam-policy"},
+                { name: "Trams & Condition", href: "/staff/settings/trams-and-condition"},
+                { name: "About Us", href: "/staff/settings/about-us"},
             ],
         },
     ];
@@ -287,7 +304,7 @@ const Sidebar = () => {
                             alt="Easywire logo"
                         />
                     </div>
-                    <div className="mt-5 px-3">
+                    {/* <div className="mt-5 px-3">
                         <label htmlFor="search" className="sr-only">
                             Search
                         </label>
@@ -309,7 +326,7 @@ const Sidebar = () => {
                                 placeholder="Search"
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <nav
                         className="mt-5 flex flex-1 flex-col divide-y divide-cyan-800 overflow-y-auto"
                         aria-label="Sidebar"

@@ -54,17 +54,17 @@
                     <ul class="splide__list">
                         @forelse ($sliders as $slider)
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="{{ $slider?->image?->url }}" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill" src="{{ $slider?->image?->url }}" alt="App screenshot">
                         </li>
                         @empty
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                         </li>
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                         </li>
                         <li class="splide__slide">
-                            <img class="relative rounded-lg shadow-lg" src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
+                            <img class="relative rounded-lg shadow-lg object-fill"  src="https://tailwindui.com/img/component-images/top-nav-with-multi-column-layout-screenshot.jpg" alt="App screenshot">
                         </li>
                         @endforelse
 
@@ -123,9 +123,9 @@
                 <ul class="splide__list">
                     @forelse ($rewards as $reward)
                         <li class="splide__slide">
-                            <div class="relative h-96 overflow-hidden rounded-xl py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
+                            <div class="relative  lg:h-[600px] md:h-[600px] xl:h-[600px] sm:h-96 overflow-hidden rounded-xl py-24 px-8 shadow-2xl lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-16">
                                 <div class="absolute inset-0">
-                                    <img src="{{ count($reward->images) ? $reward->images[0]->url : "https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" }}" alt="" class="h-full w-full object-cover">
+                                    <img src="{{ count($reward->images) ? $reward->images[0]->url : "https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80" }}" alt="" class="h-full w-full object-fill">
                                 </div>
                                 {{-- <div class="relative lg:col-span-1"> --}}
                                     {{-- <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workcation-logo-white.svg" alt="">
@@ -302,7 +302,7 @@
             <div class="">
                 <div>
                     {{-- start tab package --}}
-                    <div id="package" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="package" class="tabcontent overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>
@@ -336,7 +336,7 @@
 
                     </div>
                     {{-- Top Sponsor --}}
-                    <div id="sponsor" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="sponsor" class="tabcontent hidden overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>
@@ -368,7 +368,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="withdraw" class="tabcontent hidden overflow-scroll shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                    <div id="withdraw" class="tabcontent hidden overflow-x-auto shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-indigo-500">
                                 <tr>
@@ -385,7 +385,7 @@
                                         {{ $withdraw->user->first_name .' '. $withdraw->user->last_name }}
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
-                                        {{ $withdraw->payment_method }}
+                                        {{ $withdraw->method_name }}
                                     </td>
                                     <td class="whitespace-nowrap text-left px-3 py-4 text-sm text-gray-500">
                                         {{ $withdraw->created_at }}
@@ -468,50 +468,11 @@
 @push('custom_scipt')
 {{-- some sort js you can write here --}}
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-    var swiper = new Swiper('.mySwiper', {
-        spaceBetween: 30,
-        centeredSlides: true,
-        loop: false,
-        // autoplay: {
-        //   delay: 2500,
-        //   disableOnInteraction: false,
-        // },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
+<script src="{{ asset("frontend/script/swiper.js") }}"></script>
+<script src="{{ asset("frontend/script/home.js") }}"></script>
+<script src="{{ asset("frontend/script/productModalViewDataLoader.js") }}"></script>
 
 @endpush
 
 @section('custome_scipt')
-    <script>
-        function openTab(event,tabName) {
-            var i, tabContent, tabLings, activeClassList, defaultClassList;
-            tabContent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabContent.length; i++) {
-                tabContent[i].classList.add('hidden')
-            }
-            tabLings = document.getElementsByClassName("tablinks");
-            activeClassList = ['bg-indigo-500','text-gray-200']
-            defaultClassList = ['bg-white','text-gray-700']
-            for (i = 0; i < tabLings.length; i++) {
-                for (j=0; j < 2; j++){
-                    tabLings[i].classList.remove(activeClassList[j])
-                    tabLings[i].classList.add(defaultClassList[j])
-                }
-            }
-            document.getElementById(tabName).classList.remove('hidden');
-            for (j=0; j < 2; j++){
-                event.target.classList.add(activeClassList[j])
-            }
-
-       }
-    </script>
 @endsection

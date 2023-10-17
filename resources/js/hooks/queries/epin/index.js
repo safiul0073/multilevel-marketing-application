@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const createEpinMain = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/epin`,
+      `${API_FULL_URL}/epin`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const createEpinMain = async (inputData) => {
 
   export const createEpin = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/store-epin`,
+      `${API_FULL_URL}/store-epin`,
       inputData
     );
 
@@ -21,8 +21,11 @@ export const createEpinMain = async (inputData) => {
 
   export const updateEpin = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/epin-update`,
-        inputData
+      `${API_FULL_URL}/staff/epin/${inputData?.id}`,
+      {
+        ...inputData,
+        _method: "PUT"
+      }
     );
 
     return res?.data?.data?.string_data;
@@ -31,7 +34,7 @@ export const createEpinMain = async (inputData) => {
   export const deleteEpin = async (id) => {
 
     const res = await userAxios.delete(
-      `${APIURL}/staff/epin/${id}`);
+      `${API_FULL_URL}/staff/epin/${id}`);
 
     return res?.data?.data?.string_data;
   };
@@ -39,7 +42,7 @@ export const createEpinMain = async (inputData) => {
   export const deleteOnlyEpin = async (id) => {
 
     const res = await userAxios.delete(
-      `${APIURL}/staff/delete-epin/${id}`);
+      `${API_FULL_URL}/staff/delete-epin/${id}`);
 
     return res?.data?.data?.string_data;
   };

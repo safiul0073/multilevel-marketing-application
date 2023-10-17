@@ -5,7 +5,7 @@ export const getWithdraws = (props) => {
     return useQuery(
         [
             "withdraw-lists",
-            props.form_date,
+            props.from_date,
             props.to_date,
             props.status,
             props.page,

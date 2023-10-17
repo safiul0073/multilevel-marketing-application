@@ -128,7 +128,9 @@ class User extends Authenticatable
     }
 
     public function children ():HasMany {
-        return $this->hasMany(User::class, 'sponsor_id', 'id')->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])->with(['children' => fn ($q) => $q->with('image')]);
+        return $this->hasMany(User::class, 'sponsor_id', 'id')
+                    ->select(['id', 'username', 'sponsor_id', 'left_ref_id', 'right_ref_id'])
+                    ->with(['children' => fn ($q) => $q->with('image')]);
     }
 
     public function sponsor ():BelongsTo {

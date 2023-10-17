@@ -32,6 +32,7 @@ class FlyServiceProvider extends ServiceProvider
             config()->set('mlm.balance_transfer', get_option('mlm_balance_transfer_charge', config('mlm.balance_transfer')));
             config()->set('mlm.footer', is_string(get_option('mlm_footer_settings', config('mlm.footer'))) ? json_decode(get_option('mlm_footer_settings', config('mlm.footer')), true) : get_option('mlm_footer_settings', config('mlm.footer')));
             config()->set('mlm.home_content', is_string(get_option('mlm_home_content_settings', config('mlm.home_content'))) ? json_decode(get_option('mlm_home_content_settings', config('mlm.home_content')), true) : get_option('mlm_home_content_settings', config('mlm.home_content')));
+            config()->set('mlm.currency', is_string(get_option('mlm_currency_settings', config('mlm.currency'))) ? json_decode(get_option('mlm_currency_settings', config('mlm.currency')), true) : get_option('mlm_currency_settings', config('mlm.currency')));
         } catch (\Exception $ex) {
             return $this->withErrors($ex->getMessage());
         }

@@ -1,9 +1,9 @@
 import { userAxios } from "../../../config/axios.config";
-import { APIURL } from "../../../constant";
+import { API_FULL_URL } from "../../../constant";
 
 export const incentiveSearch = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/incentive/search`,
+      `${API_FULL_URL}/incentive/search`,
       inputData
     );
 
@@ -12,7 +12,7 @@ export const incentiveSearch = async (inputData) => {
 
   export const incentiveBonusGive = async (inputData) => {
     const res = await userAxios.post(
-      `${APIURL}/staff/incentive/bonus-give`,
+      `${API_FULL_URL}/incentive/bonus-give`,
       inputData
     );
 

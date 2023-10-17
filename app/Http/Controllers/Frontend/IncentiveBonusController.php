@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class IncentiveBonusController extends Controller
 {
+
     public function index () {
 
-        $incentive = Bonuse::where('bonus_type', 'incentive')
+        $incentive = Bonuse::where('bonus_type',Bonuse::INCENTIVE)
                             ->where('given_id', auth()->id())
                             ->where('status', false)
                             ->sum('amount');
@@ -25,15 +26,14 @@ class IncentiveBonusController extends Controller
            'amount' => 'required|numeric'
         ]);
 
-        if (!$request->amount) {
-            return redirect()->back()->with(['error' => "Doesn't have any bonus at this time."]);
-        }
-
-        $incentive_bonus = Bonuse::where('given_id', auth()->id())
-                                   ->where('bonus_type', 'incentive')
+        $request_amount = $request->amount;
+        $auth_id = auth()->id();
+        $incentive_bonus = Bonuse::where('given_id', $auth_id)
+                                   ->where('bonus_type', Bonuse::INCENTIVE)
                                    ->where('status', false)
                                    ->sum('amount');
-        if ($incentive_bonus != $request->amount){
+
+        if (number_format($incentive_bonus, 3) != number_format($request_amount, 3)){
             return redirect()->back()->with(['error' => 'Bonus not match']);
         }
 
@@ -42,13 +42,13 @@ class IncentiveBonusController extends Controller
         }
         try {
            DB::beginTransaction();
-           $user = User::find(auth()->id());
+           $user = User::find($auth_id);
            $user->balance = $user->balance + $incentive_bonus;
            $user->save();
 
           // updating bonus status
-           Bonuse::where('given_id', auth()->id())
-           ->where('bonus_type', 'incentive')
+           Bonuse::where('given_id', $auth_id)
+           ->where('bonus_type', Bonuse::INCENTIVE)
            ->where('status', false)
            ->update(['status' => true]);
            DB::commit();

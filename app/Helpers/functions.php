@@ -11,6 +11,13 @@ if (!function_exists('get_option')) {
     }
 }
 
+if (!function_exists('get_option_with_date')) {
+    function get_option_with_date($name, $default = null)
+    {
+        return Option::getOptionWithUpdateAt($name, $default);
+    }
+}
+
 if (!function_exists('generateRandomString')) {
     function generateRandomString($length = 10) {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

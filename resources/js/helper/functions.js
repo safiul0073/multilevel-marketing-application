@@ -1,18 +1,31 @@
-
-import Cookies from 'js-cookie';
-import { TOKEN_NAME } from '../constant';
+import Cookies from "js-cookie";
+import { TOKEN_NAME } from "../constant";
 
 // token setter
 export const setToken = (token) => {
     Cookies.set(TOKEN_NAME, token, {
-      expires: 2,
+        expires: 2,
     });
-  };
+};
 
-  // logout
-  export const Logout = () => {
-
+// logout
+export const Logout = () => {
     Cookies.remove(TOKEN_NAME, {
-      expires: 2,
+        expires: 2,
     });
-  };
+};
+
+export const limitString = (str, num) => {
+    if (str.length <= num) return str;
+
+    return str.slice(0, num) + "...";
+};
+
+export const egerloadRelation = (key, relation = []) => {
+    
+    if (relation.length && !value) {
+        relation.map((rel, index) => {
+            value = obj[rel][key];
+        });
+    }
+};

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -14,7 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -32,10 +36,7 @@ class AppServiceProvider extends ServiceProvider
                         str_contains($attribute, '.'),
                         function (Builder $query) use ($attribute, $searchTerm) {
                             [$relationName, $relationAttribute] = explode('.', $attribute);
-
-                            $query->orWhereHas($relationName, function (Builder $query) use ($relationAttribute, $searchTerm) {
-                                $query->where($relationAttribute, 'LIKE', "%{$searchTerm}%");
-                            });
+                            $query->orWhereRelation($relationName, $relationAttribute, "Like", "%{$searchTerm}%");
                         },
                         function (Builder $query) use ($attribute, $searchTerm) {
                             $query->orWhere($attribute, 'LIKE', "%{$searchTerm}%");
@@ -45,6 +46,15 @@ class AppServiceProvider extends ServiceProvider
             });
 
             return $this;
+        });
+
+        // whereDateBetween for eloquent model
+        Builder::macro('whereDateBetween', function (string $attribute, $from_date, $to_date) {
+            if ($from_date && $to_date) {
+                $startDate = Carbon::createFromFormat('Y-m-d', $from_date)->startOfDay();
+                $endDate = Carbon::createFromFormat('Y-m-d', $to_date)->endOfDay();
+                $this->whereBetween($attribute, [$startDate, $endDate]);
+            }
         });
     }
 }

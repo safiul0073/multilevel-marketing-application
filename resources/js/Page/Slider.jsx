@@ -7,8 +7,10 @@ import DeleteSlider from "../components/modal/slider/Delete";
 import Protected from "../components/HOC/Protected";
 import Pagination from "../components/common/Pagination";
 import RowNotFound from "../components/common/RowNotFound";
+import { useDocumentTitle } from "../hooks/others";
 
 const Slider = () => {
+    useDocumentTitle('Slider');
     const [page, setPage] = useState(1)
     const [pageSize, setPageSize] = useState(10)
 
@@ -17,7 +19,7 @@ const Slider = () => {
         setPageSize(() => currentPageValue)
     }
     // fetching category list using react query
-    const {data, isLoading, refetch} = getSliderList(page,pageSize)
+    const {data, isLoading, refetch} = getSliderList(page,pageSize, 1)
     // memorising getting data
     const sliderList = useMemo(() => data?.data, [data])
 

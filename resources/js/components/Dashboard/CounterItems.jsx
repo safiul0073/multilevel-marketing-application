@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/20/solid";
 
 const CounterItems = ({data}) => {
-    console.log(data)
+
     const counterItems = [
         {
             title: "Total Network Members",

@@ -20,12 +20,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
-
+        // matching count clearing 
         $task = TaskScheduler::where('title', 'matching')->first();
         $matching_date = new Carbon(config('mlm.bonus.matching.end_time'));
 
-        $schedule->job(new ClearDailyMatchingCount)->dailyAt(config('mlm.bonus.matching.end_time'))->when(function () use ($task, $matching_date) {
+        $schedule->job(new ClearDailyMatchingCount)->dailyAt(config('mlm.bonus.matching.end_time'))
+                 ->when(function () use ($task, $matching_date) {
             return (
                 (new Carbon($task->date_time)) == $matching_date
             );
@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
             $task->date_time = $next_end->add(config('mlm.bonus.matching.in_day'), 'day');
             $task->save();
         });
-
+        // backup run for database backup
         $schedule->command('backup:run')->daily();
 
     }

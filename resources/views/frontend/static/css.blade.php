@@ -4,7 +4,3 @@
 <link rel="stylesheet" href="{{ asset('frontend/css/splide-skyblue.min.css') }}">
 {{-- end dependent css --}}
 
-
-<style>
-
-</style>
