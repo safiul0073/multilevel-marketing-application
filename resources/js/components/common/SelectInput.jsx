@@ -2,12 +2,12 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import Select, { createFilter } from "react-select";
 
-const CustomSelect = ({ label, control, optionArray }) => {
+const CustomSelect = ({ label, controlFu, optionArray }) => {
     return (
         <div>
             <Controller
                 name={label}
-                control={control}
+                control={controlFu}
                 rules={{
                     required: false,
                 }}
