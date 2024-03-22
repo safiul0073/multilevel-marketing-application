@@ -2,11 +2,25 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import Select, { createFilter } from "react-select";
 
-const CustomSelect = ({ label, controlFu, optionArray }) => {
+const CustomSelect = ({
+    label,
+    labelFor,
+    controlFu,
+    optionArray,
+    classLabel,
+    backendValidationError,
+    error
+}) => {
     return (
         <div>
+            <label
+                htmlFor={labelFor}
+                className={`block cursor-pointer capitalize ${classLabel}`}
+            >
+                {label}
+            </label>
             <Controller
-                name={label}
+                name={labelFor}
                 control={controlFu}
                 rules={{
                     required: false,
@@ -35,6 +49,11 @@ const CustomSelect = ({ label, controlFu, optionArray }) => {
                     );
                 }}
             />
+            {backendValidationError && (
+                <p className="error-message">{backendValidationError}</p>
+            )}
+
+            {error && <div className="error-message"> {error.message}</div>}
         </div>
     );
 };

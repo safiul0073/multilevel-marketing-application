@@ -25,7 +25,7 @@ export default function EditModal({
 
     const schema = yup
         .object({
-            name: yup.string().min(4, "Too Short!").max(500, "Too Long!").required(),
+            name: yup.string().min(2, "Too Short!").max(191, "Too Long!").required(),
             category_id: yup.number("Select a category").required("Please select a Category!"),
             price: yup.number('Please enter package price!').required("Enter a price!"),
             refferral_commission: yup.number("Please enter referel commission!").required("Enter a price!"),
@@ -159,8 +159,8 @@ export default function EditModal({
                                                 controlFu={control}
                                                 reqMessage="Please select Category"
                                                 optionArray={categories}
-                                                errorObj={errors?.category_id}
-                                                backendErrorMessagae={backendError?.category_id}
+                                                error={errors?.category_id}
+                                                backendValidationError={backendError?.category_id}
                                             />
 
                                             <Textinput
@@ -286,7 +286,7 @@ export default function EditModal({
                                                         ) : (
                                                             <input
                                                                 type="submit"
-                                                                value="Edit"
+                                                                value="Save"
                                                                 className=" cursor-pointer bg-indigo-700 text-white font-normal px-4 py-1 rounded-md"
                                                             />
                                                         )}

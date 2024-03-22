@@ -24,14 +24,14 @@ export default function CreateModal({
 
     const schema = yup
         .object({
-            name: yup.string().min(4, "Too Short!").max(500, "Too Long!").required(),
+            name: yup.string().min(2, "Too Short!").max(191, "Too Long!").required(),
             category_id: yup.number("Select a category").required("Please select a Category!"),
             price: yup.number('Please enter package price!').required("Enter a price!"),
             refferral_commission: yup.number("Please enter referral commission!").required("Enter a price!"),
             video_url: yup.string("Video url must a link").url("Please enter a video link"),
             description: yup.string("Only string").required("Please enter package description")
         })
-        .required();
+        ;
 
     const {
         register,
@@ -148,8 +148,8 @@ export default function CreateModal({
                                                 controlFu={control}
                                                 reqMessage="Please select Category"
                                                 optionArray={categories}
-                                                errorObj={errors?.category_id}
-                                                backendErrorMessagae={backendError?.category_id}
+                                                error={errors?.category_id}
+                                                backendValidationError={backendError?.category_id}
                                             />
 
                                             <Textinput
